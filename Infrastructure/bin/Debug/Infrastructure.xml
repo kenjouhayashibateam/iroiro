@@ -1,0 +1,370 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Infrastructure
+</name>
+</assembly>
+<members>
+<member name="T:Infrastructure.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure">
+ <summary>
+ エクセルへの処理を行います
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.DataInput(System.String,System.String,System.String,System.String,System.String,Domain.IAdresseeOutputRepogitory.OutputData,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+ <summary>
+ 振込用紙用のデータをエクセルに入力します
+ </summary>
+ <param name="addressee">宛名</param>
+ <param name="title">敬称</param>
+ <param name="postalcode">郵便番号</param>
+ <param name="address1">住所1</param>
+ <param name="address2">住所2</param>
+ <param name="money">振込金額</param>
+ <param name="note1">備考1</param>
+ <param name="note2">備考2</param>
+ <param name="note3">備考3</param>
+ <param name="note4">備考4</param>
+ <param name="note5">備考5</param>
+ <param name="addressee_index">リストで出力する際のインデックス</param>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.AddresseeData">
+ <summary>
+ エクセルに出力する宛名等を格納するクラス
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Title">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseePostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseeAddress1">
+ <summary>
+ 住所1
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseeAddress2">
+ <summary>
+ 住所2
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note1">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note2">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note3">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note4">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note5">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Money">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.AddresseeData.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+ <param name="_addresseename">宛名</param>
+ <param name="_title">敬称</param>
+ <param name="_postalcode">郵便番号</param>
+ <param name="_address1">住所1</param>
+ <param name="_address2">住所2</param>
+ <param name="_money">金額</param>
+ <param name="_note1">備考1</param>
+ <param name="_note2">備考2</param>
+ <param name="_note3">備考3</param>
+ <param name="_note4">備考4</param>
+ <param name="_note5">備考5</param>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting">
+ <summary>
+ エクセルに値を入力する為の基本クラス。
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ColumnSizes">
+ <summary>
+ 印刷物を発行するエクセルの列のサイズを配列で保持します。
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.RowSizes">
+ <summary>
+ 印刷物を発行するエクセルの行のサイズを配列で保持します。
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.StartRowPosition">
+ <summary>
+ 複数データを印刷する際の各入力データの一番上の数値を設定します
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.WorkbookName">
+ <summary>
+ クラスが自動で開いたエクセルワークブックの名前を保持する
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ExlApp">
+ <summary>
+ エクセルアプリケーション
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ExlWorkbook">
+ <summary>
+ エクセルワークブック
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ExlWorkSheet">
+ <summary>
+ エクセルワークシート
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.FileOpen">
+ <summary>
+ 新たにエクセルワークブックを開きます。既に開いている場合はそのブックをカレントします。
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.Output(Infrastructure.ExcelOutputInfrastructure.AddresseeData,System.Int32)">
+<summary>
+ エクセルにデータを出力する
+ </summary>
+ <param name="addressee">出力する宛名</param>
+ <param name="_index">複数印刷用インデックス</param>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.CellProperty">
+ <summary>
+ セルの文字の大きさ、配置などを設定します
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.SetColumnSizes">
+ <summary>
+ 印刷物を発行するエクセルの列のサイズの配列
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.SetRowSizes">
+ <summary>
+ 印刷物を発行するエクセルの行のサイズの配列
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.CellsJoin">
+ <summary>
+ 印刷物を発行するエクセルのセルで結合する必要のある場所を設定します
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.DataOutput(Infrastructure.ExcelOutputInfrastructure.AddresseeData)">
+ <summary>
+ 宛名データを出力する
+ </summary>
+ <param name="addressee">宛名データ</param>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.FileClose">
+ <summary>
+ いろいろ発行用のエクセルを閉じる
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ConvertAddress(System.String)">
+ <summary>
+ 住所を封筒印字用に変換します
+ </summary>
+ <param name="address2">住所2</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.CutAddress(System.String)">
+ <summary>
+ 県名等を略します。東京、神奈川、徳島は全て、その他は県名と市名が一緒の場合に略します。
+ </summary>
+ <param name="address1">検証する住所</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.VerifyAddressString(System.String,System.String)">
+ <summary>
+ 検証する県、府が市と同じ名前の場合、市から始まる住所にして返します
+ </summary>
+ <param name="address">住所</param>
+ <param name="verifystring">検証する文字列</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ConvertNumber(System.Int32)">
+ <summary>
+ 数字を漢数字に変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ConvertNumber_Under10(System.Int32)">
+ <summary>
+ 10以下の数字を漢数字に変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ConvertNumber_Over11Under19(System.Int32)">
+ <summary>
+ 11から19までの数字を変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.ConvertNumber_Orver20(System.Int32)">
+ <summary>
+ 20以上の数字を変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.SetMargin">
+ <summary>
+ エクセルシートの余白を0に設定する
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.IExcelSheetSetting.SetCellFont">
+ <summary>
+ エクセルのシートのフォントを設定する
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Cho3Envlope">
+ <summary>
+ 長3封筒クラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.TransterPaper">
+ <summary>
+ 振込用紙発行クラス
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.TransterPaper.SplitYourCopyAddress(System.String,System.String)">
+ <summary>
+ お客様控えの住所を分けて表示させる
+ </summary>
+ <param name="address1">住所1</param>
+ <param name="address2">住所2</param>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.WesternEnvelope">
+ <summary>
+ 洋封筒クラス 
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Kaku2Envelope">
+ <summary>
+ 角2封筒クラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.GravePamphlet">
+ <summary>
+ 墓地パンフクラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Postcard">
+ <summary>
+ はがきクラス
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.LabelSheet.ReturnLabelString(System.Int32,Infrastructure.ExcelOutputInfrastructure.AddresseeData)">
+ <summary>
+ ラベルに入力する文字列を返します
+ </summary>
+ <param name="lineindex">行番号</param>
+ <param name="addressee">ラベル化する宛先</param>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.SQLConectInfrastructure">
+ <summary>
+ SQLServerと接続するモデルクラス
+ </summary>
+</member>
+<member name="P:Infrastructure.SQLConectInfrastructure.Cmd">
+ <summary>
+ データを取得するためのルートを確立するコマンドクラス
+ </summary>
+</member>
+<member name="F:Infrastructure.SQLConectInfrastructure.SHUNJUENCONSTRING">
+ <summary>
+ SQLServerに接続するための接続文字列
+ </summary>
+</member>
+<member name="P:Infrastructure.SQLConectInfrastructure.Rs">
+ <summary>
+ コマンドから取得したデータを格納するクラス
+ </summary>
+</member>
+<member name="P:Infrastructure.SQLConectInfrastructure.Cn">
+ <summary>
+ VB.NETとSQLServerを接続するクラス
+ </summary>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProc(ADODB.Command@)">
+ <summary>
+ Rsにデータを格納し、Rs.EOFを返します
+ </summary>
+ <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.ADONothing">
+ <summary>
+ ADODBのインスタンスを削除します
+ </summary>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.SetLesseeRecord(System.String)">
+ <summary>
+ 名義人データを検索し、Rs.EOFを返します
+ </summary>
+ <param name="strManagementNumber">検索する管理番号</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.RsFields(System.String)">
+ <summary>
+ レコードセットのフィールドのValueを文字列形式で返します
+ </summary>
+ <param name="FieldName">データベース（ストアドプロシージャ）から取得するフィールドの名前</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.GetCustomerInfo(System.String)">
+ <summary>
+ 名義人データを管理番号を元に生成し、返します
+ </summary>
+ <param name="customerid">検索する管理番号</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.GetAddress(System.String)">
+ <summary>
+ 郵便番号を基に検索した住所を返します
+ </summary>
+ <param name="postalcode"></param>
+</member>
+</members>
+</doc>

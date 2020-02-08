@@ -1,0 +1,15 @@
+C:\Users\001\source\repos\Iroiro\Infrastructure\bin\x86\Debug\Infrastructure.dll
+C:\Users\001\source\repos\Iroiro\Infrastructure\bin\x86\Debug\Infrastructure.pdb
+C:\Users\001\source\repos\Iroiro\Infrastructure\bin\x86\Debug\Infrastructure.xml
+C:\Users\001\source\repos\Iroiro\Infrastructure\bin\x86\Debug\Domain.dll
+C:\Users\001\source\repos\Iroiro\Infrastructure\bin\x86\Debug\Domain.pdb
+C:\Users\001\source\repos\Iroiro\Infrastructure\bin\x86\Debug\Domain.xml
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.vbprojAssemblyReference.cache
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Interop.ADODB.dll
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.vbproj.ResolveComReference.cache
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.Resources.resources
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.vbproj.GenerateResource.cache
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.vbproj.CopyComplete
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.dll
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.xml
+C:\Users\001\source\repos\Iroiro\Infrastructure\obj\x86\Debug\Infrastructure.pdb

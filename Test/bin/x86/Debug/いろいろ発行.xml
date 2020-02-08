@@ -1,0 +1,165 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+いろいろ発行
+</name>
+</assembly>
+<members>
+<member name="T:Iroiro.My.Resources.Resources">
+<summary>
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+</summary>
+</member>
+<member name="P:Iroiro.My.Resources.Resources.ResourceManager">
+<summary>
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+</summary>
+</member>
+<member name="P:Iroiro.My.Resources.Resources.Culture">
+<summary>
+  すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+</summary>
+</member>
+<member name="T:Iroiro.AddressDataView">
+ <summary>
+ 住所の検索結果をリストビューに表示します
+ </summary>
+</member>
+<member name="T:Iroiro.MultiAddresseeDataView">
+ <summary>
+ 複数印刷フォーム
+ </summary>
+</member>
+<member name="T:Iroiro.SingleAddresseeDataView">
+ <summary>
+ 単票印刷フォーム
+ </summary>
+</member>
+<member name="F:Iroiro.SingleAddresseeDataView.vm">
+ <summary>
+ 単票印刷フォームのビューモデル
+ </summary>
+</member>
+<member name="T:Iroiro.SingleAddresseeDataViewModel">
+ <summary>
+ メインフォームに情報を渡すビューモデルクラス
+ </summary>
+</member>
+<member name="F:Iroiro.SingleAddresseeDataViewModel.DataBaseConecter">
+ <summary>
+ 名義人情報を保持するリポジトリ
+ </summary>
+</member>
+<member name="F:Iroiro.SingleAddresseeDataViewModel.DataOutputConecter">
+ <summary>
+ 印刷等のデータを保持するリポジトリ
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.AddresseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Title">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.PostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Address1">
+ <summary>
+ 住所1（郵便番号が有効な部分）
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Address2">
+ <summary>
+ 住所2（郵便番号が無効な番地等の部分）
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Note1">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Note2">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Note3">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Note4">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Note5">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.Money">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="P:Iroiro.SingleAddresseeDataViewModel.IsNoteInput">
+ <summary>
+ 備考不要チェック
+ </summary>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
+ <summary>
+ 各種リポジトリを設定します
+ </summary>
+ <param name="lesseerepository">名義人データ</param>
+ <param name="excelrepository">エクセルデータ</param>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.ReferenceLessee(System.String)">
+ <summary>
+ 渡された管理番号で、名義人データを生成します。
+ </summary>
+ <param name="managementNumber">検索する管理番号</param>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.GetAddress(System.String)">
+ <summary>
+ 郵便番号を使用して、住所を検索する
+ </summary>
+ <param name="postalcode">郵便番号</param>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.InputCho3Envelope">
+ <summary>
+ 長3封筒
+ </summary>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.InputWesternEnvelope">
+ <summary>
+ 洋封筒
+ </summary>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.InputGravePamphletEnvelope">
+ <summary>
+ 墓地パンフ
+ </summary>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.InputPostcard">
+ <summary>
+ はがき
+ </summary>
+</member>
+<member name="M:Iroiro.SingleAddresseeDataViewModel.InputLabel">
+ <summary>
+ ラベル
+ </summary>
+</member>
+</members>
+</doc>

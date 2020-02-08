@@ -1,0 +1,8 @@
+C:\Users\001\source\repos\Iroiro\Domain\bin\x86\Debug\Domain.dll
+C:\Users\001\source\repos\Iroiro\Domain\bin\x86\Debug\Domain.pdb
+C:\Users\001\source\repos\Iroiro\Domain\bin\x86\Debug\Domain.xml
+C:\Users\001\source\repos\Iroiro\Domain\obj\x86\Debug\Domain.Resources.resources
+C:\Users\001\source\repos\Iroiro\Domain\obj\x86\Debug\Domain.vbproj.GenerateResource.cache
+C:\Users\001\source\repos\Iroiro\Domain\obj\x86\Debug\Domain.dll
+C:\Users\001\source\repos\Iroiro\Domain\obj\x86\Debug\Domain.xml
+C:\Users\001\source\repos\Iroiro\Domain\obj\x86\Debug\Domain.pdb

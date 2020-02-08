@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Iroiro.My.MyApplication" Collapsed="true">
+    <Position X="7" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Iroiro.My.MySettings" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAABEAAAAABAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Iroiro.MultiAddresseeDataView" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAACCAAAAAAAACAAAACAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>view\MultiAddresseeDataView.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Iroiro.SingleAddresseeDataView" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>IIABFAAEEiAiCgEQAACgwEC2AAqBQqAQAJAABEAgQAA=</HashCode>
+      <FileName>view\SingleAddresseeDataView.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Iroiro.SingleAddresseeDataViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>ECAQAAAABgBEAGAAIEA0AUAAgIAQAIACAAAAABAIoAA=</HashCode>
+      <FileName>viewmodel\SingleAddresseeDataViewModel.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Module Name="Iroiro.My.MySettingsProperty" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Iroiro.My.Resources.Resources" Collapsed="true">
+    <Position X="3.75" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Yu Gothic UI" Size="9" />
+</ClassDiagram>
