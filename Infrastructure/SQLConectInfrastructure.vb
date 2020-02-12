@@ -10,10 +10,12 @@ Public Class SQLConectInfrastructure
     ''' データを取得するためのルートを確立するコマンドクラス
     ''' </summary>
     Private Property Cmd As ADODB.Command
+
     ''' <summary>
     ''' SQLServerに接続するための接続文字列
     ''' </summary>
     Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.163\SQLEXPRESS2014;DATABASE=COMMON;user id=sa;password=sqlserver"
+
     ''' <summary>
     ''' コマンドから取得したデータを格納するクラス
     ''' </summary>
@@ -24,7 +26,7 @@ Public Class SQLConectInfrastructure
     Private Property Cn As ADODB.Connection
 
     ''' <summary>
-    ''' Rsにデータを格納し、Rs.EOFを返します
+    ''' Rsにデータを格納し、Rs.EOFの結果を返します
     ''' </summary>
     ''' <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
     Private Function ExecuteStoredProc(ByRef exeCmd As ADODB.Command) As Boolean
@@ -94,7 +96,7 @@ Public Class SQLConectInfrastructure
         If SetLesseeRecord(customerid) Then Return Nothing
 
         '御廟は面積がない上にDouble型なので、0にして対応する
-        If Len(Trim(RsFields("AreaOfGrave"))) = 0 Then
+        If RsFields("AreaOfGrave").Trim.Length = 0 Then
             Area = 0
         Else
             Area = RsFields("AreaOfGrave")
@@ -119,7 +121,11 @@ Public Class SQLConectInfrastructure
 
         Dim ReferenceCode As String
 
-        ReferenceCode = Replace(postalcode, "-", "")
+        ReferenceCode = Replace(postalcode, "-", String.Empty)
+
+        '郵便番号がNothingや空文字の場合は空を返す
+        If ReferenceCode Is Nothing Then Return String.Empty
+        If ReferenceCode = String.Empty Then Return String.Empty
 
         Cmd = New ADODB.Command
 
@@ -139,7 +145,7 @@ Public Class SQLConectInfrastructure
         Dim AddressList As New List(Of AddressDataEntity)
         Dim myAddress As AddressDataEntity
 
-        If Len(Trim(address)) = 0 Then Return AddressList
+        If address.Trim.Length = 0 Then Return AddressList
         Cmd = New ADODB.Command
 
         With Cmd

@@ -19,3 +19,9 @@ C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行.exe
 C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行.xml
 C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行.pdb
 C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\WinForm.vbprojAssemblyReference.cache
+C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\view\TestUserControl.g.vb
+C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行_Content.g.vb
+C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行_MarkupCompile.cache
+C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行_MarkupCompile.lref
+C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\view\TestUserControl.baml
+C:\Users\001\source\repos\Iroiro\Iroiro\obj\Debug\いろいろ発行.g.resources

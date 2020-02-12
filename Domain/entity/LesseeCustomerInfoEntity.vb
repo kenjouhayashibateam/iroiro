@@ -308,15 +308,19 @@ Public Class LesseeCustomerInfoEntity
 
 
             Dim I As Integer = 1
-            Do Until Mid(number, I, 1) <> 0
+            Do Until number.Substring(I, 1) <> 0
                 I += 1
             Loop
-            ReturnString = Mid(number, I)
+            ReturnString = number.Substring(I)
 
             Return ReturnString
 
         End Function
 
+        ''' <summary>
+        ''' 管理番号を返します
+        ''' </summary>
+        ''' <returns></returns>
         Friend Function GetNumber() As String
             Return Number()
         End Function

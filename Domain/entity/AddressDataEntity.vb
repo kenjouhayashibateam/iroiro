@@ -3,7 +3,16 @@
 ''' </summary>
 Public Class AddressDataEntity
 
+    ''' <summary>
+    ''' 保持する住所
+    ''' </summary>
+    ''' <returns></returns>
     Private Property MyAddress As Address
+
+    ''' <summary>
+    ''' 保持する郵便番号
+    ''' </summary>
+    ''' <returns></returns>
     Private Property MyPostalcode As PostalCode
 
     Sub New(ByVal _address As String, ByVal _postalcode As String)
@@ -13,10 +22,18 @@ Public Class AddressDataEntity
 
     End Sub
 
+    ''' <summary>
+    ''' 住所を返します
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetAddress() As String
         Return MyAddress.GetAddress
     End Function
 
+    ''' <summary>
+    ''' 郵便番号を返します
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetPostalCode() As String
         Return MyPostalcode.GetCode
     End Function

@@ -74,6 +74,7 @@ Partial Class AddressDataView
         Me.MinimizeBox = False
         Me.Name = "AddressDataView"
         Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "住所検索結果"
         Me.ResumeLayout(False)
 

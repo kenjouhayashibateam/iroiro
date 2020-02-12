@@ -27,6 +27,30 @@ Domain
  住所クラス
  </summary>
 </member>
+<member name="P:Domain.AddressDataEntity.MyAddress">
+ <summary>
+ 保持する住所
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.AddressDataEntity.MyPostalcode">
+ <summary>
+ 保持する郵便番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.AddressDataEntity.GetAddress">
+ <summary>
+ 住所を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.AddressDataEntity.GetPostalCode">
+ <summary>
+ 郵便番号を返します
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Domain.AddressDataEntity.Address">
  <summary>
  住所
@@ -189,6 +213,12 @@ Domain
  </summary>
  <param name="number">変換する文字列</param>
 </member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GraveNumber.GetNumber">
+ <summary>
+ 管理番号を返します
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Domain.LesseeCustomerInfoEntity.CustomerID">
  <summary>
  管理番号
@@ -204,14 +234,39 @@ Domain
  エクセルの処理を行うリポジトリ
  </summary>
 </member>
-<member name="M:Domain.IAdresseeOutputRepogitory.DataInput(System.String,System.String,System.String,System.String,System.String,Domain.IAdresseeOutputRepogitory.OutputData,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+<member name="M:Domain.IAdresseeOutputRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
- 振込用紙入力
+ 振込用紙
  </summary>
 </member>
-<member name="M:Domain.IAdresseeOutputRepogitory.OutputMediaClose">
+<member name="M:Domain.IAdresseeOutputRepogitory.Cho3EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
- アウトプットするメディア（呼び方違うなら名前変えます）をクローズします
+ 長3封筒
+ </summary>
+</member>
+<member name="M:Domain.IAdresseeOutputRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 洋封筒
+ </summary>
+</member>
+<member name="M:Domain.IAdresseeOutputRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 角2
+ </summary>
+</member>
+<member name="M:Domain.IAdresseeOutputRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 墓地パンフ
+ </summary>
+</member>
+<member name="M:Domain.IAdresseeOutputRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ はがき
+ </summary>
+</member>
+<member name="M:Domain.IAdresseeOutputRepogitory.LabelOutput(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ ラベル
  </summary>
 </member>
 <member name="T:Domain.IDataConectRepogitory">
@@ -230,6 +285,13 @@ Domain
  郵便番号を基に住所を返します
  </summary>
  <param name="postalcode">検索する郵便番号</param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetAddressList(System.String)">
+ <summary>
+ 住所をリストで返します
+ </summary>
+ <param name="address">検索する住所</param>
+ <returns></returns>
 </member>
 </members>
 </doc>

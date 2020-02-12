@@ -15,6 +15,11 @@ Public Interface IDataConectRepogitory
     ''' <param name="postalcode">検索する郵便番号</param>
     Function GetAddress(ByVal postalcode As String) As String
 
+    ''' <summary>
+    ''' 住所をリストで返します
+    ''' </summary>
+    ''' <param name="address">検索する住所</param>
+    ''' <returns></returns>
     Function GetAddressList(ByVal address As String) As List(Of AddressDataEntity)
 
 End Interface

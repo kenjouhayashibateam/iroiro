@@ -22,6 +22,7 @@ Partial Class MultiAddresseeDataView
     'コード エディターを使って変更しないでください。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MultiAddresseeDataView))
         Me.AddresseeListView = New System.Windows.Forms.ListView()
         Me.CustomerIDColumnHeader = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -34,6 +35,15 @@ Partial Class MultiAddresseeDataView
         Me.DeleteItemButton = New System.Windows.Forms.Button()
         Me.BatchEntryCustamerIDButton = New System.Windows.Forms.Button()
         Me.BatchEntryAddresseeListButton = New System.Windows.Forms.Button()
+        Me.Cho3EnvelopeButton = New System.Windows.Forms.Button()
+        Me.LabelButton = New System.Windows.Forms.Button()
+        Me.WesternEnvelopeButton = New System.Windows.Forms.Button()
+        Me.PostcardButton = New System.Windows.Forms.Button()
+        Me.KakuniEnvelopeButton = New System.Windows.Forms.Button()
+        Me.GravePamphletEnvelopeButton = New System.Windows.Forms.Button()
+        Me.DescriptionToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.TitleTextBox = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'AddresseeListView
@@ -106,6 +116,7 @@ Partial Class MultiAddresseeDataView
         Me.BatchEntryCustamerIDButton.Size = New System.Drawing.Size(116, 23)
         Me.BatchEntryCustamerIDButton.TabIndex = 4
         Me.BatchEntryCustamerIDButton.Text = "管理番号一括入力"
+        Me.DescriptionToolTip.SetToolTip(Me.BatchEntryCustamerIDButton, "管理番号をエクセルなどのリストからクリップボードにタブ区切りでコピーしたものを使用して一覧に出力します。" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "管理番号を縦1列に表示してコピーしてください。")
         Me.BatchEntryCustamerIDButton.UseVisualStyleBackColor = True
         '
         'BatchEntryAddresseeListButton
@@ -115,14 +126,93 @@ Partial Class MultiAddresseeDataView
         Me.BatchEntryAddresseeListButton.Size = New System.Drawing.Size(116, 23)
         Me.BatchEntryAddresseeListButton.TabIndex = 5
         Me.BatchEntryAddresseeListButton.Text = "宛先リスト入力"
+        Me.DescriptionToolTip.SetToolTip(Me.BatchEntryAddresseeListButton, "エクセルなどの宛先の一覧をタブ区切りでクリップボードにコピーしたものを一覧に表示します。")
         Me.BatchEntryAddresseeListButton.UseVisualStyleBackColor = True
+        '
+        'Cho3EnvelopeButton
+        '
+        Me.Cho3EnvelopeButton.Location = New System.Drawing.Point(83, 420)
+        Me.Cho3EnvelopeButton.Name = "Cho3EnvelopeButton"
+        Me.Cho3EnvelopeButton.Size = New System.Drawing.Size(75, 23)
+        Me.Cho3EnvelopeButton.TabIndex = 6
+        Me.Cho3EnvelopeButton.Text = "長3封筒"
+        Me.Cho3EnvelopeButton.UseVisualStyleBackColor = True
+        '
+        'LabelButton
+        '
+        Me.LabelButton.Location = New System.Drawing.Point(488, 420)
+        Me.LabelButton.Name = "LabelButton"
+        Me.LabelButton.Size = New System.Drawing.Size(75, 23)
+        Me.LabelButton.TabIndex = 7
+        Me.LabelButton.Text = "ラベル出し"
+        Me.LabelButton.UseVisualStyleBackColor = True
+        '
+        'WesternEnvelopeButton
+        '
+        Me.WesternEnvelopeButton.Location = New System.Drawing.Point(407, 420)
+        Me.WesternEnvelopeButton.Name = "WesternEnvelopeButton"
+        Me.WesternEnvelopeButton.Size = New System.Drawing.Size(75, 23)
+        Me.WesternEnvelopeButton.TabIndex = 8
+        Me.WesternEnvelopeButton.Text = "洋封筒"
+        Me.WesternEnvelopeButton.UseVisualStyleBackColor = True
+        '
+        'PostcardButton
+        '
+        Me.PostcardButton.Location = New System.Drawing.Point(326, 420)
+        Me.PostcardButton.Name = "PostcardButton"
+        Me.PostcardButton.Size = New System.Drawing.Size(75, 23)
+        Me.PostcardButton.TabIndex = 9
+        Me.PostcardButton.Text = "はがき"
+        Me.PostcardButton.UseVisualStyleBackColor = True
+        '
+        'KakuniEnvelopeButton
+        '
+        Me.KakuniEnvelopeButton.Location = New System.Drawing.Point(245, 420)
+        Me.KakuniEnvelopeButton.Name = "KakuniEnvelopeButton"
+        Me.KakuniEnvelopeButton.Size = New System.Drawing.Size(75, 23)
+        Me.KakuniEnvelopeButton.TabIndex = 10
+        Me.KakuniEnvelopeButton.Text = "角二封筒"
+        Me.KakuniEnvelopeButton.UseVisualStyleBackColor = True
+        '
+        'GravePamphletEnvelopeButton
+        '
+        Me.GravePamphletEnvelopeButton.Location = New System.Drawing.Point(164, 420)
+        Me.GravePamphletEnvelopeButton.Name = "GravePamphletEnvelopeButton"
+        Me.GravePamphletEnvelopeButton.Size = New System.Drawing.Size(75, 23)
+        Me.GravePamphletEnvelopeButton.TabIndex = 11
+        Me.GravePamphletEnvelopeButton.Text = "墓地パンフ"
+        Me.GravePamphletEnvelopeButton.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(524, 17)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(29, 12)
+        Me.Label1.TabIndex = 12
+        Me.Label1.Text = "敬称"
+        '
+        'TitleTextBox
+        '
+        Me.TitleTextBox.Location = New System.Drawing.Point(559, 14)
+        Me.TitleTextBox.Name = "TitleTextBox"
+        Me.TitleTextBox.Size = New System.Drawing.Size(51, 19)
+        Me.TitleTextBox.TabIndex = 13
         '
         'MultiAddresseeDataView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
-        Me.ClientSize = New System.Drawing.Size(644, 484)
+        Me.ClientSize = New System.Drawing.Size(644, 455)
+        Me.Controls.Add(Me.TitleTextBox)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.GravePamphletEnvelopeButton)
+        Me.Controls.Add(Me.KakuniEnvelopeButton)
+        Me.Controls.Add(Me.PostcardButton)
+        Me.Controls.Add(Me.WesternEnvelopeButton)
+        Me.Controls.Add(Me.LabelButton)
+        Me.Controls.Add(Me.Cho3EnvelopeButton)
         Me.Controls.Add(Me.BatchEntryAddresseeListButton)
         Me.Controls.Add(Me.BatchEntryCustamerIDButton)
         Me.Controls.Add(Me.DeleteItemButton)
@@ -134,6 +224,7 @@ Partial Class MultiAddresseeDataView
         Me.MinimizeBox = False
         Me.Name = "MultiAddresseeDataView"
         Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "一括発行"
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -151,4 +242,13 @@ Partial Class MultiAddresseeDataView
     Friend WithEvents DeleteItemButton As Button
     Friend WithEvents BatchEntryCustamerIDButton As Button
     Friend WithEvents BatchEntryAddresseeListButton As Button
+    Friend WithEvents Cho3EnvelopeButton As Button
+    Friend WithEvents LabelButton As Button
+    Friend WithEvents WesternEnvelopeButton As Button
+    Friend WithEvents PostcardButton As Button
+    Friend WithEvents KakuniEnvelopeButton As Button
+    Friend WithEvents GravePamphletEnvelopeButton As Button
+    Friend WithEvents DescriptionToolTip As ToolTip
+    Friend WithEvents Label1 As Label
+    Friend WithEvents TitleTextBox As TextBox
 End Class

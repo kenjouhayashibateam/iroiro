@@ -3,27 +3,45 @@
 ''' </summary>
 Public Interface IAdresseeOutputRepogitory
 
-    Enum OutputData
-        Transfer
-        Cho3
-        Western
-        Kaku2
-        GravePamphlet
-        Postcard
-        Label
-    End Enum
+    ''' <summary>
+    ''' 振込用紙
+    ''' </summary>
+    Sub TransferPaperPrintOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
+                                 ByVal address1 As String, ByVal address2 As String, ByVal money As String, ByVal note1 As String,
+                                 ByVal note2 As String, ByVal note3 As String, ByVal note4 As String, ByVal note5 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' 長3封筒
+    ''' </summary>
+    Sub Cho3EnvelopeOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
+                           ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' 洋封筒
+    ''' </summary>
+    Sub WesternEnvelopeOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
+                              ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
 
     ''' <summary>
-    ''' 振込用紙入力
+    ''' 角2
     ''' </summary>
-    Sub DataInput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String, ByVal address1 As String,
-                           ByVal address2 As String, ByVal outputcontents As OutputData, Optional ByVal money As String = "", Optional ByVal note1 As String = "",
-                           Optional ByVal note2 As String = "", Optional ByVal note3 As String = "", Optional ByVal note4 As String = "",
-                           Optional ByVal note5 As String = "", Optional ByVal addressee_index As Integer = 0)
+    Sub Kaku2EnvelopeOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
+                            ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
 
     ''' <summary>
-    ''' アウトプットするメディア（呼び方違うなら名前変えます）をクローズします
+    ''' 墓地パンフ
     ''' </summary>
-    Sub OutputMediaClose()
+    Sub GravePamphletOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
+                            ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
+
+    ''' <summary>
+    ''' はがき
+    ''' </summary>
+    Sub PostcardOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String, ByVal address1 As String,
+                       ByVal address2 As String, ByVal multioutput As Boolean)
+
+    ''' <summary>
+    ''' ラベル
+    ''' </summary>
+    Sub LabelOutput(ByVal addressee As String, ByVal title As String, ByVal postalcode As String, ByVal address1 As String,
+                    ByVal address2 As String)
 
 End Interface

@@ -26,6 +26,7 @@ Public Class SingleAddresseeDataView
         MoneyTextBox.DataBindings.Add("Text", vm, NameOf(vm.Money))
         TitleTextBox.DataBindings.Add("Text", vm, NameOf(vm.Title))
         NotNoteInputCheckBox.DataBindings.Add("Checked", vm, NameOf(vm.IsNoteInput))
+        MultiOutputCheckBox.DataBindings.Add("Checked", vm, NameOf(vm.MultiOutputCheck))
 
     End Sub
 
@@ -43,6 +44,7 @@ Public Class SingleAddresseeDataView
 
     Private Sub PostalCodeTextBox_LostFocus(sender As Object, e As EventArgs) Handles PostalCodeTextBox.LostFocus
         vm.GetAddress(PostalCodeTextBox.Text)
+        Address2TextBox.Focus()
     End Sub
 
     Private Sub WesternEnvelopeButton_Click(sender As Object, e As EventArgs) Handles OutputWesternEnvelopeButton.Click
@@ -74,4 +76,5 @@ Public Class SingleAddresseeDataView
 
         MultiAddresseeDataView.ShowDialog()
     End Sub
+
 End Class

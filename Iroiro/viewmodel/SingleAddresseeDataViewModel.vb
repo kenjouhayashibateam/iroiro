@@ -33,6 +33,21 @@ Public Class SingleAddresseeDataViewModel
     Private _Note5 As String
     Private _Money As String
     Private _Title As String
+    Private _MultiOutputCheck As Boolean
+
+    ''' <summary>
+    ''' 続けて入力する時に、既存のデータを消さずに次のデータを出力するかのチェック
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property MultiOutputCheck As Boolean
+        Get
+            Return _MultiOutputCheck
+        End Get
+        Set
+            _MultiOutputCheck = Value
+            RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MultiOutputCheck)))
+        End Set
+    End Property
 
     ''' <summary>
     ''' 宛名
@@ -250,58 +265,65 @@ Public Class SingleAddresseeDataViewModel
         Address1 = DataBaseConecter.GetAddress(postalcode)
     End Sub
 
-    '''' <summary>
-    '''' 振込用紙
-    '''' </summary>
+    ''' <summary>
+    ''' 振込用紙
+    ''' </summary>
     Public Sub InputTransferData()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.Transfer,
-                                     Money, Note1, Note2, Note3, Note4, Note5)
+        If HasError() Then Exit Sub
+        DataOutputConecter.TransferPaperPrintOutput(AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck)
+        SetDefaultValue()
     End Sub
 
     ''' <summary>
     ''' 長3封筒
     ''' </summary>
     Public Sub InputCho3Envelope()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.Cho3)
+        If HasError() Then Exit Sub
+        DataOutputConecter.Cho3EnvelopeOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
     End Sub
 
     ''' <summary>
     ''' 洋封筒
     ''' </summary>
     Public Sub InputWesternEnvelope()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.Western)
+        If HasError() Then Exit Sub
+        DataOutputConecter.WesternEnvelopeOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
     End Sub
 
     ''' <summary>
     ''' 墓地パンフ
     ''' </summary>
     Public Sub InputGravePamphletEnvelope()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.GravePamphlet)
+        If HasError() Then Exit Sub
+        DataOutputConecter.GravePamphletOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
     End Sub
 
     Public Sub InputKaku2Envelope()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.Kaku2)
+        If HasError() Then Exit Sub
+        DataOutputConecter.Kaku2EnvelopeOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
     End Sub
 
     ''' <summary>
     ''' はがき
     ''' </summary>
     Public Sub InputPostcard()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.Postcard)
+        If HasError() Then Exit Sub
+        DataOutputConecter.PostcardOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
     End Sub
 
     ''' <summary>
     ''' ラベル
     ''' </summary>
     Public Sub InputLabel()
-        DataOutputConecter.DataInput(AddresseeName, Title, PostalCode, Address1, Address2, IAdresseeOutputRepogitory.OutputData.Label)
+        If HasError() Then Exit Sub
+        DataOutputConecter.LabelOutput(AddresseeName, Title, PostalCode, Address1, Address2)
+        SetDefaultValue()
     End Sub
 
-    Protected Overrides Sub Finalize()
-        MyBase.Finalize()
-        DataOutputConecter.OutputMediaClose()
-    End Sub
-
+    ''' <summary>
+    ''' 住所を検索します
+    ''' </summary>
+    ''' <param name="address">検索する住所</param>
     Public Sub ReferenceAddress(ByVal address As String)
 
         Dim AddressList As List(Of AddressDataEntity)
@@ -310,6 +332,7 @@ Public Class SingleAddresseeDataViewModel
         AddressList = DataBaseConecter.GetAddressList(address)
         If AddressList.Count = 0 Then Exit Sub
 
+        '検索結果が1件なら住所一覧画面は呼ばずにプロパティに入力する
         If AddressList.Count = 1 Then
             myAddress = AddressList.Item(0)
             Address1 = myAddress.GetAddress
@@ -317,16 +340,52 @@ Public Class SingleAddresseeDataViewModel
             Exit Sub
         End If
 
+        '住所一覧画面にデータを渡して開く
+        AddressDataView.SetList(AddressList)
         AddressDataView.AddListener(Me)
-        AddressDataView.SetAddressList(AddressList)
         AddressDataView.ShowDialog()
 
     End Sub
 
     Public Sub Notify(_postalCode As String, _address As String) Implements IExitButtonClickListener.Notify
-        PostalCode = Mid(_postalCode, 1, 3) & "-" & Mid(_postalCode, 4, 7)
+        PostalCode = _postalCode.Substring(0, 3) & "-" & _postalCode.Substring(3, 4)
         Address1 = _address
     End Sub
 
+    ''' <summary>
+    ''' プロパティを初期化する
+    ''' </summary>
+    Public Sub SetDefaultValue()
+
+        AddresseeName = String.Empty
+        PostalCode = String.Empty
+        Address1 = String.Empty
+        Address2 = String.Empty
+        Note1 = String.Empty
+        Note2 = String.Empty
+        Note3 = String.Empty
+        Note4 = String.Empty
+        Note5 = String.Empty
+        Money = String.Empty
+
+    End Sub
+
+    ''' <summary>
+    ''' 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function HasError() As Boolean
+
+        If AddresseeName = String.Empty Then GoTo TruePart
+        If PostalCode = String.Empty Then GoTo TruePart
+        If Address1 = String.Empty Then GoTo TruePart
+        If Address2 = String.Empty Then GoTo TruePart
+
+        Return False
+
+TruePart:
+        MsgBox("宛先が不十分です", MsgBoxStyle.Critical, "必須項目不備")
+        Return True
+    End Function
 
 End Class
