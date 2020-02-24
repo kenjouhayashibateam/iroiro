@@ -7,7 +7,7 @@ Imports System.Text.RegularExpressions
 ''' <summary>
 ''' 複数印刷画面ビューモデル
 ''' </summary>
-Public Class MultiAddresseeDataViewModel
+Public Class WinFormMultiAddresseeDataViewModel
     Implements INotifyPropertyChanged
 
     Private ReadOnly DataBaseConecter As IDataConectRepogitory

@@ -1,0 +1,469 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+WPF
+</name>
+</assembly>
+<members>
+<member name="T:WPF.My.MyWpfExtension">
+ <summary>
+ WPF のマイ名前空間で使用できるプロパティを定義するためのモジュール
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:WPF.My.MyWpfExtension.Application">
+ <summary>
+ 実行中のアプリケーション用のアプリケーション オブジェクトを返します
+ </summary>
+</member>
+<member name="P:WPF.My.MyWpfExtension.Computer">
+ <summary>
+ ホスト コンピューターに関する情報を返します。
+ </summary>
+</member>
+<member name="P:WPF.My.MyWpfExtension.User">
+ <summary>
+ 現在のユーザーに関する情報を返します。現在の
+ Windows ユーザー資格情報でアプリケーションを実行する場合は、My.User.InitializeWithWindowsUser() を呼び出してください。
+ </summary>
+</member>
+<member name="P:WPF.My.MyWpfExtension.Log">
+ <summary>
+ アプリケーション ログを返します。リスナーは、アプリケーションの構成ファイルを使用して構成できます。
+ </summary>
+</member>
+<member name="P:WPF.My.MyWpfExtension.Windows">
+ <summary>
+ プロジェクトで定義されている Windows の集合を返します。
+ </summary>
+</member>
+<member name="T:WPF.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:WPF.MultiAddresseeDataViewModel">
+ <summary>
+ 複数印刷画面ビューモデル
+ </summary>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.Title">
+ <summary>
+ 敬称
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.AddresseeList">
+ <summary>
+ データバインド用リスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
+ <summary>
+ 各種リポジトリを設定します
+ </summary>
+ <param name="lesseerepository">名義人データ</param>
+ <param name="excelrepository">エクセルデータ</param>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.AddItem">
+ <summary>
+ リストに追加する名義人データを返します
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.ReturnList">
+ <summary>
+ クリップボードのデータを基にリスト表示するアイテムを格納したリストを返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.ReturnList_CustomerID">
+ <summary>
+ 管理番号の列を格納したクリップボードを使用してリスト表示するアイテムを格納したリストを返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_Cho3Envelope">
+ <summary>
+ 長3封筒印刷
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_GravePamphletEnvelope">
+ <summary>
+ 墓地パンフ印刷
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_Kaku2Envelope">
+ <summary>
+ 角2封筒印刷
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_Postcard">
+ <summary>
+ ハガキ印刷
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_WesternEnvelope">
+ <summary>
+ 洋封筒印刷
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_LabelSheet">
+ <summary>
+ ラベル用紙印刷
+ </summary>
+</member>
+<member name="T:WPF.MultiAddresseeDataView">
+<summary>
+MultiAddresseeDataView
+</summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.Application">
+<summary>
+Application
+</summary>
+</member>
+<member name="M:WPF.Application.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="M:WPF.Application.Main">
+<summary>
+Application Entry Point.
+</summary>
+</member>
+<member name="T:WPF.AddressDataViewModel">
+ <summary>
+ 住所一覧画面ビューモデル
+ </summary>
+</member>
+<member name="P:WPF.AddressDataViewModel.MyAddressList">
+ <summary>
+ 住所データリスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ReferenceLesseeCommand.CanExecute(System.Object)">
+ <summary>
+ エグゼが実行される前に実行する。FalseだとExecuteは実行されない
+ </summary>
+ <param name="parameter"></param>
+ <returns></returns>
+</member>
+<member name="T:WPF.SingleAddresseeDataViewModel">
+ <summary>
+ メインフォームに情報を渡すビューモデルクラス
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.SelectedOutputContentsValue">
+ <summary>
+ 印刷する種類を保持します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:WPF.SingleAddresseeDataViewModel.OutputContents">
+ <summary>
+ 保持する印刷種類
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.OutputContentsDictionary">
+ <summary>
+ 印刷する種類を保持しているディクショナリ
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:WPF.SingleAddresseeDataViewModel.DataBaseConecter">
+ <summary>
+ 名義人情報を保持するリポジトリ
+ </summary>
+</member>
+<member name="F:WPF.SingleAddresseeDataViewModel.DataOutputConecter">
+ <summary>
+ 印刷等のデータを保持するリポジトリ
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.GotoMultiAddresseeDataView">
+ <summary>
+ 一括出力画面に移動するコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.DataOutput">
+ <summary>
+ データをOutputするコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.NoteClear">
+ <summary>
+ 備考欄を空欄にするコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.AddressReference">
+ <summary>
+ 住所で検索をかけるコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.PostalcodeReference">
+ <summary>
+ 郵便番号で検索をかけるコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.ReferenceLesseeCommand">
+ <summary>
+ 名義人データ検索コマンド
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.PermitReference">
+ <summary>
+ 検索許可
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.MultiOutputCheck">
+ <summary>
+ 続けて入力する時に、既存のデータを消さずに次のデータを出力するかのチェック
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.AddresseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Title">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.PostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Address1">
+ <summary>
+ 住所1（郵便番号が有効な部分）
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Address2">
+ <summary>
+ 住所2（郵便番号が無効な番地等の部分）
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Note1">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Note2">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Note3">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Note4">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Note5">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.Money">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.IsNoteInput">
+ <summary>
+ 備考不要チェック
+ </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.TransferPaperMenuEnabled">
+ <summary>
+ 振込用紙独自の欄のEnableを保持します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.#ctor">
+ <summary>
+ 各種リポジトリを設定します
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
+ <param name="lesseerepository">名義人データ</param>
+ <param name="excelrepository">エクセルデータ</param>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.ReferenceLessee">
+ <summary>
+ 渡された管理番号で、名義人データを生成します。
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.GetAddress(System.String)">
+ <summary>
+ 郵便番号を使用して、住所を検索する
+ </summary>
+ <param name="postalcode">郵便番号</param>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputTransferData">
+ <summary>
+ 振込用紙
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputCho3Envelope">
+ <summary>
+ 長3封筒
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputWesternEnvelope">
+ <summary>
+ 洋封筒
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputGravePamphletEnvelope">
+ <summary>
+ 墓地パンフ
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputKaku2Envelope">
+ <summary>
+ 角２封筒
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputPostcard">
+ <summary>
+ はがき
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.InputLabel">
+ <summary>
+ ラベル
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.ReferenceAddress">
+ <summary>
+ 住所を検索します
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.ReferenceAddress_Postalcode">
+ <summary>
+ 郵便番号で住所を検索します
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.SetDefaultValue">
+ <summary>
+ プロパティを初期化する
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.HasError">
+ <summary>
+ 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.NoteTextClear">
+ <summary>
+ 備考を空欄にする
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.Output">
+ <summary>
+ 宛名データを出力します
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.TransferPaperMenuEnabledChange">
+ <summary>
+ 振込用紙の独自の欄のEnableを変えます
+ </summary>
+</member>
+<member name="M:WPF.SingleAddresseeDataViewModel.ShowMultiAddresseeDataView">
+ <summary>
+ 一括出力画面を表示します
+ </summary>
+</member>
+<member name="T:WPF.AddressDataView">
+<summary>
+AddressDataView
+</summary>
+</member>
+<member name="M:WPF.AddressDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.MainWindow">
+<summary>
+MainWindow
+</summary>
+</member>
+<member name="M:WPF.MainWindow.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+<summary>
+GeneratedInternalTypeHelper
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+<summary>
+CreateInstance
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+<summary>
+GetPropertyValue
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+<summary>
+SetPropertyValue
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+<summary>
+CreateDelegate
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+<summary>
+AddEventHandler
+</summary>
+</member>
+</members>
+</doc>

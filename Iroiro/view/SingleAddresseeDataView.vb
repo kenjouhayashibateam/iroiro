@@ -6,7 +6,7 @@ Public Class SingleAddresseeDataView
     ''' <summary>
     ''' 単票印刷フォームのビューモデル
     ''' </summary>
-    Private ReadOnly vm As New SingleAddresseeDataViewModel
+    Private ReadOnly vm As New WinFormSingleAddresseeDataViewModel
 
     Sub New()
 

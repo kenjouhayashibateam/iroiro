@@ -25,27 +25,36 @@ Partial Class SingleAddresseeDataView
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SingleAddresseeDataView))
         Me.NotNoteInputCheckBox = New System.Windows.Forms.CheckBox()
         Me.InfomationGroupBox = New System.Windows.Forms.GroupBox()
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.TableLayoutPanel10 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Note1TextBox = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel8 = New System.Windows.Forms.TableLayoutPanel()
         Me.Note5TextBox = New System.Windows.Forms.TextBox()
         Me.Note4TextBox = New System.Windows.Forms.TextBox()
-        Me.Note3TextBox = New System.Windows.Forms.TextBox()
-        Me.Note2TextBox = New System.Windows.Forms.TextBox()
-        Me.Note1TextBox = New System.Windows.Forms.TextBox()
-        Me.MoneyTextBox = New System.Windows.Forms.TextBox()
-        Me.LblNote5 = New System.Windows.Forms.Label()
+        Me.TableLayoutPanel7 = New System.Windows.Forms.TableLayoutPanel()
         Me.LblNote4 = New System.Windows.Forms.Label()
-        Me.LblNote3 = New System.Windows.Forms.Label()
-        Me.LblNote2 = New System.Windows.Forms.Label()
+        Me.LblNote5 = New System.Windows.Forms.Label()
+        Me.TableLayoutPanel6 = New System.Windows.Forms.TableLayoutPanel()
+        Me.Note2TextBox = New System.Windows.Forms.TextBox()
+        Me.Note3TextBox = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
+        Me.MoneyTextBox = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
         Me.LblNote1 = New System.Windows.Forms.Label()
-        Me.LblMoney = New System.Windows.Forms.Label()
-        Me.Address2TextBox = New System.Windows.Forms.TextBox()
-        Me.Address1TextBox = New System.Windows.Forms.TextBox()
-        Me.PostalCodeTextBox = New System.Windows.Forms.TextBox()
-        Me.LblAdress2 = New System.Windows.Forms.Label()
-        Me.LblAdress1 = New System.Windows.Forms.Label()
-        Me.LblPostalCode = New System.Windows.Forms.Label()
-        Me.AddresseeNameTextBox = New System.Windows.Forms.TextBox()
+        Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
+        Me.LblNote2 = New System.Windows.Forms.Label()
+        Me.LblNote3 = New System.Windows.Forms.Label()
+        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.TitleTextBox = New System.Windows.Forms.TextBox()
+        Me.AddresseeNameTextBox = New System.Windows.Forms.TextBox()
+        Me.PostalCodeTextBox = New System.Windows.Forms.TextBox()
         Me.LblName = New System.Windows.Forms.Label()
+        Me.LblPostalCode = New System.Windows.Forms.Label()
+        Me.LblAdress1 = New System.Windows.Forms.Label()
+        Me.Address1TextBox = New System.Windows.Forms.TextBox()
+        Me.Address2TextBox = New System.Windows.Forms.TextBox()
+        Me.LblAdress2 = New System.Windows.Forms.Label()
+        Me.LblMoney = New System.Windows.Forms.Label()
         Me.LesseeReferenceButton = New System.Windows.Forms.Button()
         Me.LabelPaperButton = New System.Windows.Forms.Button()
         Me.OutputTransferPaperButton = New System.Windows.Forms.Button()
@@ -53,36 +62,27 @@ Partial Class SingleAddresseeDataView
         Me.LblMnagementNumber = New System.Windows.Forms.Label()
         Me.GotoMultiAddresseeDataViewButton = New System.Windows.Forms.Button()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
-        Me.OutputPostcardButton = New System.Windows.Forms.Button()
+        Me.OutputCho3EnvelopeButton = New System.Windows.Forms.Button()
         Me.OutputKaku2EnvelopeButton = New System.Windows.Forms.Button()
         Me.OutputGravePamphletEnvelopeButton = New System.Windows.Forms.Button()
+        Me.OutputPostcardButton = New System.Windows.Forms.Button()
         Me.OutputWesternEnvelopeButton = New System.Windows.Forms.Button()
-        Me.OutputCho3EnvelopeButton = New System.Windows.Forms.Button()
-        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel3 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel4 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel5 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel6 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel7 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel8 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel9 = New System.Windows.Forms.TableLayoutPanel()
-        Me.TableLayoutPanel10 = New System.Windows.Forms.TableLayoutPanel()
         Me.MultiOutputCheckBox = New System.Windows.Forms.CheckBox()
+        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.TableLayoutPanel9 = New System.Windows.Forms.TableLayoutPanel()
         Me.InfomationGroupBox.SuspendLayout()
+        Me.TableLayoutPanel1.SuspendLayout()
+        Me.TableLayoutPanel10.SuspendLayout()
+        Me.TableLayoutPanel8.SuspendLayout()
+        Me.TableLayoutPanel7.SuspendLayout()
+        Me.TableLayoutPanel6.SuspendLayout()
+        Me.TableLayoutPanel5.SuspendLayout()
+        Me.TableLayoutPanel4.SuspendLayout()
+        Me.TableLayoutPanel3.SuspendLayout()
+        Me.TableLayoutPanel2.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
         Me.FlowLayoutPanel2.SuspendLayout()
-        Me.TableLayoutPanel1.SuspendLayout()
-        Me.TableLayoutPanel2.SuspendLayout()
-        Me.TableLayoutPanel3.SuspendLayout()
-        Me.TableLayoutPanel4.SuspendLayout()
-        Me.TableLayoutPanel5.SuspendLayout()
-        Me.TableLayoutPanel6.SuspendLayout()
-        Me.TableLayoutPanel7.SuspendLayout()
-        Me.TableLayoutPanel8.SuspendLayout()
         Me.TableLayoutPanel9.SuspendLayout()
-        Me.TableLayoutPanel10.SuspendLayout()
         Me.SuspendLayout()
         '
         'NotNoteInputCheckBox
@@ -109,6 +109,78 @@ Partial Class SingleAddresseeDataView
         Me.InfomationGroupBox.TabStop = False
         Me.InfomationGroupBox.Text = "送付内容"
         '
+        'TableLayoutPanel1
+        '
+        Me.TableLayoutPanel1.ColumnCount = 5
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149.0!))
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel10, 4, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel8, 4, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel7, 3, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel6, 4, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel5, 4, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel4, 3, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel3, 3, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel2, 1, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.PostalCodeTextBox, 1, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.LblName, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.LblPostalCode, 0, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.LblAdress1, 0, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.Address1TextBox, 1, 2)
+        Me.TableLayoutPanel1.Controls.Add(Me.Address2TextBox, 1, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.LblAdress2, 0, 3)
+        Me.TableLayoutPanel1.Controls.Add(Me.LblMoney, 3, 0)
+        Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 15)
+        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
+        Me.TableLayoutPanel1.Padding = New System.Windows.Forms.Padding(0, 5, 0, 0)
+        Me.TableLayoutPanel1.RowCount = 4
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54.0!))
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(419, 174)
+        Me.TableLayoutPanel1.TabIndex = 10
+        '
+        'TableLayoutPanel10
+        '
+        Me.TableLayoutPanel10.ColumnCount = 1
+        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel10.Controls.Add(Me.Note1TextBox, 0, 0)
+        Me.TableLayoutPanel10.Location = New System.Drawing.Point(273, 41)
+        Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
+        Me.TableLayoutPanel10.RowCount = 1
+        Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel10.Size = New System.Drawing.Size(140, 23)
+        Me.TableLayoutPanel10.TabIndex = 11
+        '
+        'Note1TextBox
+        '
+        Me.Note1TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.Note1TextBox.Location = New System.Drawing.Point(3, 3)
+        Me.Note1TextBox.MaxLength = 12
+        Me.Note1TextBox.Name = "Note1TextBox"
+        Me.Note1TextBox.Size = New System.Drawing.Size(134, 19)
+        Me.Note1TextBox.TabIndex = 11
+        Me.Note1TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'TableLayoutPanel8
+        '
+        Me.TableLayoutPanel8.ColumnCount = 1
+        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel8.Controls.Add(Me.Note5TextBox, 0, 1)
+        Me.TableLayoutPanel8.Controls.Add(Me.Note4TextBox, 0, 0)
+        Me.TableLayoutPanel8.Location = New System.Drawing.Point(273, 120)
+        Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
+        Me.TableLayoutPanel8.RowCount = 2
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.0!))
+        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.0!))
+        Me.TableLayoutPanel8.Size = New System.Drawing.Size(140, 46)
+        Me.TableLayoutPanel8.TabIndex = 14
+        '
         'Note5TextBox
         '
         Me.Note5TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
@@ -129,59 +201,19 @@ Partial Class SingleAddresseeDataView
         Me.Note4TextBox.TabIndex = 17
         Me.Note4TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'Note3TextBox
+        'TableLayoutPanel7
         '
-        Me.Note3TextBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.Note3TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.Note3TextBox.Location = New System.Drawing.Point(3, 25)
-        Me.Note3TextBox.MaxLength = 12
-        Me.Note3TextBox.Name = "Note3TextBox"
-        Me.Note3TextBox.Size = New System.Drawing.Size(134, 19)
-        Me.Note3TextBox.TabIndex = 15
-        Me.Note3TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Note2TextBox
-        '
-        Me.Note2TextBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.Note2TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.Note2TextBox.Location = New System.Drawing.Point(3, 3)
-        Me.Note2TextBox.MaxLength = 12
-        Me.Note2TextBox.Name = "Note2TextBox"
-        Me.Note2TextBox.Size = New System.Drawing.Size(134, 19)
-        Me.Note2TextBox.TabIndex = 13
-        Me.Note2TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Note1TextBox
-        '
-        Me.Note1TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.Note1TextBox.Location = New System.Drawing.Point(3, 3)
-        Me.Note1TextBox.MaxLength = 12
-        Me.Note1TextBox.Name = "Note1TextBox"
-        Me.Note1TextBox.Size = New System.Drawing.Size(134, 19)
-        Me.Note1TextBox.TabIndex = 11
-        Me.Note1TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'MoneyTextBox
-        '
-        Me.MoneyTextBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.MoneyTextBox.ImeMode = System.Windows.Forms.ImeMode.Off
-        Me.MoneyTextBox.Location = New System.Drawing.Point(3, 3)
-        Me.MoneyTextBox.MaxLength = 9
-        Me.MoneyTextBox.Name = "MoneyTextBox"
-        Me.MoneyTextBox.Size = New System.Drawing.Size(93, 19)
-        Me.MoneyTextBox.TabIndex = 10
-        Me.MoneyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'LblNote5
-        '
-        Me.LblNote5.AutoSize = True
-        Me.LblNote5.Dock = System.Windows.Forms.DockStyle.Right
-        Me.LblNote5.Location = New System.Drawing.Point(21, 23)
-        Me.LblNote5.Name = "LblNote5"
-        Me.LblNote5.Size = New System.Drawing.Size(35, 23)
-        Me.LblNote5.TabIndex = 18
-        Me.LblNote5.Text = "備考5"
-        Me.LblNote5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.TableLayoutPanel7.ColumnCount = 1
+        Me.TableLayoutPanel7.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel7.Controls.Add(Me.LblNote4, 0, 0)
+        Me.TableLayoutPanel7.Controls.Add(Me.LblNote5, 0, 1)
+        Me.TableLayoutPanel7.Location = New System.Drawing.Point(208, 120)
+        Me.TableLayoutPanel7.Name = "TableLayoutPanel7"
+        Me.TableLayoutPanel7.RowCount = 2
+        Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel7.Size = New System.Drawing.Size(59, 46)
+        Me.TableLayoutPanel7.TabIndex = 13
         '
         'LblNote4
         '
@@ -194,27 +226,88 @@ Partial Class SingleAddresseeDataView
         Me.LblNote4.Text = "備考4"
         Me.LblNote4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'LblNote3
+        'LblNote5
         '
-        Me.LblNote3.AutoSize = True
-        Me.LblNote3.Dock = System.Windows.Forms.DockStyle.Right
-        Me.LblNote3.Location = New System.Drawing.Point(3, 22)
-        Me.LblNote3.Name = "LblNote3"
-        Me.LblNote3.Size = New System.Drawing.Size(35, 22)
-        Me.LblNote3.TabIndex = 14
-        Me.LblNote3.Text = "備考3"
-        Me.LblNote3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.LblNote5.AutoSize = True
+        Me.LblNote5.Dock = System.Windows.Forms.DockStyle.Right
+        Me.LblNote5.Location = New System.Drawing.Point(21, 23)
+        Me.LblNote5.Name = "LblNote5"
+        Me.LblNote5.Size = New System.Drawing.Size(35, 23)
+        Me.LblNote5.TabIndex = 18
+        Me.LblNote5.Text = "備考5"
+        Me.LblNote5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'LblNote2
+        'TableLayoutPanel6
         '
-        Me.LblNote2.AutoSize = True
-        Me.LblNote2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.LblNote2.Location = New System.Drawing.Point(3, 0)
-        Me.LblNote2.Name = "LblNote2"
-        Me.LblNote2.Size = New System.Drawing.Size(35, 22)
-        Me.LblNote2.TabIndex = 12
-        Me.LblNote2.Text = "備考2"
-        Me.LblNote2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.TableLayoutPanel6.ColumnCount = 1
+        Me.TableLayoutPanel6.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel6.Controls.Add(Me.Note2TextBox, 0, 0)
+        Me.TableLayoutPanel6.Controls.Add(Me.Note3TextBox, 0, 1)
+        Me.TableLayoutPanel6.Location = New System.Drawing.Point(273, 70)
+        Me.TableLayoutPanel6.Name = "TableLayoutPanel6"
+        Me.TableLayoutPanel6.RowCount = 2
+        Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.06383!))
+        Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.93617!))
+        Me.TableLayoutPanel6.Size = New System.Drawing.Size(140, 44)
+        Me.TableLayoutPanel6.TabIndex = 12
+        '
+        'Note2TextBox
+        '
+        Me.Note2TextBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.Note2TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.Note2TextBox.Location = New System.Drawing.Point(3, 3)
+        Me.Note2TextBox.MaxLength = 12
+        Me.Note2TextBox.Name = "Note2TextBox"
+        Me.Note2TextBox.Size = New System.Drawing.Size(134, 19)
+        Me.Note2TextBox.TabIndex = 13
+        Me.Note2TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Note3TextBox
+        '
+        Me.Note3TextBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.Note3TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.Note3TextBox.Location = New System.Drawing.Point(3, 25)
+        Me.Note3TextBox.MaxLength = 12
+        Me.Note3TextBox.Name = "Note3TextBox"
+        Me.Note3TextBox.Size = New System.Drawing.Size(134, 19)
+        Me.Note3TextBox.TabIndex = 15
+        Me.Note3TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'TableLayoutPanel5
+        '
+        Me.TableLayoutPanel5.ColumnCount = 1
+        Me.TableLayoutPanel5.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel5.Controls.Add(Me.MoneyTextBox, 0, 0)
+        Me.TableLayoutPanel5.Location = New System.Drawing.Point(273, 8)
+        Me.TableLayoutPanel5.Name = "TableLayoutPanel5"
+        Me.TableLayoutPanel5.RowCount = 1
+        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel5.Size = New System.Drawing.Size(105, 27)
+        Me.TableLayoutPanel5.TabIndex = 9
+        '
+        'MoneyTextBox
+        '
+        Me.MoneyTextBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.MoneyTextBox.ImeMode = System.Windows.Forms.ImeMode.Off
+        Me.MoneyTextBox.Location = New System.Drawing.Point(3, 3)
+        Me.MoneyTextBox.MaxLength = 9
+        Me.MoneyTextBox.Name = "MoneyTextBox"
+        Me.MoneyTextBox.Size = New System.Drawing.Size(93, 19)
+        Me.MoneyTextBox.TabIndex = 10
+        Me.MoneyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'TableLayoutPanel4
+        '
+        Me.TableLayoutPanel4.ColumnCount = 1
+        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel4.Controls.Add(Me.LblNote1, 0, 0)
+        Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Right
+        Me.TableLayoutPanel4.Location = New System.Drawing.Point(217, 41)
+        Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
+        Me.TableLayoutPanel4.RowCount = 1
+        Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel4.Size = New System.Drawing.Size(50, 23)
+        Me.TableLayoutPanel4.TabIndex = 10
         '
         'LblNote1
         '
@@ -227,35 +320,75 @@ Partial Class SingleAddresseeDataView
         Me.LblNote1.Text = "備考1"
         Me.LblNote1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'LblMoney
+        'TableLayoutPanel3
         '
-        Me.LblMoney.AutoSize = True
-        Me.LblMoney.Dock = System.Windows.Forms.DockStyle.Right
-        Me.LblMoney.Location = New System.Drawing.Point(214, 5)
-        Me.LblMoney.Name = "LblMoney"
-        Me.LblMoney.Size = New System.Drawing.Size(53, 33)
-        Me.LblMoney.TabIndex = 8
-        Me.LblMoney.Text = "払込金額"
-        Me.LblMoney.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.TableLayoutPanel3.ColumnCount = 1
+        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.Controls.Add(Me.LblNote2, 0, 0)
+        Me.TableLayoutPanel3.Controls.Add(Me.LblNote3, 0, 1)
+        Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right
+        Me.TableLayoutPanel3.Location = New System.Drawing.Point(226, 70)
+        Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
+        Me.TableLayoutPanel3.RowCount = 2
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel3.Size = New System.Drawing.Size(41, 44)
+        Me.TableLayoutPanel3.TabIndex = 11
         '
-        'Address2TextBox
+        'LblNote2
         '
-        Me.Address2TextBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.Address2TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.Address2TextBox.Location = New System.Drawing.Point(62, 120)
-        Me.Address2TextBox.Multiline = True
-        Me.Address2TextBox.Name = "Address2TextBox"
-        Me.Address2TextBox.Size = New System.Drawing.Size(140, 51)
-        Me.Address2TextBox.TabIndex = 7
+        Me.LblNote2.AutoSize = True
+        Me.LblNote2.Dock = System.Windows.Forms.DockStyle.Right
+        Me.LblNote2.Location = New System.Drawing.Point(3, 0)
+        Me.LblNote2.Name = "LblNote2"
+        Me.LblNote2.Size = New System.Drawing.Size(35, 22)
+        Me.LblNote2.TabIndex = 12
+        Me.LblNote2.Text = "備考2"
+        Me.LblNote2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'Address1TextBox
+        'LblNote3
         '
-        Me.Address1TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.Address1TextBox.Location = New System.Drawing.Point(62, 70)
-        Me.Address1TextBox.Multiline = True
-        Me.Address1TextBox.Name = "Address1TextBox"
-        Me.Address1TextBox.Size = New System.Drawing.Size(140, 44)
-        Me.Address1TextBox.TabIndex = 5
+        Me.LblNote3.AutoSize = True
+        Me.LblNote3.Dock = System.Windows.Forms.DockStyle.Right
+        Me.LblNote3.Location = New System.Drawing.Point(3, 22)
+        Me.LblNote3.Name = "LblNote3"
+        Me.LblNote3.Size = New System.Drawing.Size(35, 22)
+        Me.LblNote3.TabIndex = 14
+        Me.LblNote3.Text = "備考3"
+        Me.LblNote3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'TableLayoutPanel2
+        '
+        Me.TableLayoutPanel2.ColumnCount = 2
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.84058!))
+        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.15942!))
+        Me.TableLayoutPanel2.Controls.Add(Me.TitleTextBox, 1, 0)
+        Me.TableLayoutPanel2.Controls.Add(Me.AddresseeNameTextBox, 0, 0)
+        Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TableLayoutPanel2.Location = New System.Drawing.Point(62, 8)
+        Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
+        Me.TableLayoutPanel2.RowCount = 1
+        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel2.Size = New System.Drawing.Size(140, 27)
+        Me.TableLayoutPanel2.TabIndex = 1
+        '
+        'TitleTextBox
+        '
+        Me.TitleTextBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.TitleTextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.TitleTextBox.Location = New System.Drawing.Point(99, 3)
+        Me.TitleTextBox.Name = "TitleTextBox"
+        Me.TitleTextBox.Size = New System.Drawing.Size(38, 19)
+        Me.TitleTextBox.TabIndex = 2
+        '
+        'AddresseeNameTextBox
+        '
+        Me.AddresseeNameTextBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.AddresseeNameTextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.AddresseeNameTextBox.Location = New System.Drawing.Point(3, 3)
+        Me.AddresseeNameTextBox.Name = "AddresseeNameTextBox"
+        Me.AddresseeNameTextBox.Size = New System.Drawing.Size(90, 19)
+        Me.AddresseeNameTextBox.TabIndex = 1
         '
         'PostalCodeTextBox
         '
@@ -266,27 +399,16 @@ Partial Class SingleAddresseeDataView
         Me.PostalCodeTextBox.Size = New System.Drawing.Size(76, 19)
         Me.PostalCodeTextBox.TabIndex = 3
         '
-        'LblAdress2
+        'LblName
         '
-        Me.LblAdress2.AutoSize = True
-        Me.LblAdress2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.LblAdress2.Location = New System.Drawing.Point(3, 117)
-        Me.LblAdress2.Name = "LblAdress2"
-        Me.LblAdress2.Size = New System.Drawing.Size(53, 12)
-        Me.LblAdress2.TabIndex = 6
-        Me.LblAdress2.Text = "番地"
-        Me.LblAdress2.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'LblAdress1
-        '
-        Me.LblAdress1.AutoSize = True
-        Me.LblAdress1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.LblAdress1.Location = New System.Drawing.Point(3, 67)
-        Me.LblAdress1.Name = "LblAdress1"
-        Me.LblAdress1.Size = New System.Drawing.Size(53, 12)
-        Me.LblAdress1.TabIndex = 4
-        Me.LblAdress1.Text = "住所"
-        Me.LblAdress1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.LblName.AutoSize = True
+        Me.LblName.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.LblName.Location = New System.Drawing.Point(3, 5)
+        Me.LblName.Name = "LblName"
+        Me.LblName.Size = New System.Drawing.Size(53, 33)
+        Me.LblName.TabIndex = 0
+        Me.LblName.Text = "宛名"
+        Me.LblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LblPostalCode
         '
@@ -299,34 +421,57 @@ Partial Class SingleAddresseeDataView
         Me.LblPostalCode.Text = "郵便番号"
         Me.LblPostalCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'AddresseeNameTextBox
+        'LblAdress1
         '
-        Me.AddresseeNameTextBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.AddresseeNameTextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.AddresseeNameTextBox.Location = New System.Drawing.Point(3, 3)
-        Me.AddresseeNameTextBox.Name = "AddresseeNameTextBox"
-        Me.AddresseeNameTextBox.Size = New System.Drawing.Size(90, 19)
-        Me.AddresseeNameTextBox.TabIndex = 1
+        Me.LblAdress1.AutoSize = True
+        Me.LblAdress1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.LblAdress1.Location = New System.Drawing.Point(3, 67)
+        Me.LblAdress1.Name = "LblAdress1"
+        Me.LblAdress1.Size = New System.Drawing.Size(53, 12)
+        Me.LblAdress1.TabIndex = 4
+        Me.LblAdress1.Text = "住所"
+        Me.LblAdress1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'TitleTextBox
+        'Address1TextBox
         '
-        Me.TitleTextBox.Dock = System.Windows.Forms.DockStyle.Left
-        Me.TitleTextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
-        Me.TitleTextBox.Location = New System.Drawing.Point(99, 3)
-        Me.TitleTextBox.Name = "TitleTextBox"
-        Me.TitleTextBox.Size = New System.Drawing.Size(38, 19)
-        Me.TitleTextBox.TabIndex = 2
+        Me.Address1TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.Address1TextBox.Location = New System.Drawing.Point(62, 70)
+        Me.Address1TextBox.Multiline = True
+        Me.Address1TextBox.Name = "Address1TextBox"
+        Me.Address1TextBox.Size = New System.Drawing.Size(140, 44)
+        Me.Address1TextBox.TabIndex = 5
         '
-        'LblName
+        'Address2TextBox
         '
-        Me.LblName.AutoSize = True
-        Me.LblName.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.LblName.Location = New System.Drawing.Point(3, 5)
-        Me.LblName.Name = "LblName"
-        Me.LblName.Size = New System.Drawing.Size(53, 33)
-        Me.LblName.TabIndex = 0
-        Me.LblName.Text = "宛名"
-        Me.LblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Address2TextBox.Dock = System.Windows.Forms.DockStyle.Left
+        Me.Address2TextBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana
+        Me.Address2TextBox.Location = New System.Drawing.Point(62, 120)
+        Me.Address2TextBox.Multiline = True
+        Me.Address2TextBox.Name = "Address2TextBox"
+        Me.Address2TextBox.Size = New System.Drawing.Size(140, 51)
+        Me.Address2TextBox.TabIndex = 7
+        '
+        'LblAdress2
+        '
+        Me.LblAdress2.AutoSize = True
+        Me.LblAdress2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.LblAdress2.Location = New System.Drawing.Point(3, 117)
+        Me.LblAdress2.Name = "LblAdress2"
+        Me.LblAdress2.Size = New System.Drawing.Size(53, 12)
+        Me.LblAdress2.TabIndex = 6
+        Me.LblAdress2.Text = "番地"
+        Me.LblAdress2.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'LblMoney
+        '
+        Me.LblMoney.AutoSize = True
+        Me.LblMoney.Dock = System.Windows.Forms.DockStyle.Right
+        Me.LblMoney.Location = New System.Drawing.Point(214, 5)
+        Me.LblMoney.Name = "LblMoney"
+        Me.LblMoney.Size = New System.Drawing.Size(53, 33)
+        Me.LblMoney.TabIndex = 8
+        Me.LblMoney.Text = "払込金額"
+        Me.LblMoney.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'LesseeReferenceButton
         '
@@ -402,14 +547,15 @@ Partial Class SingleAddresseeDataView
         Me.FlowLayoutPanel1.Size = New System.Drawing.Size(425, 124)
         Me.FlowLayoutPanel1.TabIndex = 2
         '
-        'OutputPostcardButton
+        'OutputCho3EnvelopeButton
         '
-        Me.OutputPostcardButton.Location = New System.Drawing.Point(3, 62)
-        Me.OutputPostcardButton.Name = "OutputPostcardButton"
-        Me.OutputPostcardButton.Size = New System.Drawing.Size(131, 53)
-        Me.OutputPostcardButton.TabIndex = 3
-        Me.OutputPostcardButton.Text = "ハガキ"
-        Me.OutputPostcardButton.UseVisualStyleBackColor = True
+        Me.OutputCho3EnvelopeButton.Dock = System.Windows.Forms.DockStyle.Left
+        Me.OutputCho3EnvelopeButton.Location = New System.Drawing.Point(3, 3)
+        Me.OutputCho3EnvelopeButton.Name = "OutputCho3EnvelopeButton"
+        Me.OutputCho3EnvelopeButton.Size = New System.Drawing.Size(131, 53)
+        Me.OutputCho3EnvelopeButton.TabIndex = 0
+        Me.OutputCho3EnvelopeButton.Text = "長３封筒"
+        Me.OutputCho3EnvelopeButton.UseVisualStyleBackColor = True
         '
         'OutputKaku2EnvelopeButton
         '
@@ -429,6 +575,15 @@ Partial Class SingleAddresseeDataView
         Me.OutputGravePamphletEnvelopeButton.Text = "墓地パンフ封筒"
         Me.OutputGravePamphletEnvelopeButton.UseVisualStyleBackColor = True
         '
+        'OutputPostcardButton
+        '
+        Me.OutputPostcardButton.Location = New System.Drawing.Point(3, 62)
+        Me.OutputPostcardButton.Name = "OutputPostcardButton"
+        Me.OutputPostcardButton.Size = New System.Drawing.Size(131, 53)
+        Me.OutputPostcardButton.TabIndex = 3
+        Me.OutputPostcardButton.Text = "ハガキ"
+        Me.OutputPostcardButton.UseVisualStyleBackColor = True
+        '
         'OutputWesternEnvelopeButton
         '
         Me.OutputWesternEnvelopeButton.Location = New System.Drawing.Point(140, 62)
@@ -438,15 +593,16 @@ Partial Class SingleAddresseeDataView
         Me.OutputWesternEnvelopeButton.Text = "洋封筒"
         Me.OutputWesternEnvelopeButton.UseVisualStyleBackColor = True
         '
-        'OutputCho3EnvelopeButton
+        'MultiOutputCheckBox
         '
-        Me.OutputCho3EnvelopeButton.Dock = System.Windows.Forms.DockStyle.Left
-        Me.OutputCho3EnvelopeButton.Location = New System.Drawing.Point(3, 3)
-        Me.OutputCho3EnvelopeButton.Name = "OutputCho3EnvelopeButton"
-        Me.OutputCho3EnvelopeButton.Size = New System.Drawing.Size(131, 53)
-        Me.OutputCho3EnvelopeButton.TabIndex = 0
-        Me.OutputCho3EnvelopeButton.Text = "長３封筒"
-        Me.OutputCho3EnvelopeButton.UseVisualStyleBackColor = True
+        Me.MultiOutputCheckBox.AutoSize = True
+        Me.MultiOutputCheckBox.Dock = System.Windows.Forms.DockStyle.Right
+        Me.MultiOutputCheckBox.Location = New System.Drawing.Point(275, 62)
+        Me.MultiOutputCheckBox.Name = "MultiOutputCheckBox"
+        Me.MultiOutputCheckBox.Size = New System.Drawing.Size(100, 53)
+        Me.MultiOutputCheckBox.TabIndex = 5
+        Me.MultiOutputCheckBox.Text = "複数データ出力"
+        Me.MultiOutputCheckBox.UseVisualStyleBackColor = True
         '
         'FlowLayoutPanel2
         '
@@ -459,146 +615,13 @@ Partial Class SingleAddresseeDataView
         Me.FlowLayoutPanel2.Size = New System.Drawing.Size(425, 60)
         Me.FlowLayoutPanel2.TabIndex = 3
         '
-        'TableLayoutPanel1
-        '
-        Me.TableLayoutPanel1.ColumnCount = 5
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle())
-        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel10, 4, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel8, 4, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel7, 3, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel6, 4, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel5, 4, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel4, 3, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel3, 3, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.TableLayoutPanel2, 1, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.PostalCodeTextBox, 1, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.LblName, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.LblPostalCode, 0, 1)
-        Me.TableLayoutPanel1.Controls.Add(Me.LblAdress1, 0, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.Address1TextBox, 1, 2)
-        Me.TableLayoutPanel1.Controls.Add(Me.Address2TextBox, 1, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.LblAdress2, 0, 3)
-        Me.TableLayoutPanel1.Controls.Add(Me.LblMoney, 3, 0)
-        Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(3, 15)
-        Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-        Me.TableLayoutPanel1.Padding = New System.Windows.Forms.Padding(0, 5, 0, 0)
-        Me.TableLayoutPanel1.RowCount = 4
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54.0!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(419, 174)
-        Me.TableLayoutPanel1.TabIndex = 10
-        '
-        'TableLayoutPanel2
-        '
-        Me.TableLayoutPanel2.ColumnCount = 2
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.84058!))
-        Me.TableLayoutPanel2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.15942!))
-        Me.TableLayoutPanel2.Controls.Add(Me.TitleTextBox, 1, 0)
-        Me.TableLayoutPanel2.Controls.Add(Me.AddresseeNameTextBox, 0, 0)
-        Me.TableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TableLayoutPanel2.Location = New System.Drawing.Point(62, 8)
-        Me.TableLayoutPanel2.Name = "TableLayoutPanel2"
-        Me.TableLayoutPanel2.RowCount = 1
-        Me.TableLayoutPanel2.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel2.Size = New System.Drawing.Size(140, 27)
-        Me.TableLayoutPanel2.TabIndex = 1
-        '
-        'TableLayoutPanel3
-        '
-        Me.TableLayoutPanel3.ColumnCount = 1
-        Me.TableLayoutPanel3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Controls.Add(Me.LblNote2, 0, 0)
-        Me.TableLayoutPanel3.Controls.Add(Me.LblNote3, 0, 1)
-        Me.TableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right
-        Me.TableLayoutPanel3.Location = New System.Drawing.Point(226, 70)
-        Me.TableLayoutPanel3.Name = "TableLayoutPanel3"
-        Me.TableLayoutPanel3.RowCount = 2
-        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel3.Size = New System.Drawing.Size(41, 44)
-        Me.TableLayoutPanel3.TabIndex = 11
-        '
-        'TableLayoutPanel4
-        '
-        Me.TableLayoutPanel4.ColumnCount = 1
-        Me.TableLayoutPanel4.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel4.Controls.Add(Me.LblNote1, 0, 0)
-        Me.TableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Right
-        Me.TableLayoutPanel4.Location = New System.Drawing.Point(217, 41)
-        Me.TableLayoutPanel4.Name = "TableLayoutPanel4"
-        Me.TableLayoutPanel4.RowCount = 1
-        Me.TableLayoutPanel4.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel4.Size = New System.Drawing.Size(50, 23)
-        Me.TableLayoutPanel4.TabIndex = 10
-        '
-        'TableLayoutPanel5
-        '
-        Me.TableLayoutPanel5.ColumnCount = 1
-        Me.TableLayoutPanel5.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel5.Controls.Add(Me.MoneyTextBox, 0, 0)
-        Me.TableLayoutPanel5.Location = New System.Drawing.Point(273, 8)
-        Me.TableLayoutPanel5.Name = "TableLayoutPanel5"
-        Me.TableLayoutPanel5.RowCount = 1
-        Me.TableLayoutPanel5.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel5.Size = New System.Drawing.Size(105, 27)
-        Me.TableLayoutPanel5.TabIndex = 9
-        '
-        'TableLayoutPanel6
-        '
-        Me.TableLayoutPanel6.ColumnCount = 1
-        Me.TableLayoutPanel6.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel6.Controls.Add(Me.Note2TextBox, 0, 0)
-        Me.TableLayoutPanel6.Controls.Add(Me.Note3TextBox, 0, 1)
-        Me.TableLayoutPanel6.Location = New System.Drawing.Point(273, 70)
-        Me.TableLayoutPanel6.Name = "TableLayoutPanel6"
-        Me.TableLayoutPanel6.RowCount = 2
-        Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 51.06383!))
-        Me.TableLayoutPanel6.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.93617!))
-        Me.TableLayoutPanel6.Size = New System.Drawing.Size(140, 44)
-        Me.TableLayoutPanel6.TabIndex = 12
-        '
-        'TableLayoutPanel7
-        '
-        Me.TableLayoutPanel7.ColumnCount = 1
-        Me.TableLayoutPanel7.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel7.Controls.Add(Me.LblNote4, 0, 0)
-        Me.TableLayoutPanel7.Controls.Add(Me.LblNote5, 0, 1)
-        Me.TableLayoutPanel7.Location = New System.Drawing.Point(208, 120)
-        Me.TableLayoutPanel7.Name = "TableLayoutPanel7"
-        Me.TableLayoutPanel7.RowCount = 2
-        Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel7.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel7.Size = New System.Drawing.Size(59, 46)
-        Me.TableLayoutPanel7.TabIndex = 13
-        '
-        'TableLayoutPanel8
-        '
-        Me.TableLayoutPanel8.ColumnCount = 1
-        Me.TableLayoutPanel8.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel8.Controls.Add(Me.Note5TextBox, 0, 1)
-        Me.TableLayoutPanel8.Controls.Add(Me.Note4TextBox, 0, 0)
-        Me.TableLayoutPanel8.Location = New System.Drawing.Point(273, 120)
-        Me.TableLayoutPanel8.Name = "TableLayoutPanel8"
-        Me.TableLayoutPanel8.RowCount = 2
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 48.0!))
-        Me.TableLayoutPanel8.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.0!))
-        Me.TableLayoutPanel8.Size = New System.Drawing.Size(140, 46)
-        Me.TableLayoutPanel8.TabIndex = 14
-        '
         'TableLayoutPanel9
         '
         Me.TableLayoutPanel9.ColumnCount = 4
         Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64.0!))
         Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93.0!))
         Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153.0!))
-        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8.0!))
+        Me.TableLayoutPanel9.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115.0!))
         Me.TableLayoutPanel9.Controls.Add(Me.LesseeReferenceButton, 3, 0)
         Me.TableLayoutPanel9.Controls.Add(Me.NotNoteInputCheckBox, 2, 0)
         Me.TableLayoutPanel9.Controls.Add(Me.CustomerIDTextBox, 1, 0)
@@ -610,29 +633,6 @@ Partial Class SingleAddresseeDataView
         Me.TableLayoutPanel9.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel9.Size = New System.Drawing.Size(425, 25)
         Me.TableLayoutPanel9.TabIndex = 0
-        '
-        'TableLayoutPanel10
-        '
-        Me.TableLayoutPanel10.ColumnCount = 1
-        Me.TableLayoutPanel10.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel10.Controls.Add(Me.Note1TextBox, 0, 0)
-        Me.TableLayoutPanel10.Location = New System.Drawing.Point(273, 41)
-        Me.TableLayoutPanel10.Name = "TableLayoutPanel10"
-        Me.TableLayoutPanel10.RowCount = 1
-        Me.TableLayoutPanel10.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel10.Size = New System.Drawing.Size(140, 23)
-        Me.TableLayoutPanel10.TabIndex = 11
-        '
-        'MultiOutputCheckBox
-        '
-        Me.MultiOutputCheckBox.AutoSize = True
-        Me.MultiOutputCheckBox.Dock = System.Windows.Forms.DockStyle.Right
-        Me.MultiOutputCheckBox.Location = New System.Drawing.Point(275, 62)
-        Me.MultiOutputCheckBox.Name = "MultiOutputCheckBox"
-        Me.MultiOutputCheckBox.Size = New System.Drawing.Size(100, 53)
-        Me.MultiOutputCheckBox.TabIndex = 5
-        Me.MultiOutputCheckBox.Text = "複数データ出力"
-        Me.MultiOutputCheckBox.UseVisualStyleBackColor = True
         '
         'SingleAddresseeDataView
         '
@@ -650,29 +650,29 @@ Partial Class SingleAddresseeDataView
         Me.Name = "SingleAddresseeDataView"
         Me.Text = "いろいろ発行"
         Me.InfomationGroupBox.ResumeLayout(False)
+        Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.TableLayoutPanel1.PerformLayout()
+        Me.TableLayoutPanel10.ResumeLayout(False)
+        Me.TableLayoutPanel10.PerformLayout()
+        Me.TableLayoutPanel8.ResumeLayout(False)
+        Me.TableLayoutPanel8.PerformLayout()
+        Me.TableLayoutPanel7.ResumeLayout(False)
+        Me.TableLayoutPanel7.PerformLayout()
+        Me.TableLayoutPanel6.ResumeLayout(False)
+        Me.TableLayoutPanel6.PerformLayout()
+        Me.TableLayoutPanel5.ResumeLayout(False)
+        Me.TableLayoutPanel5.PerformLayout()
+        Me.TableLayoutPanel4.ResumeLayout(False)
+        Me.TableLayoutPanel4.PerformLayout()
+        Me.TableLayoutPanel3.ResumeLayout(False)
+        Me.TableLayoutPanel3.PerformLayout()
+        Me.TableLayoutPanel2.ResumeLayout(False)
+        Me.TableLayoutPanel2.PerformLayout()
         Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.FlowLayoutPanel1.PerformLayout()
         Me.FlowLayoutPanel2.ResumeLayout(False)
-        Me.TableLayoutPanel1.ResumeLayout(False)
-        Me.TableLayoutPanel1.PerformLayout()
-        Me.TableLayoutPanel2.ResumeLayout(False)
-        Me.TableLayoutPanel2.PerformLayout()
-        Me.TableLayoutPanel3.ResumeLayout(False)
-        Me.TableLayoutPanel3.PerformLayout()
-        Me.TableLayoutPanel4.ResumeLayout(False)
-        Me.TableLayoutPanel4.PerformLayout()
-        Me.TableLayoutPanel5.ResumeLayout(False)
-        Me.TableLayoutPanel5.PerformLayout()
-        Me.TableLayoutPanel6.ResumeLayout(False)
-        Me.TableLayoutPanel6.PerformLayout()
-        Me.TableLayoutPanel7.ResumeLayout(False)
-        Me.TableLayoutPanel7.PerformLayout()
-        Me.TableLayoutPanel8.ResumeLayout(False)
-        Me.TableLayoutPanel8.PerformLayout()
         Me.TableLayoutPanel9.ResumeLayout(False)
         Me.TableLayoutPanel9.PerformLayout()
-        Me.TableLayoutPanel10.ResumeLayout(False)
-        Me.TableLayoutPanel10.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

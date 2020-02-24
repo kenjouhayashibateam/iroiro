@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports System.Collections.ObjectModel
+
+''' <summary>
 ''' 名義人データを取得するリポジトリ
 ''' </summary>
 Public Interface IDataConectRepogitory
@@ -20,6 +22,6 @@ Public Interface IDataConectRepogitory
     ''' </summary>
     ''' <param name="address">検索する住所</param>
     ''' <returns></returns>
-    Function GetAddressList(ByVal address As String) As List(Of AddressDataEntity)
+    Function GetAddressList(ByVal address As String) As ObservableCollection(Of AddressDataEntity)
 
 End Interface

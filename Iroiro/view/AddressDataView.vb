@@ -1,5 +1,4 @@
 ﻿Imports Domain
-Imports System.Collections.ObjectModel
 
 ''' <summary>
 ''' Exitボタンを押されたときにリスナーに所定のデータを通知します
@@ -30,17 +29,17 @@ End Interface
 Public Class AddressDataView
     Implements ISetAddressList
 
-    Private ReadOnly vm As New AddressDataViewModel
+    Private ReadOnly vm As New WinFormAddressDataViewModel
     Private Listener As IExitButtonClickListener
 
-    'Sub New()
+    Sub New()
 
-    '    ' この呼び出しはデザイナーで必要です。
-    '    InitializeComponent()
+        ' この呼び出しはデザイナーで必要です。
+        InitializeComponent()
 
-    '    ' InitializeComponent() 呼び出しの後で初期化を追加します。
-    '    AddressResultListView.DataBindings.Add("Items", vm, NameOf(vm.AddressList))
-    'End Sub
+        ' InitializeComponent() 呼び出しの後で初期化を追加します。
+        AddressResultDataGridView.DataBindings.Add("DataSource", vm, NameOf(vm.MyAddressList))
+    End Sub
 
     ''' <summary>
     ''' リスナーを追加します
@@ -71,18 +70,18 @@ Public Class AddressDataView
     ''' </summary>
     ''' <param name="_addresslist"></param>
     Public Sub SetList(_addresslist As List(Of AddressDataEntity)) Implements ISetAddressList.SetList
+
         vm.SetList(_addresslist)
+        AddressResultDataGridView.DataSource = vm.MyAddressList
+
     End Sub
 
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
 
-        If AddressResultListView.SelectedItems.Count = 0 Then
-            Listener.Notify("", "")
-            Exit Sub
-        End If
+        If AddressResultDataGridView.SelectedCells.Count = 0 Then Close()
 
-        Dim postalcode As String = AddressResultListView.SelectedItems(0).Text
-        Dim address As String = AddressResultListView.SelectedItems(0).SubItems(1).Text
+        Dim postalcode As String = AddressResultDataGridView.SelectedRows(0).Cells(0).Value
+        Dim address As String = AddressResultDataGridView.SelectedRows(0).Cells(1).Value
 
         Listener.Notify(postalcode, address)
 
@@ -90,4 +89,12 @@ Public Class AddressDataView
 
     End Sub
 
+    Private Sub ComboBox1_DataSourceChanged(sender As Object, e As EventArgs) Handles ComboBox1.DataSourceChanged
+
+    End Sub
+
+    Private Sub AddressResultDataGridView_DataSourceChanged(sender As Object, e As EventArgs) Handles AddressResultDataGridView.DataSourceChanged
+
+
+    End Sub
 End Class

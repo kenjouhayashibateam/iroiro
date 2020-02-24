@@ -356,7 +356,7 @@ Public Class LesseeCustomerInfoEntity
     ''' 面積
     ''' </summary>
     Private Class Area
-        Private _Area As Object
+        Private _Area As Double
 
         Sub New(ByVal myarea As Double)
             Area = myarea

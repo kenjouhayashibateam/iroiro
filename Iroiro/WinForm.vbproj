@@ -125,8 +125,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="viewmodel\AddressDataViewModel.vb" />
-    <Compile Include="viewmodel\MultiAddresseeDataViewModel.vb" />
+    <Compile Include="viewmodel\WinFormAddressDataViewModel.vb" />
+    <Compile Include="viewmodel\WinFormMultiAddresseeDataViewModel.vb" />
     <Compile Include="view\AddressDataView.Designer.vb">
       <DependentUpon>AddressDataView.vb</DependentUpon>
     </Compile>
@@ -161,7 +161,7 @@
     <Compile Include="view\SingleAddresseeDataView.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="viewmodel\SingleAddresseeDataViewModel.vb" />
+    <Compile Include="viewmodel\WinFormSingleAddresseeDataViewModel.vb" />
     <Compile Include="view\TestUserControl.xaml.vb">
       <DependentUpon>TestUserControl.xaml</DependentUpon>
     </Compile>

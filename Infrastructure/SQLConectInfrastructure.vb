@@ -1,4 +1,5 @@
 ﻿Imports Domain
+Imports System.Collections.ObjectModel
 
 ''' <summary>
 ''' SQLServerと接続するモデルクラス
@@ -93,6 +94,7 @@ Public Class SQLConectInfrastructure
         Dim myLessee As LesseeCustomerInfoEntity
         Dim Area As Double
 
+        If customerid = String.Empty Then Return Nothing
         If SetLesseeRecord(customerid) Then Return Nothing
 
         '御廟は面積がない上にDouble型なので、0にして対応する
@@ -140,9 +142,9 @@ Public Class SQLConectInfrastructure
 
     End Function
 
-    Public Function GetAddressList(address As String) As List(Of AddressDataEntity) Implements IDataConectRepogitory.GetAddressList
+    Public Function GetAddressList(address As String) As ObservableCollection(Of AddressDataEntity) Implements IDataConectRepogitory.GetAddressList
 
-        Dim AddressList As New List(Of AddressDataEntity)
+        Dim AddressList As New ObservableCollection(Of AddressDataEntity)
         Dim myAddress As AddressDataEntity
 
         If address.Trim.Length = 0 Then Return AddressList

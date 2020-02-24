@@ -1,19 +1,38 @@
-﻿''' <summary>
+﻿Imports System.ComponentModel
+
+''' <summary>
 ''' 住所クラス
 ''' </summary>
 Public Class AddressDataEntity
+
+    Private _MyAddress As Address
+    Private _MyPostalcode As PostalCode
 
     ''' <summary>
     ''' 保持する住所
     ''' </summary>
     ''' <returns></returns>
-    Private Property MyAddress As Address
+    Public Property MyAddress As Address
+        Get
+            Return _MyAddress
+        End Get
+        Set
+            _MyAddress = Value
+        End Set
+    End Property
 
     ''' <summary>
     ''' 保持する郵便番号
     ''' </summary>
     ''' <returns></returns>
-    Private Property MyPostalcode As PostalCode
+    Public Property MyPostalcode As PostalCode
+        Get
+            Return _MyPostalcode
+        End Get
+        Set
+            _MyPostalcode = Value
+        End Set
+    End Property
 
     Sub New(ByVal _address As String, ByVal _postalcode As String)
 
@@ -23,14 +42,6 @@ Public Class AddressDataEntity
     End Sub
 
     ''' <summary>
-    ''' 住所を返します
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function GetAddress() As String
-        Return MyAddress.GetAddress
-    End Function
-
-    ''' <summary>
     ''' 郵便番号を返します
     ''' </summary>
     ''' <returns></returns>
@@ -38,11 +49,25 @@ Public Class AddressDataEntity
         Return MyPostalcode.GetCode
     End Function
 
+    Public Function GetAddress() As String
+        Return MyAddress.GetAddress
+    End Function
+
     ''' <summary>
     ''' 住所
     ''' </summary>
-    Private Class Address
-        Private Property Address As String
+    Public Class Address
+
+        Private _Address As String
+
+        Public Property Address As String
+            Get
+                Return _Address
+            End Get
+            Set
+                _Address = Value
+            End Set
+        End Property
 
         Sub New(ByVal myAddress1 As String)
             Address = myAddress1
@@ -56,11 +81,11 @@ Public Class AddressDataEntity
     ''' <summary>
     ''' 郵便番号
     ''' </summary>
-    Private Class PostalCode
+    Public Class PostalCode
 
         Private _Code As String
 
-        Private Property Code As String
+        Public Property Code As String
             Get
                 Return _Code
             End Get

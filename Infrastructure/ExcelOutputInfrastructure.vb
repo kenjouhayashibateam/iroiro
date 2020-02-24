@@ -768,7 +768,7 @@ Public Class ExcelOutputInfrastructure
             Dim line1, line2, line3 As String
 
             line1 = absolutenessaddress.Substring(0, 12)
-            line2 = absolutenessaddress.Substring(12, 24)
+            line2 = absolutenessaddress.Substring(12, 12)
             line3 = absolutenessaddress.Substring(24)
 
             Return {line1, line2, line3}

@@ -5,7 +5,7 @@
 ''' </summary>
 Public Class MultiAddresseeDataView
 
-    Private ReadOnly vm As New MultiAddresseeDataViewModel
+    Private ReadOnly vm As New WinFormMultiAddresseeDataViewModel
 
     Sub New()
 

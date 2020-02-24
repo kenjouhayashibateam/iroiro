@@ -1,11 +1,12 @@
 ﻿Imports System.ComponentModel
+Imports System.Collections.ObjectModel
 Imports Domain
 Imports Infrastructure
 
 ''' <summary>
 ''' メインフォームに情報を渡すビューモデルクラス
 ''' </summary>
-Public Class SingleAddresseeDataViewModel
+Public Class WinFormSingleAddresseeDataViewModel
     Implements INotifyPropertyChanged
     Implements IExitButtonClickListener
 
@@ -253,7 +254,7 @@ Public Class SingleAddresseeDataViewModel
         If IsNoteInput Then Exit Sub
         Note1 = "管理番号 " & myLessee.GetCustomerID
         Note2 = myLessee.GetGraveNumber
-        Note3 = "面積 " & myLessee.GetArea & " ㎡"
+        If myLessee.GetArea > 0 Then Note3 = "面積 " & myLessee.GetArea & " ㎡"
 
     End Sub
 
@@ -326,7 +327,7 @@ Public Class SingleAddresseeDataViewModel
     ''' <param name="address">検索する住所</param>
     Public Sub ReferenceAddress(ByVal address As String)
 
-        Dim AddressList As List(Of AddressDataEntity)
+        Dim AddressList As ObservableCollection(Of AddressDataEntity)
         Dim myAddress As AddressDataEntity
 
         AddressList = DataBaseConecter.GetAddressList(address)
