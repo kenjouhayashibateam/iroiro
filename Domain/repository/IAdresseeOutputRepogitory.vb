@@ -1,5 +1,5 @@
 ﻿''' <summary>
-''' エクセルの処理を行うリポジトリ
+''' 出力するデータの処理を行うリポジトリ
 ''' </summary>
 Public Interface IAdresseeOutputRepogitory
 

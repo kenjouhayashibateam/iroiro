@@ -225,7 +225,7 @@ Domain
 </member>
 <member name="T:Domain.IAdresseeOutputRepogitory">
  <summary>
- エクセルの処理を行うリポジトリ
+ 出力するデータの処理を行うリポジトリ
  </summary>
 </member>
 <member name="M:Domain.IAdresseeOutputRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
@@ -265,7 +265,7 @@ Domain
 </member>
 <member name="T:Domain.IDataConectRepogitory">
  <summary>
- 名義人データを取得するリポジトリ
+ データベースと接続するリポジトリ
  </summary>
 </member>
 <member name="M:Domain.IDataConectRepogitory.GetCustomerInfo(System.String)">

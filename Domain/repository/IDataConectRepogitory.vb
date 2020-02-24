@@ -1,7 +1,7 @@
 ﻿Imports System.Collections.ObjectModel
 
 ''' <summary>
-''' 名義人データを取得するリポジトリ
+''' データベースと接続するリポジトリ
 ''' </summary>
 Public Interface IDataConectRepogitory
 

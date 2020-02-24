@@ -22,141 +22,95 @@
   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>
-<member name="T:Iroiro.AddressDataViewModel">
+<member name="T:Iroiro.WinFormAddressDataViewModel">
  <summary>
  住所一覧画面ビューモデル
  </summary>
 </member>
-<member name="M:Iroiro.AddressDataViewModel.SetList(System.Collections.Generic.List{Domain.AddressDataEntity})">
+<member name="M:Iroiro.WinFormAddressDataViewModel.SetList(System.Collections.ObjectModel.ObservableCollection{Domain.AddressDataEntity})">
  <summary>
  アドレスリストをビューに配列化して返します
  </summary>
  <param name="_addresslist">アドレスリスト</param>
 </member>
-<member name="T:Iroiro.MultiAddresseeDataViewModel">
+<member name="T:Iroiro.WinFormMultiAddresseeDataViewModel">
  <summary>
  複数印刷画面ビューモデル
  </summary>
 </member>
-<member name="P:Iroiro.MultiAddresseeDataViewModel.Title">
+<member name="P:Iroiro.WinFormMultiAddresseeDataViewModel.Title">
  <summary>
  敬称
  </summary>
  <returns></returns>
 </member>
-<member name="P:Iroiro.MultiAddresseeDataViewModel.ListItems">
+<member name="P:Iroiro.WinFormMultiAddresseeDataViewModel.ListItems">
  <summary>
  データバインド用リスト
  </summary>
  <returns></returns>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
  <summary>
  各種リポジトリを設定します
  </summary>
  <param name="lesseerepository">名義人データ</param>
  <param name="excelrepository">エクセルデータ</param>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.AddListItem(System.String)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.AddListItem(System.String)">
  <summary>
  リストに追加する名義人データを返します
  </summary>
  <param name="customerid">管理番号</param>
  <returns></returns>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.ReturnList">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.ReturnList">
  <summary>
  クリップボードのデータを基にリスト表示するアイテムを格納したリストを返します
  </summary>
  <returns></returns>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.ReturnList_CustomerID">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.ReturnList_CustomerID">
  <summary>
  管理番号の列を格納したクリップボードを使用してリスト表示するアイテムを格納したリストを返します
  </summary>
  <returns></returns>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.OutputList_Cho3Envelope(System.Windows.Forms.ListView.ListViewItemCollection)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.OutputList_Cho3Envelope(System.Windows.Forms.ListView.ListViewItemCollection)">
  <summary>
  長3封筒印刷
  </summary>
  <param name="listitems"></param>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.OutputList_GravePamphletEnvelope(System.Windows.Forms.ListView.ListViewItemCollection)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.OutputList_GravePamphletEnvelope(System.Windows.Forms.ListView.ListViewItemCollection)">
  <summary>
  墓地パンフ印刷
  </summary>
  <param name="listitems"></param>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.OutputList_Kaku2Envelope(System.Windows.Forms.ListView.ListViewItemCollection)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.OutputList_Kaku2Envelope(System.Windows.Forms.ListView.ListViewItemCollection)">
  <summary>
  角2封筒印刷
  </summary>
  <param name="listitems"></param>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.OutputList_Postcard(System.Windows.Forms.ListView.ListViewItemCollection)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.OutputList_Postcard(System.Windows.Forms.ListView.ListViewItemCollection)">
  <summary>
  ハガキ印刷
  </summary>
  <param name="listitems"></param>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.OutputList_WesternEnvelope(System.Windows.Forms.ListView.ListViewItemCollection)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.OutputList_WesternEnvelope(System.Windows.Forms.ListView.ListViewItemCollection)">
  <summary>
  洋封筒印刷
  </summary>
  <param name="listitems"></param>
 </member>
-<member name="M:Iroiro.MultiAddresseeDataViewModel.OutputList_LabelSheet(System.Windows.Forms.ListView.ListViewItemCollection)">
+<member name="M:Iroiro.WinFormMultiAddresseeDataViewModel.OutputList_LabelSheet(System.Windows.Forms.ListView.ListViewItemCollection)">
  <summary>
  ラベル用紙印刷
  </summary>
  <param name="listitems"></param>
-</member>
-<member name="T:Iroiro.AddressDataView">
- <summary>
- 住所の検索結果をリストビューに表示します
- </summary>
-</member>
-<member name="M:Iroiro.AddressDataView.AddListener(Iroiro.IExitButtonClickListener)">
- <summary>
- リスナーを追加します
- </summary>
- <param name="_listener"></param>
-</member>
-<member name="M:Iroiro.AddressDataView.SetItem(System.String[0:,0:])">
- <summary>
- 渡された配列をリストビューに格納します。データバインドできたら削除
- </summary>
- <param name="addresslist">住所データの配列</param>
-</member>
-<member name="M:Iroiro.AddressDataView.SetList(System.Collections.Generic.List{Domain.AddressDataEntity})">
- <summary>
- 住所のセットをvmに渡します
- </summary>
- <param name="_addresslist"></param>
-</member>
-<member name="T:Iroiro.IExitButtonClickListener">
- <summary>
- Exitボタンを押されたときにリスナーに所定のデータを通知します
- </summary>
-</member>
-<member name="M:Iroiro.IExitButtonClickListener.Notify(System.String,System.String)">
- <summary>
- リスナーに通知する
- </summary>
- <param name="_postalCode">郵便番号</param>
- <param name="_address">住所</param>
-</member>
-<member name="T:Iroiro.ISetAddressList">
- <summary>
- アドレスリストをセットします
- </summary>
-</member>
-<member name="M:Iroiro.ISetAddressList.SetList(System.Collections.Generic.List{Domain.AddressDataEntity})">
- <summary>
- リストをセットします
- </summary>
- <param name="_addresslist"></param>
 </member>
 <member name="T:Iroiro.MultiAddresseeDataView">
  <summary>
@@ -168,157 +122,10 @@
  単票印刷フォーム
  </summary>
 </member>
-<member name="F:Iroiro.SingleAddresseeDataView.vm">
- <summary>
- 単票印刷フォームのビューモデル
- </summary>
-</member>
-<member name="T:Iroiro.SingleAddresseeDataViewModel">
+<member name="T:Iroiro.WinFormSingleAddresseeDataViewModel">
  <summary>
  メインフォームに情報を渡すビューモデルクラス
  </summary>
-</member>
-<member name="F:Iroiro.SingleAddresseeDataViewModel.DataBaseConecter">
- <summary>
- 名義人情報を保持するリポジトリ
- </summary>
-</member>
-<member name="F:Iroiro.SingleAddresseeDataViewModel.DataOutputConecter">
- <summary>
- 印刷等のデータを保持するリポジトリ
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.MultiOutputCheck">
- <summary>
- 続けて入力する時に、既存のデータを消さずに次のデータを出力するかのチェック
- </summary>
- <returns></returns>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.AddresseeName">
- <summary>
- 宛名
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Title">
- <summary>
- 敬称
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.PostalCode">
- <summary>
- 郵便番号
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Address1">
- <summary>
- 住所1（郵便番号が有効な部分）
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Address2">
- <summary>
- 住所2（郵便番号が無効な番地等の部分）
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Note1">
- <summary>
- 備考1
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Note2">
- <summary>
- 備考2
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Note3">
- <summary>
- 備考3
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Note4">
- <summary>
- 備考4
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Note5">
- <summary>
- 備考5
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.Money">
- <summary>
- 金額
- </summary>
-</member>
-<member name="P:Iroiro.SingleAddresseeDataViewModel.IsNoteInput">
- <summary>
- 備考不要チェック
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
- <summary>
- 各種リポジトリを設定します
- </summary>
- <param name="lesseerepository">名義人データ</param>
- <param name="excelrepository">エクセルデータ</param>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.ReferenceLessee(System.String)">
- <summary>
- 渡された管理番号で、名義人データを生成します。
- </summary>
- <param name="managementNumber">検索する管理番号</param>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.GetAddress(System.String)">
- <summary>
- 郵便番号を使用して、住所を検索する
- </summary>
- <param name="postalcode">郵便番号</param>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.InputTransferData">
- <summary>
- 振込用紙
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.InputCho3Envelope">
- <summary>
- 長3封筒
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.InputWesternEnvelope">
- <summary>
- 洋封筒
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.InputGravePamphletEnvelope">
- <summary>
- 墓地パンフ
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.InputPostcard">
- <summary>
- はがき
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.InputLabel">
- <summary>
- ラベル
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.ReferenceAddress(System.String)">
- <summary>
- 住所を検索します
- </summary>
- <param name="address">検索する住所</param>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.SetDefaultValue">
- <summary>
- プロパティを初期化する
- </summary>
-</member>
-<member name="M:Iroiro.SingleAddresseeDataViewModel.HasError">
- <summary>
- 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
- </summary>
- <returns></returns>
 </member>
 <member name="T:Iroiro.TestUserControl">
 <summary>

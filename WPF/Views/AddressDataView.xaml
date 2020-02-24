@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF"     
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="AddressDataView" Height="221.935" Width="332.834">
+        Title="住所を選択して下さい" Height="221.935" Width="332.834">
     
     <Window.DataContext >
         <local:AddressDataViewModel/>

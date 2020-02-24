@@ -7,7 +7,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WPF</RootNamespace>
-    <AssemblyName>WPF</AssemblyName>
+    <AssemblyName>いろいろ発行</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MyType>Custom</MyType>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -21,7 +21,7 @@
     <DefineTrace>true</DefineTrace>
     <IncrementalBuild>true</IncrementalBuild>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>WPF.xml</DocumentationFile>
+    <DocumentationFile>いろいろ発行.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -33,7 +33,7 @@
     <IncrementalBuild>false</IncrementalBuild>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>WPF.xml</DocumentationFile>
+    <DocumentationFile>いろいろ発行.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -89,22 +89,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Commands\AddressDataViewModelCommand\OutputContentsSelectionChangedCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\OutputDataListCommand.vb" />
+    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputContentsSelectionChangedCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\DeleteItemCommand.vb" />
     <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\InputCustomerCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\RetuenList_CustomerIDCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\ReturnListCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoMultiAddresseeDataViewCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\NoteClearCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputDataCommand.vb" />
+    <Compile Include="ViewModels\GravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\MultiAddresseeDataViewModel.vb" />
+    <Compile Include="Views\GravePanelDataView.xaml.vb">
+      <DependentUpon>GravePanelDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MultiAddresseeDataView.xaml.vb">
       <DependentUpon>MultiAddresseeDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SingleAddresseeDataView.xaml.vb">
+      <DependentUpon>SingleAddresseeDataView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\AddressDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="Application.xaml.vb">
       <DependentUpon>Application.xaml</DependentUpon>
@@ -119,13 +127,17 @@
     <Compile Include="Views\AddressDataView.xaml.vb">
       <DependentUpon>AddressDataView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.vb">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Views\GravePanelDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MultiAddresseeDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SingleAddresseeDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -188,9 +200,6 @@
       <Project>{782eda58-4f05-491e-bf2a-0cb1cd4b5369}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Views\gomachan.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ゴマ.ico" />

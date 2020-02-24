@@ -2,7 +2,7 @@
 <doc>
 <assembly>
 <name>
-WPF
+いろいろ発行
 </name>
 </assembly>
 <members>
@@ -59,6 +59,65 @@ WPF
  複数印刷画面ビューモデル
  </summary>
 </member>
+<member name="P:WPF.MultiAddresseeDataViewModel.DataOutputCommand">
+ <summary>
+ AddresseeListを出力します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.SelectedOutputContentsValue">
+ <summary>
+ 選択している印刷物の種類
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.OutputContentsDictionary">
+ <summary>
+ 印刷する種類を保持しているディクショナリ
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:WPF.MultiAddresseeDataViewModel.OutputContents">
+ <summary>
+ 出力する印刷物の種類の列挙型
+ </summary>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.ReturnListCommand">
+ <summary>
+ コピーした宛先リストをビューに表示するコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.ReturnList_CustomerIDCommand">
+ <summary>
+ コピーした管理番号を基にリストを返すコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.DeleteItemCommand">
+ <summary>
+ リストのアイテムを削除します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.MyAddressee">
+ <summary>
+ リストに表示する宛先クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.InputLessee">
+ <summary>
+ リストに表示する名義人クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.MultiAddresseeDataViewModel.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+ <returns></returns>
+</member>
 <member name="P:WPF.MultiAddresseeDataViewModel.Title">
  <summary>
  敬称
@@ -87,7 +146,6 @@ WPF
  <summary>
  クリップボードのデータを基にリスト表示するアイテムを格納したリストを返します
  </summary>
- <returns></returns>
 </member>
 <member name="M:WPF.MultiAddresseeDataViewModel.ReturnList_CustomerID">
  <summary>
@@ -125,12 +183,37 @@ WPF
  ラベル用紙印刷
  </summary>
 </member>
+<member name="M:WPF.MultiAddresseeDataViewModel.DeleteItem">
+ <summary>
+ リストの行を削除します
+ </summary>
+</member>
+<member name="M:WPF.MultiAddresseeDataViewModel.Output">
+ <summary>
+ 印刷物を出力します
+ </summary>
+</member>
+<member name="T:WPF.MultiAddresseeDataViewModel.AddresseeListItem">
+ <summary>
+ リストに表示する宛先クラス
+ </summary>
+</member>
 <member name="T:WPF.MultiAddresseeDataView">
 <summary>
 MultiAddresseeDataView
 </summary>
 </member>
 <member name="M:WPF.MultiAddresseeDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.MainWindow">
+<summary>
+MainWindow
+</summary>
+</member>
+<member name="M:WPF.MainWindow.InitializeComponent">
 <summary>
 InitializeComponent
 </summary>
@@ -423,46 +506,6 @@ AddressDataView
 <member name="M:WPF.AddressDataView.InitializeComponent">
 <summary>
 InitializeComponent
-</summary>
-</member>
-<member name="T:WPF.MainWindow">
-<summary>
-MainWindow
-</summary>
-</member>
-<member name="M:WPF.MainWindow.InitializeComponent">
-<summary>
-InitializeComponent
-</summary>
-</member>
-<member name="T:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-<summary>
-GeneratedInternalTypeHelper
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-<summary>
-CreateInstance
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-<summary>
-GetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-<summary>
-SetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-<summary>
-CreateDelegate
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-<summary>
-AddEventHandler
 </summary>
 </member>
 </members>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="450" Icon="gomachan.png"  WindowStartupLocation="CenterScreen" >
+        Title="MainWindow" Height="480" Width="450" WindowStartupLocation="CenterScreen" >
 
     <Window.DataContext >
         <local:SingleAddresseeDataViewModel/>

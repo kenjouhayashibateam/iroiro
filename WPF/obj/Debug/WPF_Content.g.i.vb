@@ -11,5 +11,5 @@
 Option Strict Off
 Option Explicit On
 
-<Assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("%e3%82%b4%e3%83%9e.ico")> 
+<Assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("views/gomachan.png")> 
 

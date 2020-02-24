@@ -37,24 +37,45 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button x:Name="DeleteButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,2,3,2">行を削除</Button>
-                <Button x:Name="CostmerIDInputButton" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,2,3,2">管理番号一括入力</Button>
-                <Button x:Name="AddresseeDataInputButton" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,2,3,2">宛先リスト入力</Button>
+                <Button x:Name="DeleteButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,2,3,2">
+                    行を削除
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding DeleteItemCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button x:Name="CostmerIDInputButton" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="管理番号のみを1列でコピーしてクリックして下さい。" IsDefault="True" Margin="3,2,3,2">
+                    管理番号一括入力
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ReturnList_CustomerIDCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button x:Name="AddresseeDataInputButton" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="宛名、郵便番号、住所、番地の順に作ったリストをコピーしてクリックして下さい" Margin="3,2,3,2">
+                    宛先リスト入力
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ReturnListCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                </Grid>
         </GroupBox>
-        <DataGrid x:Name="AddresseeListDataGrid" ItemsSource="{Binding AddresseeList}" AutoGenerateColumns="False" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10">
+        <DataGrid x:Name="AddresseeListDataGrid" ItemsSource="{Binding AddresseeList}" AutoGenerateColumns="False" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" SelectedItem="{Binding MyAddressee}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="管理番号" Width="0.6*" Binding="{Binding }"/>
-                <DataGridTextColumn Header="宛名" Width="1*"/>
-                <DataGridTextColumn Header="郵便番号" Width="0.6*"/>
-                <DataGridTextColumn Header="住所1" Width="2.5*"/>
-                <DataGridTextColumn Header="住所2" Width="2.5*"/>
+                <DataGridTextColumn Header="管理番号" Width="0.6*" Binding="{Binding CustomerID.DataString}"/>
+                <DataGridTextColumn Header="宛名" Width="1*" Binding="{Binding Addressee.DataString}"/>
+                <DataGridTextColumn Header="郵便番号" Width="0.6*" Binding="{Binding Postalcode.DataString}"/>
+                <DataGridTextColumn Header="住所1" Width="2.5*" Binding="{Binding Address1.DataString}"/>
+                <DataGridTextColumn Header="住所2" Width="2.5*"  Binding="{Binding Address2.DataString}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <GroupBox Header="出力メニュー" x:Name="OutputMenuGroupBox" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,5">
+        <GroupBox Header="出力メニュー" x:Name="OutputMenuGroupBox" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="300,0,10,5">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="OutputMenuGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
@@ -64,12 +85,17 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="敬称" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                    <TextBox x:Name="TitleTextBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="0,5,0,5"/>
+                    <TextBox x:Name="TitleTextBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="0,5,0,5" Text="{Binding Title}"/>
                 </Grid>
-                <ComboBox Name="OutputContentsComboBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,5,10,5">
-                    
-                </ComboBox>
-                <Button x:Name="OutputButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">出力</Button>
+                <ComboBox Name="OutputContentsComboBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,5,10,5" ItemsSource="{Binding OutputContentsDictionary}" DisplayMemberPath="Value"  SelectedValue ="{Binding SelectedOutputContentsValue}" SelectedValuePath="Key"/>
+                <Button x:Name="OutputButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
+                    出力
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding DataOutputCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
         </GroupBox>
     </Grid>
