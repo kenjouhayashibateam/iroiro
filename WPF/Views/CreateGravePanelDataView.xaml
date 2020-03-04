@@ -1,0 +1,78 @@
+﻿<Window x:Class="CreateGravePanelDataView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+           xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+     
+        mc:Ignorable="d"
+        Title="CreateGravePanelDataView" Height="280" Width="600" WindowStartupLocation="CenterScreen"  >
+    <Window.DataContext>
+        <local:CreateGravePanelDataViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="ReferenceGraveMenu"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.8*"/>
+              </Grid.ColumnDefinitions>
+            <ComboBox x:Name="GraveNumberKuComboBox" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True"
+                      Margin="15,25,5,25" VerticalContentAlignment="Center" ItemsSource="{Binding GraveNumberKuList}" DisplayMemberPath="DisplayForValue" SelectedValue="{Binding SelectedKu}" SelectedValuePath="OriginalValue"/>
+            <ComboBox x:Name="GraveNumberKuikiComboBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GraveNumberKuikiList.List}" DisplayMemberPath="DisplayForField" SelectedValue="{Binding SelectedKuiki}" SelectedValuePath="Field" Text="{Binding KuikiComboBoxText}" IsEnabled="{Binding IsEnabledKuiki}" 
+                      IsEditable="True" Margin="5,25,5,25" VerticalContentAlignment="Center"/>
+            <Label Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Content="区" FontSize="16"/>
+            <ComboBox x:Name="GraveNumberGawaComboBox" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GraveNumberGawaList.List}" 
+                      DisplayMemberPath="DisplayForField" SelectedValue="{Binding SelectedGawa}" SelectedValuePath="Field" Text="{Binding GawaComboBoxText}" IsEditable="True" IsEnabled="{Binding IsEnabledGawa}" Margin="15,25,5,25" VerticalContentAlignment="Center"/>
+            <Label Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Center" Content="側" FontSize="16"/>
+            <ComboBox x:Name="GraveNumberBanComboBox" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GraveNumberBanList.List}" 
+                      DisplayMemberPath="DisplayForField" SelectedValue="{Binding SelectedBan}" SelectedValuePath="Field" IsEditable="True" IsEnabled="{Binding IsEnabledBan}" Margin="10,25,5,25" VerticalContentAlignment="Center" />
+            <extk:WatermarkComboBox x:Name="GraveNumberEdabanComboBox" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" ItemsSource="{Binding GraveNumberEdabanList.List}"
+                                    DisplayMemberPath="DisplayForField" SelectedValue="{Binding SelectedEdaban}" SelectedValuePath="Field" IsEnabled="{Binding IsEnabledEdaban}" Margin="5,25,5,25" Watermark="枝番" VerticalContentAlignment="Center"/>
+            <Label Grid.Column="7" HorizontalAlignment="Left" VerticalAlignment="Center" Content="番" FontSize="16"/>
+                 </Grid>
+        <Grid x:Name="DataContentsMenuGrid1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+                <extk:WatermarkTextBox x:Name="FamilyNameTextBox" Grid.Column="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Watermark="苗字" Margin="15,25" Text="{Binding FamilyName}"/>
+            <Label Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="家" FontSize="16"/>
+       <extk:WatermarkComboBox x:Name="ContractDetailComboBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Watermark="契約内容" Margin="15,25,10,25"/>
+            <extk:WatermarkTextBox x:Name="AreaTextBox" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Watermark="面積" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10,25,10,25" Text="{Binding Area}"/>
+            <Label Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Center" Content="㎡" FontSize="16"/>
+            <extk:WatermarkTextBox x:Name="CustomerIDTextBox" Grid.Column="5" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Watermark="管理番号" Margin="20,25,5,25" Text="{Binding CustomerID}"/>
+              <Button x:Name="ReferenceButton" Grid.Column="6" Width="80" Height="40" Margin="10,20,10,20" >
+        管理番号検索
+            </Button>
+     </Grid>
+        <Grid x:Name="DataContentsMenuGrid2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+             <Button x:Name="ExecuteButton" Grid.Column="3" Width="80" Height="40" HorizontalAlignment="Right" Margin="10,0,10,0">
+                実行
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

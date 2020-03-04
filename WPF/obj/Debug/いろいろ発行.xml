@@ -54,6 +54,66 @@
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
+<member name="P:WPF.CreateGravePanelDataViewModel.SelectedEdaban">
+ <summary>
+ 選択された枝番
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.SelectedBan">
+ <summary>
+ 選択された番
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.SelectedGawa">
+ <summary>
+ 選択された側
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.SelectedKuiki">
+ <summary>
+ 選択された区域
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.SelectedKu">
+ <summary>
+ 選択された区
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledEdaban">
+ <summary>
+ 枝番のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledBan">
+ <summary>
+ 番のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledGawa">
+ <summary>
+ 側のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledKuiki">
+ <summary>
+ 区域のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.GravePanelDataViewModel.GotoCreateGravePanelDataView">
+ <summary>
+ 新規データ作成画面に遷移します
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:WPF.MultiAddresseeDataViewModel">
  <summary>
  複数印刷画面ビューモデル
@@ -198,6 +258,26 @@
  リストに表示する宛先クラス
  </summary>
 </member>
+<member name="T:WPF.CreateGravePanelDataView">
+<summary>
+CreateGravePanelDataView
+</summary>
+</member>
+<member name="M:WPF.CreateGravePanelDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.GravePanelDataView">
+<summary>
+GravePanelDataView
+</summary>
+</member>
+<member name="M:WPF.GravePanelDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
 <member name="T:WPF.MultiAddresseeDataView">
 <summary>
 MultiAddresseeDataView
@@ -282,6 +362,12 @@ Application Entry Point.
  <summary>
  印刷等のデータを保持するリポジトリ
  </summary>
+</member>
+<member name="P:WPF.SingleAddresseeDataViewModel.GotoGravePanelDataView">
+ <summary>
+ 墓地札画面に移動するコマンド
+ </summary>
+ <returns></returns>
 </member>
 <member name="P:WPF.SingleAddresseeDataViewModel.GotoMultiAddresseeDataView">
  <summary>

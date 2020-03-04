@@ -107,6 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entity\AddressDataEntity.vb" />
+    <Compile Include="entity\AddressesEntity.vb" />
+    <Compile Include="entity\GraveNumberEntity.vb" />
+    <Compile Include="entity\LastSaveDateEntity.vb" />
     <Compile Include="entity\LesseeCustomerInfoEntity.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -135,7 +138,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

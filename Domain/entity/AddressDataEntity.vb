@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Collections.ObjectModel
 
 ''' <summary>
 ''' 住所クラス
@@ -7,6 +8,7 @@ Public Class AddressDataEntity
 
     Private _MyAddress As Address
     Private _MyPostalcode As PostalCode
+    Private _MyAddresses As AddressesEntity
 
     ''' <summary>
     ''' 保持する住所
@@ -31,6 +33,15 @@ Public Class AddressDataEntity
         End Get
         Set
             _MyPostalcode = Value
+        End Set
+    End Property
+
+    Public Property MyAddresses As AddressesEntity
+        Get
+            Return _MyAddresses
+        End Get
+        Set
+            _MyAddresses = Value
         End Set
     End Property
 

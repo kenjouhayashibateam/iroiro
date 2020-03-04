@@ -7,7 +7,7 @@
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
          xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MultiAddresseeDataView" Height="450" Width="800"  WindowStartupLocation="CenterScreen">
+        Title="MultiAddresseeDataView" Height="450" Width="800"  WindowStartupLocation="CenterScreen" >
     
     <Window.DataContext>
         <local:MultiAddresseeDataViewModel/>
@@ -72,7 +72,12 @@
                 <DataGridTextColumn Header="住所2" Width="2.5*"  Binding="{Binding Address2.DataString}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <GroupBox Header="出力メニュー" x:Name="OutputMenuGroupBox" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="300,0,10,5">
+        <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+         <GroupBox Header="出力メニュー" x:Name="OutputMenuGroupBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,5">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="OutputMenuGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -98,6 +103,8 @@
                 </Button>
             </Grid>
         </GroupBox>
+        </Grid>
+       
     </Grid>
     
 </Window>

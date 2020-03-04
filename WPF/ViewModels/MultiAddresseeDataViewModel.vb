@@ -23,8 +23,19 @@ Public Class MultiAddresseeDataViewModel
     Private _ReturnListCommand As Object
     Private _SelectedOutputContentsValue As OutputContents = OutputContents.Cho3Envelope
     Private _DataOutputCommand As ICommand
+    Private _IsShowInTaskBer As Boolean = True
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
     Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+
+    Public Property IsShowInTaskBer As Boolean
+        Get
+            Return _IsShowInTaskBer
+        End Get
+        Set
+            _IsShowInTaskBer = Value
+            RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsShowInTaskBer)))
+        End Set
+    End Property
 
     ''' <summary>
     ''' AddresseeListを出力します
@@ -92,7 +103,7 @@ Public Class MultiAddresseeDataViewModel
     ''' <returns></returns>
     Public Property ReturnList_CustomerIDCommand As ICommand
         Get
-            If _ReturnList_CustomerIDCommand Is Nothing Then _ReturnList_CustomerIDCommand = New RetuenList_CustomerIDCommand(Me)
+            If _ReturnList_CustomerIDCommand Is Nothing Then _ReturnList_CustomerIDCommand = New ReturnList_CustomerIDCommand(Me)
             Return _ReturnList_CustomerIDCommand
         End Get
         Set
@@ -223,7 +234,7 @@ Public Class MultiAddresseeDataViewModel
         If lessee Is Nothing Then Exit Sub
 
         With lessee
-            myaddressee = New AddresseeListItem(.GetCustomerID, .GetAddressee, .GetPostalCode, .GetAddress1, .GetAddress2)
+            myaddressee = New AddresseeListItem(.GetCustomerID, .GetLesseeName, .GetPostalCode, .GetAddress1, .GetAddress2)
         End With
 
         AddresseeList.Add(myaddressee)

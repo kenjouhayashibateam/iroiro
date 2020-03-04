@@ -240,6 +240,11 @@ Infrastructure
  エクセルシートの余白を0に設定する
  </summary>
 </member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.GravePanel">
+ <summary>
+ 墓地札クラス
+ </summary>
+</member>
 <member name="T:Infrastructure.ExcelOutputInfrastructure.Cho3Envelope">
  <summary>
  長3封筒クラス
@@ -419,17 +424,22 @@ Infrastructure
  </summary>
  <param name="FieldName">データベース（ストアドプロシージャ）から取得するフィールドの名前</param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetCustomerInfo(System.String)">
+<member name="M:Infrastructure.SQLConectInfrastructure.SetGraveData(System.String,System.String,System.String,System.String,System.String)">
  <summary>
- 名義人データを管理番号を元に生成し、返します
+ 墓地番号データをRsに格納します
  </summary>
- <param name="customerid">検索する管理番号</param>
+ <param name="Ku">区</param>
+ <param name="Kuiki">区域</param>
+ <param name="Gawa">側</param>
+ <param name="Ban">番</param>
+ <param name="Edaban"></param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetAddress(System.String)">
+<member name="M:Infrastructure.SQLConectInfrastructure.GetKuikiList(System.String)">
  <summary>
- 郵便番号を基に検索した住所を返します
+ 墓地の区に属する区域のリストを返します
  </summary>
- <param name="postalcode"></param>
+ <param name="_gravekunumber">区</param>
+ <returns></returns>
 </member>
 </members>
 </doc>

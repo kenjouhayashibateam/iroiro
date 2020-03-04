@@ -1,8 +1,9 @@
-C:\Users\001\source\repos\Iroiro\Domain\bin\Debug\Domain.dll
-C:\Users\001\source\repos\Iroiro\Domain\bin\Debug\Domain.pdb
-C:\Users\001\source\repos\Iroiro\Domain\bin\Debug\Domain.xml
-C:\Users\001\source\repos\Iroiro\Domain\obj\Debug\Domain.Resources.resources
-C:\Users\001\source\repos\Iroiro\Domain\obj\Debug\Domain.vbproj.GenerateResource.cache
-C:\Users\001\source\repos\Iroiro\Domain\obj\Debug\Domain.dll
-C:\Users\001\source\repos\Iroiro\Domain\obj\Debug\Domain.xml
-C:\Users\001\source\repos\Iroiro\Domain\obj\Debug\Domain.pdb
+C:\Users\001\source\repos\iroiro\Domain\bin\Debug\Domain.dll
+C:\Users\001\source\repos\iroiro\Domain\bin\Debug\Domain.pdb
+C:\Users\001\source\repos\iroiro\Domain\bin\Debug\Domain.xml
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbprojAssemblyReference.cache
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.Resources.resources
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbproj.GenerateResource.cache
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.dll
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.xml
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.pdb

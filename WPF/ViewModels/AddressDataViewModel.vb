@@ -14,7 +14,7 @@ Public Class AddressDataViewModel
     Implements INotifyPropertyChanged, INotifyCollectionChanged
 
     Private Shared Listener As IAddressDataViewCloseListener
-    Private Shared _AddressList As ObservableCollection(Of AddressDataEntity)
+    Private Shared _AddressList As AddressesEntity
     Private _Postalcode As String
     Private _Address As String
     Private _myAddress As AddressDataEntity
@@ -71,10 +71,10 @@ Public Class AddressDataViewModel
     Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
     Sub New()
-        If MyAddressList Is Nothing Then MyAddressList = New ObservableCollection(Of AddressDataEntity)
+        If MyAddressList Is Nothing Then MyAddressList = New AddressesEntity
     End Sub
 
-    Sub New(ByVal _addresslist As ObservableCollection(Of AddressDataEntity))
+    Sub New(ByVal _addresslist As AddressesEntity)
         MyAddressList = _addresslist
     End Sub
 
@@ -82,7 +82,7 @@ Public Class AddressDataViewModel
     ''' 住所データリスト
     ''' </summary>
     ''' <returns></returns>
-    Public Property MyAddressList As ObservableCollection(Of AddressDataEntity)
+    Public Property MyAddressList As AddressesEntity
         Get
             Return _AddressList
         End Get

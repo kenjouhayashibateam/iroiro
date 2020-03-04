@@ -74,7 +74,7 @@ Public Class WinFormMultiAddresseeDataViewModel
 
         Dim listitem As New ListViewItem With {.Text = lessee.GetCustomerID}
         With listitem.SubItems
-            .Add(lessee.GetAddressee)
+            .Add(lessee.GetLesseeName)
             .Add(lessee.GetPostalCode)
             .Add(lessee.GetAddress1)
             .Add(lessee.GetAddress2)

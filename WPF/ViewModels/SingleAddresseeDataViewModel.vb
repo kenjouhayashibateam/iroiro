@@ -65,6 +65,20 @@ Public Class SingleAddresseeDataViewModel
     Private ReadOnly DataOutputConecter As IAdresseeOutputRepogitory
 
     ''' <summary>
+    ''' 墓地札画面に移動するコマンド
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property GotoGravePanelDataView As ICommand
+        Get
+            If _GotoGravePanelDataView Is Nothing Then _GotoGravePanelDataView = New GotoGravePanelDataViewCommand(Me)
+            Return _GotoGravePanelDataView
+        End Get
+        Set
+            _GotoGravePanelDataView = Value
+        End Set
+    End Property
+
+    ''' <summary>
     ''' 一括出力画面に移動するコマンド
     ''' </summary>
     ''' <returns></returns>
@@ -153,7 +167,6 @@ Public Class SingleAddresseeDataViewModel
     Private _Address2 As String = String.Empty
     Private _Note1 As String = String.Empty
     Private _Note2 As String = String.Empty
-    Private _IsNoteInput As Boolean
     Private _Note3 As String = String.Empty
     Private _Note4 As String = String.Empty
     Private _Note5 As String = String.Empty
@@ -170,6 +183,19 @@ Public Class SingleAddresseeDataViewModel
     Private _NoteClear As ICommand
     Private _DataOutput As ICommand
     Private _GotoMultiAddresseeDataView As ICommand
+    Private _GotoGravePanelDataView As ICommand
+    Private _LastSaveDate As Date
+
+    Public Property LastSaveDate As Date
+        Get
+            Return _LastSaveDate
+        End Get
+        Set
+
+            _LastSaveDate = Value
+            RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(LastSaveDate)))
+        End Set
+    End Property
 
     ''' <summary>
     ''' 検索許可
@@ -372,20 +398,6 @@ Public Class SingleAddresseeDataViewModel
     End Property
 
     ''' <summary>
-    ''' 備考不要チェック
-    ''' </summary>
-    Public Property IsNoteInput As Boolean
-        Get
-            Return _IsNoteInput
-        End Get
-        Set
-            If Value = IsNoteInput Then Return
-            _IsNoteInput = Value
-            RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsNoteInput)))
-        End Set
-    End Property
-
-    ''' <summary>
     ''' 振込用紙独自の欄のEnableを保持します
     ''' </summary>
     ''' <returns></returns>
@@ -412,13 +424,17 @@ Public Class SingleAddresseeDataViewModel
         DataOutputConecter = excelrepository
         Title = "様" '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
-        OutputContentsDictionary.Add(OutputContents.TransferPaper, "振込用紙")
-        OutputContentsDictionary.Add(OutputContents.Cho3Envelope, "長3封筒")
-        OutputContentsDictionary.Add(OutputContents.GravePamphletEnvelope, "墓地パンフ封筒")
-        OutputContentsDictionary.Add(OutputContents.Kaku2Envelope, "角２封筒")
-        OutputContentsDictionary.Add(OutputContents.WesternEnbelope, "洋封筒"）
-        OutputContentsDictionary.Add(OutputContents.LabelSheet, "ラベル用紙")
-        OutputContentsDictionary.Add(OutputContents.Postcard, "はがき"）
+        With OutputContentsDictionary
+            .Add(OutputContents.TransferPaper, "振込用紙")
+            .Add(OutputContents.Cho3Envelope, "長3封筒")
+            .Add(OutputContents.GravePamphletEnvelope, "墓地パンフ封筒")
+            .Add(OutputContents.Kaku2Envelope, "角２封筒")
+            .Add(OutputContents.WesternEnbelope, "洋封筒"）
+            .Add(OutputContents.LabelSheet, "ラベル用紙")
+            .Add(OutputContents.Postcard, "はがき"）
+        End With
+
+        LastSaveDate = DataBaseConecter.GetLastSaveDate.SaveDate
 
     End Sub
 
@@ -430,20 +446,41 @@ Public Class SingleAddresseeDataViewModel
         Dim myLessee As LesseeCustomerInfoEntity
 
         myLessee = DataBaseConecter.GetCustomerInfo(CustomerID)
-        If myLessee Is Nothing Then
-            MsgBox("名義人データが見つかりません。", MsgBoxStyle.Critical, "管理番号が無効です")
-            Exit Sub
+
+        If myLessee Is Nothing Then Exit Sub
+
+        If myLessee.GetReceiverName = String.Empty Then SetLesseeProperty(myLessee)
+
+        If myLessee.GetLesseeName = myLessee.GetReceiverName Then SetReceiverProperty(myLessee)
+
+        If myLessee.GetLesseeName <> myLessee.GetReceiverName Then
+            SetLesseeProperty(myLessee)
+        Else
+            SetReceiverProperty(myLessee)
         End If
 
-        AddresseeName = myLessee.GetAddressee
-        PostalCode = myLessee.GetPostalCode
-        Address1 = myLessee.GetAddress1
-        Address2 = myLessee.GetAddress2
-        If IsNoteInput Then Exit Sub
         Note1 = "管理番号 " & myLessee.GetCustomerID
         Note2 = myLessee.GetGraveNumber
-        If myLessee.GetArea > 0 Then Note3 = "面積 " & myLessee.GetArea & " ㎡"
+        If myLessee.GetArea > 0 Then
+            Note3 = "面積 " & myLessee.GetArea & " ㎡"
+        Else
+            Note3 = String.Empty
+        End If
 
+    End Sub
+
+    Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+        AddresseeName = mylessee.GetReceiverName
+        PostalCode = mylessee.GetReceiverPostalcode
+        Address1 = mylessee.GetReceiverAddress1
+        Address2 = mylessee.GetReceiverAddress1
+    End Sub
+
+    Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+        AddresseeName = mylessee.GetLesseeName
+        PostalCode = mylessee.GetPostalCode
+        Address1 = mylessee.GetAddress1
+        Address2 = mylessee.GetAddress2
     End Sub
 
     ''' <summary>
@@ -451,7 +488,8 @@ Public Class SingleAddresseeDataViewModel
     ''' </summary>
     ''' <param name="postalcode">郵便番号</param>
     Public Sub GetAddress(ByVal postalcode As String)
-        Address1 = DataBaseConecter.GetAddress(postalcode)
+        Dim address As AddressDataEntity = DataBaseConecter.GetAddress(postalcode)
+        Address1 = address.GetAddress
     End Sub
 
     ''' <summary>
@@ -517,15 +555,15 @@ Public Class SingleAddresseeDataViewModel
     ''' </summary>
     Public Sub ReferenceAddress()
 
-        Dim AddressList As ObservableCollection(Of AddressDataEntity)
+        Dim AddressList As AddressesEntity
         Dim myAddress As AddressDataEntity
 
         AddressList = DataBaseConecter.GetAddressList(Address1)
-        If AddressList.Count = 0 Then Exit Sub
+        If AddressList.List.Count = 0 Then Exit Sub
 
         '検索結果が1件なら住所一覧画面は呼ばずにプロパティに入力する
-        If AddressList.Count = 1 Then
-            myAddress = AddressList.Item(0)
+        If AddressList.List.Count = 1 Then
+            myAddress = AddressList.List.Item(0)
             Address1 = myAddress.MyAddress.Address
             Dim mycode As String = myAddress.MyPostalcode.Code
             PostalCode = mycode.Substring(0, 3) & "-" & mycode.Substring(3, 4)
@@ -545,8 +583,8 @@ Public Class SingleAddresseeDataViewModel
     Public Sub ReferenceAddress_Postalcode()
 
         If PostalCode.Length < 7 Then Exit Sub
-
-        Address1 = DataBaseConecter.GetAddress(PostalCode)
+        Dim address As AddressDataEntity = DataBaseConecter.GetAddress(PostalCode)
+        Address1 = address.MyAddress.Address
         If PostalCode.Length = 7 Then PostalCode = PostalCode.Substring(0, 3) & "-" & PostalCode.Substring(3, 4)
 
     End Sub
@@ -639,8 +677,11 @@ TruePart:
     ''' </summary>
     Public Sub ShowMultiAddresseeDataView()
         Dim madv As New MultiAddresseeDataView
-
         madv.ShowDialog()
     End Sub
 
+    Public Sub ShowGravePanelDataView()
+        Dim gpdv As New GravePanelDataView
+        gpdv.ShowDialog()
+    End Sub
 End Class

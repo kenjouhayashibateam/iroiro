@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF"     
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="住所を選択して下さい" Height="221.935" Width="332.834">
+        Title="住所を選択して下さい" Height="221.935" Width="332.834" >
     
     <Window.DataContext >
         <local:AddressDataViewModel/>
@@ -17,7 +17,7 @@
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding MyAddressList}" AutoGenerateColumns="False"
+        <DataGrid ItemsSource="{Binding MyAddressList.List}" AutoGenerateColumns="False"
                         Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectedItem="{Binding MyAddress}" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="郵便番号" Width="0.2*" Binding="{Binding MyPostalcode.Code}"/>

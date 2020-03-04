@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="450" WindowStartupLocation="CenterScreen" >
-
+        Title="MainWindow" Height="500" Width="450" WindowStartupLocation="CenterScreen"  >
+    
     <Window.DataContext >
         <local:SingleAddresseeDataViewModel/>
     </Window.DataContext>
@@ -18,7 +19,7 @@
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.35*"/>
             <RowDefinition Height="0.07*"/>
-            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.07*"/>
         </Grid.RowDefinitions>
       
         <Grid x:Name="ContentsGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
@@ -42,7 +43,7 @@
                     <ColumnDefinition Width="0.1*"/>
                 </Grid.ColumnDefinitions>
                 <Label  Content="管理番号"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right"  VerticalAlignment="Center" />
-                <TextBox  Name="CustomerIDTextBox" MaxLength="6" FontSize="14" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" InputMethod.IsInputMethodEnabled="False" Text="{Binding CustomerID, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,10,2"/>
+                <extk:WatermarkTextBox Name="CustomerIDWatermarkTextBox" MaxLength="6" FontSize="14" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" InputMethod.IsInputMethodEnabled="False" Text="{Binding CustomerID,UpdateSourceTrigger=PropertyChanged}" Margin="0,2,10,2"  Watermark="6桁の数字を入力"/>               
                 <Button x:Name="LesseeReferenceButton" Grid.Column="2"  IsDefault="True" IsEnabled="{Binding PermitReference}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,2,0,2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -57,7 +58,7 @@
         <Grid x:Name="AddresseeContentsGrid" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition x:Name="columnDefinition" Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <GroupBox x:Name="AddresseeContents" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Header="宛先内容" Margin="5,0,1,0"  VerticalAlignment="Stretch" >
                 <Grid x:Name="AddresseeLeft" Grid.Row="0" Grid.Column="0">
@@ -105,9 +106,9 @@
                     <TextBox x:Name="Address2TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Text="{Binding Address2}" Margin="0,0,0,8" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
                 </Grid>
             </GroupBox>
-            <GroupBox x:Name="TransferPaperMenu" Header="振込用紙メニュー" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" IsEnabled="{Binding TransferPaperMenuEnabled}" VerticalAlignment="Stretch" Margin="1,0,5,0">
+            <GroupBox x:Name="TransferPaperMenu"  Header="振込用紙メニュー" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" IsEnabled="{Binding TransferPaperMenuEnabled}" VerticalAlignment="Stretch" Margin="1,0,5,0">
                 <Grid x:Name="AddresseeRight" Grid.Row="0" Grid.Column="1" Margin="0,0,10,0">
-                    <Grid>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.3*"/>
                             <ColumnDefinition Width="0.5*"/>
@@ -147,8 +148,8 @@
         <GroupBox x:Name="OutputMenuGroupBox" Header="データ出力" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,0,5,0" Grid.ColumnSpan="2">
             <Grid x:Name="OutputMenu" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.8*"/>
-                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="MultiOutputCheckBox" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding MultiOutputCheck}" Content="複数データ出力" Margin="0,0,20,0"/>
                 <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -160,14 +161,37 @@
                 </Button>
             </Grid>
         </GroupBox>
-        <Button x:Name="GotoMultiAddresseeDataViewButton"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Margin="340,5,11,5">
-            一括出力画面
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding GotoMultiAddresseeDataView}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </Button>
+        <Grid x:Name="ScreenTransitionGrid" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+             <Label Content="春秋苑データ最終更新日" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock x:Name="LastSaveDateTextBox" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding LastSaveDate,StringFormat=yyyy/MM/dd}" Margin="10,0,0,0"/>
+            </Grid>
+              <Button x:Name="GotoMultiAddresseeDataViewButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
+                一括出力画面
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding GotoMultiAddresseeDataView}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button x:Name="GotoGravePanelDataViewButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
+                墓地札発行画面
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding GotoGravePanelDataView}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </Grid>        
     </Grid>
-</Window>
+   </Window>
     

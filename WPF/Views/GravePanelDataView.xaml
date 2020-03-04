@@ -5,33 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="GravePanelDataView" Height="450" Width="800">
-    <Window.Resources>
-        <Storyboard x:Key="Storyboard1">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="rectangle">
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="502.247"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="rectangle">
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-117.978"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-    </Window.Resources>
-    <Window.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
-        </EventTrigger>
-    </Window.Triggers>
-    <Grid>
-        <Rectangle x:Name="rectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="95.438,197.157,0,121.843" Stroke="Black" Width="100" RenderTransformOrigin="0.5,0.5">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-
+           xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+     xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+             Title="GravePanelDataView" Height="500" Width="800" WindowStartupLocation="CenterScreen"  >
+    
+    <Window.DataContext>
+        <local:GravePanelDataViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="絞り込み条件" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <extk:WatermarkTextBox x:Name="ReferenceCustomerTextBox" Grid.Column="1" Watermark="管理番号(完全一致）" MaxLength="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="50,5,10,5"/>
+                <extk:WatermarkTextBox x:Name="ReferenceLesseeNameTextBox" Grid.Column="2" Watermark="名義人名(あいまい検索）" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  VerticalContentAlignment="Center" Margin="0,0,0,0"/>
+             <CheckBox x:Name="IsNewRecordOnlyCheckBox" Grid.Column="3" Grid.Row="0" VerticalContentAlignment="Center"  Content="新規のみ" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsChecked="{Binding IsNewRecordOnly}" />
+               </Grid>            
+        </GroupBox>
+        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GravePanelList}" >
+            <DataGrid.Columns >
+                <DataGridTextColumn x:Name="CustomerIDColumn" Header="管理番号" Width="1*"  Binding="{Binding CustomerID}"/>
+                <DataGridTextColumn x:Name="LesseeName" Header="名義人" Width="2*" Binding="{Binding LesseeName}"/>
+                <DataGridTextColumn x:Name="GraveNumber" Header="墓地番号" Width="2*" Binding="{Binding GraveNumber}"/>
+                <DataGridCheckBoxColumn x:Name="IsPrintCheckBox" Header="印刷フラグ" Width="1*" Binding="{Binding  IsPrintout}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="PrintoutButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
+                印刷
+            </Button>
+            <Button x:Name="AddItemButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
+                追加
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding GotoCreateGravePanelDataView}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </Grid>
     </Grid>
 </Window>

@@ -595,6 +595,57 @@ Public Class ExcelOutputInfrastructure
     End Sub
 
     ''' <summary>
+    ''' 墓地札クラス
+    ''' </summary>
+    Private Class GravePanel
+        Implements IVerticalOutputBehavior
+
+        Sub New(ByVal _notationfamiluname As String, ByVal _gravenumber As String, ByVal _contractcontent As String)
+
+        End Sub
+
+        Public Sub SetData(startrowposition As Integer) Implements IVerticalOutputBehavior.SetData
+        End Sub
+
+        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+            Throw New NotImplementedException()
+        End Sub
+
+        Public Sub SetCellFont() Implements IExcelOutputBehavior.SetCellFont
+            Throw New NotImplementedException()
+        End Sub
+
+        Public Sub CellProperty(startrowposition As Integer) Implements IExcelOutputBehavior.CellProperty
+            Throw New NotImplementedException()
+        End Sub
+
+        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function SetColumnSizes() As Double() Implements IExcelOutputBehavior.SetColumnSizes
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function GetDataName() As String Implements IExcelOutputBehavior.GetDataName
+            Throw New NotImplementedException()
+        End Function
+
+        Private Class PanelData
+
+        End Class
+
+    End Class
+
+    ''' <summary>
     ''' 長3封筒クラス
     ''' </summary>
     Private Class Cho3Envelope

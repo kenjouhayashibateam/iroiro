@@ -89,17 +89,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommand\GotoCreateGravePanelDataViewCommand.vb" />
     <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\OutputDataListCommand.vb" />
+    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoGravePanelDataViewCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputContentsSelectionChangedCommand.vb" />
     <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\DeleteItemCommand.vb" />
     <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\InputCustomerCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\RetuenList_CustomerIDCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\ReturnList_CustomerIDCommand.vb" />
     <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\ReturnListCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoMultiAddresseeDataViewCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\NoteClearCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputDataCommand.vb" />
+    <Compile Include="ViewModels\CreateGravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\GravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\MultiAddresseeDataViewModel.vb" />
+    <Compile Include="Views\CreateGravePanelDataView.xaml.vb">
+      <DependentUpon>CreateGravePanelDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GravePanelDataView.xaml.vb">
       <DependentUpon>GravePanelDataView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +133,10 @@
     <Compile Include="Views\AddressDataView.xaml.vb">
       <DependentUpon>AddressDataView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CreateGravePanelDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GravePanelDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,5 +214,6 @@
   <ItemGroup>
     <Resource Include="ゴマ.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
