@@ -5,13 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+       xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactions="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:b="clr-namespace:WPF.Behaviors"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
         mc:Ignorable="d"
-        Title="MultiAddresseeDataView" Height="450" Width="800"  WindowStartupLocation="CenterScreen" >
-    
+        Title="複数印刷" Height="450" Width="800"  WindowStartupLocation="CenterScreen" >
+
     <Window.DataContext>
-        <local:MultiAddresseeDataViewModel/>
+        <vm:MultiAddresseeDataViewModel/>
     </Window.DataContext>
+
+    <i:Interaction.Triggers>
+        <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}" >
+            <b:MessageBoxBehavior/>
+        </interactions:PropertyChangedTrigger>
+    </i:Interaction.Triggers>
+
+    <ib:Interaction.Triggers>
+        <ib:DataTrigger Binding="{Binding CallErrorMessageInfo}" Value="True">
+            <ib:InvokeCommandAction Command="{Binding ErrorMessageInfo}"/>
+        </ib:DataTrigger>
+    </ib:Interaction.Triggers>
     
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -31,35 +47,35 @@
                 <extk:WatermarkTextBox x:Name="CustomerIDTextBox" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="3,5,3,5" Text="{Binding CustomerID}"  Watermark="管理番号" />
                 <Button x:Name="InputButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,2,3,2">
                     一覧に入力
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding InputLessee}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding InputLessee}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                 </Button>
                 <Button x:Name="DeleteButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,2,3,2">
                     行を削除
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding DeleteItemCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding DeleteItemCommand}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                 </Button>
                 <Button x:Name="CostmerIDInputButton" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="管理番号のみを1列でコピーしてクリックして下さい。" IsDefault="True" Margin="3,2,3,2">
                     管理番号一括入力
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ReturnList_CustomerIDCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding ReturnList_CustomerIDCommand}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                 </Button>
                 <Button x:Name="AddresseeDataInputButton" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ToolTip="宛名、郵便番号、住所、番地の順に作ったリストをコピーしてクリックして下さい" Margin="3,2,3,2">
                     宛先リスト入力
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ReturnListCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding ReturnListCommand}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                 </Button>
                </Grid>
         </GroupBox>
@@ -95,11 +111,11 @@
                 <ComboBox Name="OutputContentsComboBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30,5,10,5" ItemsSource="{Binding OutputContentsDictionary}" DisplayMemberPath="Value"  SelectedValue ="{Binding SelectedOutputContentsValue}" SelectedValuePath="Key"/>
                 <Button x:Name="OutputButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
                     出力
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding DataOutputCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding DataOutputCommand}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                 </Button>
             </Grid>
         </GroupBox>

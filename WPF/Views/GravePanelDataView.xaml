@@ -4,14 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
-        mc:Ignorable="d"
-           xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
+               mc:Ignorable="d"
+               xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:interactions="http://schemas.microsoft.com/expression/2010/interactions"
+	xmlns:b="clr-namespace:WPF.Behaviors"
+   
      xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-             Title="GravePanelDataView" Height="500" Width="800" WindowStartupLocation="CenterScreen"  >
+             Title="墓地札一覧" Height="500" Width="800" WindowStartupLocation="CenterScreen"  >
     
     <Window.DataContext>
-        <local:GravePanelDataViewModel/>
+        <vm:GravePanelDataViewModel/>
     </Window.DataContext>
+
+    <i:Interaction.Triggers>
+        <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
+            <b:MessageBoxBehavior/>
+        </interactions:PropertyChangedTrigger>
+    </i:Interaction.Triggers>
+
+    <ib:Interaction.Triggers>
+        <ib:DataTrigger Binding="{Binding CallConpletedDeleteGravePanelDataInfo}" Value="True">
+            <ib:InvokeCommandAction Command="{Binding DeletedGravePanelInfo}"/>
+        </ib:DataTrigger>
+    </ib:Interaction.Triggers>
+    
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -24,19 +42,28 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <extk:WatermarkTextBox x:Name="ReferenceCustomerTextBox" Grid.Column="1" Watermark="管理番号(完全一致）" MaxLength="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="50,5,10,5"/>
-                <extk:WatermarkTextBox x:Name="ReferenceLesseeNameTextBox" Grid.Column="2" Watermark="名義人名(あいまい検索）" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  VerticalContentAlignment="Center" Margin="0,0,0,0"/>
+                <extk:WatermarkTextBox x:Name="ReferenceCustomerTextBox" Grid.Column="1" Watermark="管理番号(完全一致）" MaxLength="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="30,5,10,5"/>
+                <extk:WatermarkTextBox x:Name="ReferenceLesseeNameTextBox" Grid.Column="2" Watermark="名義人名(あいまい検索）" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  VerticalContentAlignment="Center" Margin="20,5,10,5"/>
              <CheckBox x:Name="IsNewRecordOnlyCheckBox" Grid.Column="3" Grid.Row="0" VerticalContentAlignment="Center"  Content="新規のみ" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsChecked="{Binding IsNewRecordOnly}" />
-               </Grid>            
+                <CheckBox x:Name="IsPast3MonthsPartCheckBox" Grid.Row="0" Grid.Column="4" VerticalAlignment="Stretch" Content="過去3か月分を表示" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsChecked="False"/>
+            </Grid>            
         </GroupBox>
-        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding GravePanelList}" >
+        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  ItemsSource="{Binding GravePanelList.List}" SelectedItem="{Binding MyGravePanel}" >
             <DataGrid.Columns >
-                <DataGridTextColumn x:Name="CustomerIDColumn" Header="管理番号" Width="1*"  Binding="{Binding CustomerID}"/>
-                <DataGridTextColumn x:Name="LesseeName" Header="名義人" Width="2*" Binding="{Binding LesseeName}"/>
-                <DataGridTextColumn x:Name="GraveNumber" Header="墓地番号" Width="2*" Binding="{Binding GraveNumber}"/>
-                <DataGridCheckBoxColumn x:Name="IsPrintCheckBox" Header="印刷フラグ" Width="1*" Binding="{Binding  IsPrintout}"/>
+                <DataGridTextColumn Header="管理番号" Width="1*"  Binding="{Binding MyCustomerID.ID}" />
+                <DataGridTextColumn Header="家" Width="2*" Binding="{Binding MyFamilyName.Name}"/>
+                <DataGridTextColumn  Header="墓地番号" Width="2*" Binding="{Binding MyGraveNumber.Number}"/>
+                <DataGridTextColumn Header="登録日時" Width="2*"/>
+                <DataGridTemplateColumn Header="印刷フラグ" Width="1*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding MyIsPrintout.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -44,18 +71,36 @@
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="PrintoutButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
+            <Button x:Name="DeleteButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" FontSize="14">
+                項目削除
+                <ib:Interaction.Triggers>
+                    <ib:EventTrigger EventName="Click">
+                        <ib:InvokeCommandAction Command="{Binding DeleteGravePanelDataCommand}"/>
+                    </ib:EventTrigger>
+                </ib:Interaction.Triggers>
+            </Button>
+                <Button x:Name="AddItemButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
+                追加
+                <ib:Interaction.Triggers>
+                    <ib:EventTrigger EventName="Click">
+                        <ib:InvokeCommandAction Command="{Binding GotoCreateGravePanelDataView}"/>
+                    </ib:EventTrigger>
+                </ib:Interaction.Triggers>
+            </Button>
+            <Grid Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="出力ポジション（1〜3）" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox x:Name="StartPositionTextBox" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding OutputPosition}" Margin="50,5,50,5"/>
+          </Grid>
+             <Button x:Name="PrintoutButton" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
                 印刷
             </Button>
-            <Button x:Name="AddItemButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
-                追加
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding GotoCreateGravePanelDataView}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </Grid>
+         </Grid>
     </Grid>
 </Window>

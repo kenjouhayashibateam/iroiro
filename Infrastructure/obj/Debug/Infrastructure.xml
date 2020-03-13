@@ -73,6 +73,12 @@ Infrastructure
  </summary>
  <returns></returns>
 </member>
+<member name="M:Infrastructure.IExcelOutputBehavior.SetPrintAreaString">
+ <summary>
+ 印刷範囲の文字列を返します
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Infrastructure.IHorizontalOutputBehavior">
  <summary>
  エクセルデータを横向けに出力
@@ -376,6 +382,11 @@ Infrastructure
  <param name="_note4">備考4</param>
  <param name="_note5">備考5</param>
 </member>
+<member name="T:Infrastructure.LogFileInfrastructure">
+ <summary>
+ メモ帳にログを書き込みます
+ </summary>
+</member>
 <member name="T:Infrastructure.SQLConectInfrastructure">
  <summary>
  SQLServerと接続するモデルクラス
@@ -401,11 +412,17 @@ Infrastructure
  VB.NETとSQLServerを接続するクラス
  </summary>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProc(ADODB.Command@)">
+<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(ADODB.Command@)">
  <summary>
  Rsにデータを格納し、Rs.EOFの結果を返します
  </summary>
  <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProc(ADODB.Command@)">
+ <summary>
+ 戻り値のないストアドプロシージャを実行します
+ </summary>
+ <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
 </member>
 <member name="M:Infrastructure.SQLConectInfrastructure.ADONothing">
  <summary>

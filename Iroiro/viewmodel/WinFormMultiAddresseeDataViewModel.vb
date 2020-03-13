@@ -11,7 +11,7 @@ Public Class WinFormMultiAddresseeDataViewModel
     Implements INotifyPropertyChanged
 
     Private ReadOnly DataBaseConecter As IDataConectRepogitory
-    Private ReadOnly DataOutputConecter As IAdresseeOutputRepogitory
+    Private ReadOnly DataOutputConecter As IOutputDataRepogitory
     Private _ListItems As ObservableCollection(Of ListViewItem)
     Private _Title As String
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
@@ -54,7 +54,7 @@ Public Class WinFormMultiAddresseeDataViewModel
     ''' </summary>
     ''' <param name="lesseerepository">名義人データ</param>
     ''' <param name="excelrepository">エクセルデータ</param>
-    Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IAdresseeOutputRepogitory)
+    Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IOutputDataRepogitory)
         DataBaseConecter = lesseerepository
         DataOutputConecter = excelrepository
     End Sub

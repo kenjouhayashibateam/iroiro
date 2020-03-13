@@ -86,8 +86,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -106,11 +112,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="entity\AddressDataEntity.vb" />
-    <Compile Include="entity\AddressesEntity.vb" />
-    <Compile Include="entity\GraveNumberEntity.vb" />
-    <Compile Include="entity\LastSaveDateEntity.vb" />
-    <Compile Include="entity\LesseeCustomerInfoEntity.vb" />
+    <Compile Include="Entities\AddressDataEntity.vb" />
+    <Compile Include="Entities\AddressesEntity.vb" />
+    <Compile Include="Entities\GraveNumberEntity.vb" />
+    <Compile Include="Entities\GravePanelDataEntity.vb" />
+    <Compile Include="Entities\GravePanelDataListEntity.vb" />
+    <Compile Include="Entities\LastSaveDateEntity.vb" />
+    <Compile Include="Entities\LesseeCustomerInfoEntity.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -126,8 +134,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="repository\IAdresseeOutputRepogitory.vb" />
-    <Compile Include="repository\IDataConectRepogitory.vb" />
+    <Compile Include="Repositories\ILoggerRepogitory.vb" />
+    <Compile Include="Repositories\IOutputDataRepogitory.vb" />
+    <Compile Include="Repositories\IDataConectRepogitory.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -147,6 +156,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

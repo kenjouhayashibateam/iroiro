@@ -2,8 +2,12 @@ C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Infrastructure.dll
 C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Infrastructure.pdb
 C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Infrastructure.xml
 C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Domain.dll
+C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Microsoft.Expression.Interactions.dll
+C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Domain.pdb
 C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Domain.xml
+C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\Microsoft.Expression.Interactions.xml
+C:\Users\001\source\repos\iroiro\Infrastructure\bin\Debug\System.Windows.Interactivity.xml
 C:\Users\001\source\repos\iroiro\Infrastructure\obj\Debug\Infrastructure.vbprojAssemblyReference.cache
 C:\Users\001\source\repos\iroiro\Infrastructure\obj\Debug\Interop.ADODB.dll
 C:\Users\001\source\repos\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.ResolveComReference.cache

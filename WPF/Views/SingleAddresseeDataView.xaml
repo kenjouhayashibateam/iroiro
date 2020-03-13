@@ -4,14 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactions="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:b="clr-namespace:WPF.Behaviors"
+        xmlns:vm="clr-namespace:WPF.ViewModels"
+        xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="450" WindowStartupLocation="CenterScreen"  >
-    
+        Title="単票印刷" Height="500" Width="450" WindowStartupLocation="CenterScreen"  >
+
     <Window.DataContext >
-        <local:SingleAddresseeDataViewModel/>
+        <vm:SingleAddresseeDataViewModel/>
     </Window.DataContext>
+
+    <i:Interaction.Triggers>
+        <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
+            <b:MessageBoxBehavior/>
+        </interactions:PropertyChangedTrigger>
+        <interactions:PropertyChangedTrigger Binding="{Binding ShowForm}">
+            <b:ShowDialogBehavior/>
+        </interactions:PropertyChangedTrigger>
+    </i:Interaction.Triggers>
+      
+    <ib:Interaction.Triggers>
+        <ib:DataTrigger Binding="{Binding CallSelectAddresseeInfo}" Value="true ">
+            <ib:InvokeCommandAction Command="{Binding SelectAddresseeInfo}"/>
+        </ib:DataTrigger>        
+    </ib:Interaction.Triggers>
 
     <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,2,0">
         <Grid.RowDefinitions>
@@ -21,16 +40,15 @@
             <RowDefinition Height="0.07*"/>
             <RowDefinition Height="0.07*"/>
         </Grid.RowDefinitions>
-      
+
         <Grid x:Name="ContentsGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
             <GroupBox Header="印刷物選択" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,0,5,0">
                 <ComboBox x:Name="OutputContentsComboBox" 
-                                    VerticalContentAlignment="Center"
-                                    ItemsSource="{Binding OutputContentsDictionary}" DisplayMemberPath="Value"
-                                    SelectedValue="{Binding SelectedOutputContentsValue}"
-                                    SelectedValuePath="Key"
-                                    FontSize="14"/>
-
+                          VerticalContentAlignment="Center"
+                                                              ItemsSource="{Binding OutputContentsDictionary}" DisplayMemberPath="Value"
+                          SelectedValue="{Binding SelectedOutputContentsValue}"
+                          SelectedValuePath="Key"
+                          FontSize="14"/>
             </GroupBox>
         </Grid>
 
@@ -43,13 +61,13 @@
                     <ColumnDefinition Width="0.1*"/>
                 </Grid.ColumnDefinitions>
                 <Label  Content="管理番号"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right"  VerticalAlignment="Center" />
-                <extk:WatermarkTextBox Name="CustomerIDWatermarkTextBox" MaxLength="6" FontSize="14" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" InputMethod.IsInputMethodEnabled="False" Text="{Binding CustomerID,UpdateSourceTrigger=PropertyChanged}" Margin="0,2,10,2"  Watermark="6桁の数字を入力"/>               
+                <extk:WatermarkTextBox Name="CustomerIDWatermarkTextBox" MaxLength="6" FontSize="14" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" InputMethod.IsInputMethodEnabled="False" Text="{Binding CustomerID,UpdateSourceTrigger=PropertyChanged}" Margin="0,2,10,2"  Watermark="6桁の数字を入力"/>
                 <Button x:Name="LesseeReferenceButton" Grid.Column="2"  IsDefault="True" IsEnabled="{Binding PermitReference}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,2,0,2">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ReferenceLesseeCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding ReferenceLesseeCommand}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                     検索
                 </Button>
             </Grid>
@@ -82,28 +100,28 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Column="0" Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.9*"/>
+                                <ColumnDefinition Width="0.7*"/>
                                 <ColumnDefinition Width="0.3*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="AddresseeName" FontSize="14" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding AddresseeName}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
-                            <TextBox x:Name="TitleTextBox" FontSize="14" VerticalContentAlignment="Center" Text="{Binding Title}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                            <TextBox x:Name="AddresseeName" FontSize="14" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding AddresseeName}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3"/>
+                            <TextBox x:Name="TitleTextBox" FontSize="14" VerticalContentAlignment="Center" Text="{Binding Title}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3"/>
                         </Grid>
                     </Grid>
-                    <TextBox x:Name="PostalcodeTextBox" FontSize="14" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Text="{Binding PostalCode}" MaxLength="8" InputMethod.PreferredImeState="Off" Margin="0,0,60,0">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LostFocus">
-                                <i:InvokeCommandAction Command="{Binding PostalcodeReference}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <TextBox x:Name="PostalcodeTextBox" FontSize="14" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Text="{Binding PostalCode}" MaxLength="8" InputMethod.PreferredImeState="Off" Margin="0,3,60,1">
+                        <ib:Interaction.Triggers>
+                            <ib:EventTrigger EventName="LostFocus">
+                                <ib:InvokeCommandAction Command="{Binding PostalcodeReference}"/>
+                            </ib:EventTrigger>
+                        </ib:Interaction.Triggers>
                     </TextBox>
-                    <TextBox x:Name="Address1TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="2" Text="{Binding Address1,UpdateSourceTrigger=PropertyChanged}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LostFocus">
-                                <i:InvokeCommandAction Command="{Binding AddressReference}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <TextBox x:Name="Address1TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="2" Text="{Binding Address1,UpdateSourceTrigger=PropertyChanged}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,2,3,1">
+                        <ib:Interaction.Triggers>
+                            <ib:EventTrigger EventName="LostFocus">
+                                <ib:InvokeCommandAction Command="{Binding AddressReference}" />
+                            </ib:EventTrigger>
+                        </ib:Interaction.Triggers>
                     </TextBox>
-                    <TextBox x:Name="Address2TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Text="{Binding Address2}" Margin="0,0,0,8" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                    <TextBox x:Name="Address2TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Grid.Row="3" Text="{Binding Address2}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,2,3,3"/>
                 </Grid>
             </GroupBox>
             <GroupBox x:Name="TransferPaperMenu"  Header="振込用紙メニュー" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" IsEnabled="{Binding TransferPaperMenuEnabled}" VerticalAlignment="Stretch" Margin="1,0,5,0">
@@ -123,23 +141,23 @@
                             <RowDefinition Height="0.25*"/>
                         </Grid.RowDefinitions>
                         <Label x:Name="MoneyLabel" Content="振込金額" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
-                        <TextBox x:Name="MoneyTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Width="80" Text="{Binding Money}" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off"/>
+                        <TextBox x:Name="MoneyTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Text="{Binding Money}" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off" Margin="0,3,60,2"/>
                         <Label x:Name="Note1Label" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Stretch" Content="備考1"/>
-                        <TextBox x:Name="Note1TextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note1}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                        <TextBox x:Name="Note1TextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note1}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,1,3,1"/>
                         <Label x:Name="Note2Label" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Content="備考2"/>
-                        <TextBox x:Name="Note2TextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note2}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                        <TextBox x:Name="Note2TextBox" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note2}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,1,3,1"/>
                         <Label x:Name="Note3Label" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Stretch" Content="備考3"/>
-                        <TextBox x:Name="Note3TextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note3}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                        <TextBox x:Name="Note3TextBox" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note3}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,1,3,1"/>
                         <Label x:Name="Note4Label" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Stretch" Content="備考4"/>
-                        <TextBox x:Name="Note4TextBox" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note4}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                        <TextBox x:Name="Note4TextBox" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note4}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,1,3,1"/>
                         <Label x:Name="Note5Label" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Content="備考5"/>
-                        <TextBox x:Name="Note5TextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note5}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
-                        <Button x:Name="NoteClear" Content="備考をクリア" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding NoteClear}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
+                        <TextBox x:Name="Note5TextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note5}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,1,3,1"/>
+                        <Button x:Name="NoteClear" Content="備考をクリア" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,3,10,3">
+                            <ib:Interaction.Triggers>
+                                <ib:EventTrigger EventName="Click">
+                                    <ib:InvokeCommandAction Command="{Binding NoteClear}"/>
+                                </ib:EventTrigger>
+                            </ib:Interaction.Triggers>
                         </Button>
                     </Grid>
                 </Grid>
@@ -153,11 +171,17 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="MultiOutputCheckBox" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding MultiOutputCheck}" Content="複数データ出力" Margin="0,0,20,0"/>
                 <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding DataOutput}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <ib:Interaction.Triggers>
+                        <ib:DataTrigger Binding="{Binding CallErrorMessage}" Value="True">
+                            <ib:InvokeCommandAction Command="{Binding ErrorMessageInfo}"/>
+                        </ib:DataTrigger>
+                        <ib:DataTrigger Binding="{Binding CallAddressOverLengthMessage}" Value="True">
+                            <ib:InvokeCommandAction Command="{Binding AddressOverLengthInfo}"/>
+                        </ib:DataTrigger>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding DataOutput}"/>
+                        </ib:EventTrigger>
+                    </ib:Interaction.Triggers>
                 </Button>
             </Grid>
         </GroupBox>
@@ -172,26 +196,25 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-             <Label Content="春秋苑データ最終更新日" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Content="春秋苑データ最終更新日" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <TextBlock x:Name="LastSaveDateTextBox" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding LastSaveDate,StringFormat=yyyy/MM/dd}" Margin="10,0,0,0"/>
             </Grid>
-              <Button x:Name="GotoMultiAddresseeDataViewButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
+            <Button x:Name="GotoMultiAddresseeDataViewButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
                 一括出力画面
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding GotoMultiAddresseeDataView}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <ib:Interaction.Triggers>
+                    <ib:EventTrigger EventName="Click">
+                        <ib:InvokeCommandAction Command="{Binding GotoMultiAddresseeDataView}"/>
+                    </ib:EventTrigger>
+                </ib:Interaction.Triggers>
             </Button>
             <Button x:Name="GotoGravePanelDataViewButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
                 墓地札発行画面
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding GotoGravePanelDataView}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <ib:Interaction.Triggers>
+                    <ib:EventTrigger EventName="Click">
+                        <ib:InvokeCommandAction Command="{Binding GotoGravePanelDataView}"/>
+                    </ib:EventTrigger>
+                </ib:Interaction.Triggers>
             </Button>
-        </Grid>        
+        </Grid>
     </Grid>
-   </Window>
-    
+</Window>

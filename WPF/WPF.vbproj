@@ -52,10 +52,16 @@
     <ApplicationIcon>ゴマ.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System" />
@@ -89,28 +95,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommand\GotoCreateGravePanelDataViewCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\OutputDataListCommand.vb" />
+    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommands\DeleteGravePanelDataCommand.vb" />
+    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommands\OutputGravePanelCommand.vb" />
+    <Compile Include="Views\Behaviors\MessageBoxBehavior.vb" />
+    <Compile Include="ViewModels\Commands\CreateGravePanelDataViewModelCommands\GravePanelDataRegistrationCommand.vb" />
+    <Compile Include="ViewModels\Commands\CreateGravePanelDataViewModelCommands\ReferenceGraveNumberPanelCommand.vb" />
+    <Compile Include="ViewModels\Commands\DelegateCommand.vb" />
+    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommands\GotoCreateGravePanelDataViewCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\OutputDataListCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoGravePanelDataViewCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputContentsSelectionChangedCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\DeleteItemCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\InputCustomerCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\ReturnList_CustomerIDCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommand\ReturnListCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\DeleteAddresseeCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\InputCustomerCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\ReturnList_CustomerIDCommand.vb" />
+    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\ReturnListCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoMultiAddresseeDataViewCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\NoteClearCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputDataCommand.vb" />
     <Compile Include="ViewModels\CreateGravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\GravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\MultiAddresseeDataViewModel.vb" />
+    <Compile Include="Views\Behaviors\ShowDialogBehavior.vb" />
     <Compile Include="Views\CreateGravePanelDataView.xaml.vb">
       <DependentUpon>CreateGravePanelDataView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GravePanelDataView.xaml.vb">
       <DependentUpon>GravePanelDataView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\MessageBoxInfo.vb" />
     <Compile Include="Views\MultiAddresseeDataView.xaml.vb">
       <DependentUpon>MultiAddresseeDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Plactice.xaml.vb">
+      <DependentUpon>Plactice.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SingleAddresseeDataView.xaml.vb">
       <DependentUpon>SingleAddresseeDataView.xaml</DependentUpon>
@@ -125,7 +142,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\AddressDataViewModel.vb" />
-    <Compile Include="ViewModels\Commands\AddressDataViewModelCommand\ReturnAddressDataCommand.vb" />
+    <Compile Include="ViewModels\Commands\AddressDataViewModelCommands\ReturnAddressDataCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\AddressReferenceCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\PostalcodeReferemceCommand.vb" />
     <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\ReferenceLesseeCommand.vb" />
@@ -142,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MultiAddresseeDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Plactice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -191,6 +212,7 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

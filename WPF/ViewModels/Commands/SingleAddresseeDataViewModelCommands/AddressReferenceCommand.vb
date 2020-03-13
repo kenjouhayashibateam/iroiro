@@ -1,18 +1,27 @@
-﻿Public Class AddressReferenceCommand
-    Implements ICommand
+﻿Imports WPF.ViewModels
 
-    Public Event CanExecuteChanged As EventHandler Implements ICommand.CanExecuteChanged
-    Public vm As SingleAddresseeDataViewModel
+Namespace Command
 
-    Sub New(ByVal _vm As SingleAddresseeDataViewModel)
-        vm = _vm
-    End Sub
+    ''' <summary>
+    ''' 住所検索コマンド
+    ''' </summary>
+    Public Class AddressReferenceCommand
+        Implements ICommand
 
-    Public Sub Execute(parameter As Object) Implements ICommand.Execute
-        vm.ReferenceAddress()
-    End Sub
+        Public Event CanExecuteChanged As EventHandler Implements ICommand.CanExecuteChanged
+        Public vm As SingleAddresseeDataViewModel
 
-    Public Function CanExecute(parameter As Object) As Boolean Implements ICommand.CanExecute
-        Return True
-    End Function
-End Class
+        Sub New(ByVal _vm As SingleAddresseeDataViewModel)
+            vm = _vm
+        End Sub
+
+        Public Sub Execute(parameter As Object) Implements ICommand.Execute
+            vm.ReferenceAddress()
+        End Sub
+
+        Public Function CanExecute(parameter As Object) As Boolean Implements ICommand.CanExecute
+            Return True
+        End Function
+    End Class
+End Namespace
+

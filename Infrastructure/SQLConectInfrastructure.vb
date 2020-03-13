@@ -11,6 +11,7 @@ Public Class SQLConectInfrastructure
     ''' データを取得するためのルートを確立するコマンドクラス
     ''' </summary>
     Private Property Cmd As ADODB.Command
+    Private Property LogFileConecter As ILoggerRepogitory
 
     ''' <summary>
     ''' SQLServerに接続するための接続文字列
@@ -26,26 +27,60 @@ Public Class SQLConectInfrastructure
     ''' </summary>
     Private Property Cn As ADODB.Connection
 
+    Sub New()
+        Me.New(New LogFileInfrastructure)
+    End Sub
+
+    Sub New(ByVal _logfile As ILoggerRepogitory)
+        LogFileConecter = _logfile
+    End Sub
+
     ''' <summary>
     ''' Rsにデータを格納し、Rs.EOFの結果を返します
     ''' </summary>
     ''' <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-    Private Function ExecuteStoredProc(ByRef exeCmd As ADODB.Command) As Boolean
+    Private Function ExecuteStoredProcSetRecord(ByRef exeCmd As ADODB.Command) As Boolean
 
-        Cn = New ADODB.Connection With {.ConnectionString = SHUNJUENCONSTRING}
-        Cn.Open()
-
-        'SQLServerのストアドプロシージャを実行するためのCommandを設定して、引っ張ってきたレコードセットを返す
-        With exeCmd
-            .ActiveConnection = Cn
-            .CommandType = ADODB.CommandTypeEnum.adCmdStoredProc
-            'レコードセットをRsに格納する
-            Rs = .Execute
-        End With
+        exeCmd = GetCompleteCmd(exeCmd)
+        Try
+            Rs = exeCmd.Execute
+        Catch ex As Exception
+            LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
+        End Try
 
         Return Rs.EOF
 
     End Function
+
+    Private Function GetCompleteCmd(ByVal execmd As ADODB.Command) As ADODB.Command
+
+        Cn = New ADODB.Connection With {.ConnectionString = SHUNJUENCONSTRING}
+        Cn.Open()
+
+        With execmd
+            .ActiveConnection = Cn
+            .CommandType = ADODB.CommandTypeEnum.adCmdStoredProc
+        End With
+
+        Return execmd
+
+    End Function
+
+    ''' <summary>
+    ''' 戻り値のないストアドプロシージャを実行します
+    ''' </summary>
+    ''' <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
+    Private Sub ExecuteStoredProc(ByRef execmd As ADODB.Command)
+
+        execmd = GetCompleteCmd(execmd)
+        Try
+            execmd.Execute()
+        Catch ex As Exception
+            LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
+        End Try
+
+
+    End Sub
 
     ''' <summary>
     ''' ADODBのインスタンスを削除します
@@ -72,7 +107,7 @@ Public Class SQLConectInfrastructure
             .Parameters.Append(.CreateParameter("lesseename", ADODB.DataTypeEnum.adVarChar,, 100, "%"))
         End With
 
-        Return ExecuteStoredProc(Cmd)
+        Return ExecuteStoredProcSetRecord(Cmd)
 
     End Function
 
@@ -128,7 +163,7 @@ Public Class SQLConectInfrastructure
             .Parameters.Append(.CreateParameter("postalcode", ADODB.DataTypeEnum.adChar,, 7, ReferenceCode))
         End With
 
-        If ExecuteStoredProc(Cmd) Then Return Nothing
+        If ExecuteStoredProcSetRecord(Cmd) Then Return Nothing
 
         Return New AddressDataEntity(RsFields("Address"), postalcode)
 
@@ -146,7 +181,7 @@ Public Class SQLConectInfrastructure
             .Parameters.Append(.CreateParameter("address", ADODB.DataTypeEnum.adLongVarChar,, 255, address))
         End With
 
-        ExecuteStoredProc(Cmd)
+        ExecuteStoredProcSetRecord(Cmd)
 
         Dim myAddress As AddressDataEntity
 
@@ -164,7 +199,7 @@ Public Class SQLConectInfrastructure
 
         Cmd = New ADODB.Command With {.CommandText = "GetLastSaveDate"}
 
-        ExecuteStoredProc(Cmd)
+        ExecuteStoredProcSetRecord(Cmd)
 
         Return New LastSaveDateEntity(RsFields("LastSaveDate"))
 
@@ -191,7 +226,7 @@ Public Class SQLConectInfrastructure
             .Parameters.Append(.CreateParameter("edaban", ADODB.DataTypeEnum.adVarChar, , 10, Edaban))
         End With
 
-        ExecuteStoredProc(Cmd)
+        ExecuteStoredProcSetRecord(Cmd)
 
     End Sub
 
@@ -229,11 +264,17 @@ Public Class SQLConectInfrastructure
         Dim gl As New ObservableCollection(Of GraveNumberEntity.Gawa)
 
         Do Until Rs.EOF
-            If InStr(datastring, RsFields("Gawa")) = 0 Then
-                datastring &= RsFields("Gawa") & " "
-                gf = New GraveNumberEntity.Gawa(RsFields("Gawa"))
-                gl.Add(gf)
+            If InStr(datastring, RsFields("Gawa")) <> 0 Then
+                Rs.MoveNext()
+                Continue Do
             End If
+            If CStr(RsFields("Gawa")) = "0" Then
+                Rs.MoveNext()
+                Continue Do
+            End If
+            datastring &= RsFields("Gawa") & " "
+            gf = New GraveNumberEntity.Gawa(RsFields("Gawa"))
+            gl.Add(gf)
             Rs.MoveNext()
         Loop
         Return New GraveNumberEntity.GawaList(gl)
@@ -301,4 +342,55 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    Public Sub GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelRegistration
+
+        Cmd = New ADODB.Command
+
+        With Cmd
+            .CommandText = "RegistrationGravePanel"
+            .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetCustomerID))
+            .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFamilyName))
+            .Parameters.Append(.CreateParameter("gravenumber", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetGraveNumber))
+            .Parameters.Append(.CreateParameter("contractdetail", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetContractContent))
+            .Parameters.Append(.CreateParameter("registrationtime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetRegistrationTime))
+            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetRegistrationTime))
+        End With
+        ExecuteStoredProc(Cmd)
+    End Sub
+
+    Public Function GetGravePanelDataList() As GravePanelDataListEntity Implements IDataConectRepogitory.GetGravePanelDataList
+
+        Cmd = New ADODB.Command With {.CommandText = "GetGravePanelList"}
+
+        ExecuteStoredProcSetRecord(Cmd)
+
+        Dim gpd As GravePanelDataEntity
+        Dim gpdlist As New GravePanelDataListEntity
+        Do Until Rs.EOF
+            gpd = New GravePanelDataEntity(RsFields("OrderID"), RsFields("CustomerID"), RsFields("FamilyName"), RsFields("GraveNumber"), RsFields("Area"), RsFields("ContractDetail"), RsFields("RegistrationTime"), RsFields("PrintoutTime"))
+            gpdlist.AddItem(gpd)
+            Rs.MoveNext()
+        Loop
+
+        Return gpdlist
+
+    End Function
+
+    Public Sub GravePanelDeletion(_graveoaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelDeletion
+
+        Cmd = New ADODB.Command
+
+        With Cmd
+            .CommandText = "DeleteGravePanel"
+            .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _graveoaneldata.GetCustomerID))
+            .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _graveoaneldata.GetFamilyName))
+            .Parameters.Append(.CreateParameter("gravenumber", ADODB.DataTypeEnum.adVarChar,, 50, _graveoaneldata.GetGraveNumber))
+            .Parameters.Append(.CreateParameter("contractdetail", ADODB.DataTypeEnum.adVarChar,, 50, _graveoaneldata.GetContractContent))
+            .Parameters.Append(.CreateParameter("registrationtime", ADODB.DataTypeEnum.adDate,,, _graveoaneldata.GetRegistrationTime))
+            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _graveoaneldata.GetPrintoutTime))
+        End With
+
+        ExecuteStoredProc(Cmd)
+
+    End Sub
 End Class

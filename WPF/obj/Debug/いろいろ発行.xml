@@ -54,219 +54,1016 @@
   resource lookups using this strongly typed resource class.
 </summary>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.SelectedEdaban">
+<member name="T:WPF.Command.DeleteGravePanelDataCommand">
  <summary>
- 選択された枝番
+ 墓地札データ削除コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.GravePanelDataRegistrationCommand">
+ <summary>
+ 墓地札登録コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.ReferenceGraveNumberPanelCommand">
+ <summary>
+ 墓地番号検索コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.DelegateCommand`1">
+ <summary>
+ デリゲートコマンド
+ </summary>
+ <typeparam name="T"></typeparam>
+</member>
+<member name="M:WPF.Command.DelegateCommand`1.#ctor(System.Action{`0},System.Func{System.Boolean})">
+ <summary>コマンド実装</summary>
+ <param name="execute">実行メソッド</param>
+ <param name="canExecute">実行メソッド処理許可</param>
+</member>
+<member name="T:WPF.Command.DelegateCommand">
+ <summary>コマンド実装</summary>
+</member>
+<member name="E:WPF.Command.DelegateCommand.CanExecuteChanged">
+ <summary>CanExecute変更イベント</summary>
+</member>
+<member name="F:WPF.Command.DelegateCommand._Execute">
+ <summary>実行メソッド</summary>
+</member>
+<member name="F:WPF.Command.DelegateCommand._CanExecute">
+ <summary>実行メソッド処理許可</summary>
+</member>
+<member name="M:WPF.Command.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+ <summary>コマンド実装</summary>
+ <param name="execute">実行メソッド</param>
+ <param name="canExecute">実行メソッド処理許可</param>
+</member>
+<member name="M:WPF.Command.DelegateCommand.CanExecute">
+ <summary>コマンドが実行可能か決定する</summary>
+</member>
+<member name="M:WPF.Command.DelegateCommand.CanExecute(System.Object)">
+ <summary>コマンドが実行可能か決定する</summary>
+ <param name="parameter">パラメータ</param>
+</member>
+<member name="M:WPF.Command.DelegateCommand.Execute">
+ <summary>コマンド実行</summary>
+</member>
+<member name="M:WPF.Command.DelegateCommand.Execute(System.Object)">
+ <summary>コマンド実行</summary>
+ <param name="parameter">パラメータ</param>
+</member>
+<member name="T:WPF.Command.GotoCreateGravePanelDataViewCommand">
+ <summary>
+ 新規墓地札データ作成画面遷移コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.OutputListDataCommand">
+ <summary>
+ 複数印刷出力コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.GotoGravePanelDataViewCommand">
+ <summary>
+ 墓地札データリスト画面遷移コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.OutputContentsSelectionChangedCommand">
+ <summary>
+ 出力する内容によって備考欄のEnableを変更するコマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.DeleteAddresseeCommand">
+ <summary>
+ 宛名データ削除コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.InputCustomerCommand">
+ <summary>
+ 名義人データリストにデータを格納するコマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.ReturnList_CustomerIDCommand">
+ <summary>
+ 管理番号リスト取得コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.ReturnListCommand">
+ <summary>
+ 宛先リスト取得コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.GotoMultiAddresseeDataViewCommand">
+ <summary>
+ 複数印刷画面遷移コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.NoteClearCommand">
+ <summary>
+ 備考欄文字列削除コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.OutputDataCommand">
+ <summary>
+ 単票印刷出力コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.ReturnAddressDataCommand">
+ <summary>
+ 住所データ取得コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.AddressReferenceCommand">
+ <summary>
+ 住所検索コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.PostalcodeReferemceCommand">
+ <summary>
+ 郵便番号検索コマンド
+ </summary>
+</member>
+<member name="T:WPF.Command.ReferenceLesseeCommand">
+ <summary>
+ 名義人データ検索コマンド
+ </summary>
+</member>
+<member name="M:WPF.Command.ReferenceLesseeCommand.CanExecute(System.Object)">
+ <summary>
+ エグゼが実行される前に実行する。FalseだとExecuteは実行されない
+ </summary>
+ <param name="parameter"></param>
+ <returns></returns>
+</member>
+<member name="T:WPF.Behaviors.MessageBoxBehavior">
+ <summary>
+ メッセージボックスを呼び出します
+ </summary>
+</member>
+<member name="T:WPF.ViewModels.CreateGravePanelDataViewModel">
+ <summary>
+ 墓地札登録画面ViewModel 
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.SelectAddresseeInfo">
+ <summary>
+ 名義人か送付先どちらかを選ばせるメッセージボックス表示コマンド
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.SelectedBan">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.ConfirmationRegistraterInfo">
  <summary>
- 選択された番
+登録確認メッセージボックス表示コマンド
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.SelectedGawa">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.CompleteRegistrationInfo">
  <summary>
- 選択された側
+ 登録完了メッセージボックス表示コマンド
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.SelectedKuiki">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.ReferenceGraveNumberCommand">
  <summary>
- 選択された区域
+ 墓地番号検索コマンド
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.SelectedKu">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.MessageInfo">
  <summary>
- 選択された区
+ メッセージボックスプロパティを保持します
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledEdaban">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.RegistrationCustomerID">
  <summary>
- 枝番のEnableを設定します
+ 登録する管理番号
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledBan">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.KuField">
  <summary>
- 番のEnableを設定します
+ 墓地番号「区」
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledGawa">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.CallCompleteRegistration">
  <summary>
- 側のEnableを設定します
+ 登録完了メッセージボックスを呼び出します
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.CreateGravePanelDataViewModel.IsEnabledKuiki">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.IsConfirmationRegister">
  <summary>
- 区域のEnableを設定します
+ 登録確認メッセージボックスを呼び出します
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.GravePanelDataViewModel.GotoCreateGravePanelDataView">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GravePanelDataRegistration">
  <summary>
- 新規データ作成画面に遷移します
+ 墓地札登録コマンド
  </summary>
  <returns></returns>
 </member>
-<member name="T:WPF.MultiAddresseeDataViewModel">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.ContractContent">
  <summary>
- 複数印刷画面ビューモデル
- </summary>
-</member>
-<member name="P:WPF.MultiAddresseeDataViewModel.DataOutputCommand">
- <summary>
- AddresseeListを出力します
+ 契約内容
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.SelectedOutputContentsValue">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.ContractContents">
  <summary>
- 選択している印刷物の種類
+ 契約内容リスト
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.OutputContentsDictionary">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.KuText">
  <summary>
- 印刷する種類を保持しているディクショナリ
+ 墓地番号「区」
  </summary>
  <returns></returns>
 </member>
-<member name="T:WPF.MultiAddresseeDataViewModel.OutputContents">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.DisplayForGraveNumber">
  <summary>
- 出力する印刷物の種類の列挙型
- </summary>
-</member>
-<member name="P:WPF.MultiAddresseeDataViewModel.ReturnListCommand">
- <summary>
- コピーした宛先リストをビューに表示するコマンド
+ 表示用墓地番号
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.ReturnList_CustomerIDCommand">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.CallSelectAddresseeInfo">
  <summary>
- コピーした管理番号を基にリストを返すコマンド
+ 名義人データと、送付先データのどちらを使用するか選択するメッセージボックスを呼び出します
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.DeleteItemCommand">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.Area">
  <summary>
- リストのアイテムを削除します
+ 面積
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.MyAddressee">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.FamilyName">
  <summary>
- リストに表示する宛先クラス
+ 苗字
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.InputLessee">
- <summary>
- リストに表示する名義人クラス
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.MultiAddresseeDataViewModel.CustomerID">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.CustomerID">
  <summary>
  管理番号
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.Title">
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetLesseeData">
+ <summary>
+ 墓地番号を基に名義人クラスを生成してプロパティにセットします
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.InputLesseeData">
+ <summary>
+ 名義人クラスのプロパティをViewModel のプロパティにセットします
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetLesseeName">
+ <summary>
+ 苗字のみをセットします
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetName">
+ <summary>
+ 苗字のみをセットします
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.CreateSelectAddresseeInfo">
+ <summary>
+ 名義人データと送付先のどちらを使用するかの確認メッセージボックスを生成します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.ReturnDisplayForGraveNumber">
+ <summary>
+ 表示用墓地番号を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.EdabanText">
+ <summary>
+ 枝番　
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.BanText">
+ <summary>
+ 番
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GawaText">
+ <summary>
+ 側
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.KuikiText">
+ <summary>
+ 区域
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberKuList">
+ <summary>
+ 墓地番号　区リスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberField">
+ <summary>
+ 墓地番号クラス
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberBanList">
+ <summary>
+ 墓地番号　番リスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberGawaList">
+ <summary>
+ 墓地番号　側リスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberKuikiList">
+ <summary>
+ 墓地番号　区域リスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberEdabanList">
+ <summary>
+ 墓地番号　枝番リスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.AddGraveKu(System.String)">
+ <summary>
+ 墓地番号の区をリストに格納します
+ </summary>
+ <param name="originalvalue"></param>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.SelectedEdaban">
+ <summary>
+ 選択された枝番
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.SelectedBan">
+ <summary>
+ 選択された番
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.SelectedGawa">
+ <summary>
+ 選択された側
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.SelectedKuiki">
+ <summary>
+ 選択された区域
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:WPF.ViewModels.CreateGravePanelDataViewModel.GravenumberGanre">
+ <summary>
+ 墓地番号のパーツ
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetNextGraveNumberField(WPF.ViewModels.CreateGravePanelDataViewModel.GravenumberGanre,System.String)">
+ <summary>
+ 墓地番号パーツ（区、区域、側、番、枝番）の指定したリストを呼び出します。
+ </summary>
+ <param name="nextganre">呼び出す墓地番号パーツ</param>
+ <param name="numbervalue">基になる墓地番号パーツ</param>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.SelectedKu">
+ <summary>
+ 選択された区
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.IsEnabledEdaban">
+ <summary>
+ 枝番のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.IsEnabledBan">
+ <summary>
+ 番のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.IsEnabledGawa">
+ <summary>
+ 側のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.IsEnabledKuiki">
+ <summary>
+ 区域のEnableを設定します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.ReferenceLesseeData">
+ <summary>
+ 管理番号を使用して名義人データを呼び出し、各プロパティに格納します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.DataRegistration">
+ <summary>
+ 墓地札データを登録します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.CreateCompleteRegistrationInfo">
+ <summary>
+ 登録完了メッセージを生成します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.DataClear">
+ <summary>
+ プロパティの値をクリアします
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.CreateConfirmationRegisterInfo">
+ <summary>
+ 登録確認メッセージを生成します
+ </summary>
+</member>
+<member name="T:WPF.ViewModels.GravePanelDataViewModel">
+ <summary>
+ 墓地札データリスト画面ViewModel 
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.GravePanelDataViewModel.RegistrationTime">
+ <summary>
+ 登録日時
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.GravePanelDataViewModel.CallCompletedDeleteGravePanelDataInfo">
+ <summary>
+ データ削除確認メッセージを表示させるBool
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.GravePanelDataViewModel.GotoCreateGravePanelDataView">
+ <summary>
+ 新規データ作成画面に遷移します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.GravePanelDataViewModel.MyGravePanel">
+ <summary>
+ 墓地札クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.GravePanelDataViewModel.GravePanelList">
+ <summary>
+ 墓地札リストクラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.GravePanelDataViewModel.IsNewRecordOnly">
+ <summary>
+ 新規墓地札のみリストに表示するかのチェック
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.GravePanelDataViewModel.ShowCreateGravePanelDataView">
+ <summary>
+ 新規墓地札登録画面を呼び出します。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.GravePanelDataViewModel.DeleteGravePanelData">
+ <summary>
+ 墓地札データ削除
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.GravePanelDataViewModel.CreateDeletedItemInfo">
+ <summary>
+ 墓地札データ削除完了メッセージを生成します
+ </summary>
+</member>
+<member name="T:WPF.ViewModels.MultiAddresseeDataViewModel">
+ <summary>
+ 複数印刷画面ビューモデル
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.CallErrorMessageInfo">
+ <summary>
+ エラーメッセージを呼び出すBool
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.ErrorMessageInfo">
+ <summary>
+ エラーメッセージを格納します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.IsShowInTaskBer">
+ <summary>
+ タスクバーにアプリを載せるかのBool。複数のViewをまとめて1つのアイコンにして、クリックしたら一番前面のViewが表示されるようにしたい
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.DataOutputCommand">
+ <summary>
+ AddresseeListを出力します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.SelectedOutputContentsValue">
+ <summary>
+ 選択している印刷物の種類
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.OutputContentsDictionary">
+ <summary>
+ 印刷する種類を保持しているディクショナリ
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:WPF.ViewModels.MultiAddresseeDataViewModel.OutputContents">
+ <summary>
+ 出力する印刷物の種類の列挙型
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.ReturnListCommand">
+ <summary>
+ コピーした宛先リストをビューに表示するコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.ReturnList_CustomerIDCommand">
+ <summary>
+ コピーした管理番号を基にリストを返すコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.DeleteItemCommand">
+ <summary>
+ リストのアイテムを削除します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.MyAddressee">
+ <summary>
+ リストに表示する宛先クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.InputLessee">
+ <summary>
+ リストに表示する名義人クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.Title">
  <summary>
  敬称
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.MultiAddresseeDataViewModel.AddresseeList">
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.AddresseeList">
  <summary>
  データバインド用リスト
  </summary>
  <returns></returns>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IOutputDataRepogitory)">
  <summary>
  各種リポジトリを設定します
  </summary>
  <param name="lesseerepository">名義人データ</param>
  <param name="excelrepository">エクセルデータ</param>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.AddItem">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.AddItem">
  <summary>
  リストに追加する名義人データを返します
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.ReturnList">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.ReturnList">
  <summary>
  クリップボードのデータを基にリスト表示するアイテムを格納したリストを返します
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.ReturnList_CustomerID">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.CreateErrorMessageInfo">
+ <summary>
+ エラーメッセージを生成します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.ReturnList_CustomerID">
  <summary>
  管理番号の列を格納したクリップボードを使用してリスト表示するアイテムを格納したリストを返します
  </summary>
  <returns></returns>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_Cho3Envelope">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.OutputList_Cho3Envelope">
  <summary>
  長3封筒印刷
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_GravePamphletEnvelope">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.OutputList_GravePamphletEnvelope">
  <summary>
  墓地パンフ印刷
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_Kaku2Envelope">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.OutputList_Kaku2Envelope">
  <summary>
  角2封筒印刷
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_Postcard">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.OutputList_Postcard">
  <summary>
  ハガキ印刷
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_WesternEnvelope">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.OutputList_WesternEnvelope">
  <summary>
  洋封筒印刷
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.OutputList_LabelSheet">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.OutputList_LabelSheet">
  <summary>
  ラベル用紙印刷
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.DeleteItem">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.DeleteItem">
  <summary>
  リストの行を削除します
  </summary>
 </member>
-<member name="M:WPF.MultiAddresseeDataViewModel.Output">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.Output">
  <summary>
  印刷物を出力します
  </summary>
 </member>
-<member name="T:WPF.MultiAddresseeDataViewModel.AddresseeListItem">
+<member name="T:WPF.ViewModels.MultiAddresseeDataViewModel.AddresseeListItem">
  <summary>
  リストに表示する宛先クラス
  </summary>
 </member>
-<member name="T:WPF.CreateGravePanelDataView">
-<summary>
-CreateGravePanelDataView
-</summary>
+<member name="T:WPF.ViewModels.IAddressDataViewCloseListener">
+ <summary>
+ 住所データをリスナーに渡します
+ </summary>
 </member>
-<member name="M:WPF.CreateGravePanelDataView.InitializeComponent">
-<summary>
-InitializeComponent
-</summary>
+<member name="T:WPF.ViewModels.AddressDataViewModel">
+ <summary>
+ 住所一覧画面ビューモデル
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.AddressDataViewModel.SetAddressDataCommand">
+ <summary>
+ 住所データをリスナーに渡すコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.AddressDataViewModel.AddListener(WPF.ViewModels.IAddressDataViewCloseListener)">
+ <summary>
+ リスナー登録
+ </summary>
+ <param name="_listener"></param>
+</member>
+<member name="P:WPF.ViewModels.AddressDataViewModel.Postalcode">
+ <summary>
+ 郵便番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.AddressDataViewModel.Address">
+ <summary>
+ 住所
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.AddressDataViewModel.MyAddressList">
+ <summary>
+ 住所データリスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.AddressDataViewModel.ReturnData">
+ <summary>
+ リスナーに住所データを渡す
+ </summary>
+</member>
+<member name="T:WPF.ViewModels.SingleAddresseeDataViewModel">
+ <summary>
+ メインフォームに情報を渡すビューモデルクラス
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.CallAddressOverLengthMessage">
+ <summary>
+ 住所が長い時に注意を促すメッセージを表示させるBool
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.CallErrorMessage">
+ <summary>
+ エラーメッセージを表示させるBool
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.CallSelectAddresseeInfo">
+ <summary>
+ 名義人と送付先のどちらを使用するかのメッセージを表示させるBool
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.SelectedOutputContentsValue">
+ <summary>
+ 印刷する種類を保持します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:WPF.ViewModels.SingleAddresseeDataViewModel.OutputContents">
+ <summary>
+ 保持する印刷種類
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.OutputContentsDictionary">
+ <summary>
+ 印刷する種類を保持しているディクショナリ
+ </summary>
+ <returns></returns>
+</member>
+<member name="F:WPF.ViewModels.SingleAddresseeDataViewModel.DataBaseConecter">
+ <summary>
+ 名義人情報を保持するリポジトリ
+ </summary>
+</member>
+<member name="F:WPF.ViewModels.SingleAddresseeDataViewModel.DataOutputConecter">
+ <summary>
+ 印刷等のデータを保持するリポジトリ
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GotoGravePanelDataView">
+ <summary>
+ 墓地札画面に移動するコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GotoMultiAddresseeDataView">
+ <summary>
+ 一括出力画面に移動するコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.DataOutput">
+ <summary>
+ データをOutputするコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.NoteClear">
+ <summary>
+ 備考欄を空欄にするコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.AddressReference">
+ <summary>
+ 住所で検索をかけるコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.PostalcodeReference">
+ <summary>
+ 郵便番号で検索をかけるコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.ReferenceLesseeCommand">
+ <summary>
+ 名義人データ検索コマンド
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.LastSaveDate">
+ <summary>
+ 春秋苑データ最終更新日
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.PermitReference">
+ <summary>
+ 検索許可
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.MultiOutputCheck">
+ <summary>
+ 続けて入力する時に、既存のデータを消さずに次のデータを出力するかのチェック
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.AddresseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Title">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.PostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Address1">
+ <summary>
+ 住所1（郵便番号が有効な部分）
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Address2">
+ <summary>
+ 住所2（郵便番号が無効な番地等の部分）
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Note1">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Note2">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Note3">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Note4">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Note5">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Money">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.TransferPaperMenuEnabled">
+ <summary>
+ 振込用紙独自の欄のEnableを保持します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.#ctor">
+ <summary>
+ 各種リポジトリを設定します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IOutputDataRepogitory)">
+ <param name="lesseerepository">名義人データ</param>
+ <param name="excelrepository">エクセルデータ</param>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ReferenceLessee">
+ <summary>
+ 渡された管理番号で、名義人データを生成します。
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.GetAddress(System.String)">
+ <summary>
+ 郵便番号を使用して、住所を検索する
+ </summary>
+ <param name="postalcode">郵便番号</param>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputTransferData">
+ <summary>
+ 振込用紙
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputCho3Envelope">
+ <summary>
+ 長3封筒
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputWesternEnvelope">
+ <summary>
+ 洋封筒
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputGravePamphletEnvelope">
+ <summary>
+ 墓地パンフ
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputKaku2Envelope">
+ <summary>
+ 角２封筒
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputPostcard">
+ <summary>
+ はがき
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputLabel">
+ <summary>
+ ラベル
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ReferenceAddress">
+ <summary>
+ 住所を検索します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ReferenceAddress_Postalcode">
+ <summary>
+ 郵便番号で住所を検索します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.SetDefaultValue">
+ <summary>
+ プロパティを初期化する
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.HasError">
+ <summary>
+ 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateErrorMessage">
+ <summary>
+ エラーメッセージを生成します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.Notify(System.String,System.String)">
+ <summary>
+ 住所検索で、帰ってきたデータを格納します
+ </summary>
+ <param name="_postalcode"></param>
+ <param name="_address"></param>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.NoteTextClear">
+ <summary>
+ 備考を空欄にする
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.Output">
+ <summary>
+ 宛名データを出力します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.TransferPaperMenuEnabledChange">
+ <summary>
+ 振込用紙の独自の欄のEnableを変えます
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ShowMultiAddresseeDataView">
+ <summary>
+ 一括出力画面を表示します。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ShowGravePanelDataView">
+ <summary>
+ 墓地札リスト画面を開きます。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateAddressOverLengthInfo">
+ <summary>
+ 住所が長い場合の注意を促すメッセージを生成します
+ </summary>
+</member>
+<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateSelectAddresseeInfo">
+ <summary>
+ 名義人と送付先のどちらを使用するかのメッセージを生成します
+ </summary>
 </member>
 <member name="T:WPF.GravePanelDataView">
 <summary>
@@ -278,12 +1075,27 @@ GravePanelDataView
 InitializeComponent
 </summary>
 </member>
+<member name="T:WPF.Data.MessageBoxInfo">
+ <summary>
+ メッセージボックスの値を保持するクラス
+ </summary>
+</member>
 <member name="T:WPF.MultiAddresseeDataView">
 <summary>
 MultiAddresseeDataView
 </summary>
 </member>
 <member name="M:WPF.MultiAddresseeDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.Plactice">
+<summary>
+Plactice
+</summary>
+</member>
+<member name="M:WPF.Plactice.InitializeComponent">
 <summary>
 InitializeComponent
 </summary>
@@ -313,277 +1125,6 @@ InitializeComponent
 Application Entry Point.
 </summary>
 </member>
-<member name="T:WPF.AddressDataViewModel">
- <summary>
- 住所一覧画面ビューモデル
- </summary>
-</member>
-<member name="P:WPF.AddressDataViewModel.MyAddressList">
- <summary>
- 住所データリスト
- </summary>
- <returns></returns>
-</member>
-<member name="M:WPF.ReferenceLesseeCommand.CanExecute(System.Object)">
- <summary>
- エグゼが実行される前に実行する。FalseだとExecuteは実行されない
- </summary>
- <param name="parameter"></param>
- <returns></returns>
-</member>
-<member name="T:WPF.SingleAddresseeDataViewModel">
- <summary>
- メインフォームに情報を渡すビューモデルクラス
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.SelectedOutputContentsValue">
- <summary>
- 印刷する種類を保持します
- </summary>
- <returns></returns>
-</member>
-<member name="T:WPF.SingleAddresseeDataViewModel.OutputContents">
- <summary>
- 保持する印刷種類
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.OutputContentsDictionary">
- <summary>
- 印刷する種類を保持しているディクショナリ
- </summary>
- <returns></returns>
-</member>
-<member name="F:WPF.SingleAddresseeDataViewModel.DataBaseConecter">
- <summary>
- 名義人情報を保持するリポジトリ
- </summary>
-</member>
-<member name="F:WPF.SingleAddresseeDataViewModel.DataOutputConecter">
- <summary>
- 印刷等のデータを保持するリポジトリ
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.GotoGravePanelDataView">
- <summary>
- 墓地札画面に移動するコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.GotoMultiAddresseeDataView">
- <summary>
- 一括出力画面に移動するコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.DataOutput">
- <summary>
- データをOutputするコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.NoteClear">
- <summary>
- 備考欄を空欄にするコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.AddressReference">
- <summary>
- 住所で検索をかけるコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.PostalcodeReference">
- <summary>
- 郵便番号で検索をかけるコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.ReferenceLesseeCommand">
- <summary>
- 名義人データ検索コマンド
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.PermitReference">
- <summary>
- 検索許可
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.CustomerID">
- <summary>
- 管理番号
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.MultiOutputCheck">
- <summary>
- 続けて入力する時に、既存のデータを消さずに次のデータを出力するかのチェック
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.AddresseeName">
- <summary>
- 宛名
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Title">
- <summary>
- 敬称
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.PostalCode">
- <summary>
- 郵便番号
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Address1">
- <summary>
- 住所1（郵便番号が有効な部分）
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Address2">
- <summary>
- 住所2（郵便番号が無効な番地等の部分）
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Note1">
- <summary>
- 備考1
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Note2">
- <summary>
- 備考2
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Note3">
- <summary>
- 備考3
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Note4">
- <summary>
- 備考4
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Note5">
- <summary>
- 備考5
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.Money">
- <summary>
- 金額
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.IsNoteInput">
- <summary>
- 備考不要チェック
- </summary>
-</member>
-<member name="P:WPF.SingleAddresseeDataViewModel.TransferPaperMenuEnabled">
- <summary>
- 振込用紙独自の欄のEnableを保持します
- </summary>
- <returns></returns>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.#ctor">
- <summary>
- 各種リポジトリを設定します
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.#ctor(Domain.IDataConectRepogitory,Domain.IAdresseeOutputRepogitory)">
- <param name="lesseerepository">名義人データ</param>
- <param name="excelrepository">エクセルデータ</param>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.ReferenceLessee">
- <summary>
- 渡された管理番号で、名義人データを生成します。
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.GetAddress(System.String)">
- <summary>
- 郵便番号を使用して、住所を検索する
- </summary>
- <param name="postalcode">郵便番号</param>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputTransferData">
- <summary>
- 振込用紙
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputCho3Envelope">
- <summary>
- 長3封筒
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputWesternEnvelope">
- <summary>
- 洋封筒
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputGravePamphletEnvelope">
- <summary>
- 墓地パンフ
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputKaku2Envelope">
- <summary>
- 角２封筒
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputPostcard">
- <summary>
- はがき
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.InputLabel">
- <summary>
- ラベル
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.ReferenceAddress">
- <summary>
- 住所を検索します
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.ReferenceAddress_Postalcode">
- <summary>
- 郵便番号で住所を検索します
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.SetDefaultValue">
- <summary>
- プロパティを初期化する
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.HasError">
- <summary>
- 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
- </summary>
- <returns></returns>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.NoteTextClear">
- <summary>
- 備考を空欄にする
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.Output">
- <summary>
- 宛名データを出力します
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.TransferPaperMenuEnabledChange">
- <summary>
- 振込用紙の独自の欄のEnableを変えます
- </summary>
-</member>
-<member name="M:WPF.SingleAddresseeDataViewModel.ShowMultiAddresseeDataView">
- <summary>
- 一括出力画面を表示します
- </summary>
-</member>
 <member name="T:WPF.AddressDataView">
 <summary>
 AddressDataView
@@ -592,6 +1133,46 @@ AddressDataView
 <member name="M:WPF.AddressDataView.InitializeComponent">
 <summary>
 InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.CreateGravePanelDataView">
+<summary>
+CreateGravePanelDataView
+</summary>
+</member>
+<member name="M:WPF.CreateGravePanelDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
+<member name="T:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+<summary>
+GeneratedInternalTypeHelper
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+<summary>
+CreateInstance
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+<summary>
+GetPropertyValue
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+<summary>
+SetPropertyValue
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+<summary>
+CreateDelegate
+</summary>
+</member>
+<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+<summary>
+AddEventHandler
 </summary>
 </member>
 </members>
