@@ -1,23 +1,33 @@
 ﻿Imports System.ComponentModel
 Imports Domain
 Imports Infrastructure
-Imports WPF.ViewModels
 Imports WPF.Command
 Imports WPF.Data
+Imports System.Text.RegularExpressions
 
 Namespace ViewModels
     ''' <summary>
     ''' メインフォームに情報を渡すビューモデルクラス
     ''' </summary>
     Public Class SingleAddresseeDataViewModel
-        Implements INotifyPropertyChanged, IAddressDataViewCloseListener
-
-        Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+        Inherits BaseViewModel
+        Implements IAddressDataViewCloseListener
 
         Public Property AddressOverLengthInfo As DelegateCommand
         Public Property SelectAddresseeInfo As DelegateCommand
         Public Property ErrorMessageInfo As DelegateCommand
         Public Property MsgResult As MessageBoxResult
+
+        Public Property CallGravePanelDataView As Boolean
+            Get
+                Return _CallGravePanelDataView
+            End Get
+            Set
+                _CallGravePanelDataView = Value
+                CallPropertyChanged(NameOf(CallGravePanelDataView))
+                _CallGravePanelDataView = False
+            End Set
+        End Property
 
         ''' <summary>
         ''' 住所が長い時に注意を促すメッセージを表示させるBool
@@ -29,7 +39,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallAddressOverLengthMessage = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CallAddressOverLengthMessage)))
+                CallPropertyChanged(NameOf(CallAddressOverLengthMessage))
                 _CallAddressOverLengthMessage = False
             End Set
         End Property
@@ -44,7 +54,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallErrorMessage = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CallErrorMessage)))
+                CallPropertyChanged(NameOf(CallErrorMessage))
                 _CallErrorMessage = False
             End Set
         End Property
@@ -55,7 +65,7 @@ Namespace ViewModels
             End Get
             Set
                 _MessageInfo = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MessageInfo)))
+                CallPropertyChanged(NameOf(MessageInfo))
             End Set
         End Property
 
@@ -69,7 +79,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallSelectAddresseeInfo = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CallSelectAddresseeInfo)))
+                CallPropertyChanged(NameOf(CallSelectAddresseeInfo))
                 _CallSelectAddresseeInfo = False
             End Set
         End Property
@@ -85,7 +95,7 @@ Namespace ViewModels
             Set
                 If _SelectedOutputContentsValue = Value Then Return
                 _SelectedOutputContentsValue = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedOutputContentsValue)))
+                CallPropertyChanged(NameOf(SelectedOutputContentsValue))
                 If OutputContents.TransferPaper.ToString.Equals(_SelectedOutputContentsValue.ToString) Then
                     TransferPaperMenuEnabled = True
                 Else
@@ -133,7 +143,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property GotoGravePanelDataView As ICommand
             Get
-                If _GotoGravePanelDataView Is Nothing Then _GotoGravePanelDataView = New GotoGravePanelDataViewCommand(Me)
+                _GotoGravePanelDataView = New DelegateCommand(
+                    Sub()
+                        ShowGravePanelDataView()
+                        CallPropertyChanged(NameOf(GotoGravePanelDataView))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _GotoGravePanelDataView
             End Get
             Set
@@ -147,7 +165,7 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property GotoMultiAddresseeDataView As ICommand
             Get
-                If _GotoMultiAddresseeDataView Is Nothing Then _GotoMultiAddresseeDataView = New GotoMultiAddresseeDataViewCommand(Me)
+                If _GotoMultiAddresseeDataView Is Nothing Then _GotoMultiAddresseeDataView = GotoMultiAddresseeDataViewCommand()
                 Return _GotoMultiAddresseeDataView
             End Get
             Set
@@ -155,13 +173,28 @@ Namespace ViewModels
             End Set
         End Property
 
+        Public Function GotoMultiAddresseeDataViewCommand() As DelegateCommand
+
+            ShowFormCommand = New DelegateCommand(
+                Sub()
+                    ShowMultiAddresseeDataView()
+                    CallPropertyChanged(NameOf(ShowFormCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+
+            Return ShowFormCommand
+
+        End Function
         ''' <summary>
         ''' データをOutputするコマンド
         ''' </summary>
         ''' <returns></returns>
         Public Property DataOutput As ICommand
             Get
-                If _DataOutput Is Nothing Then _DataOutput = New OutputDataCommand(Me)
+                If _DataOutput Is Nothing Then _DataOutput = DataOutputDelegate()
                 Return _DataOutput
             End Get
             Set
@@ -169,13 +202,45 @@ Namespace ViewModels
             End Set
         End Property
 
+        Public Property DelegateCommand As DelegateCommand
+
+        Public Function DataOutputDelegate() As DelegateCommand
+
+            DelegateCommand = New DelegateCommand(
+                Sub()
+                    Output()
+                    CallPropertyChanged(NameOf(DelegateCommand))
+                End Sub,
+                Function()
+                    Dim ec As Boolean = False
+                    ec = AddresseeName IsNot String.Empty
+                    If ec Then ec = PostalCode IsNot String.Empty
+                    If ec Then ec = Address1 IsNot String.Empty
+                    If ec Then ec = Address2 IsNot String.Empty
+                    If ec Then ec = Not (HasErrors)
+                    Return ec
+                End Function
+                )
+
+            Return DelegateCommand
+
+        End Function
+
         ''' <summary>
         ''' 備考欄を空欄にするコマンド
         ''' </summary>
         ''' <returns></returns>
         Public Property NoteClear As ICommand
             Get
-                If _NoteClear Is Nothing Then _NoteClear = New NoteClearCommand(Me)
+                _NoteClear = New DelegateCommand(
+                    Sub()
+                        NoteTextClear()
+                        CallPropertyChanged(NameOf(NoteClear))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _NoteClear
             End Get
             Set
@@ -189,7 +254,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property AddressReference As ICommand
             Get
-                If _AddressReference Is Nothing Then _AddressReference = New AddressReferenceCommand(Me)
+                _AddressReference = New DelegateCommand(
+                    Sub()
+                        ReferenceAddress()
+                        CallPropertyChanged(NameOf(AddressReference))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _AddressReference
             End Get
             Set
@@ -203,7 +276,7 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property PostalcodeReference As ICommand
             Get
-                If _ReferencePostalcode Is Nothing Then _ReferencePostalcode = New PostalcodeReferemceCommand(Me)
+                If _ReferencePostalcode Is Nothing Then _ReferencePostalcode = PostalcodeReferenceCommand()
                 Return _ReferencePostalcode
             End Get
             Set
@@ -211,18 +284,51 @@ Namespace ViewModels
             End Set
         End Property
 
+        Public Function PostalcodeReferenceCommand() As DelegateCommand
+
+            If GetErrors(PostalCode) IsNot Nothing Then Return Nothing
+            DelegateCommand = New DelegateCommand(
+                Sub()
+                    ReferenceAddress_Postalcode()
+                    CallPropertyChanged(NameOf(DelegateCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+
+            Return DelegateCommand
+
+        End Function
+
         ''' <summary>
         ''' 名義人データ検索コマンド
         ''' </summary>
         Public Property ReferenceLesseeCommand As ICommand
             Get
-                If _ReferenceLesseeCommand Is Nothing Then _ReferenceLesseeCommand = New ReferenceLesseeCommand(Me)
+                If _ReferenceLesseeCommand Is Nothing Then _ReferenceLesseeCommand = ReferenceLesseeDelegate()
                 Return _ReferenceLesseeCommand
             End Get
             Set
                 _ReferenceLesseeCommand = Value
             End Set
         End Property
+
+        Public Function ReferenceLesseeDelegate() As DelegateCommand
+
+            DelegateCommand = New DelegateCommand(
+                Sub()
+                    ReferenceLessee()
+               CallPropertyChanged(NameOf(DelegateCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+
+            Return DelegateCommand
+
+        End Function
 
         Private _Addresseename As String = String.Empty
         Private _PostalCode As String = String.Empty
@@ -252,18 +358,8 @@ Namespace ViewModels
         Private _CallSelectAddresseeInfo As Boolean
         Private _CallErrorMessage As Boolean
         Private _CallAddressOverLengthMessage As Boolean
-        Private _ShowForm As Window
+        Private _CallGravePanelDataView As Boolean
         Private Property MyLessee As LesseeCustomerInfoEntity
-
-        Public Property ShowForm As Window
-            Get
-                Return _ShowForm
-            End Get
-            Set
-                _ShowForm = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(ShowForm)))
-            End Set
-        End Property
 
         ''' <summary>
         ''' 春秋苑データ最終更新日
@@ -274,9 +370,8 @@ Namespace ViewModels
                 Return _LastSaveDate
             End Get
             Set
-
                 _LastSaveDate = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(LastSaveDate)))
+                CallPropertyChanged(NameOf(LastSaveDate))
             End Set
         End Property
 
@@ -291,7 +386,7 @@ Namespace ViewModels
             Set
                 If _PermitReference = Value Then Return
                 _PermitReference = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(PermitReference)))
+                CallPropertyChanged(NameOf(PermitReference))
             End Set
         End Property
 
@@ -307,7 +402,7 @@ Namespace ViewModels
                 If _CustomerID = Value Then Return
                 _CustomerID = Value
                 PermitReference = _CustomerID.Length = 6
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CustomerID)))
+                CallPropertyChanged(NameOf(CustomerID))
             End Set
         End Property
 
@@ -322,7 +417,7 @@ Namespace ViewModels
             Set
                 If _MultiOutputCheck = Value Then Return
                 _MultiOutputCheck = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MultiOutputCheck)))
+                CallPropertyChanged(NameOf(MultiOutputCheck))
             End Set
         End Property
 
@@ -336,7 +431,8 @@ Namespace ViewModels
             Set
                 If Value = AddresseeName Then Return
                 _Addresseename = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(AddresseeName)))
+                CallPropertyChanged(NameOf(AddresseeName))
+                ValidateProperty(NameOf(AddresseeName), Value)
             End Set
         End Property
 
@@ -350,7 +446,8 @@ Namespace ViewModels
             Set
                 If Value = Title Then Return
                 _Title = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Title)))
+                CallPropertyChanged(NameOf(Title))
+                ValidateProperty(NameOf(Title), Value)
             End Set
         End Property
 
@@ -364,7 +461,8 @@ Namespace ViewModels
             Set
                 If Value = PostalCode Then Return
                 _PostalCode = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(PostalCode)))
+                CallPropertyChanged(NameOf(PostalCode))
+                ValidateProperty(NameOf(PostalCode), Value)
             End Set
         End Property
 
@@ -378,7 +476,8 @@ Namespace ViewModels
             Set
                 If Value = Address1 Then Return
                 _Address1 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Address1)))
+                CallPropertyChanged(NameOf(Address1))
+                ValidateProperty(NameOf(Address1), Value)
             End Set
         End Property
 
@@ -392,7 +491,8 @@ Namespace ViewModels
             Set
                 If Value = Address2 Then Return
                 _Address2 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Address2)))
+                CallPropertyChanged(NameOf(Address2))
+                ValidateProperty(NameOf(Address2), Value)
             End Set
         End Property
 
@@ -406,7 +506,7 @@ Namespace ViewModels
             Set
                 If Value = Note1 Then Return
                 _Note1 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Note1)))
+                CallPropertyChanged(NameOf(Note1))
             End Set
         End Property
 
@@ -420,7 +520,7 @@ Namespace ViewModels
             Set
                 If Value = Note2 Then Return
                 _Note2 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Note2)))
+                CallPropertyChanged(NameOf(Note2))
             End Set
         End Property
 
@@ -434,7 +534,7 @@ Namespace ViewModels
             Set
                 If Value = Note3 Then Return
                 _Note3 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Note3)))
+                CallPropertyChanged(NameOf(Note3))
             End Set
         End Property
 
@@ -448,7 +548,7 @@ Namespace ViewModels
             Set
                 If Value = Note4 Then Return
                 _Note4 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Note4)))
+                CallPropertyChanged(NameOf(Note4))
             End Set
         End Property
 
@@ -462,7 +562,7 @@ Namespace ViewModels
             Set
                 If Value = Note5 Then Return
                 _Note5 = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Note5)))
+                CallPropertyChanged(NameOf(Note5))
             End Set
         End Property
 
@@ -476,7 +576,7 @@ Namespace ViewModels
             Set
                 If Value = Money Then Return
                 _Money = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Money)))
+                CallPropertyChanged(NameOf(Money))
             End Set
         End Property
 
@@ -490,7 +590,7 @@ Namespace ViewModels
             End Get
             Set
                 _TransferPaperMenuEnabled = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(TransferPaperMenuEnabled)))
+                CallPropertyChanged(NameOf(TransferPaperMenuEnabled))
             End Set
         End Property
 
@@ -532,15 +632,15 @@ Namespace ViewModels
 
             If MyLessee.GetReceiverName = String.Empty Then
                 SetLesseeProperty(MyLessee)
-                GoTo NoteInputPart
+                NoteInput()
+                Exit Sub
             End If
 
             If MyLessee.GetLesseeName = MyLessee.GetReceiverName Then
                 SetReceiverProperty(MyLessee)
-                GoTo NoteInputPart
-            End If
-
-            If MyLessee.GetLesseeName <> MyLessee.GetReceiverName Then
+                NoteInput()
+                Exit Sub
+            Else
                 CreateSelectAddresseeInfo()
                 CallSelectAddresseeInfo = True
             End If
@@ -551,9 +651,11 @@ Namespace ViewModels
                 SetReceiverProperty(MyLessee)
             End If
 
+            NoteInput()
 
-NoteInputPart:
+        End Sub
 
+        Private Sub NoteInput()
             Note1 = "管理番号 " & MyLessee.GetCustomerID
             Note2 = MyLessee.GetGraveNumber.GetNumber
             If MyLessee.GetArea > 0 Then
@@ -561,7 +663,6 @@ NoteInputPart:
             Else
                 Note3 = String.Empty
             End If
-
         End Sub
 
         Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
@@ -591,8 +692,7 @@ NoteInputPart:
         ''' 振込用紙
         ''' </summary>
         Public Sub InputTransferData()
-            If HasError() Then Exit Sub
-            DataOutputConecter.TransferPaperPrintOutput(AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck)
+            DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck)
             SetDefaultValue()
         End Sub
 
@@ -600,65 +700,72 @@ NoteInputPart:
         ''' 長3封筒
         ''' </summary>
         Public Sub InputCho3Envelope()
-            If HasError() Then Exit Sub
-            DataOutputConecter.Cho3EnvelopeOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            DataOutputConecter.Cho3EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
         End Sub
 
         ''' <summary>
         ''' 洋封筒
         ''' </summary>
         Public Sub InputWesternEnvelope()
-            If HasError() Then Exit Sub
-            DataOutputConecter.WesternEnvelopeOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            DataOutputConecter.WesternEnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
         End Sub
 
         ''' <summary>
         ''' 墓地パンフ
         ''' </summary>
         Public Sub InputGravePamphletEnvelope()
-            If HasError() Then Exit Sub
-            DataOutputConecter.GravePamphletOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            DataOutputConecter.GravePamphletOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
         End Sub
 
         ''' <summary>
         ''' 角２封筒
         ''' </summary>
         Public Sub InputKaku2Envelope()
-            If HasError() Then Exit Sub
-            DataOutputConecter.Kaku2EnvelopeOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            DataOutputConecter.Kaku2EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
         End Sub
 
         ''' <summary>
         ''' はがき
         ''' </summary>
         Public Sub InputPostcard()
-            If HasError() Then Exit Sub
-            DataOutputConecter.PostcardOutput(AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            DataOutputConecter.PostcardOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
         End Sub
 
         ''' <summary>
         ''' ラベル
         ''' </summary>
         Public Sub InputLabel()
-            If HasError() Then Exit Sub
-            DataOutputConecter.LabelOutput(AddresseeName, Title, PostalCode, Address1, Address2)
+            DataOutputConecter.LabelOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2)
             SetDefaultValue()
         End Sub
+
+        Private AddressList As AddressDataListEntity
+        Private _CallShowAddressDataView As Boolean
+
+        Public Property CallShowAddressDataView As Boolean
+            Get
+                Return _CallShowAddressDataView
+            End Get
+            Set
+                _CallShowAddressDataView = Value
+                CallPropertyChanged(NameOf(CallShowAddressDataView))
+                _CallShowAddressDataView = False
+            End Set
+        End Property
 
         ''' <summary>
         ''' 住所を検索します
         ''' </summary>
         Public Sub ReferenceAddress()
 
-            Dim AddressList As AddressesEntity
             Dim myAddress As AddressDataEntity
 
             AddressList = DataBaseConecter.GetAddressList(Address1)
-            If AddressList.List.Count = 0 Then Exit Sub
+            If AddressList.GetCount = 0 Then Exit Sub
 
             '検索結果が1件なら住所一覧画面は呼ばずにプロパティに入力する
-            If AddressList.List.Count = 1 Then
-                myAddress = AddressList.List.Item(0)
+            If AddressList.GetCount = 1 Then
+                myAddress = AddressList.GetItem(0)
                 Address1 = myAddress.MyAddress.Address
                 Dim mycode As String = myAddress.MyPostalcode.Code
                 PostalCode = mycode.Substring(0, 3) & "-" & mycode.Substring(3, 4)
@@ -667,8 +774,8 @@ NoteInputPart:
 
             Advm = New AddressDataViewModel(AddressList)
             Advm.AddListener(Me)
-            Dim adv As New AddressDataView
-            adv.ShowDialog()
+
+            CreateShowFormCommand(New AddressDataView)
 
         End Sub
 
@@ -677,10 +784,10 @@ NoteInputPart:
         ''' </summary>
         Public Sub ReferenceAddress_Postalcode()
 
-            If PostalCode.Length < 7 Then Exit Sub
+            If String.IsNullOrEmpty(PostalCode) Then Exit Sub
             Dim address As AddressDataEntity = DataBaseConecter.GetAddress(PostalCode)
-            Address1 = address.MyAddress.Address
-            If PostalCode.Length = 7 Then PostalCode = PostalCode.Substring(0, 3) & "-" & PostalCode.Substring(3, 4)
+            If address Is Nothing Then Exit Sub
+            Address1 = address.GetAddress
 
         End Sub
 
@@ -703,26 +810,6 @@ NoteInputPart:
         End Sub
 
         ''' <summary>
-        ''' 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
-        ''' </summary>
-        ''' <returns></returns>
-        Private Function HasError() As Boolean
-
-            If AddresseeName = String.Empty Then GoTo TruePart
-            If PostalCode = String.Empty Then GoTo TruePart
-            If Address1 = String.Empty Then GoTo TruePart
-            If Address2 = String.Empty Then GoTo TruePart
-
-            Return False
-
-TruePart:
-            CreateErrorMessage()
-            CallErrorMessage = True
-            Return True
-
-        End Function
-
-        ''' <summary>
         ''' エラーメッセージを生成します
         ''' </summary>
         Private Sub CreateErrorMessage()
@@ -734,12 +821,15 @@ TruePart:
                        .Image = MessageBoxImage.Error,
                        .Title = "必須項目不備"
                        }
-                       RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(ErrorMessageInfo)))
+                       CallPropertyChanged(NameOf(ErrorMessageInfo))
                    End Sub,
                    Function()
                        Return True
                    End Function
                    )
+
+            CallErrorMessage = True
+
         End Sub
 
         ''' <summary>
@@ -768,7 +858,7 @@ TruePart:
         ''' </summary>
         Public Sub Output()
 
-            If HasError() Then Exit Sub
+            If HasErrors Then Exit Sub
 
             Select Case SelectedOutputContentsValue
                 Case OutputContents.Cho3Envelope
@@ -803,20 +893,17 @@ TruePart:
         End Sub
 
         ''' <summary>
-        ''' 一括出力画面を表示します。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+        ''' 一括出力画面を表示します。
         ''' </summary>
         Public Sub ShowMultiAddresseeDataView()
-
-            Dim madv As New MultiAddresseeDataView
-            madv.ShowDialog()
+            CreateShowFormCommand(New MultiAddresseeDataView)
         End Sub
 
         ''' <summary>
-        ''' 墓地札リスト画面を開きます。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+        ''' 墓地札リスト画面を開きます。要コード検証　
         ''' </summary>
         Public Sub ShowGravePanelDataView()
-            Dim gpdv As New GravePanelDataView
-            gpdv.ShowDialog()
+            CreateShowFormCommand(New GravePanelDataView)
         End Sub
 
         ''' <summary>
@@ -825,9 +912,9 @@ TruePart:
         Public Sub CreateAddressOverLengthInfo()
 
             AddressOverLengthInfo = New DelegateCommand(
-            Sub()
+            Sub() '無名関数（匿名関数）
                 MessageInfo = New MessageBoxInfo With {.Message = "住所がセルからはみ出てますので、書き直して下さい", .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Information, .Title = "要住所調整"}
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(AddressOverLengthInfo)))
+                CallPropertyChanged(NameOf(AddressOverLengthInfo))
             End Sub,
             Function()
                 Return True
@@ -842,16 +929,16 @@ TruePart:
         Private Sub CreateSelectAddresseeInfo()
 
             SelectAddresseeInfo = New DelegateCommand(
-            Sub()
+            Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-                .Message = "名義人 " & MyLessee.GetLesseeName & vbNewLine & MyLessee.GetAddress1 & MyLessee.GetAddress2 & vbNewLine & vbNewLine &
+               .Message = "名義人 " & MyLessee.GetLesseeName & vbNewLine & MyLessee.GetAddress1 & MyLessee.GetAddress2 & vbNewLine & vbNewLine &
                                     "送付先 " & MyLessee.GetReceiverName & vbNewLine & MyLessee.GetReceiverAddress1 & MyLessee.GetReceiverAddress2 &
                                     vbNewLine & vbNewLine & "名義人と送付先が違うデータです。どちらを表示しますか？" & vbNewLine & vbNewLine &
                                     "はい ⇒ 名義人　いいえ ⇒ 送付先", .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = "宛先確認"
                                 }
                 MsgResult = MessageInfo.Result
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectAddresseeInfo)))
+                CallPropertyChanged(NameOf(SelectAddresseeInfo))
             End Sub,
             Function()
                 Return True
@@ -859,5 +946,50 @@ TruePart:
             )
 
         End Sub
+
+        Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
+            Select Case propertyName
+                Case NameOf(CustomerID)
+                    If CustomerID.Length = 6 Then
+                        RemoveError(NameOf(CustomerID))
+                    Else
+                        AddError(NameOf(CustomerID), My.Resources.CustomerIDLengthError)
+                    End If
+                Case NameOf(AddresseeName)
+                    If String.IsNullOrEmpty(AddresseeName) Then
+                        AddError(NameOf(AddresseeName), My.Resources.StringEmptyMessage)
+                    Else
+                        RemoveError(NameOf(AddresseeName))
+                    End If
+                Case NameOf(PostalCode)
+                    If String.IsNullOrEmpty(PostalCode) Then
+                        AddError(NameOf(PostalCode), My.Resources.StringEmptyMessage)
+                    Else
+                        RemoveError(NameOf(PostalCode))
+                    End If
+                    Dim rx As New Regex("^[0-9]{3}-[0-9]{4}$")
+                    If rx.IsMatch(PostalCode) Then
+                        RemoveError(NameOf(PostalCode))
+                    Else
+                        AddError(NameOf(PostalCode), My.Resources.PostalCodeError)
+                    End If
+                Case NameOf(Address1)
+                    If String.IsNullOrEmpty(Address1) Then
+                        AddError(NameOf(Address1), My.Resources.StringEmptyMessage)
+                    Else
+                        RemoveError(NameOf(Address1))
+                    End If
+                Case NameOf(Address2)
+                    If String.IsNullOrEmpty(Address2) Then
+                        AddError(NameOf(Address2), My.Resources.StringEmptyMessage)
+                    Else
+                        RemoveError(NameOf(Address2))
+                    End If
+            End Select
+
+            InputErrorString = GetErrors(propertyName)
+        End Sub
+
     End Class
+
 End Namespace

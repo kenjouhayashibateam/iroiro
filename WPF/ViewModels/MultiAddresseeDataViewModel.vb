@@ -12,15 +12,16 @@ Namespace ViewModels
     ''' 複数印刷画面ビューモデル
     ''' </summary>
     Public Class MultiAddresseeDataViewModel
+        Inherits BaseViewModel
         Implements INotifyPropertyChanged, INotifyCollectionChanged
 
         Private ReadOnly DataBaseConecter As IDataConectRepogitory
         Private ReadOnly DataOutputConecter As IOutputDataRepogitory
         Private _Title As String
-        Private _AddresseeList As New ObservableCollection(Of AddresseeListItem)
+        Private _AddresseeList As New ObservableCollection(Of DestinationDataEntity)
         Private _CustomerID As String
         Private _InputLessee As ICommand
-        Private _MyAddressee As AddresseeListItem
+        Private _MyAddressee As DestinationDataEntity
         Private _DeleteItemCmmand As ICommand
         Private _ReturnList_CustomerIDCommand As Object
         Private _ReturnListCommand As Object
@@ -29,7 +30,6 @@ Namespace ViewModels
         Private _IsShowInTaskBer As Boolean = True
         Private _MessageInfo As MessageBoxInfo
         Private _CallErrorMessageInfo As Boolean
-        Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
         ''' <summary>
@@ -42,7 +42,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallErrorMessageInfo = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CallErrorMessageInfo)))
+                CallPropertyChanged(NameOf(CallErrorMessageInfo))
                 _CallErrorMessageInfo = False
             End Set
         End Property
@@ -59,7 +59,7 @@ Namespace ViewModels
             End Get
             Set
                 _MessageInfo = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MessageInfo)))
+                CallPropertyChanged(NameOf(MessageInfo))
             End Set
         End Property
 
@@ -73,7 +73,7 @@ Namespace ViewModels
             End Get
             Set
                 _IsShowInTaskBer = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsShowInTaskBer)))
+                CallPropertyChanged(NameOf(IsShowInTaskBer))
             End Set
         End Property
 
@@ -83,7 +83,16 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property DataOutputCommand As ICommand
             Get
-                If _DataOutputCommand Is Nothing Then _DataOutputCommand = New OutputListDataCommand(Me)
+                _DataOutputCommand = New DelegateCommand(
+                    Sub()
+                        Output()
+                        CallPropertyChanged(NameOf(DataOutputCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
+
                 Return _DataOutputCommand
             End Get
             Set
@@ -101,7 +110,7 @@ Namespace ViewModels
             End Get
             Set
                 _SelectedOutputContentsValue = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedOutputContentsValue)))
+                CallPropertyChanged(NameOf(SelectedOutputContentsValue))
             End Set
         End Property
 
@@ -129,7 +138,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property ReturnListCommand As ICommand
             Get
-                If _ReturnListCommand Is Nothing Then _ReturnListCommand = New ReturnListCommand(Me)
+                _ReturnListCommand = New DelegateCommand(
+                    Sub()
+                        ReturnList()
+                        CallPropertyChanged(NameOf(ReturnListCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _ReturnListCommand
             End Get
             Set
@@ -143,7 +160,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property ReturnList_CustomerIDCommand As ICommand
             Get
-                If _ReturnList_CustomerIDCommand Is Nothing Then _ReturnList_CustomerIDCommand = New ReturnList_CustomerIDCommand(Me)
+                _ReturnList_CustomerIDCommand = New DelegateCommand(
+                    Sub()
+                        ReturnList_CustomerID()
+                        CallPropertyChanged(NameOf(ReturnList_CustomerIDCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _ReturnList_CustomerIDCommand
             End Get
             Set
@@ -157,7 +182,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property DeleteItemCommand As ICommand
             Get
-                If _DeleteItemCmmand Is Nothing Then _DeleteItemCmmand = New DeleteAddresseeCommand(Me)
+                _DeleteItemCmmand = New DelegateCommand(
+                    Sub()
+                        DeleteItem()
+                        CallPropertyChanged(NameOf(DeleteItemCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _DeleteItemCmmand
             End Get
             Set
@@ -169,13 +202,13 @@ Namespace ViewModels
         ''' リストに表示する宛先クラス
         ''' </summary>
         ''' <returns></returns>
-        Public Property MyAddressee As AddresseeListItem
+        Public Property MyAddressee As DestinationDataEntity
             Get
                 Return _MyAddressee
             End Get
             Set
                 _MyAddressee = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MyAddressee)))
+                CallPropertyChanged(NameOf(MyAddressee))
             End Set
         End Property
 
@@ -185,7 +218,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property InputLessee As ICommand
             Get
-                If _InputLessee Is Nothing Then _InputLessee = New InputCustomerCommand(Me)
+                _InputLessee = New DelegateCommand(
+                    Sub()
+                        AddItem()
+                        CallPropertyChanged(NameOf(InputLessee))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _InputLessee
             End Get
             Set
@@ -203,7 +244,7 @@ Namespace ViewModels
             End Get
             Set
                 _CustomerID = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CustomerID)))
+                CallPropertyChanged(NameOf(CustomerID))
             End Set
         End Property
 
@@ -217,7 +258,7 @@ Namespace ViewModels
             End Get
             Set
                 _Title = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Title)))
+                CallPropertyChanged(NameOf(Title))
             End Set
         End Property
 
@@ -225,13 +266,13 @@ Namespace ViewModels
         ''' データバインド用リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property AddresseeList As ObservableCollection(Of AddresseeListItem)
+        Public Property AddresseeList As ObservableCollection(Of DestinationDataEntity)
             Get
                 Return _AddresseeList
             End Get
             Set
                 _AddresseeList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(AddresseeList)))
+                CallPropertyChanged(NameOf(AddresseeList))
                 RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(AddresseeList)))
             End Set
         End Property
@@ -267,14 +308,14 @@ Namespace ViewModels
         Public Sub AddItem()
 
             Dim lessee As LesseeCustomerInfoEntity
-            Dim myaddressee As AddresseeListItem
+            Dim myaddressee As DestinationDataEntity
 
             lessee = DataBaseConecter.GetCustomerInfo(CustomerID)
 
             If lessee Is Nothing Then Exit Sub
 
             With lessee
-                myaddressee = New AddresseeListItem(.GetCustomerID, .GetLesseeName, .GetPostalCode, .GetAddress1, .GetAddress2)
+                myaddressee = New DestinationDataEntity(.GetCustomerID, .GetCustomerID, .GetLesseeName, .GetPostalCode, .GetAddress1, .GetAddress2)
             End With
 
             AddresseeList.Add(myaddressee)
@@ -290,8 +331,8 @@ Namespace ViewModels
 
             Dim addresseearray() As String = Split(Clipboard.GetText, vbCrLf)   '改行区切りで配列を作る
             Dim subarray() As String    'addresseearrayの要素から名文字列配列を生成する
-            Dim addressee As AddresseeListItem
-            Dim mylist As New ObservableCollection(Of AddresseeListItem)
+            Dim addressee As DestinationDataEntity
+            Dim mylist As New ObservableCollection(Of DestinationDataEntity)
 
             For i As Integer = 0 To UBound(addresseearray) - 1 'vbCrLfで区切っている影響で、最終行が空文字になるので-1を付ける
                 subarray = Split(addresseearray(i), vbTab)  '改行区切りの要素からタブ区切りの配列を生成する
@@ -300,7 +341,7 @@ Namespace ViewModels
                     CallErrorMessageInfo = True
                     Continue For
                 End If
-                addressee = New AddresseeListItem(i + 1, subarray(0), subarray(1), subarray(2), subarray(3))
+                addressee = New DestinationDataEntity(i + 1, subarray(0), Title, subarray(1), subarray(2), subarray(3))
                 mylist.Add(addressee)
             Next
             AddresseeList = mylist
@@ -319,7 +360,7 @@ Namespace ViewModels
                 .Message = "コピー形式が正しくありません。" & vbNewLine & "宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。",
                 .Title = "形式エラー", .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Error
                 }
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(ErrorMessageInfo)))
+                CallPropertyChanged(NameOf(ErrorMessageInfo))
             End Sub,
         Function()
             Return True
@@ -352,9 +393,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_Cho3Envelope()
 
-            For Each ali As AddresseeListItem In AddresseeList
-                DataOutputConecter.Cho3EnvelopeOutput(ali.Addressee.DataString, Title, ali.Postalcode.DataString, ali.Address1.DataString, ali.Address2.DataString, True)
-            Next
+            DataOutputConecter.Cho3EnvelopeOutput(AddresseeList)
 
         End Sub
 
@@ -363,9 +402,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_GravePamphletEnvelope()
 
-            For Each ali As AddresseeListItem In AddresseeList
-                DataOutputConecter.GravePamphletOutput(ali.Addressee.DataString, Title, ali.Postalcode.DataString, ali.Address1.DataString, ali.Address2.DataString, True)
-            Next
+            DataOutputConecter.GravePamphletOutput(AddresseeList)
 
         End Sub
 
@@ -374,9 +411,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_Kaku2Envelope()
 
-            For Each ali As AddresseeListItem In AddresseeList
-                DataOutputConecter.Kaku2EnvelopeOutput(ali.Addressee.DataString, Title, ali.Postalcode.DataString, ali.Address1.DataString, ali.Address2.DataString, True)
-            Next
+            DataOutputConecter.Kaku2EnvelopeOutput(AddresseeList)
 
         End Sub
 
@@ -385,9 +420,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_Postcard()
 
-            For Each ali As AddresseeListItem In AddresseeList
-                DataOutputConecter.PostcardOutput(ali.Addressee.DataString, Title, ali.Postalcode.DataString, ali.Address1.DataString, ali.Address2.DataString, True)
-            Next
+            DataOutputConecter.PostcardOutput(AddresseeList)
 
         End Sub
 
@@ -396,9 +429,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_WesternEnvelope()
 
-            For Each ali As AddresseeListItem In AddresseeList
-                DataOutputConecter.WesternEnvelopeOutput(ali.Addressee.DataString, Title, ali.Postalcode.DataString, ali.Address1.DataString, ali.Address2.DataString, True)
-            Next
+            DataOutputConecter.WesternEnvelopeOutput(AddresseeList)
 
         End Sub
 
@@ -407,8 +438,8 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_LabelSheet()
 
-            For Each ali As AddresseeListItem In AddresseeList
-                DataOutputConecter.LabelOutput(ali.Addressee.DataString, Title, ali.Postalcode.DataString, ali.Address1.DataString, ali.Address2.DataString)
+            For Each ali As DestinationDataEntity In AddresseeList
+                DataOutputConecter.LabelOutput(ali.MyCustomerID.GetID, ali.AddresseeName.GetName, Title, ali.MyPostalCode.GetCode, ali.MyAddress1.GetAddress, ali.MyAddress2.GetAddress)
             Next
 
         End Sub
@@ -418,7 +449,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub DeleteItem()
 
-            For Each ali As AddresseeListItem In AddresseeList
+            For Each ali As DestinationDataEntity In AddresseeList
                 If Not MyAddressee.Equals(ali) Then Continue For
                 AddresseeList.Remove(ali)
                 Exit For
@@ -450,35 +481,17 @@ Namespace ViewModels
 
         End Sub
 
-        ''' <summary>
-        ''' リストに表示する宛先クラス
-        ''' </summary>
-        Public Class AddresseeListItem
+        Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
 
-            Public Property CustomerID As DataField
-            Public Property Addressee As DataField
-            Public Property Postalcode As DataField
-            Public Property Address1 As DataField
-            Public Property Address2 As DataField
+            Select Case propertyName
+                Case NameOf(Title)
+                    If String.IsNullOrEmpty(propertyName) Then
+                        AddError(propertyName, My.Resources.StringEmptyMessage)
+                    Else
+                        RemoveError(propertyName)
+                    End If
 
-            Sub New(ByVal _customerid As String, ByVal _addressee As String, ByVal _postalcode As String, ByVal _address1 As String, ByVal _address2 As String)
-
-                CustomerID = New DataField(_customerid)
-                Addressee = New DataField(_addressee)
-                Postalcode = New DataField(_postalcode)
-                Address1 = New DataField(_address1)
-                Address2 = New DataField(_address2)
-            End Sub
-
-            Public Class DataField
-
-                Public Property DataString As String
-
-                Sub New(ByVal _datastring As String)
-                    DataString = _datastring
-                End Sub
-
-            End Class
-        End Class
+            End Select
+        End Sub
     End Class
 End Namespace

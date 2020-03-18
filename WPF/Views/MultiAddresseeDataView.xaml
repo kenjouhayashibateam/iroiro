@@ -81,11 +81,11 @@
         </GroupBox>
         <DataGrid x:Name="AddresseeListDataGrid" ItemsSource="{Binding AddresseeList}" AutoGenerateColumns="False" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" SelectedItem="{Binding MyAddressee}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="管理番号" Width="0.6*" Binding="{Binding CustomerID.DataString}"/>
-                <DataGridTextColumn Header="宛名" Width="1*" Binding="{Binding Addressee.DataString}"/>
-                <DataGridTextColumn Header="郵便番号" Width="0.6*" Binding="{Binding Postalcode.DataString}"/>
-                <DataGridTextColumn Header="住所1" Width="2.5*" Binding="{Binding Address1.DataString}"/>
-                <DataGridTextColumn Header="住所2" Width="2.5*"  Binding="{Binding Address2.DataString}"/>
+                <DataGridTextColumn Header="管理番号" Width="0.6*" Binding="{Binding  MyCustomerID.ID}"/>
+                <DataGridTextColumn Header="宛名" Width="1*" Binding="{Binding AddresseeName.MyName}"/>
+                <DataGridTextColumn Header="郵便番号" Width="0.6*" Binding="{Binding MyPostalCode.Code}"/>
+                <DataGridTextColumn Header="住所1" Width="2.5*" Binding="{Binding MyAddress1.Address}"/>
+                <DataGridTextColumn Header="住所2" Width="2.5*"  Binding="{Binding MyAddress2.Address}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

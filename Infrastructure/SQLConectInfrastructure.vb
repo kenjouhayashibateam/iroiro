@@ -169,9 +169,9 @@ Public Class SQLConectInfrastructure
 
     End Function
 
-    Public Function GetAddressList(address As String) As AddressesEntity Implements IDataConectRepogitory.GetAddressList
+    Public Function GetAddressList(address As String) As AddressDataListEntity Implements IDataConectRepogitory.GetAddressList
 
-        Dim AddressList As New AddressesEntity
+        Dim AddressList As New AddressDataListEntity
 
         If address.Trim.Length = 0 Then Return AddressList
         Cmd = New ADODB.Command

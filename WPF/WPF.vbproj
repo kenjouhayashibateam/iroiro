@@ -95,23 +95,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommands\DeleteGravePanelDataCommand.vb" />
-    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommands\OutputGravePanelCommand.vb" />
+    <Compile Include="Data\ShowFormData.vb" />
+    <Compile Include="ViewModels\BaseViewModel.vb" />
     <Compile Include="Views\Behaviors\MessageBoxBehavior.vb" />
-    <Compile Include="ViewModels\Commands\CreateGravePanelDataViewModelCommands\GravePanelDataRegistrationCommand.vb" />
-    <Compile Include="ViewModels\Commands\CreateGravePanelDataViewModelCommands\ReferenceGraveNumberPanelCommand.vb" />
     <Compile Include="ViewModels\Commands\DelegateCommand.vb" />
-    <Compile Include="ViewModels\Commands\GravePanelDataViewModelCommands\GotoCreateGravePanelDataViewCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\OutputDataListCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoGravePanelDataViewCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputContentsSelectionChangedCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\DeleteAddresseeCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\InputCustomerCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\ReturnList_CustomerIDCommand.vb" />
-    <Compile Include="ViewModels\Commands\MultiAddresseeDataViewModelCommands\ReturnListCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\GotoMultiAddresseeDataViewCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\NoteClearCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\OutputDataCommand.vb" />
     <Compile Include="ViewModels\CreateGravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\GravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\MultiAddresseeDataViewModel.vb" />
@@ -142,10 +129,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\AddressDataViewModel.vb" />
-    <Compile Include="ViewModels\Commands\AddressDataViewModelCommands\ReturnAddressDataCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\AddressReferenceCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\PostalcodeReferemceCommand.vb" />
-    <Compile Include="ViewModels\Commands\SingleAddresseeDataViewModelCommands\ReferenceLesseeCommand.vb" />
     <Compile Include="ViewModels\SingleAddresseeDataViewModel.vb" />
     <Compile Include="Views\AddressDataView.xaml.vb">
       <DependentUpon>AddressDataView.xaml</DependentUpon>

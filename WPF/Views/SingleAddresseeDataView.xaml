@@ -17,6 +17,7 @@
         <vm:SingleAddresseeDataViewModel/>
     </Window.DataContext>
 
+       
     <i:Interaction.Triggers>
         <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
             <b:MessageBoxBehavior/>
@@ -28,10 +29,13 @@
       
     <ib:Interaction.Triggers>
         <ib:DataTrigger Binding="{Binding CallSelectAddresseeInfo}" Value="true ">
-            <ib:InvokeCommandAction Command="{Binding SelectAddresseeInfo}"/>
-        </ib:DataTrigger>        
+            <ib:InvokeCommandAction Command="{Binding SelectAddresseeInfo }"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallShowForm}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding ShowFormCommand}"/>
+        </ib:DataTrigger>
     </ib:Interaction.Triggers>
-
+       
     <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,2,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.08*"/>
@@ -62,12 +66,7 @@
                 </Grid.ColumnDefinitions>
                 <Label  Content="管理番号"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right"  VerticalAlignment="Center" />
                 <extk:WatermarkTextBox Name="CustomerIDWatermarkTextBox" MaxLength="6" FontSize="14" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" InputMethod.IsInputMethodEnabled="False" Text="{Binding CustomerID,UpdateSourceTrigger=PropertyChanged}" Margin="0,2,10,2"  Watermark="6桁の数字を入力"/>
-                <Button x:Name="LesseeReferenceButton" Grid.Column="2"  IsDefault="True" IsEnabled="{Binding PermitReference}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,2,0,2">
-                    <ib:Interaction.Triggers>
-                        <ib:EventTrigger EventName="Click">
-                            <ib:InvokeCommandAction Command="{Binding ReferenceLesseeCommand}"/>
-                        </ib:EventTrigger>
-                    </ib:Interaction.Triggers>
+                <Button x:Name="LesseeReferenceButton" Grid.Column="2"  IsDefault="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,2,0,2" IsEnabled="{Binding PermitReference}"  Command="{Binding  ReferenceLesseeCommand}">
                     検索
                 </Button>
             </Grid>
@@ -103,7 +102,7 @@
                                 <ColumnDefinition Width="0.7*"/>
                                 <ColumnDefinition Width="0.3*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="AddresseeName" FontSize="14" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding AddresseeName}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3"/>
+                            <TextBox x:Name="AddresseeName" FontSize="14"  VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding AddresseeName}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3" />
                             <TextBox x:Name="TitleTextBox" FontSize="14" VerticalContentAlignment="Center" Text="{Binding Title}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3"/>
                         </Grid>
                     </Grid>
@@ -170,17 +169,11 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="MultiOutputCheckBox" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding MultiOutputCheck}" Content="複数データ出力" Margin="0,0,20,0"/>
-                <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding DataOutput}">
                     <ib:Interaction.Triggers>
-                        <ib:DataTrigger Binding="{Binding CallErrorMessage}" Value="True">
-                            <ib:InvokeCommandAction Command="{Binding ErrorMessageInfo}"/>
-                        </ib:DataTrigger>
                         <ib:DataTrigger Binding="{Binding CallAddressOverLengthMessage}" Value="True">
                             <ib:InvokeCommandAction Command="{Binding AddressOverLengthInfo}"/>
-                        </ib:DataTrigger>
-                        <ib:EventTrigger EventName="Click">
-                            <ib:InvokeCommandAction Command="{Binding DataOutput}"/>
-                        </ib:EventTrigger>
+                        </ib:DataTrigger>                        
                     </ib:Interaction.Triggers>
                 </Button>
             </Grid>

@@ -17,13 +17,13 @@ Namespace ViewModels
     ''' 住所一覧画面ビューモデル
     ''' </summary>
     Public Class AddressDataViewModel
+        Inherits BaseViewModel
         Implements INotifyPropertyChanged, INotifyCollectionChanged
 
-        Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
         Private Shared Listener As IAddressDataViewCloseListener
-        Private Shared _AddressList As AddressesEntity
+        Private Shared _AddressList As AddressDataListEntity
         Private _Postalcode As String
         Private _Address As String
         Private _myAddress As AddressDataEntity
@@ -35,7 +35,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property SetAddressDataCommand As ICommand
             Get
-                If _SetAddressDataCommand Is Nothing Then _SetAddressDataCommand = New ReturnAddressDataCommand(Me)
+                _SetAddressDataCommand = New DelegateCommand(
+                    Sub()
+                        If MyAddress IsNot Nothing Then Listener.Notify(MyAddress.GetPostalCode, MyAddress.GetAddress)
+                        CallPropertyChanged(NameOf(SetAddressDataCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _SetAddressDataCommand
             End Get
             Set
@@ -49,7 +57,8 @@ Namespace ViewModels
             End Get
             Set
                 _myAddress = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MyAddress)))
+                CallPropertyChanged(NameOf(MyAddress))
+                ValidateProperty(NameOf(MyAddress), Value)
             End Set
         End Property
 
@@ -72,7 +81,7 @@ Namespace ViewModels
             Set
                 If _Postalcode = Value Then Return
                 _Postalcode = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Postalcode)))
+                CallPropertyChanged(NameOf(Postalcode))
             End Set
         End Property
 
@@ -87,15 +96,15 @@ Namespace ViewModels
             Set
                 If _Address = Value Then Return
                 _Address = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Address)))
+                CallPropertyChanged(NameOf(Address))
             End Set
         End Property
 
         Sub New()
-            If MyAddressList Is Nothing Then MyAddressList = New AddressesEntity
+            If MyAddressList Is Nothing Then MyAddressList = New AddressDataListEntity
         End Sub
 
-        Sub New(ByVal _addresslist As AddressesEntity)
+        Sub New(ByVal _addresslist As AddressDataListEntity)
             MyAddressList = _addresslist
         End Sub
 
@@ -103,14 +112,13 @@ Namespace ViewModels
         ''' 住所データリスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property MyAddressList As AddressesEntity
+        Public Property MyAddressList As AddressDataListEntity
             Get
                 Return _AddressList
             End Get
             Set
                 _AddressList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MyAddressList)))
-                RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(MyAddressList)))
+                CallPropertyChanged(NameOf(MyAddressList))
             End Set
         End Property
 
@@ -118,9 +126,18 @@ Namespace ViewModels
         ''' リスナーに住所データを渡す
         ''' </summary>
         Public Sub ReturnData()
-            If MyAddress IsNot Nothing Then Listener.Notify(MyAddress.GetPostalCode, MyAddress.GetAddress)
         End Sub
 
+        Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
+            Select Case propertyName
+                Case NameOf(MyAddress)
+                    If MyAddress Is Nothing Then
+                        AddError(NameOf(MyAddress), My.Resources.NothingSelectedItemMessage)
+                    Else
+                        RemoveError(NameOf(MyAddress))
+                    End If
+            End Select
+        End Sub
     End Class
 
 End Namespace

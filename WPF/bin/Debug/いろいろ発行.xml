@@ -40,163 +40,39 @@
 </member>
 <member name="T:WPF.My.Resources.Resources">
 <summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
 </summary>
 </member>
 <member name="P:WPF.My.Resources.Resources.ResourceManager">
 <summary>
-  Returns the cached ResourceManager instance used by this class.
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
 </summary>
 </member>
 <member name="P:WPF.My.Resources.Resources.Culture">
 <summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
+  すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>
-<member name="T:WPF.Command.DeleteGravePanelDataCommand">
- <summary>
- 墓地札データ削除コマンド
- </summary>
+<member name="P:WPF.My.Resources.Resources.CustomerIDLengthError">
+<summary>
+  6桁の管理番号を入力 に類似しているローカライズされた文字列を検索します。
+</summary>
 </member>
-<member name="T:WPF.Command.GravePanelDataRegistrationCommand">
- <summary>
- 墓地札登録コマンド
- </summary>
+<member name="P:WPF.My.Resources.Resources.NothingSelectedItemMessage">
+<summary>
+  アイテムが選択されていません に類似しているローカライズされた文字列を検索します。
+</summary>
 </member>
-<member name="T:WPF.Command.ReferenceGraveNumberPanelCommand">
- <summary>
- 墓地番号検索コマンド
- </summary>
+<member name="P:WPF.My.Resources.Resources.PostalCodeError">
+<summary>
+  半角数字、ハイフンあり（***-****）で入力してください に類似しているローカライズされた文字列を検索します。
+</summary>
 </member>
-<member name="T:WPF.Command.DelegateCommand`1">
- <summary>
- デリゲートコマンド
- </summary>
- <typeparam name="T"></typeparam>
-</member>
-<member name="M:WPF.Command.DelegateCommand`1.#ctor(System.Action{`0},System.Func{System.Boolean})">
- <summary>コマンド実装</summary>
- <param name="execute">実行メソッド</param>
- <param name="canExecute">実行メソッド処理許可</param>
-</member>
-<member name="T:WPF.Command.DelegateCommand">
- <summary>コマンド実装</summary>
-</member>
-<member name="E:WPF.Command.DelegateCommand.CanExecuteChanged">
- <summary>CanExecute変更イベント</summary>
-</member>
-<member name="F:WPF.Command.DelegateCommand._Execute">
- <summary>実行メソッド</summary>
-</member>
-<member name="F:WPF.Command.DelegateCommand._CanExecute">
- <summary>実行メソッド処理許可</summary>
-</member>
-<member name="M:WPF.Command.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
- <summary>コマンド実装</summary>
- <param name="execute">実行メソッド</param>
- <param name="canExecute">実行メソッド処理許可</param>
-</member>
-<member name="M:WPF.Command.DelegateCommand.CanExecute">
- <summary>コマンドが実行可能か決定する</summary>
-</member>
-<member name="M:WPF.Command.DelegateCommand.CanExecute(System.Object)">
- <summary>コマンドが実行可能か決定する</summary>
- <param name="parameter">パラメータ</param>
-</member>
-<member name="M:WPF.Command.DelegateCommand.Execute">
- <summary>コマンド実行</summary>
-</member>
-<member name="M:WPF.Command.DelegateCommand.Execute(System.Object)">
- <summary>コマンド実行</summary>
- <param name="parameter">パラメータ</param>
-</member>
-<member name="T:WPF.Command.GotoCreateGravePanelDataViewCommand">
- <summary>
- 新規墓地札データ作成画面遷移コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.OutputListDataCommand">
- <summary>
- 複数印刷出力コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.GotoGravePanelDataViewCommand">
- <summary>
- 墓地札データリスト画面遷移コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.OutputContentsSelectionChangedCommand">
- <summary>
- 出力する内容によって備考欄のEnableを変更するコマンド
- </summary>
-</member>
-<member name="T:WPF.Command.DeleteAddresseeCommand">
- <summary>
- 宛名データ削除コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.InputCustomerCommand">
- <summary>
- 名義人データリストにデータを格納するコマンド
- </summary>
-</member>
-<member name="T:WPF.Command.ReturnList_CustomerIDCommand">
- <summary>
- 管理番号リスト取得コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.ReturnListCommand">
- <summary>
- 宛先リスト取得コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.GotoMultiAddresseeDataViewCommand">
- <summary>
- 複数印刷画面遷移コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.NoteClearCommand">
- <summary>
- 備考欄文字列削除コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.OutputDataCommand">
- <summary>
- 単票印刷出力コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.ReturnAddressDataCommand">
- <summary>
- 住所データ取得コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.AddressReferenceCommand">
- <summary>
- 住所検索コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.PostalcodeReferemceCommand">
- <summary>
- 郵便番号検索コマンド
- </summary>
-</member>
-<member name="T:WPF.Command.ReferenceLesseeCommand">
- <summary>
- 名義人データ検索コマンド
- </summary>
-</member>
-<member name="M:WPF.Command.ReferenceLesseeCommand.CanExecute(System.Object)">
- <summary>
- エグゼが実行される前に実行する。FalseだとExecuteは実行されない
- </summary>
- <param name="parameter"></param>
- <returns></returns>
-</member>
-<member name="T:WPF.Behaviors.MessageBoxBehavior">
- <summary>
- メッセージボックスを呼び出します
- </summary>
+<member name="P:WPF.My.Resources.Resources.StringEmptyMessage">
+<summary>
+  必須項目です。必ず入力してください に類似しているローカライズされた文字列を検索します。
+</summary>
 </member>
 <member name="T:WPF.ViewModels.CreateGravePanelDataViewModel">
  <summary>
@@ -539,11 +415,6 @@
  </summary>
  <returns></returns>
 </member>
-<member name="M:WPF.ViewModels.GravePanelDataViewModel.ShowCreateGravePanelDataView">
- <summary>
- 新規墓地札登録画面を呼び出します。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
- </summary>
-</member>
 <member name="M:WPF.ViewModels.GravePanelDataViewModel.DeleteGravePanelData">
  <summary>
  墓地札データ削除
@@ -714,11 +585,6 @@
 <member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.Output">
  <summary>
  印刷物を出力します
- </summary>
-</member>
-<member name="T:WPF.ViewModels.MultiAddresseeDataViewModel.AddresseeListItem">
- <summary>
- リストに表示する宛先クラス
  </summary>
 </member>
 <member name="T:WPF.ViewModels.IAddressDataViewCloseListener">
@@ -1012,12 +878,6 @@
  プロパティを初期化する
  </summary>
 </member>
-<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.HasError">
- <summary>
- 必ず値が入っていないといけないプロパティがEmptyならTrueを返す
- </summary>
- <returns></returns>
-</member>
 <member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateErrorMessage">
  <summary>
  エラーメッセージを生成します
@@ -1047,12 +907,12 @@
 </member>
 <member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ShowMultiAddresseeDataView">
  <summary>
- 一括出力画面を表示します。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+ 一括出力画面を表示します。
  </summary>
 </member>
 <member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.ShowGravePanelDataView">
  <summary>
- 墓地札リスト画面を開きます。要コード検証　Behaviorsにクラスを作ってなんとかViewModel が直接呼び出すのではなくせないか
+ 墓地札リスト画面を開きます。要コード検証　
  </summary>
 </member>
 <member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateAddressOverLengthInfo">
@@ -1064,6 +924,53 @@
  <summary>
  名義人と送付先のどちらを使用するかのメッセージを生成します
  </summary>
+</member>
+<member name="T:WPF.Behaviors.MessageBoxBehavior">
+ <summary>
+ メッセージボックスを呼び出します
+ </summary>
+</member>
+<member name="T:WPF.Command.DelegateCommand`1">
+ <summary>
+ デリゲートコマンド
+ </summary>
+ <typeparam name="T"></typeparam>
+</member>
+<member name="M:WPF.Command.DelegateCommand`1.#ctor(System.Action{`0},System.Func{System.Boolean})">
+ <summary>コマンド実装</summary>
+ <param name="execute">実行メソッド</param>
+ <param name="canExecute">実行メソッド処理許可</param>
+</member>
+<member name="T:WPF.Command.DelegateCommand">
+ <summary>コマンド実装</summary>
+</member>
+<member name="E:WPF.Command.DelegateCommand.CanExecuteChanged">
+ <summary>CanExecute変更イベント</summary>
+</member>
+<member name="F:WPF.Command.DelegateCommand._Execute">
+ <summary>実行メソッド</summary>
+</member>
+<member name="F:WPF.Command.DelegateCommand._CanExecute">
+ <summary>実行メソッド処理許可</summary>
+</member>
+<member name="M:WPF.Command.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean})">
+ <summary>コマンド実装</summary>
+ <param name="execute">実行メソッド</param>
+ <param name="canExecute">実行メソッド処理許可</param>
+</member>
+<member name="M:WPF.Command.DelegateCommand.CanExecute">
+ <summary>コマンドが実行可能か決定する</summary>
+</member>
+<member name="M:WPF.Command.DelegateCommand.CanExecute(System.Object)">
+ <summary>コマンドが実行可能か決定する</summary>
+ <param name="parameter">パラメータ</param>
+</member>
+<member name="M:WPF.Command.DelegateCommand.Execute">
+ <summary>コマンド実行</summary>
+</member>
+<member name="M:WPF.Command.DelegateCommand.Execute(System.Object)">
+ <summary>コマンド実行</summary>
+ <param name="parameter">パラメータ</param>
 </member>
 <member name="T:WPF.GravePanelDataView">
 <summary>

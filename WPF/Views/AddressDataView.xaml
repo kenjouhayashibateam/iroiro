@@ -18,7 +18,7 @@
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding MyAddressList.List}" AutoGenerateColumns="False"
+        <DataGrid ItemsSource="{Binding MyAddressList.MyList}" AutoGenerateColumns="False"
                         Grid.Row="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectedItem="{Binding MyAddress}" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="郵便番号" Width="0.2*" Binding="{Binding MyPostalcode.Code}"/>

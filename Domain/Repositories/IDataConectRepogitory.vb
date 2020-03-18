@@ -22,7 +22,7 @@ Public Interface IDataConectRepogitory
     ''' </summary>
     ''' <param name="address">検索する住所</param>
     ''' <returns></returns>
-    Function GetAddressList(ByVal address As String) As AddressesEntity
+    Function GetAddressList(ByVal address As String) As AddressDataListEntity
 
     ''' <summary>
     ''' 春秋苑データ最終更新日を返します

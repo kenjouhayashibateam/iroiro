@@ -30,7 +30,6 @@ Public Class WinFormAddressDataViewModel
     ''' <param name="_addresslist">アドレスリスト</param>
     Public Sub SetList(_addresslist As ObservableCollection(Of AddressDataEntity))
         _MyAddressList = _addresslist
-        'MyAddressList = New ObservableCollection(Of AddressDataEntity)(_addresslist)
     End Sub
 
 End Class

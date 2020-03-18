@@ -6,14 +6,19 @@ Imports Infrastructure
 Imports WPF.Command
 Imports WPF.Data
 
+Public Interface INotifyListAdd
+    Sub Notify(ByVal gravepanelData As GravePanelDataEntity)
+End Interface
+
 Namespace ViewModels
     ''' <summary>
     ''' 墓地札登録画面ViewModel 
     ''' </summary>
     Public Class CreateGravePanelDataViewModel
+        Inherits BaseViewModel
         Implements INotifyPropertyChanged, INotifyCollectionChanged
 
-        Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+        Private Listener As INotifyListAdd
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
         ''' <summary>
@@ -32,13 +37,25 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property CompleteRegistrationInfo As DelegateCommand
 
+        Public Sub AddListAddListener(ByVal _listener As INotifyListAdd)
+            Listener = _listener
+        End Sub
+
         ''' <summary>
         ''' 墓地番号検索コマンド
         ''' </summary>
         ''' <returns></returns>
         Public Property ReferenceGraveNumberCommand As ICommand
             Get
-                If _ReferenceGraveNumberCommand Is Nothing Then _ReferenceGraveNumberCommand = New ReferenceGraveNumberPanelCommand(Me)
+                _ReferenceGraveNumberCommand = New DelegateCommand(
+                    Sub()
+                        ReferenceLesseeData()
+                        CallPropertyChanged(NameOf(ReferenceGraveNumberCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _ReferenceGraveNumberCommand
             End Get
             Set
@@ -56,7 +73,7 @@ Namespace ViewModels
             End Get
             Set
                 _MessageInfo = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(MessageInfo)))
+                CallPropertyChanged(NameOf(MessageInfo))
             End Set
         End Property
 
@@ -104,7 +121,7 @@ Namespace ViewModels
             End Get
             Set
                 _RegistrationCustomerID = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(RegistrationCustomerID)))
+                CallPropertyChanged(NameOf(RegistrationCustomerID))
             End Set
         End Property
 
@@ -124,7 +141,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallCompleteRegistration = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CallCompleteRegistration)))
+                CallPropertyChanged(NameOf(CallCompleteRegistration))
                 _CallCompleteRegistration = False
             End Set
 
@@ -140,7 +157,7 @@ Namespace ViewModels
             End Get
             Set
                 _IsConfirmationRegister = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsConfirmationRegister)))
+                CallPropertyChanged(NameOf(IsConfirmationRegister))
                 _IsConfirmationRegister = False
             End Set
         End Property
@@ -151,7 +168,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property GravePanelDataRegistration As ICommand
             Get
-                If _GravePanelRegistration Is Nothing Then _GravePanelRegistration = New GravePanelDataRegistrationCommand(Me)
+                _GravePanelRegistration = New DelegateCommand(
+                    Sub()
+                        DataRegistration()
+                        CallPropertyChanged(NameOf(GravePanelDataRegistration))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _GravePanelRegistration
             End Get
             Set
@@ -169,7 +194,7 @@ Namespace ViewModels
             End Get
             Set
                 _ContractContent = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(ContractContent)))
+                CallPropertyChanged(NameOf(ContractContent))
             End Set
         End Property
 
@@ -183,7 +208,7 @@ Namespace ViewModels
             End Get
             Set
                 _ContractContents = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(ContractContents)))
+                CallPropertyChanged(NameOf(ContractContents))
             End Set
         End Property
 
@@ -197,7 +222,8 @@ Namespace ViewModels
             End Get
             Set
                 _KuText = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(KuText)))
+                CallPropertyChanged(NameOf(KuText))
+                ValidateProperty(NameOf(KuText), Value)
             End Set
         End Property
 
@@ -211,7 +237,8 @@ Namespace ViewModels
             End Get
             Set
                 _DisplayForGraveNumber = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(DisplayForGraveNumber)))
+                CallPropertyChanged(NameOf(DisplayForGraveNumber))
+                ValidateProperty(NameOf(DisplayForGraveNumber), Value)
             End Set
         End Property
 
@@ -229,7 +256,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallSelectAddresseeInfo = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CallSelectAddresseeInfo)))
+                CallPropertyChanged(NameOf(CallSelectAddresseeInfo))
                 _CallSelectAddresseeInfo = False
             End Set
         End Property
@@ -244,7 +271,7 @@ Namespace ViewModels
             End Get
             Set
                 _Area = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(Area)))
+                CallPropertyChanged(NameOf(Area))
             End Set
         End Property
 
@@ -258,7 +285,7 @@ Namespace ViewModels
             End Get
             Set
                 _FamilyName = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(FamilyName)))
+                CallPropertyChanged(NameOf(FamilyName))
             End Set
         End Property
 
@@ -272,7 +299,7 @@ Namespace ViewModels
             End Get
             Set
                 _CustomerID = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CustomerID)))
+                CallPropertyChanged(NameOf(CustomerID))
             End Set
         End Property
 
@@ -350,7 +377,7 @@ Namespace ViewModels
                                .Title = "データ選択"
                                }
                 MsgResult = MessageInfo.Result
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectAddresseeInfo)))
+                CallPropertyChanged(NameOf(SelectAddresseeInfo))
             End Sub,
             Function()
                 Return True
@@ -378,7 +405,7 @@ Namespace ViewModels
             Set
                 _EdabanText = Value
                 DisplayForGraveNumber = ReturnDisplayForGraveNumber()
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(EdabanText)))
+                CallPropertyChanged(NameOf(EdabanText))
             End Set
         End Property
 
@@ -393,7 +420,8 @@ Namespace ViewModels
             Set
                 _BanText = Value
                 DisplayForGraveNumber = ReturnDisplayForGraveNumber()
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(BanText)))
+                CallPropertyChanged(NameOf(BanText))
+                ValidateProperty(NameOf(BanText), Value)
             End Set
         End Property
 
@@ -407,7 +435,8 @@ Namespace ViewModels
             End Get
             Set
                 _GawaText = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(GawaText)))
+                CallPropertyChanged(NameOf(GawaText))
+                ValidateProperty(NameOf(GawaText), Value)
             End Set
         End Property
 
@@ -427,7 +456,8 @@ Namespace ViewModels
                     IsEnabledGawa = True
                 End If
                 _KuikiText = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(KuikiText)))
+                CallPropertyChanged(NameOf(KuikiText))
+                ValidateProperty(NameOf(KuikiText), Value)
             End Set
         End Property
 
@@ -441,7 +471,7 @@ Namespace ViewModels
             End Get
             Set
                 _GraveNumberKuList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(GraveNumberKuList)))
+                CallPropertyChanged(NameOf(GraveNumberKuList))
             End Set
         End Property
 
@@ -467,7 +497,7 @@ Namespace ViewModels
             End Get
             Set
                 _GraveNumberBanList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(GraveNumberBanList)))
+                CallPropertyChanged(NameOf(GraveNumberBanList))
             End Set
         End Property
 
@@ -481,7 +511,7 @@ Namespace ViewModels
             End Get
             Set
                 _GraveNumberGawaList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(GraveNumberGawaList)))
+                CallPropertyChanged(NameOf(GraveNumberGawaList))
             End Set
         End Property
 
@@ -495,7 +525,7 @@ Namespace ViewModels
             End Get
             Set
                 _GraveNumberKuikiList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(GraveNumberKuikiList)))
+                CallPropertyChanged(NameOf(GraveNumberKuikiList))
             End Set
         End Property
 
@@ -509,7 +539,7 @@ Namespace ViewModels
             End Get
             Set
                 _GraveNumberEdabanList = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(GraveNumberEdabanList)))
+                CallPropertyChanged(NameOf(GraveNumberEdabanList))
             End Set
         End Property
 
@@ -561,7 +591,7 @@ Namespace ViewModels
             Set
                 If _IsEnabledBan = False Then Return
                 _SelectedEdaban = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedEdaban)))
+                CallPropertyChanged(NameOf(SelectedEdaban))
                 SetLesseeData()
             End Set
         End Property
@@ -576,7 +606,7 @@ Namespace ViewModels
             End Get
             Set
                 _SelectedBan = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedBan)))
+                CallPropertyChanged(NameOf(SelectedBan))
                 If Value = String.Empty Then
                     SelectedEdaban = String.Empty
                     IsEnabledEdaban = False
@@ -596,7 +626,7 @@ Namespace ViewModels
             End Get
             Set
                 _SelectedGawa = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedGawa)))
+                CallPropertyChanged(NameOf(SelectedGawa))
                 If Value = String.Empty Then
                     SelectedBan = String.Empty
                     IsEnabledBan = False
@@ -616,7 +646,7 @@ Namespace ViewModels
             End Get
             Set
                 _SelectedKuiki = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedKuiki)))
+                CallPropertyChanged(NameOf(SelectedKuiki))
                 If Value = String.Empty Then
                     SelectedGawa = String.Empty
                     IsEnabledGawa = False
@@ -679,7 +709,7 @@ Namespace ViewModels
             End Get
             Set
                 _SelectedKu = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(SelectedKu)))
+                CallPropertyChanged(NameOf(SelectedKu))
                 If Value = String.Empty Then
                     SelectedKuiki = String.Empty
                     IsEnabledKuiki = False
@@ -699,7 +729,7 @@ Namespace ViewModels
             End Get
             Set
                 _IsEnabledEdaban = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsEnabledEdaban)))
+                CallPropertyChanged(NameOf(IsEnabledEdaban))
             End Set
         End Property
 
@@ -713,7 +743,7 @@ Namespace ViewModels
             End Get
             Set
                 _IsEnabledBan = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsEnabledBan)))
+                CallPropertyChanged(NameOf(IsEnabledBan))
             End Set
         End Property
 
@@ -727,7 +757,7 @@ Namespace ViewModels
             End Get
             Set
                 _IsEnabledGawa = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsEnabledGawa)))
+                CallPropertyChanged(NameOf(IsEnabledGawa))
             End Set
         End Property
 
@@ -741,7 +771,7 @@ Namespace ViewModels
             End Get
             Set
                 _IsEnabledKuiki = Value
-                RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(IsEnabledKuiki)))
+                CallPropertyChanged(NameOf(IsEnabledKuiki))
             End Set
         End Property
 
@@ -780,7 +810,6 @@ Namespace ViewModels
             godl.AddItem(gpd)
 
             CreateCompleteRegistrationInfo()
-            CallCompleteRegistration = True
 
             DataClear()
 
@@ -797,12 +826,14 @@ Namespace ViewModels
                     {
                     .Message = "追加しました。", .Button = MessageBoxButton.OK, .Title = "処理完了", .Image = MessageBoxImage.Information
                     }
-                    RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(CompleteRegistrationInfo)))
+                    CallPropertyChanged(NameOf(CreateCompleteRegistrationInfo))
                 End Sub,
                 Function()
                     Return True
                 End Function
                 )
+
+            CallCompleteRegistration = True
 
         End Sub
 
@@ -831,7 +862,7 @@ Namespace ViewModels
                     .Message = "管理番号 : " & CustomerID & vbNewLine & "苗字 : " & FamilyName & vbNewLine & "墓地番号 : " & DisplayForGraveNumber & vbNewLine & "契約内容 : " & ContractContent & vbNewLine & "登録日時 : " & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine & "登録しますか？",
                     .Button = MessageBoxButton.YesNo, .Title = "登録確認", .Image = MessageBoxImage.Question
                     }
-                    RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(NameOf(ConfirmationRegistraterInfo)))
+                    CallPropertyChanged(NameOf(ConfirmationRegistraterInfo))
                     MsgResult = MessageInfo.Result
                 End Sub,
                 Function()
@@ -839,6 +870,22 @@ Namespace ViewModels
                 End Function
                 )
 
+        End Sub
+
+        Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
+            Select Case propertyName
+                Case NameOf(KuText), NameOf(KuikiText), NameOf(GawaText), NameOf(BanText)
+                    SetValiDateProperty_StringEmptyMessage(propertyName, value)
+            End Select
+        End Sub
+
+        Private Sub SetValiDateProperty_StringEmptyMessage(ByVal propertyName As String, value As Object)
+
+            If String.IsNullOrEmpty(value) Then
+                AddError(propertyName, My.Resources.StringEmptyMessage)
+            Else
+                RemoveError(propertyName)
+            End If
         End Sub
 
     End Class

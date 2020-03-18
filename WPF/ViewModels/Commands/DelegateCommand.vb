@@ -43,6 +43,12 @@ Namespace Command
         Public Function CanExecute() As Boolean
             Return _CanExecute()
         End Function
+
+        Public Sub RaiseCanExecute()
+            CommandManager.InvalidateRequerySuggested()
+            Return
+        End Sub
+
     End Class
     ''' <summary>コマンド実装</summary>
     Public Class DelegateCommand

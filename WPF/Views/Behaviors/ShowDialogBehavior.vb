@@ -5,10 +5,11 @@ Namespace Behaviors
         Inherits TriggerAction(Of FrameworkElement)
 
         Protected Overrides Sub Invoke(parameter As Object)
-            Dim e As DependencyPropertyChangedEventArgs = parameter
-            Dim form As Window = e.NewValue
 
-            form.ShowDialog()
+            Dim e As DependencyPropertyChangedEventArgs = parameter
+            Dim form As ShowFormData = DirectCast(e.NewValue, ShowFormData)
+
+            form.FormData.ShowDialog()
 
         End Sub
 

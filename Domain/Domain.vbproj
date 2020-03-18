@@ -113,7 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AddressDataEntity.vb" />
-    <Compile Include="Entities\AddressesEntity.vb" />
+    <Compile Include="Entities\AddressDataListEntity.vb" />
+    <Compile Include="Entities\DestinationDataEntity.vb" />
     <Compile Include="Entities\GraveNumberEntity.vb" />
     <Compile Include="Entities\GravePanelDataEntity.vb" />
     <Compile Include="Entities\GravePanelDataListEntity.vb" />

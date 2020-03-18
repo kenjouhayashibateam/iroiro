@@ -84,21 +84,27 @@ Infrastructure
  エクセルデータを横向けに出力
  </summary>
 </member>
-<member name="M:Infrastructure.IHorizontalOutputBehavior.SetData">
+<member name="M:Infrastructure.IHorizontalOutputBehavior.SetData(Domain.DestinationDataEntity)">
  <summary>
  出力するデータをセットします
  </summary>
+</member>
+<member name="M:Infrastructure.IVerticalOutputListBehavior.SetData(System.Int32,Domain.DestinationDataEntity)">
+ <summary>
+ 出力するデータをセットします
+ </summary>
+ <param name="startrowposition"></param>
+</member>
+<member name="M:Infrastructure.IVerticalOutputNoListBehavior.SetData(System.Int32)">
+ <summary>
+ 出力するデータをセットします
+ </summary>
+ <param name="startrowposition"></param>
 </member>
 <member name="T:Infrastructure.IVerticalOutputBehavior">
  <summary>
  エクセルデータを縦向けに出力
  </summary>
-</member>
-<member name="M:Infrastructure.IVerticalOutputBehavior.SetData(System.Int32)">
- <summary>
- 出力するデータをセットします
- </summary>
- <param name="startrowposition"></param>
 </member>
 <member name="M:Infrastructure.IVerticalOutputBehavior.CellsJoin(System.Int32)">
  <summary>
@@ -187,11 +193,6 @@ Infrastructure
  宛先データ
  </summary>
 </member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.ExlApp">
- <summary>
- エクセルアプリケーション
- </summary>
-</member>
 <member name="F:Infrastructure.ExcelOutputInfrastructure.ExlWorkbook">
  <summary>
  ワークブック
@@ -234,9 +235,9 @@ Infrastructure
  </summary>
  <param name="_hob"></param>
 </member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.OutputVerticalProcessing(Infrastructure.IVerticalOutputBehavior,System.Boolean)">
+<member name="M:Infrastructure.ExcelOutputInfrastructure.ListOutputVerticalProcessing(Infrastructure.IVerticalOutputListBehavior,System.Boolean)">
  <summary>
- 縦向けにデータを入力する処理
+ 縦向けにリストのデータを入力する処理
  </summary>
  <param name="_vob"></param>
  <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
@@ -301,86 +302,13 @@ Infrastructure
  ラベルシートクラス
  </summary>
 </member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.LabelSheet.ReturnLabelString(System.Int32,Infrastructure.ExcelOutputInfrastructure.AddresseeData)">
+<member name="M:Infrastructure.ExcelOutputInfrastructure.LabelSheet.ReturnLabelString(System.Int32,Domain.DestinationDataEntity)">
  <summary>
  ラベルに入力する文字列を返します
  </summary>
  <param name="lineindex">行番号</param>
  <param name="addressee">ラベル化する宛先</param>
  <returns></returns>
-</member>
-<member name="T:Infrastructure.ExcelOutputInfrastructure.AddresseeData">
- <summary>
- エクセルに出力する宛名等を格納するクラス
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseeName">
- <summary>
- 宛名
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Title">
- <summary>
- 敬称
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseePostalCode">
- <summary>
- 郵便番号
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseeAddress1">
- <summary>
- 住所1
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.AddresseeAddress2">
- <summary>
- 住所2
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note1">
- <summary>
- 備考1
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note2">
- <summary>
- 備考2
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note3">
- <summary>
- 備考3
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note4">
- <summary>
- 備考4
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Note5">
- <summary>
- 備考5
- </summary>
-</member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.AddresseeData.Money">
- <summary>
- 金額
- </summary>
-</member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.AddresseeData.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
- <param name="_addresseename">宛名</param>
- <param name="_title">敬称</param>
- <param name="_postalcode">郵便番号</param>
- <param name="_address1">住所1</param>
- <param name="_address2">住所2</param>
- <param name="_money">金額</param>
- <param name="_note1">備考1</param>
- <param name="_note2">備考2</param>
- <param name="_note3">備考3</param>
- <param name="_note4">備考4</param>
- <param name="_note5">備考5</param>
 </member>
 <member name="T:Infrastructure.LogFileInfrastructure">
  <summary>

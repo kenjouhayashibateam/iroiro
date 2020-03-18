@@ -20,7 +20,7 @@ Public Class AddressDataEntity
     ''' 住所データリスト
     ''' </summary>
     ''' <returns></returns>
-    Public Property MyAddresses As AddressesEntity
+    Public Property MyAddresses As AddressDataListEntity
 
     Sub New(ByVal _address As String, ByVal _postalcode As String)
 
@@ -87,11 +87,11 @@ Public Class AddressDataEntity
         End Property
 
         Sub New(ByVal myPostalCode As String)
-            Code = myPostalCode
+            _Code = myPostalCode
         End Sub
 
         Friend Function GetCode() As String
-            Return Code
+            Return Code.Substring(0, 3) & "-" & Code.Substring(3, 4)
         End Function
 
     End Class

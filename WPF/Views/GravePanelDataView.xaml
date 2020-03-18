@@ -22,11 +22,17 @@
         <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
             <b:MessageBoxBehavior/>
         </interactions:PropertyChangedTrigger>
+        <interactions:PropertyChangedTrigger Binding="{Binding ShowForm}">
+            <b:ShowDialogBehavior/>
+        </interactions:PropertyChangedTrigger>
     </i:Interaction.Triggers>
 
     <ib:Interaction.Triggers>
         <ib:DataTrigger Binding="{Binding CallConpletedDeleteGravePanelDataInfo}" Value="True">
             <ib:InvokeCommandAction Command="{Binding DeletedGravePanelInfo}"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallShowForm}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding ShowFormCommand}"/>
         </ib:DataTrigger>
     </ib:Interaction.Triggers>
     

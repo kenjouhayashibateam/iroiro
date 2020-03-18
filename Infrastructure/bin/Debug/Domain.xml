@@ -67,11 +67,79 @@ Domain
  郵便番号
  </summary>
 </member>
-<member name="M:Domain.AddressesEntity.AddItem(Domain.AddressDataEntity)">
+<member name="T:Domain.DestinationDataEntity">
  <summary>
- 住所データをリストに格納します
+ エクセルに出力する宛名等を格納するクラス
  </summary>
- <param name="addressdata"></param>
+</member>
+<member name="P:Domain.DestinationDataEntity.AddresseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyTitle">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyPostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyAddress1">
+ <summary>
+ 住所1
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyAddress2">
+ <summary>
+ 住所2
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note1Data">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note2Data">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note3Data">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note4Data">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note5Data">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MoneyData">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="M:Domain.DestinationDataEntity.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+<param name="_customerid">管理番号</param>
+ <param name="_addresseename">宛名</param>
+ <param name="_title">敬称</param>
+ <param name="_postalcode">郵便番号</param>
+ <param name="_address1">住所1</param>
+ <param name="_address2">住所2</param>
+ <param name="_money">金額</param>
+ <param name="_note1">備考1</param>
+ <param name="_note2">備考2</param>
+ <param name="_note3">備考3</param>
+ <param name="_note4">備考4</param>
+ <param name="_note5">備考5</param>
 </member>
 <member name="T:Domain.ITextConvert">
  <summary>
@@ -573,37 +641,37 @@ Domain
  出力するデータの処理を行うリポジトリ
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  振込用紙
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  長3封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  洋封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  角2
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  墓地パンフ
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  はがき
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.String,System.String,System.String,System.String,System.String)">
+<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.String,System.String,System.String,System.String,System.String,System.String)">
  <summary>
  ラベル
  </summary>
