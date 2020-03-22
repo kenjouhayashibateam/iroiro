@@ -85,13 +85,14 @@ Public Interface IDataConectRepogitory
     ''' 墓地札リストを返します
     ''' </summary>
     ''' <returns></returns>
-    Function GetGravePanelDataList() As GravePanelDataListEntity
+    Function GetGravePanelDataList(ByVal customerid As String, ByVal familyname As String, ByVal fullname As String, ByVal registrationdate_st As Date, ByVal registrationdate_en As Date) As GravePanelDataListEntity
 
     ''' <summary>
     ''' 墓地札データを削除します
     ''' </summary>
-    ''' <param name="_graveoaneldata"></param>
-    Sub GravePanelDeletion(ByVal _graveoaneldata As GravePanelDataEntity)
+    ''' <param name="_gravepaneldata"></param>
+    Sub GravePanelDeletion(ByVal _gravepaneldata As GravePanelDataEntity)
 
+    Sub GravePanelUpdate(ByVal _gravepaneldata As GravePanelDataEntity)
 
 End Interface

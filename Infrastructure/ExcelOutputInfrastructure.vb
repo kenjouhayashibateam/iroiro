@@ -773,14 +773,14 @@ Public Class ExcelOutputInfrastructure
         Private ReadOnly GraveNumber As String
         Private ReadOnly ContractContent As String
         Private ReadOnly StartPositionIndex As Integer
-        Private ReadOnly area As String
+        Private ReadOnly Area As String
 
         Sub New(ByVal _familyname As String, ByVal _gravenumber As String, ByVal _contractcontent As String, ByVal _area As String, ByVal _startposition As Integer)
 
             FamilyName = _familyname
             GraveNumber = _gravenumber
             ContractContent = _contractcontent
-            area = _area
+            Area = _area
             StartPositionIndex = _startposition - 1
 
         End Sub
@@ -1792,83 +1792,4 @@ Public Class ExcelOutputInfrastructure
         End Function
     End Class
 
-    '''' <summary>
-    '''' エクセルに出力する宛名等を格納するクラス
-    '''' </summary>
-    'Private Class AddresseeData
-
-    '    ''' <summary>
-    '    ''' 宛名
-    '    ''' </summary>
-    '    Public Property AddresseeName As String
-    '    ''' <summary>
-    '    ''' 敬称
-    '    ''' </summary>
-    '    Public Property Title As String
-    '    ''' <summary>
-    '    ''' 郵便番号
-    '    ''' </summary>
-    '    Public Property AddresseePostalCode As String
-    '    ''' <summary>
-    '    ''' 住所1
-    '    ''' </summary>
-    '    Public Property AddresseeAddress1 As String
-    '    ''' <summary>
-    '    ''' 住所2
-    '    ''' </summary>
-    '    Public Property AddresseeAddress2 As String
-    '    ''' <summary>
-    '    ''' 備考1
-    '    ''' </summary>
-    '    Public Property Note1 As String
-    '    ''' <summary>
-    '    ''' 備考2
-    '    ''' </summary>
-    '    Public Property Note2 As String
-    '    ''' <summary>
-    '    ''' 備考3
-    '    ''' </summary>
-    '    Public Property Note3 As String
-    '    ''' <summary>
-    '    ''' 備考4
-    '    ''' </summary>
-    '    Public Property Note4 As String
-    '    ''' <summary>
-    '    ''' 備考5
-    '    ''' </summary>
-    '    Public Property Note5 As String
-    '    ''' <summary>
-    '    ''' 金額
-    '    ''' </summary>
-    '    Public Property Money As String
-
-    '    ''' <param name="_addresseename">宛名</param>
-    '    ''' <param name="_title">敬称</param>
-    '    ''' <param name="_postalcode">郵便番号</param>
-    '    ''' <param name="_address1">住所1</param>
-    '    ''' <param name="_address2">住所2</param>
-    '    ''' <param name="_money">金額</param>
-    '    ''' <param name="_note1">備考1</param>
-    '    ''' <param name="_note2">備考2</param>
-    '    ''' <param name="_note3">備考3</param>
-    '    ''' <param name="_note4">備考4</param>
-    '    ''' <param name="_note5">備考5</param>
-    '    Sub New(ByVal _addresseename As String, ByVal _title As String, ByVal _postalcode As String, ByVal _address1 As String, _address2 As String,
-    '            Optional ByVal _money As String = "", Optional ByVal _note1 As String = "", Optional ByVal _note2 As String = "",
-    '            Optional ByVal _note3 As String = "", Optional ByVal _note4 As String = "", Optional ByVal _note5 As String = "")
-
-    '        AddresseeName = _addresseename
-    '        Title = _title
-    '        AddresseePostalCode = _postalcode
-    '        AddresseeAddress1 = _address1
-    '        AddresseeAddress2 = _address2
-    '        Note1 = _note1
-    '        Note2 = _note2
-    '        Note3 = _note3
-    '        Note4 = _note4
-    '        Note5 = _note5
-    '        Money = _money
-    '    End Sub
-
-    'End Class
 End Class

@@ -54,6 +54,11 @@
   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.AreaFieldError">
+<summary>
+  面積が正しく入力されていません に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.CustomerIDLengthError">
 <summary>
   6桁の管理番号を入力 に類似しているローカライズされた文字列を検索します。

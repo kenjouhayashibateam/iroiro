@@ -61,6 +61,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  面積が正しく入力されていません に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property AreaFieldError() As String
+            Get
+                Return ResourceManager.GetString("AreaFieldError", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  6桁の管理番号を入力 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property CustomerIDLengthError() As String

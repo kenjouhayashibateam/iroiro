@@ -110,6 +110,19 @@ Namespace ViewModels
         Private _IsConfirmationRegister As Boolean
         Private _CallCompleteRegistration As Boolean
         Private _RegistrationCustomerID As String
+        Private _FullName As String
+        Private _CallRegistrationErrorMessageInfo As Boolean
+        Private _RegistrationErrorMessageInfo As ICommand
+
+        Public Property FullName As String
+            Get
+                Return _FullName
+            End Get
+            Set
+                _FullName = Value
+                CallPropertyChanged(NameOf(FullName))
+            End Set
+        End Property
 
         ''' <summary>
         ''' 登録する管理番号
@@ -272,6 +285,7 @@ Namespace ViewModels
             Set
                 _Area = Value
                 CallPropertyChanged(NameOf(Area))
+                ValidateProperty(NameOf(Area), Value)
             End Set
         End Property
 
@@ -341,6 +355,7 @@ Namespace ViewModels
 
             RegistrationCustomerID = MyLessee.GetCustomerID
             Area = MyLessee.GetArea
+            FullName = MyLessee.GetLesseeName
         End Sub
 
         ''' <summary>
@@ -784,6 +799,8 @@ Namespace ViewModels
             InputLesseeData()
             RegistrationCustomerID = MyLessee.GetCustomerID
             DisplayForGraveNumber = MyLessee.GetGraveNumber.GetNumber
+            FullName = MyLessee.GetLesseeName
+            FamilyName = FullName.Substring(0, InStr(FullName, "　"))
             With MyLessee.GetGraveNumber
                 KuText = .KuField.DisplayForField
                 KuikiText = .KuikiField.DisplayForField
@@ -800,10 +817,15 @@ Namespace ViewModels
 
             CreateConfirmationRegisterInfo()
             IsConfirmationRegister = True
-            IsConfirmationRegister = False
 
+            Dim NowDate As Date = Now
+            Dim DefaultDate As Date = "1900/01/01"
             If MsgResult = MessageBoxResult.No Then Exit Sub
-            Dim gpd As New GravePanelDataEntity(0, CustomerID, FamilyName, DisplayForGraveNumber, Area, ContractContent, Today, #1900/01/01#)
+            If HasErrors Then
+                CallRegistrationErrorMessageInfo = True
+                Exit Sub
+            End If
+            Dim gpd As New GravePanelDataEntity(0, RegistrationCustomerID, FamilyName, FullName, DisplayForGraveNumber, Area, ContractContent, NowDate, DefaultDate)
             DataConect.GravePanelRegistration(gpd)
 
             Dim godl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
@@ -814,6 +836,40 @@ Namespace ViewModels
             DataClear()
 
         End Sub
+
+        Public Property CallRegistrationErrorMessageInfo As Boolean
+            Get
+                Return _CallRegistrationErrorMessageInfo
+            End Get
+            Set
+                _CallRegistrationErrorMessageInfo = Value
+                CallPropertyChanged(NameOf(CallRegistrationErrorMessageInfo))
+                _CallRegistrationErrorMessageInfo = False
+            End Set
+        End Property
+
+        Public Property RegistrationErrorMessageInfo As ICommand
+            Get
+                _RegistrationErrorMessageInfo = New DelegateCommand(
+                    Sub()
+                        MessageInfo = New MessageBoxInfo With
+                        {
+                        .Message = "必須項目に値を入力してください。",
+                        .Image = MessageBoxImage.Exclamation,
+                        .Title = "登録エラー"
+                        }
+                        CallPropertyChanged(NameOf(RegistrationErrorMessageInfo))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
+                Return _RegistrationErrorMessageInfo
+            End Get
+            Set
+                _RegistrationErrorMessageInfo = Value
+            End Set
+        End Property
 
         ''' <summary>
         ''' 登録完了メッセージを生成します
@@ -843,8 +899,13 @@ Namespace ViewModels
         Private Sub DataClear()
 
             KuText = String.Empty
-            CustomerID = String.Empty
+            KuikiText = String.Empty
+            GawaText = String.Empty
+            BanText = String.Empty
+            EdabanText = String.Empty
+            RegistrationCustomerID = String.Empty
             FamilyName = String.Empty
+            FullName = String.Empty
             ContractContent = String.Empty
             Area = 0
 
@@ -859,7 +920,7 @@ Namespace ViewModels
                 Sub()
                     MessageInfo = New MessageBoxInfo With
                     {
-                    .Message = "管理番号 : " & CustomerID & vbNewLine & "苗字 : " & FamilyName & vbNewLine & "墓地番号 : " & DisplayForGraveNumber & vbNewLine & "契約内容 : " & ContractContent & vbNewLine & "登録日時 : " & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine & "登録しますか？",
+                    .Message = "管理番号 : " & RegistrationCustomerID & vbNewLine & "苗字 : " & FamilyName & vbNewLine & "墓地番号 : " & DisplayForGraveNumber & vbNewLine & "契約内容 : " & ContractContent & vbNewLine & "登録日時 : " & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine & "登録しますか？",
                     .Button = MessageBoxButton.YesNo, .Title = "登録確認", .Image = MessageBoxImage.Question
                     }
                     CallPropertyChanged(NameOf(ConfirmationRegistraterInfo))
@@ -876,6 +937,12 @@ Namespace ViewModels
             Select Case propertyName
                 Case NameOf(KuText), NameOf(KuikiText), NameOf(GawaText), NameOf(BanText)
                     SetValiDateProperty_StringEmptyMessage(propertyName, value)
+                Case NameOf(Area)
+                    If Area = 0 Then
+                        AddError(propertyName, My.Resources.AreaFieldError)
+                    Else
+                        RemoveError(propertyName)
+                    End If
             End Select
         End Sub
 

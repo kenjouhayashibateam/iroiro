@@ -33,13 +33,46 @@ Namespace ViewModels
         Private _CallConpletedDeleteGravePanelDataInfo As Boolean
         Private _RegistrationTime As Date
         Private _OutputGravePanelCommand As ICommand
+        Private _CustomerID As String
+        Private _FamilyName As String
+        Private _FullName As String
+
+        Public Property FullName As String
+            Get
+                Return _FullName
+            End Get
+            Set
+                _FullName = Value
+                CallPropertyChanged(FullName)
+            End Set
+        End Property
+
+        Public Property FamilyName As String
+            Get
+                Return _FamilyName
+            End Get
+            Set
+                _FamilyName = Value
+                CallPropertyChanged(NameOf(FamilyName))
+            End Set
+        End Property
+
+        Public Property CustomerID As String
+            Get
+                Return _CustomerID
+            End Get
+            Set
+                _CustomerID = Value
+                CallPropertyChanged(NameOf(CustomerID))
+                GetList()
+            End Set
+        End Property
 
         Public Property OutputGravePanelCommand As ICommand
             Get
                 _OutputGravePanelCommand = New DelegateCommand(
                     Sub()
-                        OutputDataConecter.GravePanelOutput(MyGravePanel.MyGraveNumber.Number, MyGravePanel.MyFamilyName.Name,
-                                                            MyGravePanel.MyContractContent.Content, MyGravePanel.MyArea.MyArea, OutputPosition)
+                        Output()
                         CallPropertyChanged(NameOf(OutputGravePanelCommand))
                     End Sub,
                     Function()
@@ -136,8 +169,17 @@ Namespace ViewModels
             Set
                 _IsPast3MonthsPart = Value
                 CallPropertyChanged(NameOf(IsPast3MonthsPart))
+                GetList()
             End Set
         End Property
+
+        Public Sub GetList()
+            If _IsPast3MonthsPart Then
+                GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FamilyName, FullName, DateAdd(DateInterval.Month, -3, Now), Now).List
+            Else
+                GravePanelList = DataBaseConecter.GetGravePanelDataList(CustomerID, FamilyName, FullName, #1900/01/01#, #9999/01/01#)
+            End If
+        End Sub
 
         Sub New()
             Me.New(New SQLConectInfrastructure, New ExcelOutputInfrastructure)
@@ -147,7 +189,8 @@ Namespace ViewModels
             DataBaseConecter = _databaseconecter
             OutputDataConecter = _outputdataconecter
             OutputPosition = 1
-            GravePanelList = DataBaseConecter.GetGravePanelDataList
+            GravePanelList = GravePanelDataListEntity.GetInstance
+            GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FamilyName, FullName, #1900/01/01#, #9999/01/01#).List
         End Sub
 
         ''' <summary>
@@ -197,6 +240,7 @@ Namespace ViewModels
             Set
                 _GravePanelList = GravePanelDataListEntity.GetInstance
                 CallPropertyChanged(NameOf(GravePanelList))
+                RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList)))
             End Set
         End Property
 
@@ -267,5 +311,17 @@ Namespace ViewModels
         Public Sub Notify(gravepanelData As GravePanelDataEntity) Implements INotifyListAdd.Notify
             GravePanelList.AddItem(gravepanelData)
         End Sub
+
+        Public Sub Output()
+
+            For Each gpd As GravePanelDataEntity In GravePanelList.List
+                If gpd.MyIsPrintout.Value = False Then Continue For
+                OutputDataConecter.GravePanelOutput(gpd.GetGraveNumber, gpd.GetFamilyName, gpd.GetContractContent, gpd.GetArea, OutputPosition)
+                gpd.MyPrintOutTime.MyDate = Now
+                DataBaseConecter.GravePanelUpdate(gpd)
+            Next
+
+        End Sub
+
     End Class
 End Namespace

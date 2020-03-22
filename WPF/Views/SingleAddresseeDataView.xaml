@@ -169,11 +169,14 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="MultiOutputCheckBox" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding MultiOutputCheck}" Content="複数データ出力" Margin="0,0,20,0"/>
-                <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding DataOutput}">
+                <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <ib:Interaction.Triggers>
                         <ib:DataTrigger Binding="{Binding CallAddressOverLengthMessage}" Value="True">
                             <ib:InvokeCommandAction Command="{Binding AddressOverLengthInfo}"/>
-                        </ib:DataTrigger>                        
+                        </ib:DataTrigger>
+                        <ib:EventTrigger EventName="Click">
+                            <ib:InvokeCommandAction Command="{Binding DataOutput}"/>
+                        </ib:EventTrigger>
                     </ib:Interaction.Triggers>
                 </Button>
             </Grid>

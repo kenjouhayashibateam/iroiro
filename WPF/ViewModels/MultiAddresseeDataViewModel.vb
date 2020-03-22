@@ -30,7 +30,30 @@ Namespace ViewModels
         Private _IsShowInTaskBer As Boolean = True
         Private _MessageInfo As MessageBoxInfo
         Private _CallErrorMessageInfo As Boolean
+        Private _ReferenceAddressCommand As ICommand
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+
+        Public Property ReferenceAddressCommand As ICommand
+            Get
+                _ReferenceAddressCommand = New DelegateCommand(
+                    Sub()
+                        ReferenceAddress()
+                        CallPropertyChanged(NameOf(ReferenceAddressCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
+                Return _ReferenceAddressCommand
+            End Get
+            Set
+                _ReferenceAddressCommand = Value
+            End Set
+        End Property
+
+        Private Sub ReferenceAddress()
+            Dim ade As AddressDataEntity = DataBaseConecter.GetAddress(MyAddressee.MyPostalCode.Code)
+        End Sub
 
         ''' <summary>
         ''' エラーメッセージを呼び出すBool
@@ -315,7 +338,7 @@ Namespace ViewModels
             If lessee Is Nothing Then Exit Sub
 
             With lessee
-                myaddressee = New DestinationDataEntity(.GetCustomerID, .GetCustomerID, .GetLesseeName, .GetPostalCode, .GetAddress1, .GetAddress2)
+                myaddressee = New DestinationDataEntity(.GetCustomerID, .GetLesseeName, Title, .GetPostalCode, .GetAddress1, .GetAddress2)
             End With
 
             AddresseeList.Add(myaddressee)

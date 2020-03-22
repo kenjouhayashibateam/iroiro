@@ -28,7 +28,7 @@
             <ib:InvokeCommandAction Command="{Binding ErrorMessageInfo}"/>
         </ib:DataTrigger>
     </ib:Interaction.Triggers>
-    
+
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="11*"/>
@@ -83,7 +83,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="管理番号" Width="0.6*" Binding="{Binding  MyCustomerID.ID}"/>
                 <DataGridTextColumn Header="宛名" Width="1*" Binding="{Binding AddresseeName.MyName}"/>
-                <DataGridTextColumn Header="郵便番号" Width="0.6*" Binding="{Binding MyPostalCode.Code}"/>
+                <DataGridTextColumn Header="郵便番号" Width="0.6*" Binding="{Binding MyPostalCode.Code}" />
                 <DataGridTextColumn Header="住所1" Width="2.5*" Binding="{Binding MyAddress1.Address}"/>
                 <DataGridTextColumn Header="住所2" Width="2.5*"  Binding="{Binding MyAddress2.Address}"/>
             </DataGrid.Columns>

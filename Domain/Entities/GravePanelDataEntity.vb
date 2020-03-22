@@ -1,5 +1,8 @@
 ﻿Public Class GravePanelDataEntity
 
+    Private _MyIsPrintout As IsPrintout
+    Private _MyPrintOutTime As PrintoutTime
+
     ''' <summary>
     ''' 管理番号クラス
     ''' </summary>
@@ -25,49 +28,90 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property MyRegistrationTime As RegistrationTime
+
     ''' <summary>
     ''' プリントアウトするかのBool
     ''' </summary>
     ''' <returns></returns>
     Public Property MyIsPrintout As IsPrintout
+        Get
+            Return _MyIsPrintout
+        End Get
+        Set
+            _MyIsPrintout = Value
+        End Set
+    End Property
+
     ''' <summary>
     ''' プリントアウト日時
     ''' </summary>
     ''' <returns></returns>
     Public Property MyPrintOutTime As PrintoutTime
+        Get
+            Return _MyPrintOutTime
+        End Get
+        Set
+            If Equals(Value) Then Return
+
+            If MyIsPrintout Is Nothing Then
+                _MyPrintOutTime = Value
+                Return
+            End If
+
+            MyIsPrintout.ComparisonCheck(Value.MyDate)
+            _MyPrintOutTime = Value
+        End Set
+    End Property
+
     ''' <summary>
     ''' データベースID
     ''' </summary>
     ''' <returns></returns>
-    Public Property MyOrderID As Integer
+    Public Property MyOrderID As OrderID
     ''' <summary>
     ''' 面積
     ''' </summary>
     ''' <returns></returns>
     Public Property MyArea As Area
 
-    Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _gravenumber As String, ByVal _area As Double, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
-        MyOrderID = _id
+    Public Property MyFullName As FullName
+
+    Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumber As String, ByVal _area As Double, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
+        MyOrderID = New OrderID(_id)
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
+        MyFullName = New FullName(_fullname)
         MyGraveNumber = New GraveNumber(_gravenumber)
         MyArea = New Area(_area)
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)
         MyPrintOutTime = New PrintoutTime(_printouttime)
-        MyIsPrintout = New IsPrintout(MyPrintOutTime)
+        MyIsPrintout = New IsPrintout(_printouttime)
     End Sub
 
-    Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _gravenumberKu As String, ByVal _gravenumberKuiki As String, ByVal _gravenumberGawa As String, ByVal _gravenumberBan As String, ByVal _gravenumberEdaban As String, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
-        MyOrderID = _id
+    Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumberKu As String, ByVal _gravenumberKuiki As String, ByVal _gravenumberGawa As String, ByVal _gravenumberBan As String, ByVal _gravenumberEdaban As String, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
+        MyOrderID = New OrderID(_id)
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
+        MyFullName = New FullName(_fullname)
         MyGraveNumber = New GraveNumber(_gravenumberKu & _gravenumberKuiki & "区" & _gravenumberGawa & "側" & _gravenumberBan & _gravenumberEdaban & "番")
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)
         MyPrintOutTime = New PrintoutTime(_printouttime)
-        MyIsPrintout = New IsPrintout(MyPrintOutTime)
+        MyIsPrintout = New IsPrintout(_printouttime)
     End Sub
+
+    Public Function GetID() As Integer
+        Return MyOrderID.ID
+    End Function
+
+    Public Function GetFullName() As String
+        Return MyFullName.Name
+    End Function
+
+    Public Function GetArea() As Double
+        Return MyArea.AreaValue
+    End Function
 
     ''' <summary>
     ''' プリントアウト日時を返します
@@ -117,6 +161,14 @@
         Return MyFamilyName.GetName
     End Function
 
+    Public Class FullName
+        Public Property Name As String
+
+        Sub New(ByVal _name As String)
+            Name = _name
+        End Sub
+    End Class
+
     ''' <summary>
     ''' データベースIDクラス
     ''' </summary>
@@ -136,14 +188,14 @@
 
         Public Property Value As Boolean
 
-        Sub New(ByVal _printouttime As PrintoutTime)
-
-            If _printouttime.MyDate = #1900/01/01# Then
-                Value = False
-            Else
-                Value = True
-            End If
+        Sub New(ByVal _printouttime As Date)
+            ComparisonCheck(_printouttime)
         End Sub
+
+        Public Sub ComparisonCheck(ByVal _printouttime As Date)
+            Value = _printouttime = #1900/01/01#
+        End Sub
+
     End Class
 
     ''' <summary>
@@ -237,14 +289,14 @@
     ''' </summary>
     Public Class Area
 
-        Public Property MyArea As Double
+        Public Property AreaValue As Double
 
         Sub New(ByVal _myarea As Double)
-            MyArea = _myarea
+            AreaValue = _myarea
         End Sub
 
         Public Function GetArea() As Double
-            Return MyArea
+            Return AreaValue
         End Function
 
     End Class

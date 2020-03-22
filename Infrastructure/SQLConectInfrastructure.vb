@@ -70,17 +70,18 @@ Public Class SQLConectInfrastructure
     ''' 戻り値のないストアドプロシージャを実行します
     ''' </summary>
     ''' <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-    Private Sub ExecuteStoredProc(ByRef execmd As ADODB.Command)
+    Private Function ExecuteStoredProc(ByRef execmd As ADODB.Command) As Boolean
 
         execmd = GetCompleteCmd(execmd)
         Try
             execmd.Execute()
         Catch ex As Exception
             LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
+            Return False
         End Try
+        Return True
 
-
-    End Sub
+    End Function
 
     ''' <summary>
     ''' ADODBのインスタンスを削除します
@@ -350,24 +351,46 @@ Public Class SQLConectInfrastructure
             .CommandText = "RegistrationGravePanel"
             .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetCustomerID))
             .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFamilyName))
+            .Parameters.Append(.CreateParameter("fullname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFullName))
             .Parameters.Append(.CreateParameter("gravenumber", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetGraveNumber))
+            .Parameters.Append(.CreateParameter("area", ADODB.DataTypeEnum.adDouble,,, _gravepaneldata.GetArea))
             .Parameters.Append(.CreateParameter("contractdetail", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetContractContent))
             .Parameters.Append(.CreateParameter("registrationtime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetRegistrationTime))
-            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetRegistrationTime))
+            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetPrintoutTime))
         End With
+
         ExecuteStoredProc(Cmd)
+
     End Sub
 
-    Public Function GetGravePanelDataList() As GravePanelDataListEntity Implements IDataConectRepogitory.GetGravePanelDataList
+    Public Function GetGravePanelDataList(customerid As String, fullname As String, familyname As String, registrationdate_st As Date, registrationdate_en As Date) As GravePanelDataListEntity Implements IDataConectRepogitory.GetGravePanelDataList
 
         Cmd = New ADODB.Command With {.CommandText = "GetGravePanelList"}
+
+        Dim refid As String = customerid
+        Dim refname As String = fullname
+        Dim reffamilyname As String = familyname
+        Dim refstdate As Date = registrationdate_st
+        Dim refendate As Date = registrationdate_en
+
+        If String.IsNullOrEmpty(customerid) Then refid = "%"
+        If String.IsNullOrEmpty(registrationdate_st) Then refstdate = #1900/01/01#
+        If String.IsNullOrEmpty(registrationdate_en) Then refendate = #9999/01/01#
+        If String.IsNullOrEmpty(fullname) Then refname = "%"
+
+        With Cmd
+            .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, refid))
+            .Parameters.Append(.CreateParameter("fullname", ADODB.DataTypeEnum.adVarChar,, 50, refname))
+            .Parameters.Append(.CreateParameter("stdate", ADODB.DataTypeEnum.adDate,,, refstdate))
+            .Parameters.Append(.CreateParameter("endate", ADODB.DataTypeEnum.adDate,,, refendate))
+        End With
 
         ExecuteStoredProcSetRecord(Cmd)
 
         Dim gpd As GravePanelDataEntity
         Dim gpdlist As New GravePanelDataListEntity
         Do Until Rs.EOF
-            gpd = New GravePanelDataEntity(RsFields("OrderID"), RsFields("CustomerID"), RsFields("FamilyName"), RsFields("GraveNumber"), RsFields("Area"), RsFields("ContractDetail"), RsFields("RegistrationTime"), RsFields("PrintoutTime"))
+            gpd = New GravePanelDataEntity(RsFields("OrderID"), RsFields("CustomerID"), RsFields("FamilyName"), RsFields("FullName"), RsFields("GraveNumber"), RsFields("Area"), RsFields("ContractDetail"), RsFields("RegistrationTime"), RsFields("OutputTime"))
             gpdlist.AddItem(gpd)
             Rs.MoveNext()
         Loop
@@ -376,18 +399,34 @@ Public Class SQLConectInfrastructure
 
     End Function
 
-    Public Sub GravePanelDeletion(_graveoaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelDeletion
+    Public Sub GravePanelDeletion(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelDeletion
 
         Cmd = New ADODB.Command
 
         With Cmd
             .CommandText = "DeleteGravePanel"
-            .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _graveoaneldata.GetCustomerID))
-            .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _graveoaneldata.GetFamilyName))
-            .Parameters.Append(.CreateParameter("gravenumber", ADODB.DataTypeEnum.adVarChar,, 50, _graveoaneldata.GetGraveNumber))
-            .Parameters.Append(.CreateParameter("contractdetail", ADODB.DataTypeEnum.adVarChar,, 50, _graveoaneldata.GetContractContent))
-            .Parameters.Append(.CreateParameter("registrationtime", ADODB.DataTypeEnum.adDate,,, _graveoaneldata.GetRegistrationTime))
-            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _graveoaneldata.GetPrintoutTime))
+            .Parameters.Append(.CreateParameter("orderid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetID))
+        End With
+
+        ExecuteStoredProc(Cmd)
+
+    End Sub
+
+    Public Sub GravePanelUpdate(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelUpdate
+
+        Cmd = New ADODB.Command
+
+        With Cmd
+            .CommandText = "UpdateGravePanel"
+            .Parameters.Append(.CreateParameter("orderid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetID))
+            .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetCustomerID))
+            .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFamilyName))
+            .Parameters.Append(.CreateParameter("fullname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFullName))
+            .Parameters.Append(.CreateParameter("gravenumber", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetGraveNumber))
+            .Parameters.Append(.CreateParameter("area", ADODB.DataTypeEnum.adDouble,,, _gravepaneldata.GetArea))
+            .Parameters.Append(.CreateParameter("contractdetail", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetContractContent))
+            .Parameters.Append(.CreateParameter("registrationtime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetRegistrationTime))
+            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetPrintoutTime))
         End With
 
         ExecuteStoredProc(Cmd)

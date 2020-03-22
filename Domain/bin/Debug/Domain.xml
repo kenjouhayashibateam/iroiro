@@ -762,7 +762,7 @@ Domain
  </summary>
  <param name="_gravepaneldata"></param>
 </member>
-<member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList">
+<member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList(System.String,System.String,System.String,System.DateTime,System.DateTime)">
  <summary>
  墓地札リストを返します
  </summary>
@@ -772,7 +772,7 @@ Domain
  <summary>
  墓地札データを削除します
  </summary>
- <param name="_graveoaneldata"></param>
+ <param name="_gravepaneldata"></param>
 </member>
 </members>
 </doc>
