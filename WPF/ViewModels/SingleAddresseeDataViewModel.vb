@@ -605,16 +605,16 @@ Namespace ViewModels
         Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IOutputDataRepogitory)
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
-            Title = "様" '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
+            Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
             With OutputContentsDictionary
-                .Add(OutputContents.TransferPaper, "振込用紙")
-                .Add(OutputContents.Cho3Envelope, "長3封筒")
-                .Add(OutputContents.GravePamphletEnvelope, "墓地パンフ封筒")
-                .Add(OutputContents.Kaku2Envelope, "角２封筒")
-                .Add(OutputContents.WesternEnbelope, "洋封筒"）
-                .Add(OutputContents.LabelSheet, "ラベル用紙")
-                .Add(OutputContents.Postcard, "はがき"）
+                .Add(OutputContents.TransferPaper, My.Resources.TransferPaperText)
+                .Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)
+                .Add(OutputContents.GravePamphletEnvelope, My.Resources.GravePamphletEnvelopeText)
+                .Add(OutputContents.Kaku2Envelope, My.Resources.Kaku2EnvelopeText)
+                .Add(OutputContents.WesternEnbelope, My.Resources.WesternEnvelopeText）
+                .Add(OutputContents.LabelSheet, My.Resources.LabelPaperText)
+                .Add(OutputContents.Postcard, My.Resources.PostcardText）
             End With
 
             LastSaveDate = DataBaseConecter.GetLastSaveDate.GetDate
@@ -656,10 +656,10 @@ Namespace ViewModels
         End Sub
 
         Private Sub NoteInput()
-            Note1 = "管理番号 " & MyLessee.GetCustomerID
+            Note1 = My.Resources.FieldPropertyMessage_CustomerID & MyLessee.GetCustomerID
             Note2 = MyLessee.GetGraveNumber.GetNumber
             If MyLessee.GetArea > 0 Then
-                Note3 = "面積 " & MyLessee.GetArea & " ㎡"
+                Note3 = My.Resources.FieldPropertyMessage_Area & MyLessee.GetArea & My.Resources.SquareFootageText
             Else
                 Note3 = String.Empty
             End If
@@ -669,7 +669,7 @@ Namespace ViewModels
             AddresseeName = mylessee.GetReceiverName
             PostalCode = mylessee.GetReceiverPostalcode
             Address1 = mylessee.GetReceiverAddress1
-            Address2 = mylessee.GetReceiverAddress1
+            Address2 = mylessee.GetReceiverAddress2
         End Sub
 
         Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
@@ -816,10 +816,10 @@ Namespace ViewModels
             ErrorMessageInfo = New DelegateCommand(
                    Sub()
                        MessageInfo = New MessageBoxInfo With {
-                       .Message = "宛先が不十分です",
+                       .Message = My.Resources.AddresseeErrorInfo,
                        .Button = MessageBoxButton.OK,
                        .Image = MessageBoxImage.Error,
-                       .Title = "必須項目不備"
+                       .Title = My.Resources.MandatoryItemsNotPreparedTitle
                        }
                        CallPropertyChanged(NameOf(ErrorMessageInfo))
                    End Sub,
@@ -913,7 +913,9 @@ Namespace ViewModels
 
             AddressOverLengthInfo = New DelegateCommand(
             Sub() '無名関数（匿名関数）
-                MessageInfo = New MessageBoxInfo With {.Message = "住所がセルからはみ出てますので、書き直して下さい", .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Information, .Title = "要住所調整"}
+                MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
+                .Button = MessageBoxButton.OK,
+                .Image = MessageBoxImage.Information, .Title = My.Resources.ToBeAdjusted}
                 CallPropertyChanged(NameOf(AddressOverLengthInfo))
             End Sub,
             Function()
@@ -932,10 +934,11 @@ Namespace ViewModels
             Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-               .Message = "名義人 " & MyLessee.GetLesseeName & vbNewLine & MyLessee.GetAddress1 & MyLessee.GetAddress2 & vbNewLine & vbNewLine &
-                                    "送付先 " & MyLessee.GetReceiverName & vbNewLine & MyLessee.GetReceiverAddress1 & MyLessee.GetReceiverAddress2 &
-                                    vbNewLine & vbNewLine & "名義人と送付先が違うデータです。どちらを表示しますか？" & vbNewLine & vbNewLine &
-                                    "はい ⇒ 名義人　いいえ ⇒ 送付先", .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = "宛先確認"
+               .Message = My.Resources.FieldPropertyMessage_Lessee & MyLessee.GetLesseeName & vbNewLine & MyLessee.GetAddress1 & MyLessee.GetAddress2 & vbNewLine &
+                                vbNewLine & My.Resources.FieldPropertyMessage_Receiver & MyLessee.GetReceiverName & vbNewLine & MyLessee.GetReceiverAddress1 &
+                                MyLessee.GetReceiverAddress2 & vbNewLine & vbNewLine & My.Resources.DataSelectInfo & vbNewLine & vbNewLine &
+                                 My.Resources.LesseeDataSelect,
+                                 .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
                 MsgResult = MessageInfo.Result
                 CallPropertyChanged(NameOf(SelectAddresseeInfo))

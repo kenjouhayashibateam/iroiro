@@ -1,0 +1,778 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Domain
+</name>
+</assembly>
+<members>
+<member name="T:Domain.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Domain.AddressDataEntity">
+ <summary>
+ 住所クラス
+ </summary>
+</member>
+<member name="P:Domain.AddressDataEntity.MyAddress">
+ <summary>
+ 保持する住所
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.AddressDataEntity.MyPostalcode">
+ <summary>
+ 保持する郵便番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.AddressDataEntity.MyAddresses">
+ <summary>
+ 住所データリスト
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.AddressDataEntity.GetPostalCode">
+ <summary>
+ 郵便番号を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.AddressDataEntity.GetAddress">
+ <summary>
+ 住所を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Domain.AddressDataEntity.Address">
+ <summary>
+ 住所
+ </summary>
+</member>
+<member name="T:Domain.AddressDataEntity.PostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity">
+ <summary>
+ エクセルに出力する宛名等を格納するクラス
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.AddresseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyTitle">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyPostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyAddress1">
+ <summary>
+ 住所1
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MyAddress2">
+ <summary>
+ 住所2
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note1Data">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note2Data">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note3Data">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note4Data">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.Note5Data">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="P:Domain.DestinationDataEntity.MoneyData">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="M:Domain.DestinationDataEntity.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+<param name="_customerid">管理番号</param>
+ <param name="_addresseename">宛名</param>
+ <param name="_title">敬称</param>
+ <param name="_postalcode">郵便番号</param>
+ <param name="_address1">住所1</param>
+ <param name="_address2">住所2</param>
+ <param name="_money">金額</param>
+ <param name="_note1">備考1</param>
+ <param name="_note2">備考2</param>
+ <param name="_note3">備考3</param>
+ <param name="_note4">備考4</param>
+ <param name="_note5">備考5</param>
+</member>
+<member name="T:Domain.ITextConvert">
+ <summary>
+ 文字列を変換します
+ </summary>
+</member>
+<member name="M:Domain.ITextConvert.ConvertNumber_Ku(Domain.GraveNumberEntity.Ku)">
+ <summary>
+ 区を相当する漢字にして返します
+ </summary>
+ <param name="kunumber">区ナンバー</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.ITextConvert.ConvertNumber_0Delete(System.String)">
+ <summary>
+ 墓地番号を表示用にするため、0を削除します
+ </summary>
+ <param name="number"></param>
+ <returns></returns>
+</member>
+<member name="T:Domain.GraveTextConvert">
+ <summary>
+ 墓地番号文字列変換クラス
+ </summary>
+</member>
+<member name="M:Domain.GraveTextConvert.ConvertNumber_Ku(Domain.GraveNumberEntity.Ku)">
+ <summary>
+ 区域コードを漢字に変換します
+ </summary>
+</member>
+<member name="M:Domain.GraveTextConvert.ConvertNumber_0Delete(System.String)">
+ <summary>
+ 区域や側などで、数字に変換できるものは数字に、文字列が入っているものは左側の0の並びを削除する
+ </summary>
+ <param name="number">変換する文字列</param>
+</member>
+<member name="T:Domain.GraveNumberEntity">
+ <summary>
+ 墓地番号クラス
+ </summary>
+</member>
+<member name="M:Domain.GraveNumberEntity.#ctor(System.String)">
+ <param name="_ku">区</param>
+</member>
+<member name="M:Domain.GraveNumberEntity.#ctor(System.String,System.String)">
+ <param name="_ku">区</param>
+ <param name="_kuiki">区域</param>
+</member>
+<member name="M:Domain.GraveNumberEntity.#ctor(System.String,System.String,System.String)">
+ <param name="_ku">区</param>
+ <param name="_kuiki">区域</param>
+ <param name="_gawa">側</param>
+</member>
+<member name="M:Domain.GraveNumberEntity.#ctor(System.String,System.String,System.String,System.String)">
+ <param name="_ku">区</param>
+ <param name="_kuiki">区域</param>
+ <param name="_gawa">側</param>
+ <param name="_ban">番</param>
+</member>
+<member name="M:Domain.GraveNumberEntity.#ctor(System.String,System.String,System.String,System.String,System.String)">
+ <param name="_ku">区</param>
+ <param name="_kuiki">区域</param>
+ <param name="_gawa">側</param>
+ <param name="_ban">番</param>
+ <param name="_edaban">枝番</param>
+</member>
+<member name="M:Domain.GraveNumberEntity.GetNumber">
+ <summary>
+ 表示用墓地番号を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GraveNumberEntity.ConvertKuString">
+ <summary>
+ 表示用文字列「区」
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GraveNumberEntity.ConvertKuikiString">
+ <summary>
+ 表示用文字列「区域」
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GraveNumberEntity.ConvertGawaString">
+ <summary>
+ 表示用文字列「側」
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GraveNumberEntity.ConvertBanString">
+ <summary>
+ 表示用文字列「番」
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GraveNumberEntity.ConvertEdabanString">
+ <summary>
+ 表示用文字列「枝番」
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Domain.GraveNumberEntity.FormalNumber">
+ <summary>
+ 墓地番号
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.Ku">
+ <summary>
+ 区クラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.Kuiki">
+ <summary>
+ 区域クラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.Gawa">
+ <summary>
+ 側クラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.Ban">
+ <summary>
+ 番クラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.Edaban">
+ <summary>
+ 枝番クラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.EdabanList">
+ <summary>
+ 枝番リストクラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.BanList">
+ <summary>
+ 番リストクラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.GawaList">
+ <summary>
+ 側リストクラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberEntity.KuikiList">
+ <summary>
+ 区域リストクラス
+ </summary>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyCustomerID">
+ <summary>
+ 管理番号クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyFamilyName">
+ <summary>
+ 苗字クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyGraveNumber">
+ <summary>
+ 墓地番号クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyContractContent">
+ <summary>
+ 契約内容クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyRegistrationTime">
+ <summary>
+ 登録日時クラス
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyIsPrintout">
+ <summary>
+ プリントアウトするかのBool
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyPrintOutTime">
+ <summary>
+ プリントアウト日時
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyOrderID">
+ <summary>
+ データベースID
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyArea">
+ <summary>
+ 面積
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetPrintoutTime">
+ <summary>
+ プリントアウト日時を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetRegistrationTime">
+ <summary>
+ 登録日時を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetContractContent">
+ <summary>
+ 契約内容を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetGraveNumber">
+ <summary>
+ 墓地番号を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetCustomerID">
+ <summary>
+ 管理番号を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetFamilyName">
+ <summary>
+ 苗字を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Domain.GravePanelDataEntity.OrderID">
+ <summary>
+ データベースIDクラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.IsPrintout">
+ <summary>
+ プリントアウトするかの確認クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.PrintoutTime">
+ <summary>
+ プリントアウト日時クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.GraveNumber">
+ <summary>
+ 墓地番号クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.RegistrationTime">
+ <summary>
+ 登録日時クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.ContractContent">
+ <summary>
+ 契約内容クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.FamilyName">
+ <summary>
+ 苗字クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.CustomerID">
+ <summary>
+ 管理番号クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.Area">
+ <summary>
+ 面積クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataListEntity">
+ <summary>
+ 墓地札リストクラス(シングルトン)
+ </summary>
+</member>
+<member name="T:Domain.LastSaveDateEntity">
+ <summary>
+ 名義人データ最終更新日クラス
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity">
+ <summary>
+ 名義人データ格納クラス
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myLesseName">
+ <summary>
+ 名義人
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myAddress1">
+ <summary>
+ 住所（郵便番号で表される部分）
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myAddress2">
+ <summary>
+ 住所（郵便番号で表さない番地等）
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myPostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myGraveNumber">
+ <summary>
+ 墓地番号
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myCustomerID">
+ <summary>
+ 管理番号    
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myArea">
+ <summary>
+ 面積
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myReceiverName">
+ <summary>
+ 送付先名
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myReceiverAddress1">
+ <summary>
+ 送付先住所1
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myReceiverPostalcode">
+ <summary>
+ 送付先郵便番号
+ </summary>
+</member>
+<member name="F:Domain.LesseeCustomerInfoEntity.myReceiverAddress2">
+ <summary>
+ 送付先住所2
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String,System.String,System.String,System.String)">
+ <summary>
+ 名義人クラスを生成します
+ </summary>
+ <param name="_myCustomerId">管理番号</param>
+ <param name="_myLesseeName">名義人名</param>
+ <param name="_myPostalCode">郵便番号</param>
+ <param name="_myAddress1">住所1</param>
+ <param name="_myAddress2">住所2</param>
+ <param name="_gravekuiki">墓地番号　区域</param>
+ <param name="_graveku">墓地番号　区</param>
+ <param name="_gravegawa">墓地番号　側</param>
+ <param name="_graveban">墓地番号　番</param>
+ <param name="_graveedaban">墓地番号　枝番</param>
+ <param name="_area"></param>面積
+ <param name="_myReceiverName">送付先名</param>
+ <param name="_myReceiverPostalCode">送付先郵便番号</param>
+ <param name="_myReceiverAddress1">送付先住所1</param>
+ <param name="_myReceiverAddress2">送付先住所2</param>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetLesseeName">
+ <summary>
+ 宛名を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetPostalCode">
+ <summary>
+ 郵便番号を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetAddress1">
+ <summary>
+ 住所1を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetAddress2">
+ <summary>
+ 住所2を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetGraveNumber">
+ <summary>
+ 墓地番号を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetCustomerID">
+ <summary>
+ 管理番号を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetArea">
+ <summary>
+ 面積を返します
+ </summary>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetReceiverName">
+ <summary>
+ 送付先名を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetReceiverPostalcode">
+ <summary>
+ 送付先郵便番号を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetReceiverAddress1">
+ <summary>
+ 送付先住所1を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.LesseeCustomerInfoEntity.GetReceiverAddress2">
+ <summary>
+ 送付先住所2を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.LesseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.Address1">
+ <summary>
+ 住所1
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.Address2">
+ <summary>
+ 住所2
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.PostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.Area">
+ <summary>
+ 面積
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverName">
+ <summary>
+ 送付先名
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverAddress1">
+ <summary>
+ 送付先住所1
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverAddress2">
+ <summary>
+ 送付先住所2
+ </summary>
+</member>
+<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverPostalcode">
+ <summary>
+ 送付先郵便番号
+ </summary>
+</member>
+<member name="T:Domain.ILoggerRepogitory">
+ <summary>
+ ログを保管します
+ </summary>
+</member>
+<member name="T:Domain.IOutputDataRepogitory">
+ <summary>
+ 出力するデータの処理を行うリポジトリ
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 振込用紙
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 長3封筒
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 洋封筒
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 角2
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 墓地パンフ
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ はがき
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.String,System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ ラベル
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput(System.String,System.String,System.String,System.Double,System.Int32)">
+ <summary>
+ 墓地札
+ </summary>
+</member>
+<member name="T:Domain.IDataConectRepogitory">
+ <summary>
+ データベースと接続するリポジトリ
+ </summary>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetCustomerInfo(System.String)">
+ <summary>
+ 名義人データを返します
+ </summary>
+ <param name="customerid">春秋苑システムの管理番号</param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetAddress(System.String)">
+ <summary>
+ 郵便番号を基に住所を返します
+ </summary>
+ <param name="postalcode">検索する郵便番号</param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetAddressList(System.String)">
+ <summary>
+ 住所をリストで返します
+ </summary>
+ <param name="address">検索する住所</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetLastSaveDate">
+ <summary>
+ 春秋苑データ最終更新日を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetKuikiList(System.String)">
+ <summary>
+ 区域リストを返します
+ </summary>
+ <param name="_gravekunumber">基になる区</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetGawaList(System.String,System.String)">
+ <summary>
+ 側リストを返します
+ </summary>
+ <param name="_gravekunumber">基になる区</param>
+ <param name="_gravekuikinumber">基になる区域</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetBanList(System.String,System.String,System.String)">
+ <summary>
+ 番リストを返します
+ </summary>
+ <param name="_gravekunumber">基になる区</param>
+ <param name="_gravekuikinumber">基になる区域</param>
+ <param name="_gravegawanumber">基になる側</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetEdabanList(System.String,System.String,System.String,System.String)">
+ <summary>
+ 枝番リストを返します
+ </summary>
+ <param name="_gravekunumber">基になる区</param>
+ <param name="_gravekuikinumber">基になる区域</param>
+ <param name="_gravegawanumber">基になる側</param>
+ <param name="_gravebannumber">基になる番</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetCustomerInfo_GraveNumber(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ 墓地番号を基に名義人クラスを検索して返します
+ </summary>
+ <param name="_gravekunumber">検索墓地番号「区」</param>
+ <param name="_gravekuikinumber">検索墓地番号「区域」</param>
+ <param name="_gravegawanumber">検索墓地番号「側」</param>
+ <param name="_gravebannumber">検索墓地番号「番」</param>
+ <param name="_graveedabannumber">検索墓地番号「枝番」</param>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GravePanelRegistration(Domain.GravePanelDataEntity)">
+ <summary>
+ 墓地札を登録します
+ </summary>
+ <param name="_gravepaneldata"></param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList(System.String,System.String,System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
+ <summary>
+ 墓地札リストを返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GravePanelDeletion(Domain.GravePanelDataEntity)">
+ <summary>
+ 墓地札データを削除します
+ </summary>
+ <param name="_gravepaneldata"></param>
+</member>
+</members>
+</doc>

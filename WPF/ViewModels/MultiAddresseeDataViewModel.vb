@@ -312,14 +312,14 @@ Namespace ViewModels
         Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IOutputDataRepogitory)
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
-            Title = "様"
+            Title = My.Resources.HonorificsText
 
-            OutputContentsDictionary.Add(OutputContents.Cho3Envelope, "長3封筒")
-            OutputContentsDictionary.Add(OutputContents.GravePamphletEnvelope, "墓地パンフ")
-            OutputContentsDictionary.Add(OutputContents.Kaku2Envelope, "角2封筒")
-            OutputContentsDictionary.Add(OutputContents.LabelSheet, "ラベル用紙")
-            OutputContentsDictionary.Add(OutputContents.Postcard, "ハガキ")
-            OutputContentsDictionary.Add(OutputContents.WesternEnvelope, "洋封筒")
+            OutputContentsDictionary.Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)
+            OutputContentsDictionary.Add(OutputContents.GravePamphletEnvelope, My.Resources.GravePamphletEnvelopeText)
+            OutputContentsDictionary.Add(OutputContents.Kaku2Envelope, My.Resources.Kaku2EnvelopeText)
+            OutputContentsDictionary.Add(OutputContents.LabelSheet, My.Resources.LabelPaperText)
+            OutputContentsDictionary.Add(OutputContents.Postcard, My.Resources.PostcardText)
+            OutputContentsDictionary.Add(OutputContents.WesternEnvelope, My.Resources.WesternEnvelopeText)
 
             SelectedOutputContentsValue = OutputContents.Cho3Envelope
 
@@ -380,8 +380,8 @@ Namespace ViewModels
             Sub()
                 MessageInfo = New MessageBoxInfo With
                 {
-                .Message = "コピー形式が正しくありません。" & vbNewLine & "宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。",
-                .Title = "形式エラー", .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Error
+                .Message = My.Resources.ClipBoardDataErrorInfo & vbNewLine & My.Resources.PassAddresseeRecordInfo,
+                .Title = My.Resources.FormatErrorTitle, .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Error
                 }
                 CallPropertyChanged(NameOf(ErrorMessageInfo))
             End Sub,

@@ -11,6 +11,10 @@ Public Class SQLConectInfrastructure
     ''' データを取得するためのルートを確立するコマンドクラス
     ''' </summary>
     Private Property Cmd As ADODB.Command
+    ''' <summary>
+    ''' ログファイルを生成します
+    ''' </summary>
+    ''' <returns></returns>
     Private Property LogFileConecter As ILoggerRepogitory
 
     ''' <summary>
@@ -51,7 +55,11 @@ Public Class SQLConectInfrastructure
         Return Rs.EOF
 
     End Function
-
+    ''' <summary>
+    ''' Cmdのプロパティを完成させて返します
+    ''' </summary>
+    ''' <param name="execmd"></param>
+    ''' <returns></returns>
     Private Function GetCompleteCmd(ByVal execmd As ADODB.Command) As ADODB.Command
 
         Cn = New ADODB.Connection With {.ConnectionString = SHUNJUENCONSTRING}
@@ -121,6 +129,11 @@ Public Class SQLConectInfrastructure
         Return IIf(IsDBNull(Rs.Fields(FieldName).Value), String.Empty, Rs.Fields(FieldName).Value)
     End Function
 
+    ''' <summary>
+    ''' 名義人クラスを返します
+    ''' </summary>
+    ''' <param name="customerid">検索する管理番号</param>
+    ''' <returns></returns>
     Public Function GetCustomerInfo(customerid As String) As LesseeCustomerInfoEntity Implements IDataConectRepogitory.GetCustomerInfo
 
         Dim myLessee As LesseeCustomerInfoEntity
@@ -146,7 +159,11 @@ Public Class SQLConectInfrastructure
         ADONothing()
 
     End Function
-
+    ''' <summary>
+    ''' 住所を検索します
+    ''' </summary>
+    ''' <param name="postalcode">検索する郵便番号</param>
+    ''' <returns></returns>
     Public Function GetAddress(postalcode As String) As AddressDataEntity Implements IDataConectRepogitory.GetAddress
 
         Dim ReferenceCode As String
@@ -169,7 +186,11 @@ Public Class SQLConectInfrastructure
         Return New AddressDataEntity(RsFields("Address"), postalcode)
 
     End Function
-
+    ''' <summary>
+    ''' 住所欄の文字列を使って住所検索し、該当する住所をリストにして返します
+    ''' </summary>
+    ''' <param name="address">検索する住所</param>
+    ''' <returns></returns>
     Public Function GetAddressList(address As String) As AddressDataListEntity Implements IDataConectRepogitory.GetAddressList
 
         Dim AddressList As New AddressDataListEntity
@@ -196,6 +217,10 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 春秋苑システムデータの最終更新日を取得します
+    ''' </summary>
+    ''' <returns></returns>
     Private Function GetLastSaveDate() As LastSaveDateEntity Implements IDataConectRepogitory.GetLastSaveDate
 
         Cmd = New ADODB.Command With {.CommandText = "GetLastSaveDate"}
@@ -213,7 +238,7 @@ Public Class SQLConectInfrastructure
     ''' <param name="Kuiki">区域</param>
     ''' <param name="Gawa">側</param>
     ''' <param name="Ban">番</param>
-    ''' <param name="Edaban"></param>
+    ''' <param name="Edaban">枝番</param>
     Private Sub SetGraveData(ByVal Ku As String, Optional Kuiki As String = "%", Optional Gawa As String = "%", Optional Ban As String = "%", Optional Edaban As String = "%")
 
         Cmd = New ADODB.Command
@@ -255,7 +280,12 @@ Public Class SQLConectInfrastructure
         Return New GraveNumberEntity.KuikiList(kl)
 
     End Function
-
+    ''' <summary>
+    ''' 墓地の区、区域に属する側のリストを返します
+    ''' </summary>
+    ''' <param name="_gravekunumber">区</param>
+    ''' <param name="_gravekuikinumber">区域</param>
+    ''' <returns></returns>
     Public Function GetGawaList(_gravekunumber As String, _gravekuikinumber As String) As GraveNumberEntity.GawaList Implements IDataConectRepogitory.GetGawaList
 
         SetGraveData(_gravekunumber, _gravekuikinumber)
@@ -282,6 +312,13 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 墓地の側に属する番のリストを返します
+    ''' </summary>
+    ''' <param name="_gravekunumber">区</param>
+    ''' <param name="_gravekuikinumber">区域</param>
+    ''' <param name="_gravegawanumber">側</param>
+    ''' <returns></returns>
     Public Function GetBanList(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String) As GraveNumberEntity.BanList Implements IDataConectRepogitory.GetBanList
 
         SetGraveData(_gravekunumber, _gravekuikinumber, _gravegawanumber)
@@ -303,6 +340,14 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 墓地の番に属する枝番のリストを返します
+    ''' </summary>
+    ''' <param name="_gravekunumber">区</param>
+    ''' <param name="_gravekuikinumber">区域</param>
+    ''' <param name="_gravegawanumber">側</param>
+    ''' <param name="_gravebannumber">番</param>
+    ''' <returns></returns>
     Public Function GetEdabanList(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String, _gravebannumber As String) As GraveNumberEntity.EdabanList Implements IDataConectRepogitory.GetEdabanList
 
         SetGraveData(_gravekunumber, _gravekuikinumber, _gravegawanumber, _gravebannumber)
@@ -332,6 +377,15 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 墓地番号から、名義人情報を取得します
+    ''' </summary>
+    ''' <param name="_gravekunumber">区</param>
+    ''' <param name="_gravekuikinumber">区域</param>
+    ''' <param name="_gravegawanumber">側</param>
+    ''' <param name="_gravebannumber">番</param>
+    ''' <param name="_graveedabannumber">枝番</param>
+    ''' <returns></returns>
     Public Function GetCustomerInfo_GraveNumber(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String, _gravebannumber As String, _graveedabannumber As String) As LesseeCustomerInfoEntity Implements IDataConectRepogitory.GetCustomerInfo_GraveNumber
 
         SetGraveData(_gravekunumber, _gravekuikinumber, _gravegawanumber, _gravebannumber, _graveedabannumber)
@@ -343,6 +397,10 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 墓地札データ登録
+    ''' </summary>
+    ''' <param name="_gravepaneldata">登録墓地札データ</param>
     Public Sub GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelRegistration
 
         Cmd = New ADODB.Command
@@ -363,26 +421,42 @@ Public Class SQLConectInfrastructure
 
     End Sub
 
-    Public Function GetGravePanelDataList(customerid As String, fullname As String, familyname As String, registrationdate_st As Date, registrationdate_en As Date) As GravePanelDataListEntity Implements IDataConectRepogitory.GetGravePanelDataList
-
-        Cmd = New ADODB.Command With {.CommandText = "GetGravePanelList"}
+    ''' <summary>
+    ''' 墓地札データの一覧を取得し、リストで返します
+    ''' </summary>
+    ''' <param name="customerid">管理番号</param>
+    ''' <param name="fullname">申込者名</param>
+    ''' <param name="registrationdate_st">登録日の始め</param>
+    ''' <param name="registrationdate_en">登録日</param>
+    ''' <param name="outputdate_st"></param>
+    ''' <param name="outputdate_en"></param>
+    ''' <returns></returns>
+    Public Function GetGravePanelDataList(customerid As String, fullname As String, registrationdate_st As Date, registrationdate_en As Date, outputdate_st As Date, outputdate_en As Date) As GravePanelDataListEntity Implements IDataConectRepogitory.GetGravePanelDataList
 
         Dim refid As String = customerid
         Dim refname As String = fullname
-        Dim reffamilyname As String = familyname
-        Dim refstdate As Date = registrationdate_st
-        Dim refendate As Date = registrationdate_en
+        Dim refRegistrationstdate As Date = registrationdate_st
+        Dim refRegistrationendate As Date = registrationdate_en
+        Dim refOutputStDate As Date = outputdate_st
+        Dim refOutputEnDate As Date = outputdate_en
 
-        If String.IsNullOrEmpty(customerid) Then refid = "%"
-        If String.IsNullOrEmpty(registrationdate_st) Then refstdate = #1900/01/01#
-        If String.IsNullOrEmpty(registrationdate_en) Then refendate = #9999/01/01#
+        If String.IsNullOrEmpty(customerid) Then refid = "%%%%%%"
         If String.IsNullOrEmpty(fullname) Then refname = "%"
+        If String.IsNullOrEmpty(registrationdate_st) Then refRegistrationstdate = #1900/01/01#
+        If String.IsNullOrEmpty(registrationdate_en) Then refRegistrationendate = #9999/01/01#
+        If String.IsNullOrEmpty(outputdate_st) Then refOutputStDate = #1900/01/01#
+        If String.IsNullOrEmpty(outputdate_en) Then refOutputEnDate = #9999/01/01#
+
+        Cmd = New ADODB.Command
 
         With Cmd
-            .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, refid))
-            .Parameters.Append(.CreateParameter("fullname", ADODB.DataTypeEnum.adVarChar,, 50, refname))
-            .Parameters.Append(.CreateParameter("stdate", ADODB.DataTypeEnum.adDate,,, refstdate))
-            .Parameters.Append(.CreateParameter("endate", ADODB.DataTypeEnum.adDate,,, refendate))
+            .CommandText = "GetGravePanelList"
+            .Parameters.Append(.CreateParameter("CustomerID", ADODB.DataTypeEnum.adChar,, 6, refid))
+            .Parameters.Append(.CreateParameter("FullName", ADODB.DataTypeEnum.adVarChar,, 50, refname))
+            .Parameters.Append(.CreateParameter("RegistrationTime_st", ADODB.DataTypeEnum.adDate,,, refRegistrationstdate))
+            .Parameters.Append(.CreateParameter("RegistrationTime_en", ADODB.DataTypeEnum.adDate,,, refRegistrationendate))
+            .Parameters.Append(.CreateParameter("OutputTime_st", ADODB.DataTypeEnum.adDate,,, refOutputStDate))
+            .Parameters.Append(.CreateParameter("OutputTime_en", ADODB.DataTypeEnum.adDate,,, refOutputEnDate))
         End With
 
         ExecuteStoredProcSetRecord(Cmd)

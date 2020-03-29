@@ -1,1 +1,5 @@
 
+ERR	2020/03/26 17:05:55	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\iroiro\Infrastructure\SQLConectInfrastructure.vb:行 46
+ERR	2020/03/26 17:06:19	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\iroiro\Infrastructure\SQLConectInfrastructure.vb:行 46

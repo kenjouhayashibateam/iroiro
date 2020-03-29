@@ -11,13 +11,13 @@
         xmlns:vm="clr-namespace:WPF.ViewModels"
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="単票印刷" Height="500" Width="450" WindowStartupLocation="CenterScreen"  >
+        Title="単票印刷" Height="500" Width="480" WindowStartupLocation="CenterScreen"  >
 
     <Window.DataContext >
         <vm:SingleAddresseeDataViewModel/>
     </Window.DataContext>
 
-       
+
     <i:Interaction.Triggers>
         <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
             <b:MessageBoxBehavior/>
@@ -26,7 +26,7 @@
             <b:ShowDialogBehavior/>
         </interactions:PropertyChangedTrigger>
     </i:Interaction.Triggers>
-      
+
     <ib:Interaction.Triggers>
         <ib:DataTrigger Binding="{Binding CallSelectAddresseeInfo}" Value="true ">
             <ib:InvokeCommandAction Command="{Binding SelectAddresseeInfo }"/>
@@ -35,7 +35,7 @@
             <ib:InvokeCommandAction Command="{Binding ShowFormCommand}"/>
         </ib:DataTrigger>
     </ib:Interaction.Triggers>
-       
+
     <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,2,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.08*"/>
@@ -183,9 +183,10 @@
         </GroupBox>
         <Grid x:Name="ScreenTransitionGrid" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -203,7 +204,7 @@
                     </ib:EventTrigger>
                 </ib:Interaction.Triggers>
             </Button>
-            <Button x:Name="GotoGravePanelDataViewButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
+            <Button x:Name="GotoGravePanelDataViewButton" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5,10,5" Width="90">
                 墓地札発行画面
                 <ib:Interaction.Triggers>
                     <ib:EventTrigger EventName="Click">
@@ -211,6 +212,7 @@
                     </ib:EventTrigger>
                 </ib:Interaction.Triggers>
             </Button>
+            <Button x:Name="ExitButton" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5,10,5" Width="90" Content="閉じる"/>
         </Grid>
     </Grid>
 </Window>

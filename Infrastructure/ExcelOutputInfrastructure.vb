@@ -28,11 +28,10 @@ End Interface
 ''' </summary>
 Interface IExcelOutputBehavior
 
-
     ''' <summary>
     ''' シート全体のフォントを設定します
     ''' </summary>
-    Sub SetCellFont()
+    Function SetCellFont() As String
 
     ''' <summary>
     ''' セルのフォントサイズ、フォントポジション等を設定します
@@ -91,14 +90,14 @@ Interface IVerticalOutputListBehavior
     Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity)
 End Interface
 
-Interface IVerticalOutputNoListBehavior
+Interface IGravePanelListBehavior
     Inherits IVerticalOutputBehavior
 
     ''' <summary>
     ''' 出力するデータをセットします
     ''' </summary>
     ''' <param name="startrowposition"></param>
-    Sub SetData(ByVal startrowposition As Integer)
+    Sub SetData(ByVal startrowposition As Integer, ByVal gravepanel As GravePanelDataEntity)
 
 End Interface
 
@@ -182,8 +181,7 @@ Public Class AddressConvert
         If InStr(address, verifystring) = 0 Then Return address
 
         '検証する文字列の名称、京都府や広島県等と市の名称、京都市、広島市などが同じなら省略する
-        If address.Substring(0, InStr(1, address, verifystring) - 1) = address.Substring(InStr(1, address, verifystring),
-                                                                          InStr(1, address, "市") - InStr(1, address, verifystring) - 1) Then
+        If address.Substring(0, InStr(1, address, verifystring) - 1) = address.Substring(InStr(1, address, verifystring), InStr(1, address, "市") - InStr(1, address, verifystring) - 1) Then
             Return address.Substring(InStr(1, address, verifystring))
         End If
 
@@ -197,59 +195,37 @@ Public Class AddressConvert
     ''' <returns></returns>
     Public Function GetConvertAddress2() As String Implements IAddressConvert.GetConvertAddress2
 
-        Dim VerificationString As New Regex("^[0-9０-９－-]+$") '数字、ハイフンを検証する正規表現
-        Dim I As Integer
+        Dim basestring As String
 
-        '一文字ずつ正規表現か検証して、正規表現にマッチする最初の部分を I で保持する
-        For I = 0 To Address2.Length
-            If VerificationString.IsMatch(Address2.Substring(I, 1)) Then Exit For
+        basestring = Regex.Replace(StrConv(Address2, vbWide), "[^０-９]", "*")
+        Dim numberarray() As String = Split(basestring, "*")
+        For i As Integer = 0 To UBound(numberarray)
+            numberarray(i) = BranchConvertNumber(Trim(numberarray(i)))
         Next
 
-        Dim addressstring As String = Address2.Substring(0, I)  '番地までの住所
-        Dim addressblock As String = Address2.Substring(I)      '番地からの住所
-        addressstring = StrConv(addressstring, vbWide)
-        addressblock = StrConv(addressblock, vbWide)
+        basestring = Regex.Replace(StrConv(Address2, vbWide), "[０-９]", "*")
 
-        '住所2の数字の位置からハイフンを基準に文字列を分割して格納する
-        Dim addressarray() As String = Split(addressblock, "－")
-        '配列に格納したら、addressblockに漢字変換した番地を格納する
-        addressblock = String.Empty
-        VerificationString = New Regex("^[\d]+$")
-        Dim J As Integer
-        Dim addressparts As String = String.Empty
-        Dim ismatch As Boolean
-        For I = 0 To UBound(addressarray)
-            '番地の数字の部分を漢字変換し、マッチしない文字列が出てきたら、ConvertArrayブロックに移動する。
-            If VerificationString.IsMatch(addressarray(I)) Then
-                addressblock &= ConvertNumber(addressarray(I)) & "－"
-                Continue For
-            End If
+        Do Until InStr(basestring, "**") = 0
+            basestring = Replace(basestring, "**", "*")
+        Loop
 
-            For J = 0 To addressarray(I).Length - 1
-
-                If J = 0 Then ismatch = VerificationString.IsMatch(addressarray(I).Substring(J, 1))
-
-                If ismatch = VerificationString.IsMatch(addressarray(I).Substring(J, 1)) Then
-                    addressparts &= addressarray(I).Substring(J, 1)
-                    Continue For
-                Else
-                    ismatch = VerificationString.IsMatch(addressarray(I).Substring(J, 1))
-                End If
-
-                If VerificationString.IsMatch(addressparts) Then
-                    addressblock &= ConvertNumber(addressparts)
-                Else
-                    addressblock &= addressparts
-                End If
-                addressparts = String.Empty
-                J -= 1
-            Next
-            addressparts &= "－"
-            addressblock &= addressparts
+        For j As Integer = 0 To UBound(numberarray)
+            If Not String.IsNullOrEmpty(numberarray(j)) Then basestring = Replace(basestring, "*", numberarray(j), 1, 1)
         Next
+        basestring = Replace(basestring, "－", "ー")
+        Return Replace(basestring, "*", String.Empty)
 
-        addressblock = Replace(addressblock, "－", "ー")
-        Return addressstring & addressblock.Substring(0, addressblock.Length - 1)
+    End Function
+
+    Private Function BranchConvertNumber(ByVal addressString As String) As String
+
+        Dim rx As New Regex("^[\d]+$")
+
+        If rx.IsMatch(addressString) Then
+            Return ConvertNumber(addressString)
+        Else
+            Return addressString
+        End If
 
     End Function
 
@@ -409,7 +385,7 @@ Public Class ExcelOutputInfrastructure
 
     Private Volb As IVerticalOutputListBehavior
 
-    Private Vonlb As IVerticalOutputNoListBehavior
+    Private gpb As IGravePanelListBehavior
 
     Private Hob As IHorizontalOutputBehavior
 
@@ -417,18 +393,20 @@ Public Class ExcelOutputInfrastructure
 
     Private Const SAVEPATH As String = ".\files\IroiroFile.xlsx"
 
+    Private Const FileName As String = "Iroiro"
+
     Private ReadOnly buf As String = Dir(SAVEPATH)
 
     Private exlworkbooks As Excel.Workbooks
 
     Private ReadOnly AddresseeList As List(Of DestinationDataEntity)
 
+    Private exlapp As Excel.Application
     ''' <summary>
     ''' エクセルを起動して、アプリ用のブックを開きます
     ''' </summary>
     Private Sub SheetSetting()
 
-        Dim exlapp As Excel.Application
         Dim bolSheetCheck As Boolean = False
         Dim myWorkbook As Excel.Workbook = Nothing
 
@@ -452,9 +430,8 @@ Public Class ExcelOutputInfrastructure
 
         If exlworkbooks.Count = 0 Then exlapp.Quit()
 
-        If ExlWorkbook Is Nothing Then ExlWorkbook = New XLWorkbook
-        Volb.SetCellFont()
-        If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet("Iroiro")
+        ExlWorkbook = New XLWorkbook
+        If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(FileName)
 
         ExlWorkSheet.Cells.Style.NumberFormat.SetNumberFormatId(49)
 
@@ -472,6 +449,7 @@ Public Class ExcelOutputInfrastructure
         Next
 
         If bolSheetCheck = False Then
+            exlapp.Visible = True
             Dim openpath As String = System.IO.Path.GetFullPath(SAVEPATH)
             Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)
         End If
@@ -482,17 +460,15 @@ Public Class ExcelOutputInfrastructure
     ''' 入力するでーたの印刷範囲の一番上のRowを返します
     ''' </summary>
     ''' <returns></returns>
-    Private Function SetStartRowPosition() As Integer
+    Private Function SetStartRowPosition(ByVal vob As IVerticalOutputBehavior) As Integer
 
         Dim addint As Integer = UBound(RowSizes) + 1    '一回に移動する数字。印刷データの１ページ分移動します
-        Dim column As Integer = Volb.CriteriaCellColumnIndex '入力時に必ず値が入っているセルのColumn
-        Dim row As Integer = Volb.CriteriaCellRowIndex   '入力時に必ず値が入っているセルのRow
+        Dim column As Integer = vob.CriteriaCellColumnIndex '入力時に必ず値が入っているセルのColumn
+        Dim row As Integer = vob.CriteriaCellRowIndex   '入力時に必ず値が入っているセルのRow
 
         '入力時に必ず値が入っているセルに文字列があればインデックスをプラスする
         With ExlWorkSheet
-            Dim i As Integer = UBound(ColumnSizes) + 2
             StartIndex += 1
-            .Cell(1, i).Value = StartIndex - 1
             Return (StartIndex - 1) * addint
         End With
 
@@ -519,6 +495,7 @@ Public Class ExcelOutputInfrastructure
                 RowSizes = Hob.SetRowSizes()
                 .Cells.Clear()
                 Hob.SetCellFont()
+                .PageSetup.PrintAreas.Clear()
                 .PageSetup.PrintAreas.Add(Hob.SetPrintAreaString)
             End If
 
@@ -583,6 +560,7 @@ Public Class ExcelOutputInfrastructure
                 For I As Integer = 0 To UBound(ColumnSizes)
                     .Column(I + 1).Width = ColumnSizes(I)
                 Next
+                .PageSetup.PrintAreas.Clear()
                 .PageSetup.PrintAreas.Add(Volb.SetPrintAreaString)
             End If
 
@@ -590,7 +568,7 @@ Public Class ExcelOutputInfrastructure
 
                 '複数印刷するならポジションを設定
                 If ismulti Then
-                    StartRowPosition = SetStartRowPosition()
+                    StartRowPosition = SetStartRowPosition(Volb)
                 Else
                     .Unmerge()
                     StartRowPosition = 0
@@ -606,55 +584,56 @@ Public Class ExcelOutputInfrastructure
                 Volb.CellsJoin(StartRowPosition)
                 Volb.SetData(StartRowPosition, dde)
             Next
+            .Style.Font.FontName = Volb.SetCellFont
         End With
 
+        If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
         ExlWorkbook.SaveAs(SAVEPATH)
         ExcelOpen()
     End Sub
 
-    Private Sub NoListOutputVerticalProcessing(ByVal _vob As IVerticalOutputNoListBehavior, ByVal ismulti As Boolean)
+    Private Sub GravePanelListOutputProcessing(ByVal _vob As IGravePanelListBehavior)
 
-        Vonlb = _vob
+        Dim gpl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
+        gpb = _vob
 
         SheetSetting()
 
         With ExlWorkSheet
             '出力するデータの種類が違えばセルをクリアする
-            If OutputDataGanre <> Vonlb.GetDataName Then
-                ColumnSizes = Vonlb.SetColumnSizes()
-                RowSizes = Vonlb.SetRowSizes()
-                OutputDataGanre = Vonlb.GetDataName
+            If OutputDataGanre <> gpb.GetDataName Then
+                ColumnSizes = gpb.SetColumnSizes()
+                RowSizes = gpb.SetRowSizes()
+                OutputDataGanre = gpb.GetDataName
                 SetMargin()
                 .Cells.Clear()
                 'ColumnSizesの配列の中の数字をシートのカラムの幅に設定する
                 For I As Integer = 0 To UBound(ColumnSizes)
                     .Column(I + 1).Width = ColumnSizes(I)
                 Next
-                .PageSetup.PrintAreas.Add(Volb.SetPrintAreaString)
+                .PageSetup.PrintAreas.Clear()
+                .PageSetup.PrintAreas.Add(gpb.SetPrintAreaString)
             End If
 
-            For Each dde As DestinationDataEntity In AddresseeList
+            For Each gp As GravePanelDataEntity In gpl.List
+                If gp.MyIsPrintout.Value = False Then Continue For
+                StartRowPosition = SetStartRowPosition(gpb)
 
-                '複数印刷するならポジションを設定
-                If ismulti Then
-                    StartRowPosition = SetStartRowPosition()
-                Else
-                    .Unmerge()
-                    StartRowPosition = 0
-                End If
-
-                Volb.CellProperty(StartRowPosition)
+                gpb.CellProperty(StartRowPosition)
 
                 'RowSizesの配列の中の数字をシートのローの幅に設定する
                 For I = 0 To UBound(RowSizes)
                     .Rows(StartRowPosition + (I + 1)).Height = RowSizes(I)
                 Next
 
-                Vonlb.CellsJoin(StartRowPosition)
-                Vonlb.SetData(StartRowPosition)
+                gpb.CellsJoin(StartRowPosition)
+                gpb.SetData(StartRowPosition, gp)
             Next
+
+            .Style.Font.FontName = gpb.SetCellFont
         End With
 
+        If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
         ExlWorkbook.SaveAs(SAVEPATH)
         ExcelOpen()
     End Sub
@@ -732,10 +711,10 @@ Public Class ExcelOutputInfrastructure
 
     End Sub
 
-    Public Sub GravePanelOutput(gravenumber As String, familyname As String, contractcontent As String, area As Double, startposition As Integer) Implements IOutputDataRepogitory.GravePanelOutput
+    Public Sub GravePanelOutput() Implements IOutputDataRepogitory.GravePanelOutput
 
-        Dim gp As IVerticalOutputNoListBehavior = New GravePanel(familyname, gravenumber, contractcontent, area, startposition)
-        NoListOutputVerticalProcessing(gp, True)
+        Dim gp As IGravePanelListBehavior = New GravePanel()
+        GravePanelListOutputProcessing(gp)
 
     End Sub
 
@@ -767,65 +746,76 @@ Public Class ExcelOutputInfrastructure
     ''' 墓地札クラス
     ''' </summary>
     Private Class GravePanel
-        Implements IVerticalOutputNoListBehavior
+        Implements IGravePanelListBehavior
 
-        Private ReadOnly FamilyName As String
-        Private ReadOnly GraveNumber As String
-        Private ReadOnly ContractContent As String
-        Private ReadOnly StartPositionIndex As Integer
-        Private ReadOnly Area As String
-
-        Sub New(ByVal _familyname As String, ByVal _gravenumber As String, ByVal _contractcontent As String, ByVal _area As String, ByVal _startposition As Integer)
-
-            FamilyName = _familyname
-            GraveNumber = _gravenumber
-            ContractContent = _contractcontent
-            Area = _area
-            StartPositionIndex = _startposition - 1
-
+        Public Sub SetData(startrowposition As Integer, gravepanel As GravePanelDataEntity) Implements IGravePanelListBehavior.SetData
+            With ExlWorkSheet
+                .Cell(startrowposition + 1, 1).Value = NameConvert(gravepanel.MyFamilyName.Name) & "家"
+                .Cell(startrowposition + 2, 1).Value = gravepanel.GetGraveNumber & Space(1) & gravepanel.GetArea & "㎡"
+                .Cell(startrowposition + 3, 1).Value = "清掃契約"
+                .Cell(startrowposition + 3, 2).Value = gravepanel.GetContractContent
+            End With
         End Sub
 
-        Public Sub SetData(startrowposition As Integer) Implements IVerticalOutputNoListBehavior.SetData
+        Private Function NameConvert(ByVal strName As String) As String
 
-            Dim srp As Integer = startrowposition + StartPositionIndex
-            Dim fn As String = String.Empty
+            Dim I As Integer = 0 'ループで使う添え字
+            Dim nameArray() As String
+            Dim nameValue As String = String.Empty
 
-            For i As Integer = 0 To FamilyName.Length
-                fn &= Mid(FamilyName, i, 1) & "　"
+            ReDim nameArray(strName.Trim.Length - 1)
+
+            Do Until I = strName.Trim.Length
+                nameArray(I) = strName.Substring(I, 1)
+                I += 1
+            Loop
+
+            For I = 0 To UBound(nameArray) Step 1
+                If nameArray(I).Trim.Length <> 0 Then
+                    nameValue &= Space(1) & nameArray(I)
+                End If
             Next
 
-            With ExlWorkSheet
-                .Cell(srp + 1, 1).Value = fn & "家"
-                .Cell(srp + 2, 1).Value = GraveNumber
-                .Cell(srp + 3, 1).Value = "清掃契約"
-                .Cell(srp + 3, 2).Value = ContractContent
-            End With
-        End Sub
+            nameValue &= Space(1)
+            If Len(Trim(nameValue)) = 1 Then nameValue &= Space(1)
+
+            Return nameValue
+
+        End Function
 
         Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            Dim srp As Integer = startrowposition + StartPositionIndex
-
             With ExlWorkSheet
-                .Range(.Cell(srp + 1, 1), .Cell(srp + 1, 2)).Merge()
-                .Range(.Cell(srp + 1, 2), .Cell(srp + 2, 2)).Merge()
+                .Range(.Cell(startrowposition + 1, 1), .Cell(startrowposition + 1, 2)).Merge()
+                .Range(.Cell(startrowposition + 2, 1), .Cell(startrowposition + 2, 2)).Merge()
             End With
         End Sub
 
-        Public Sub SetCellFont() Implements IExcelOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "HG正楷書体-PRO"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "HG正楷書体-PRO"
+        End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IExcelOutputBehavior.CellProperty
 
-            Dim srp As Integer = startrowposition + StartPositionIndex
-
             With ExlWorkSheet
-                .Cell(srp + 1, 1).Style.Font.FontSize = 65
-                .Range(.Cell(srp + 2, 1), .Cell(srp + 3, 2)).Style.Font.FontSize = 48
-                .Range(.Cell(srp + 1, 1), .Cell(srp + 3, 2)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin
+                With .Cell(startrowposition + 1, 1).Style
+                    .Font.FontSize = 65
+                    .Font.Bold = True
+                    .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                End With
+                With .Range(.Cell(startrowposition + 2, 1), .Cell(startrowposition + 3, 2)).Style
+                    .Font.FontSize = 48
+                    .Font.Bold = True
+                    .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                End With
+                With .Range(.Cell(startrowposition + 1, 1), .Cell(startrowposition + 3, 2)).Style.Border
+                    .SetTopBorder(XLBorderStyleValues.Thick)
+                    .SetBottomBorder(XLBorderStyleValues.Thick)
+                    .SetLeftBorder(XLBorderStyleValues.Thick)
+                    .SetRightBorder(XLBorderStyleValues.Thick)
+                End With
             End With
-
         End Sub
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
@@ -841,7 +831,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
-            Return {82.5, 71.25, 82.5}
+            Return {93.75, 67.5, 75}
         End Function
 
         Public Function GetDataName() As String Implements IExcelOutputBehavior.GetDataName
@@ -923,12 +913,12 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Protected Sub SetCellFont() Implements IVerticalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "HGP行書体"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "HGP行書体"
+        End Function
 
         Private Function ColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {17.13, 7.5, 2.75, 2.75, 2.75, 2.38, 2.38, 2.38, 2.38, 1.75}
+            Return {21.43, 7.43, 2.71, 2.71, 2.71, 2.86, 2.86, 2.86, 2.86, 1.43}
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
@@ -1063,16 +1053,16 @@ Public Class ExcelOutputInfrastructure
 
         End Function
 
-        Private Sub SetCellFont() Implements IVerticalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "ＭＳ Ｐ明朝"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "ＭＳ Ｐ明朝"
+        End Function
 
         Private Function IExcelOutputBehavior_SetColumnSizes1() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {3.75, 25.13, 4, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 6, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 1.75, 0.31}
+            Return {3.71, 25.14, 7.57, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 7.29, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 0.31}
         End Function
 
         Private Function IExcelOutputBehavior_SetRowSizes1() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {272.25, 171.75, 19.5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 101.25}
+            Return {279, 172.5, 19.5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 101.25}
         End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
@@ -1304,9 +1294,9 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Private Sub SetCellFont() Implements IVerticalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "HGP行書体"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "HGP行書体"
+        End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
             Return 4
@@ -1416,9 +1406,9 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Private Sub SetCellFont() Implements IVerticalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "HGP行書体"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "HGP行書体"
+        End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
             Return 4
@@ -1528,9 +1518,9 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Private Sub SetCellFont() Implements IVerticalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "HGP行書体"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "HGP行書体"
+        End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
             Return 4
@@ -1657,9 +1647,9 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Private Sub SetCellFont() Implements IVerticalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "HGP行書体"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "HGP行書体"
+        End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
             Return 4
@@ -1739,9 +1729,9 @@ Public Class ExcelOutputInfrastructure
 
         End Function
 
-        Private Sub SetCellFont() Implements IHorizontalOutputBehavior.SetCellFont
-            ExlWorkbook.Style.Font.FontName = "ＭＳ Ｐゴシック"
-        End Sub
+        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
+            Return "ＭＳ Ｐゴシック"
+        End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IHorizontalOutputBehavior.CellProperty
 

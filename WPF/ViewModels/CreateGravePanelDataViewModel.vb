@@ -5,6 +5,7 @@ Imports Domain
 Imports Infrastructure
 Imports WPF.Command
 Imports WPF.Data
+Imports System.Linq
 
 Public Interface INotifyListAdd
     Sub Notify(ByVal gravepanelData As GravePanelDataEntity)
@@ -82,11 +83,11 @@ Namespace ViewModels
         Private _IsEnabledGawa As Boolean = False
         Private _IsEnabledBan As Boolean = False
         Private _IsEnabledEdaban As Boolean = False
-        Private _SelectedKu As String = String.Empty
-        Private _SelectedKuiki As String = String.Empty
-        Private _SelectedGawa As String = String.Empty
-        Private _SelectedBan As String = String.Empty
-        Private _SelectedEdaban As String = String.Empty
+        Private _SelectedKu As String
+        Private _SelectedKuiki As String
+        Private _SelectedGawa As String
+        Private _SelectedBan As String
+        Private _SelectedEdaban As String
         Private _GraveNumberKuikiList As GraveNumberEntity.KuikiList
         Private _KuikiText As String
         Private _GraveNumberGawaList As GraveNumberEntity.GawaList
@@ -235,6 +236,7 @@ Namespace ViewModels
             End Get
             Set
                 _KuText = Value
+                If Not Enumerable.Contains(GraveNumberKuList, New GraveNumberEntity.Ku(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
                 CallPropertyChanged(NameOf(KuText))
                 ValidateProperty(NameOf(KuText), Value)
             End Set
@@ -342,38 +344,17 @@ Namespace ViewModels
         ''' 名義人クラスのプロパティをViewModel のプロパティにセットします
         ''' </summary>
         Private Sub InputLesseeData()
-
-            If MyLessee.GetReceiverName.Length = 0 Then
-                SetLesseeName()
-            ElseIf MyLessee.GetLesseeName <> MyLessee.GetReceiverName Then
-                CreateSelectAddresseeInfo()
-                CallSelectAddresseeInfo = True
-                SetName()
-            Else
-                SetLesseeName()
-            End If
-
+            SetLesseeName()
             RegistrationCustomerID = MyLessee.GetCustomerID
             Area = MyLessee.GetArea
-            FullName = MyLessee.GetLesseeName
         End Sub
 
         ''' <summary>
         ''' 苗字のみをセットします
         ''' </summary>
         Private Sub SetLesseeName()
-            FamilyName = Mid(MyLessee.GetLesseeName, 1, InStr(MyLessee.GetLesseeName, "　") - 1)
-        End Sub
-
-        ''' <summary>
-        ''' 苗字のみをセットします
-        ''' </summary>
-        Private Sub SetName()
-            If MsgResult = MessageBoxResult.Yes Then
-                SetLesseeName()
-            Else
-                FamilyName = Mid(MyLessee.GetReceiverName, 1, InStr(MyLessee.GetReceiverName, "　”) - 1)
-            End If
+            FamilyName = MyLessee.GetLesseeName.Substring(0, InStr(MyLessee.GetLesseeName, "　")).Trim
+            FullName = MyLessee.GetLesseeName
         End Sub
 
         ''' <summary>
@@ -385,11 +366,11 @@ Namespace ViewModels
             Sub()
                 MessageInfo = New MessageBoxInfo With
                 {
-                .Message = "名義人 : " & MyLessee.GetLesseeName & vbNewLine & "送付先 : " & MyLessee.GetReceiverName & vbNewLine & vbNewLine &
-                                "どちらのデータを使用しますか？" & vbNewLine & vbNewLine & "はい ⇒　名義人　　いいえ ⇒ 送付先",
+                .Message = My.Resources.FieldPropertyMessage_Lessee & MyLessee.GetLesseeName & vbNewLine & My.Resources.FieldPropertyMessage_Receiver & MyLessee.GetReceiverName & vbNewLine & vbNewLine &
+                                My.Resources.DataSelectInfo & vbNewLine & vbNewLine & My.Resources.LesseeDataSelect,
                                 .Button = MessageBoxButton.YesNo,
                                .Image = MessageBoxImage.Question,
-                               .Title = "データ選択"
+                               .Title = My.Resources.DataSelectInfoTitle
                                }
                 MsgResult = MessageInfo.Result
                 CallPropertyChanged(NameOf(SelectAddresseeInfo))
@@ -406,7 +387,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Private Function ReturnDisplayForGraveNumber() As String
-            Return KuText & KuikiText & "区" & GawaText & "側" & BanText & EdabanText & "番"
+            Return KuText & KuikiText & My.Resources.GraveKuString & GawaText & My.Resources.GraveGawaString & BanText & EdabanText & My.Resources.GraveBanString
         End Function
 
         ''' <summary>
@@ -419,7 +400,6 @@ Namespace ViewModels
             End Get
             Set
                 _EdabanText = Value
-                DisplayForGraveNumber = ReturnDisplayForGraveNumber()
                 CallPropertyChanged(NameOf(EdabanText))
             End Set
         End Property
@@ -434,9 +414,10 @@ Namespace ViewModels
             End Get
             Set
                 _BanText = Value
-                DisplayForGraveNumber = ReturnDisplayForGraveNumber()
                 CallPropertyChanged(NameOf(BanText))
                 ValidateProperty(NameOf(BanText), Value)
+                If GraveNumberBanList Is Nothing Then Exit Property
+                If Not Enumerable.Contains(GraveNumberBanList.List, New GraveNumberEntity.Ban(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -452,6 +433,8 @@ Namespace ViewModels
                 _GawaText = Value
                 CallPropertyChanged(NameOf(GawaText))
                 ValidateProperty(NameOf(GawaText), Value)
+                If GraveNumberGawaList Is Nothing Then Exit Property
+                If Not Enumerable.Contains(GraveNumberGawaList.List, New GraveNumberEntity.Gawa(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -471,8 +454,11 @@ Namespace ViewModels
                     IsEnabledGawa = True
                 End If
                 _KuikiText = Value
+
                 CallPropertyChanged(NameOf(KuikiText))
                 ValidateProperty(NameOf(KuikiText), Value)
+                If GraveNumberKuikiList Is Nothing Then Exit Property
+                If Not Enumerable.Contains(GraveNumberKuikiList.List, New GraveNumberEntity.Kuiki(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -580,8 +566,8 @@ Namespace ViewModels
 
             ContractContents = New ObservableCollection(Of String)
             With ContractContents
-                .Add("草取り")
-                .Add("植木手入れ")
+                .Add(My.Resources.Contract_Kusatori)
+                .Add(My.Resources.Contract_Ueki)
             End With
 
         End Sub
@@ -799,8 +785,6 @@ Namespace ViewModels
             InputLesseeData()
             RegistrationCustomerID = MyLessee.GetCustomerID
             DisplayForGraveNumber = MyLessee.GetGraveNumber.GetNumber
-            FullName = MyLessee.GetLesseeName
-            FamilyName = FullName.Substring(0, InStr(FullName, "　"))
             With MyLessee.GetGraveNumber
                 KuText = .KuField.DisplayForField
                 KuikiText = .KuikiField.DisplayForField
@@ -815,11 +799,12 @@ Namespace ViewModels
         ''' </summary>
         Public Sub DataRegistration()
 
+            DisplayForGraveNumber = ReturnDisplayForGraveNumber()
             CreateConfirmationRegisterInfo()
             IsConfirmationRegister = True
 
             Dim NowDate As Date = Now
-            Dim DefaultDate As Date = "1900/01/01"
+            Dim DefaultDate As Date = My.Resources.DefaultDate
             If MsgResult = MessageBoxResult.No Then Exit Sub
             If HasErrors Then
                 CallRegistrationErrorMessageInfo = True
@@ -854,9 +839,9 @@ Namespace ViewModels
                     Sub()
                         MessageInfo = New MessageBoxInfo With
                         {
-                        .Message = "必須項目に値を入力してください。",
+                        .Message = My.Resources.StringEmptyMessage,
                         .Image = MessageBoxImage.Exclamation,
-                        .Title = "登録エラー"
+                        .Title = My.Resources.ErrorRegisterTitle
                         }
                         CallPropertyChanged(NameOf(RegistrationErrorMessageInfo))
                     End Sub,
@@ -880,7 +865,7 @@ Namespace ViewModels
                 Sub()
                     MessageInfo = New MessageBoxInfo With
                     {
-                    .Message = "追加しました。", .Button = MessageBoxButton.OK, .Title = "処理完了", .Image = MessageBoxImage.Information
+                    .Message = My.Resources.AddComplete, .Button = MessageBoxButton.OK, .Title = My.Resources.AddCompleteTitle, .Image = MessageBoxImage.Information
                     }
                     CallPropertyChanged(NameOf(CreateCompleteRegistrationInfo))
                 End Sub,
@@ -920,8 +905,12 @@ Namespace ViewModels
                 Sub()
                     MessageInfo = New MessageBoxInfo With
                     {
-                    .Message = "管理番号 : " & RegistrationCustomerID & vbNewLine & "苗字 : " & FamilyName & vbNewLine & "墓地番号 : " & DisplayForGraveNumber & vbNewLine & "契約内容 : " & ContractContent & vbNewLine & "登録日時 : " & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine & "登録しますか？",
-                    .Button = MessageBoxButton.YesNo, .Title = "登録確認", .Image = MessageBoxImage.Question
+                    .Message = My.Resources.FieldPropertyMessage_CustomerID & RegistrationCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName & FamilyName &
+                    vbNewLine & My.Resources.FieldPropertyMessage_GraveNumber & DisplayForGraveNumber & vbNewLine & My.Resources.FieldPropertyMessage_ContractContent &
+                    ContractContent & vbNewLine & My.Resources.FieldPropertyMessage_RegistrationDate & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine &
+                    My.Resources.ConfirmationRegisterInfo,
+                    .Button = MessageBoxButton.YesNo,
+                    .Title = My.Resources.ConfirmationRegisterInfoTitle, .Image = MessageBoxImage.Question
                     }
                     CallPropertyChanged(NameOf(ConfirmationRegistraterInfo))
                     MsgResult = MessageInfo.Result

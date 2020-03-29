@@ -1,0 +1,390 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Infrastructure
+</name>
+</assembly>
+<members>
+<member name="T:Infrastructure.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:Infrastructure.IAddressConvert">
+ <summary>
+ 住所を宛先用に変換します
+ </summary>
+</member>
+<member name="M:Infrastructure.IAddressConvert.GetConvertAddress1">
+ <summary>
+ 宛先用住所1を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.IAddressConvert.GetConvertAddress2">
+ <summary>
+ 宛先用住所2を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.IExcelOutputBehavior">
+ <summary>
+ エクセルに出力する際の共通動作
+ </summary>
+</member>
+<member name="M:Infrastructure.IExcelOutputBehavior.SetCellFont">
+ <summary>
+ シート全体のフォントを設定します
+ </summary>
+</member>
+<member name="M:Infrastructure.IExcelOutputBehavior.CellProperty(System.Int32)">
+ <summary>
+ セルのフォントサイズ、フォントポジション等を設定します
+ </summary>
+ <param name="startrowposition"></param>
+</member>
+<member name="M:Infrastructure.IExcelOutputBehavior.SetColumnSizes">
+ <summary>
+ カラムのサイズを格納した配列を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.IExcelOutputBehavior.SetRowSizes">
+ <summary>
+ Rowのサイズを格納した配列を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.IExcelOutputBehavior.GetDataName">
+ <summary>
+ エクセルに出力するジャンルを返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.IExcelOutputBehavior.SetPrintAreaString">
+ <summary>
+ 印刷範囲の文字列を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.IHorizontalOutputBehavior">
+ <summary>
+ エクセルデータを横向けに出力
+ </summary>
+</member>
+<member name="M:Infrastructure.IHorizontalOutputBehavior.SetData(Domain.DestinationDataEntity)">
+ <summary>
+ 出力するデータをセットします
+ </summary>
+</member>
+<member name="M:Infrastructure.IVerticalOutputListBehavior.SetData(System.Int32,Domain.DestinationDataEntity)">
+ <summary>
+ 出力するデータをセットします
+ </summary>
+ <param name="startrowposition"></param>
+</member>
+<member name="M:Infrastructure.IVerticalOutputNoListBehavior.SetData(System.Int32)">
+ <summary>
+ 出力するデータをセットします
+ </summary>
+ <param name="startrowposition"></param>
+</member>
+<member name="T:Infrastructure.IVerticalOutputBehavior">
+ <summary>
+ エクセルデータを縦向けに出力
+ </summary>
+</member>
+<member name="M:Infrastructure.IVerticalOutputBehavior.CellsJoin(System.Int32)">
+ <summary>
+ 結合するセルを設定します
+ </summary>
+ <param name="startrowposition"></param>
+</member>
+<member name="M:Infrastructure.IVerticalOutputBehavior.CriteriaCellRowIndex">
+ <summary>
+ 必ず入力されるデータ（宛名）のセル位置を設定するための行番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.IVerticalOutputBehavior.CriteriaCellColumnIndex">
+ <summary>
+ 必ず入力されるデータ（宛名）のセル位置を設定するための列番号
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.AddressConvert">
+ <summary>
+ 住所変換クラス
+ </summary>
+</member>
+<member name="M:Infrastructure.AddressConvert.GetConvertAddress1">
+ <summary>
+ 住所の都道府県を省略できる住所は、都道府県を除いて返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.AddressConvert.VerifyAddressString(System.String,System.String)">
+ <summary>
+ 検証する県、府が市と同じ名前の場合、市から始まる住所にして返します
+ </summary>
+ <param name="address">住所</param>
+ <param name="verifystring">検証する文字列</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.AddressConvert.GetConvertAddress2">
+ <summary>
+ 住所2の番地を漢字に変換して返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.AddressConvert.ConvertNumber(System.Int32)">
+ <summary>
+ 数字を漢字変換して返します
+ </summary>
+ <param name="mynumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.AddressConvert.ConvertNumber_Under10(System.Int32)">
+ <summary>
+ 10以下の数字を漢数字に変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.AddressConvert.ConvertNumber_Over11Under19(System.Int32)">
+ <summary>
+ 11から19までの数字を変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.AddressConvert.ConvertNumber_Orver20(System.Int32)">
+ <summary>
+ 20以上の数字を変換します
+ </summary>
+ <param name="myNumber">変換する数字</param>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure">
+ <summary>
+ エクセルへの処理を行います
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.OutputDataGanre">
+ <summary>
+ 出力するデータの種類を保持する
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.MyAddressee">
+ <summary>
+ 宛先データ
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.ExlWorkbook">
+ <summary>
+ ワークブック
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.ColumnSizes">
+ <summary>
+ 印刷物を発行するエクセルの列のサイズを配列で保持します。
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.RowSizes">
+ <summary>
+ 印刷物を発行するエクセルの行のサイズを配列で保持します。
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.StartRowPosition">
+ <summary>
+ 複数データを印刷する際の各入力データの一番上の数値を設定します
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.ExlWorkSheet">
+ <summary>
+ ワークシート
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.SheetSetting">
+ <summary>
+ エクセルを起動して、アプリ用のブックを開きます
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.SetStartRowPosition">
+ <summary>
+ 入力するでーたの印刷範囲の一番上のRowを返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.OutputHorizontalProcessing(Infrastructure.IHorizontalOutputBehavior)">
+ <summary>
+ 横向けにデータを入力する処理。ラベル用紙用
+ </summary>
+ <param name="_hob"></param>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.ListOutputVerticalProcessing(Infrastructure.IVerticalOutputListBehavior,System.Boolean)">
+ <summary>
+ 縦向けにリストのデータを入力する処理
+ </summary>
+ <param name="_vob"></param>
+ <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.SetMargin">
+ <summary>
+ エクセルシートの余白を0に設定する
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.GravePanel">
+ <summary>
+ 墓地札クラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Cho3Envelope">
+ <summary>
+ 長3封筒クラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.TransferPaper">
+ <summary>
+ 振込用紙発行クラス
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.TransferPaper.SplitYourCopyAddress(System.String,System.String)">
+ <summary>
+ お客様控えの住所を分けて表示させるための文字列の配列を返します
+ </summary>
+ <param name="address1">住所1</param>
+ <param name="address2">住所2</param>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.TransferPaper.ReturnLongAddressArray(System.String)">
+ <summary>
+ 長い住所を区切ります。1行目を住所2の文字も使用して3行で表示させます。
+ </summary>
+ <param name="absolutenessaddress"></param>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.WesternEnvelope">
+ <summary>
+ 洋封筒クラス 
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Kaku2Envelope">
+ <summary>
+ 角2封筒クラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.GravePamphletEnvelope">
+ <summary>
+ 墓地パンフクラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Postcard">
+ <summary>
+ はがきクラス
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.LabelSheet">
+ <summary>
+ ラベルシートクラス
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.LabelSheet.ReturnLabelString(System.Int32,Domain.DestinationDataEntity)">
+ <summary>
+ ラベルに入力する文字列を返します
+ </summary>
+ <param name="lineindex">行番号</param>
+ <param name="addressee">ラベル化する宛先</param>
+ <returns></returns>
+</member>
+<member name="T:Infrastructure.LogFileInfrastructure">
+ <summary>
+ メモ帳にログを書き込みます
+ </summary>
+</member>
+<member name="T:Infrastructure.SQLConectInfrastructure">
+ <summary>
+ SQLServerと接続するモデルクラス
+ </summary>
+</member>
+<member name="P:Infrastructure.SQLConectInfrastructure.Cmd">
+ <summary>
+ データを取得するためのルートを確立するコマンドクラス
+ </summary>
+</member>
+<member name="F:Infrastructure.SQLConectInfrastructure.SHUNJUENCONSTRING">
+ <summary>
+ SQLServerに接続するための接続文字列
+ </summary>
+</member>
+<member name="P:Infrastructure.SQLConectInfrastructure.Rs">
+ <summary>
+ コマンドから取得したデータを格納するクラス
+ </summary>
+</member>
+<member name="P:Infrastructure.SQLConectInfrastructure.Cn">
+ <summary>
+ VB.NETとSQLServerを接続するクラス
+ </summary>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(ADODB.Command@)">
+ <summary>
+ Rsにデータを格納し、Rs.EOFの結果を返します
+ </summary>
+ <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProc(ADODB.Command@)">
+ <summary>
+ 戻り値のないストアドプロシージャを実行します
+ </summary>
+ <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.ADONothing">
+ <summary>
+ ADODBのインスタンスを削除します
+ </summary>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.SetLesseeRecord(System.String)">
+ <summary>
+ 名義人データを検索し、Rs.EOFを返します
+ </summary>
+ <param name="strManagementNumber">検索する管理番号</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.RsFields(System.String)">
+ <summary>
+ レコードセットのフィールドのValueを文字列形式で返します
+ </summary>
+ <param name="FieldName">データベース（ストアドプロシージャ）から取得するフィールドの名前</param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.SetGraveData(System.String,System.String,System.String,System.String,System.String)">
+ <summary>
+ 墓地番号データをRsに格納します
+ </summary>
+ <param name="Ku">区</param>
+ <param name="Kuiki">区域</param>
+ <param name="Gawa">側</param>
+ <param name="Ban">番</param>
+ <param name="Edaban"></param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.GetKuikiList(System.String)">
+ <summary>
+ 墓地の区に属する区域のリストを返します
+ </summary>
+ <param name="_gravekunumber">区</param>
+ <returns></returns>
+</member>
+</members>
+</doc>

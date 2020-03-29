@@ -276,7 +276,11 @@
         Public Property ID As String
 
         Sub New(ByVal _customerid As String)
-            ID = _customerid
+            If String.IsNullOrEmpty(_customerid) Then
+                ID = "未登録"
+            Else
+                ID = _customerid
+            End If
         End Sub
 
         Public Function GetID() As String

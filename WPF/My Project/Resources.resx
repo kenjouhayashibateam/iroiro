@@ -117,19 +117,151 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddComplete" xml:space="preserve">
+    <value>登録しました</value>
+  </data>
+  <data name="AddCompleteTitle" xml:space="preserve">
+    <value>登録完了</value>
+  </data>
+  <data name="AddHomeString" xml:space="preserve">
+    <value> 家</value>
+  </data>
+  <data name="AddresseeErrorInfo" xml:space="preserve">
+    <value>宛先が不十分です</value>
+  </data>
+  <data name="AddressLengthOverInfo" xml:space="preserve">
+    <value>住所がセルからはみ出てますので、書き直して下さい</value>
+  </data>
   <data name="AreaFieldError" xml:space="preserve">
     <value>面積が正しく入力されていません</value>
+  </data>
+  <data name="Cho3EnvelopeText" xml:space="preserve">
+    <value>長3封筒</value>
+  </data>
+  <data name="ClipBoardDataErrorInfo" xml:space="preserve">
+    <value>コピー形式が正しくありません。</value>
+  </data>
+  <data name="CompleteDeleteInfo" xml:space="preserve">
+    <value>削除しました</value>
+  </data>
+  <data name="CompleteDeleteInfoTitle" xml:space="preserve">
+    <value>削除完了</value>
+  </data>
+  <data name="ConfirmationRegisterInfo" xml:space="preserve">
+    <value>登録しますか？</value>
+  </data>
+  <data name="ConfirmationRegisterInfoTitle" xml:space="preserve">
+    <value>登録確認</value>
+  </data>
+  <data name="Contract.Kusatori" xml:space="preserve">
+    <value>草取り</value>
+  </data>
+  <data name="Contract.Ueki" xml:space="preserve">
+    <value>植木</value>
   </data>
   <data name="CustomerIDLengthError" xml:space="preserve">
     <value>6桁の管理番号を入力</value>
   </data>
+  <data name="DataSelectInfo" xml:space="preserve">
+    <value>どちらのデータを使用しますか？</value>
+  </data>
+  <data name="DataSelectInfoTitle" xml:space="preserve">
+    <value>データ選択</value>
+  </data>
+  <data name="DefaultDate" xml:space="preserve">
+    <value>1900/01/01</value>
+  </data>
+  <data name="DeleteInfo" xml:space="preserve">
+    <value>削除しますか？</value>
+  </data>
+  <data name="DeleteInfoTitle" xml:space="preserve">
+    <value>削除確認</value>
+  </data>
+  <data name="ErrorRegisterTitle" xml:space="preserve">
+    <value>登録エラー</value>
+  </data>
+  <data name="FieldPropertyMessage.Area" xml:space="preserve">
+    <value>面積 : </value>
+  </data>
+  <data name="FieldPropertyMessage.ContractContent" xml:space="preserve">
+    <value>契約内容 : </value>
+  </data>
+  <data name="FieldPropertyMessage.CustomerID" xml:space="preserve">
+    <value>管理番号 : </value>
+  </data>
+  <data name="FieldPropertyMessage.FirstName" xml:space="preserve">
+    <value>苗字 : </value>
+  </data>
+  <data name="FieldPropertyMessage.GraveNumber" xml:space="preserve">
+    <value>墓地番号 : </value>
+  </data>
+  <data name="FieldPropertyMessage.RegistrationDate" xml:space="preserve">
+    <value>登録日時 : </value>
+  </data>
+  <data name="FieldPropertyMessage_Lessee" xml:space="preserve">
+    <value>名義人 : </value>
+  </data>
+  <data name="FieldPropertyMessage_Receiver" xml:space="preserve">
+    <value>送付先 : </value>
+  </data>
+  <data name="FormatErrorTitle" xml:space="preserve">
+    <value>形式エラー</value>
+  </data>
+  <data name="GraveBanString" xml:space="preserve">
+    <value>番</value>
+  </data>
+  <data name="GraveGawaString" xml:space="preserve">
+    <value>側</value>
+  </data>
+  <data name="GraveKuString" xml:space="preserve">
+    <value>区</value>
+  </data>
+  <data name="GravePamphletEnvelopeText" xml:space="preserve">
+    <value>墓地パンフ</value>
+  </data>
+  <data name="HonorificsText" xml:space="preserve">
+    <value>様</value>
+  </data>
+  <data name="Kaku2EnvelopeText" xml:space="preserve">
+    <value>角2封筒</value>
+  </data>
+  <data name="LabelPaperText" xml:space="preserve">
+    <value>ラベル用紙</value>
+  </data>
+  <data name="LesseeDataSelect" xml:space="preserve">
+    <value>はい ⇒　名義人　　いいえ ⇒ 送付先</value>
+  </data>
+  <data name="MandatoryItemsNotPreparedTitle" xml:space="preserve">
+    <value>必須項目不備</value>
+  </data>
   <data name="NothingSelectedItemMessage" xml:space="preserve">
     <value>アイテムが選択されていません</value>
+  </data>
+  <data name="PassAddresseeRecordInfo" xml:space="preserve">
+    <value>宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。</value>
   </data>
   <data name="PostalCodeError" xml:space="preserve">
     <value>半角数字、ハイフンあり（***-****）で入力してください</value>
   </data>
+  <data name="PostcardText" xml:space="preserve">
+    <value>はがき</value>
+  </data>
+  <data name="SquareFootageText" xml:space="preserve">
+    <value> ㎡</value>
+  </data>
   <data name="StringEmptyMessage" xml:space="preserve">
     <value>必須項目です。必ず入力してください</value>
+  </data>
+  <data name="ToBeAdjusted" xml:space="preserve">
+    <value>要住所調整</value>
+  </data>
+  <data name="TransferPaperText" xml:space="preserve">
+    <value>振込用紙</value>
+  </data>
+  <data name="UndefinedCustomerID" xml:space="preserve">
+    <value>未登録</value>
+  </data>
+  <data name="WesternEnvelopeText" xml:space="preserve">
+    <value>洋封筒</value>
   </data>
 </root>

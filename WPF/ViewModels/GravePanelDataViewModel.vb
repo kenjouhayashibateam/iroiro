@@ -36,6 +36,7 @@ Namespace ViewModels
         Private _CustomerID As String
         Private _FamilyName As String
         Private _FullName As String
+        Private _CallIsDeleteDataInfo As Boolean
 
         Public Property FullName As String
             Get
@@ -44,6 +45,7 @@ Namespace ViewModels
             Set
                 _FullName = Value
                 CallPropertyChanged(FullName)
+                GetList()
             End Set
         End Property
 
@@ -169,16 +171,19 @@ Namespace ViewModels
             Set
                 _IsPast3MonthsPart = Value
                 CallPropertyChanged(NameOf(IsPast3MonthsPart))
-                GetList()
+                GetPast3MonthsList()
             End Set
         End Property
 
-        Public Sub GetList()
-            If _IsPast3MonthsPart Then
-                GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FamilyName, FullName, DateAdd(DateInterval.Month, -3, Now), Now).List
+        Private Sub GetPast3MonthsList()
+            If IsPast3MonthsPart Then
+                GetList()
             Else
-                GravePanelList = DataBaseConecter.GetGravePanelDataList(CustomerID, FamilyName, FullName, #1900/01/01#, #9999/01/01#)
+                GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FullName, #1900/01/01#, #9999/01/01#, #1900/01/01#, #9999/01/01#).List
+                CallPropertyChanged(NameOf(GravePanelList))
             End If
+
+
         End Sub
 
         Sub New()
@@ -190,7 +195,8 @@ Namespace ViewModels
             OutputDataConecter = _outputdataconecter
             OutputPosition = 1
             GravePanelList = GravePanelDataListEntity.GetInstance
-            GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FamilyName, FullName, #1900/01/01#, #9999/01/01#).List
+            GetList()
+
         End Sub
 
         ''' <summary>
@@ -226,8 +232,22 @@ Namespace ViewModels
             Set
                 _MyGravePanel = Value
                 CallPropertyChanged(NameOf(MyGravePanel))
+                UpdateIsPrintoutValue()
             End Set
         End Property
+
+        Private Sub UpdateIsPrintoutValue()
+
+            Dim dateCheck As Boolean = MyGravePanel.MyPrintOutTime.MyDate = My.Resources.DefaultDate
+
+            If MyGravePanel.MyIsPrintout.Value = dateCheck Then Exit Sub
+
+            If dateCheck = False Then
+                MyGravePanel.MyPrintOutTime.MyDate = My.Resources.DefaultDate
+                DataBaseConecter.GravePanelUpdate(MyGravePanel)
+            End If
+
+        End Sub
 
         ''' <summary>
         ''' 墓地札リストクラス
@@ -240,7 +260,7 @@ Namespace ViewModels
             Set
                 _GravePanelList = GravePanelDataListEntity.GetInstance
                 CallPropertyChanged(NameOf(GravePanelList))
-                RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList)))
+                RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
             End Set
         End Property
 
@@ -256,8 +276,30 @@ Namespace ViewModels
                 If _IsNewRecordOnly.Equals(Value) Then Return
                 _IsNewRecordOnly = Value
                 CallPropertyChanged(NameOf(IsNewRecordOnly))
+                GetList()
             End Set
         End Property
+
+        Private Sub GetList()
+            Dim refRetistrationDate_st, refOutputDate_en As Date
+            If IsNewRecordOnly Then
+                refOutputDate_en = Now
+            Else
+                refOutputDate_en = My.Resources.DefaultDate
+            End If
+            If IsPast3MonthsPart Then
+                refRetistrationDate_st = DateAdd(DateInterval.Month, -3, Now)
+            Else
+                refRetistrationDate_st = My.Resources.DefaultDate
+            End If
+
+            GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FullName, refRetistrationDate_st, Now, #1900/01/01#, refOutputDate_en).List
+
+            CallPropertyChanged(NameOf(GravePanelList))
+
+            RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
+
+        End Sub
 
         ''' <summary>
         ''' 墓地札データ削除
@@ -265,11 +307,55 @@ Namespace ViewModels
         Public Sub DeleteGravePanelData()
 
             If HasErrors Then Exit Sub
-            CreateDeletedItemInfo()
+            If MyGravePanel Is Nothing Then Exit Sub
+            If CreateIsDeleteDataInfo_ReturnAnswer() = MsgBoxResult.Cancel Then Exit Sub
             DataBaseConecter.GravePanelDeletion(MyGravePanel)
             GravePanelList.List.Remove(MyGravePanel)
+            CreateDeletedItemInfo()
 
         End Sub
+
+        Public Property IsDeleteDataInfoCommand As DelegateCommand
+
+        Public Property CallIsDeleteDataInfo As Boolean
+            Get
+                Return _CallIsDeleteDataInfo
+            End Get
+            Set
+                _CallIsDeleteDataInfo = Value
+                CallPropertyChanged(NameOf(CallIsDeleteDataInfo))
+                _CallIsDeleteDataInfo = False
+            End Set
+        End Property
+
+        Public Function CreateIsDeleteDataInfo_ReturnAnswer() As MsgBoxResult
+
+            IsDeleteDataInfoCommand = New DelegateCommand(
+                Sub()
+                    MessageInfo = New MessageBoxInfo With
+                    {
+                    .Button = MessageBoxButton.OKCancel,
+                    .Image = MessageBoxImage.Question,
+                    .Message = MyGravePanelDataDetailString() & vbNewLine & vbNewLine & My.Resources.DeleteInfo,
+                    .Title = My.Resources.DeleteInfoTitle
+                    }
+                    CallPropertyChanged(NameOf(IsDeleteDataInfoCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+
+            CallIsDeleteDataInfo = True
+
+            Return MessageInfo.Result
+        End Function
+
+        Private Function MyGravePanelDataDetailString() As String
+            If MyGravePanel Is Nothing Then Return String.Empty
+            Return My.Resources.FieldPropertyMessage_CustomerID & MyGravePanel.GetCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName &
+                MyGravePanel.GetFamilyName & My.Resources.AddHomeString & vbNewLine & My.Resources.FieldPropertyMessage_GraveNumber & MyGravePanel.GetGraveNumber
+        End Function
 
         ''' <summary>
         ''' 墓地札データ削除完了メッセージを生成します
@@ -280,10 +366,9 @@ Namespace ViewModels
                        Sub()
                            MessageInfo = New MessageBoxInfo With
                            {
-                           .Message = "管理番号 : " & MyGravePanel.GetCustomerID & vbNewLine & "苗字 : " & MyGravePanel.GetFamilyName & " 家" & vbNewLine &
-                                           "墓地番号 : " & MyGravePanel.GetGraveNumber & vbNewLine & vbNewLine & "削除しました。",
+                           .Message = MyGravePanelDataDetailString() & vbNewLine & vbNewLine & My.Resources.CompleteDeleteInfo,
                             .Button = MessageBoxButton.OK,
-                            .Title = "削除完了",
+                            .Title = My.Resources.CompleteDeleteInfoTitle,
                             .Image = MessageBoxImage.Information
                             }
                            CallPropertyChanged(NameOf(DeletedGravePanelInfo))
@@ -314,9 +399,10 @@ Namespace ViewModels
 
         Public Sub Output()
 
+            OutputDataConecter.GravePanelOutput()
+
             For Each gpd As GravePanelDataEntity In GravePanelList.List
                 If gpd.MyIsPrintout.Value = False Then Continue For
-                OutputDataConecter.GravePanelOutput(gpd.GetGraveNumber, gpd.GetFamilyName, gpd.GetContractContent, gpd.GetArea, OutputPosition)
                 gpd.MyPrintOutTime.MyDate = Now
                 DataBaseConecter.GravePanelUpdate(gpd)
             Next

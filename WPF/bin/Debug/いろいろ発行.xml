@@ -54,9 +54,74 @@
   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.AddComplete">
+<summary>
+  登録しました に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.AddCompleteTitle">
+<summary>
+  登録完了 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.AddHomeString">
+<summary>
+   家 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.AddresseeErrorInfo">
+<summary>
+  宛先が不十分です に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.AddressLengthOverInfo">
+<summary>
+  住所がセルからはみ出てますので、書き直して下さい に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.AreaFieldError">
 <summary>
   面積が正しく入力されていません に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.Cho3EnvelopeText">
+<summary>
+  長3封筒 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.ClipBoardDataErrorInfo">
+<summary>
+  コピー形式が正しくありません。 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.CompleteDeleteInfo">
+<summary>
+  削除しました に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.CompleteDeleteInfoTitle">
+<summary>
+  削除完了 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.ConfirmationRegisterInfo">
+<summary>
+  登録しますか？ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.ConfirmationRegisterInfoTitle">
+<summary>
+  登録確認 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.Contract_Kusatori">
+<summary>
+  草取り に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.Contract_Ueki">
+<summary>
+  植木 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:WPF.My.Resources.Resources.CustomerIDLengthError">
@@ -64,9 +129,134 @@
   6桁の管理番号を入力 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.DataSelectInfo">
+<summary>
+  どちらのデータを使用しますか？ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.DataSelectInfoTitle">
+<summary>
+  データ選択 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.DefaultDate">
+<summary>
+  1900/01/01 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.DeleteInfo">
+<summary>
+  削除しますか？ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.DeleteInfoTitle">
+<summary>
+  削除確認 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.ErrorRegisterTitle">
+<summary>
+  登録エラー に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_Area">
+<summary>
+  面積 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_ContractContent">
+<summary>
+  契約内容 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_CustomerID">
+<summary>
+  管理番号 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_FirstName">
+<summary>
+  苗字 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_GraveNumber">
+<summary>
+  墓地番号 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_Lessee">
+<summary>
+  名義人 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_Receiver">
+<summary>
+  送付先 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FieldPropertyMessage_RegistrationDate">
+<summary>
+  登録日時 :  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.FormatErrorTitle">
+<summary>
+  形式エラー に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.GraveBanString">
+<summary>
+  番 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.GraveGawaString">
+<summary>
+  側 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.GraveKuString">
+<summary>
+  区 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.GravePamphletEnvelopeText">
+<summary>
+  墓地パンフ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.HonorificsText">
+<summary>
+  様 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.Kaku2EnvelopeText">
+<summary>
+  角2封筒 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.LabelPaperText">
+<summary>
+  ラベル用紙 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.LesseeDataSelect">
+<summary>
+  はい ⇒　名義人　　いいえ ⇒ 送付先 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.MandatoryItemsNotPreparedTitle">
+<summary>
+  必須項目不備 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.NothingSelectedItemMessage">
 <summary>
   アイテムが選択されていません に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.PassAddresseeRecordInfo">
+<summary>
+  宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:WPF.My.Resources.Resources.PostalCodeError">
@@ -74,9 +264,39 @@
   半角数字、ハイフンあり（***-****）で入力してください に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.PostcardText">
+<summary>
+  はがき に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.SquareFootageText">
+<summary>
+   ㎡ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.StringEmptyMessage">
 <summary>
   必須項目です。必ず入力してください に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.ToBeAdjusted">
+<summary>
+  要住所調整 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.TransferPaperText">
+<summary>
+  振込用紙 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.UndefinedCustomerID">
+<summary>
+  未登録 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.WesternEnvelopeText">
+<summary>
+  洋封筒 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="T:WPF.ViewModels.CreateGravePanelDataViewModel">
@@ -203,11 +423,6 @@
  </summary>
 </member>
 <member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetLesseeName">
- <summary>
- 苗字のみをセットします
- </summary>
-</member>
-<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetName">
  <summary>
  苗字のみをセットします
  </summary>
@@ -977,6 +1192,16 @@
  <summary>コマンド実行</summary>
  <param name="parameter">パラメータ</param>
 </member>
+<member name="T:WPF.CreateGravePanelDataView">
+<summary>
+CreateGravePanelDataView
+</summary>
+</member>
+<member name="M:WPF.CreateGravePanelDataView.InitializeComponent">
+<summary>
+InitializeComponent
+</summary>
+</member>
 <member name="T:WPF.GravePanelDataView">
 <summary>
 GravePanelDataView
@@ -1045,46 +1270,6 @@ AddressDataView
 <member name="M:WPF.AddressDataView.InitializeComponent">
 <summary>
 InitializeComponent
-</summary>
-</member>
-<member name="T:WPF.CreateGravePanelDataView">
-<summary>
-CreateGravePanelDataView
-</summary>
-</member>
-<member name="M:WPF.CreateGravePanelDataView.InitializeComponent">
-<summary>
-InitializeComponent
-</summary>
-</member>
-<member name="T:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-<summary>
-GeneratedInternalTypeHelper
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-<summary>
-CreateInstance
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-<summary>
-GetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-<summary>
-SetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-<summary>
-CreateDelegate
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-<summary>
-AddEventHandler
 </summary>
 </member>
 </members>

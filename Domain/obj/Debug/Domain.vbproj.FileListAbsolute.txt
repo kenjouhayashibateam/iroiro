@@ -5,10 +5,10 @@ C:\Users\001\source\repos\iroiro\Domain\bin\Debug\Microsoft.Expression.Interacti
 C:\Users\001\source\repos\iroiro\Domain\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\001\source\repos\iroiro\Domain\bin\Debug\Microsoft.Expression.Interactions.xml
 C:\Users\001\source\repos\iroiro\Domain\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbprojAssemblyReference.cache
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.Resources.resources
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbproj.GenerateResource.cache
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbproj.CopyComplete
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.dll
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.xml
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.pdb
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbprojAssemblyReference.cache

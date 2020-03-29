@@ -28,11 +28,14 @@
     </i:Interaction.Triggers>
 
     <ib:Interaction.Triggers>
-        <ib:DataTrigger Binding="{Binding CallConpletedDeleteGravePanelDataInfo}" Value="True">
-            <ib:InvokeCommandAction Command="{Binding DeletedGravePanelInfo}"/>
-        </ib:DataTrigger>
         <ib:DataTrigger Binding="{Binding CallShowForm}" Value="true">
             <ib:InvokeCommandAction Command="{Binding ShowFormCommand}"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallCompletedDeleteGravePanelDataInfo}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding DeletedGravePanelInfo}"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallIsDeleteDataInfo}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding IsDeleteDataInfoCommand}"/>
         </ib:DataTrigger>
     </ib:Interaction.Triggers>
     
@@ -53,11 +56,11 @@
                 </Grid.ColumnDefinitions>
                 <extk:WatermarkTextBox x:Name="ReferenceCustomerTextBox" Grid.Column="1" Watermark="管理番号(完全一致）" MaxLength="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Text="{Binding CustomerID}" Margin="30,5,10,5"/>
                 <extk:WatermarkTextBox x:Name="ReferenceLesseeNameTextBox" Grid.Column="2" Watermark="名義人名(あいまい検索）" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  VerticalContentAlignment="Center" Text="{Binding FullName}" Margin="20,5,10,5"/>
-             <CheckBox x:Name="IsNewRecordOnlyCheckBox" Grid.Column="3" Grid.Row="0" VerticalContentAlignment="Center"  Content="新規のみ" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsChecked="{Binding IsNewRecordOnly}" />
+             <CheckBox x:Name="IsNewRecordOnlyCheckBox" Grid.Column="3" Grid.Row="0" VerticalContentAlignment="Center"  Content="未印刷のみ" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsChecked="{Binding IsNewRecordOnly}" />
                 <CheckBox x:Name="IsPast3MonthsPartCheckBox" Grid.Row="0" Grid.Column="4" VerticalAlignment="Stretch" Content="過去3か月分を表示" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsChecked="{Binding IsPast3MonthsPart}"/>
             </Grid>            
         </GroupBox>
-        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  ItemsSource="{Binding GravePanelList.List}" SelectedItem="{Binding MyGravePanel}" >
+        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  ItemsSource="{Binding GravePanelList.List}"  SelectedItem="{Binding MyGravePanel}" >
             <DataGrid.Columns >
                 <DataGridTextColumn Header="管理番号" Width="1*"  Binding="{Binding MyCustomerID.ID}" />
                 <DataGridTextColumn Header="家" Width="1*" Binding="{Binding MyFamilyName.Name}"/>
@@ -75,10 +78,11 @@
         </DataGrid>
         <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="DeleteButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" FontSize="14">
@@ -113,6 +117,7 @@
                     </ib:EventTrigger>
                 </ib:Interaction.Triggers>
             </Button>
-         </Grid>
+            <Button x:Name="ExitButton" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" FontSize="14" Content="閉じる"/>
+        </Grid>
     </Grid>
 </Window>

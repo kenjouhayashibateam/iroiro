@@ -50,6 +50,6 @@ Public Interface IOutputDataRepogitory
     ''' <summary>
     ''' 墓地札
     ''' </summary>
-    Sub GravePanelOutput(ByVal gravenumber As String, ByVal familyname As String, ByVal contractcontent As String, ByVal area As Double, ByVal startposition As Integer)
+    Sub GravePanelOutput()
 
 End Interface

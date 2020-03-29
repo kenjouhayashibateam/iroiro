@@ -676,7 +676,7 @@ Domain
  ラベル
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput(System.String,System.String,System.String,System.Double,System.Int32)">
+<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput">
  <summary>
  墓地札
  </summary>
@@ -762,7 +762,7 @@ Domain
  </summary>
  <param name="_gravepaneldata"></param>
 </member>
-<member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList(System.String,System.String,System.String,System.DateTime,System.DateTime)">
+<member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList(System.String,System.String,System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
  <summary>
  墓地札リストを返します
  </summary>
