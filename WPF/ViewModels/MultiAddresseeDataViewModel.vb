@@ -13,7 +13,7 @@ Namespace ViewModels
     ''' </summary>
     Public Class MultiAddresseeDataViewModel
         Inherits BaseViewModel
-        Implements INotifyPropertyChanged, INotifyCollectionChanged
+        Implements INotifyPropertyChanged, INotifyCollectionChanged, IProcessedCountObserver
 
         Private ReadOnly DataBaseConecter As IDataConectRepogitory
         Private ReadOnly DataOutputConecter As IOutputDataRepogitory
@@ -31,7 +31,62 @@ Namespace ViewModels
         Private _MessageInfo As MessageBoxInfo
         Private _CallErrorMessageInfo As Boolean
         Private _ReferenceAddressCommand As ICommand
+        Private _ProgressVisiblity As Visibility = Visibility.Hidden
+        Private _ProgressText As String
+        Private _ProgressListCount As Integer
+        Private _ProcessedCount As Integer
+        Private _IsOutputEnabled As Boolean
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+
+        Public Property IsOutputEnabled As Boolean
+            Get
+                Return _IsOutputEnabled
+            End Get
+            Set
+                _IsOutputEnabled = Value
+                CallPropertyChanged(NameOf(IsOutputEnabled))
+            End Set
+        End Property
+
+        Public Property ProgressListCount As Integer
+            Get
+                Return _ProgressListCount
+            End Get
+            Set
+                _ProgressListCount = Value
+                CallPropertyChanged(NameOf(ProgressListCount))
+            End Set
+        End Property
+
+        Public Property ProcessedCount As Integer
+            Get
+                Return _ProcessedCount
+            End Get
+            Set
+                _ProcessedCount = Value
+                CallPropertyChanged(NameOf(ProcessedCount))
+            End Set
+        End Property
+
+        Public Property ProgressText As String
+            Get
+                Return _ProgressText
+            End Get
+            Set
+                _ProgressText = Value
+                CallPropertyChanged(NameOf(ProgressText))
+            End Set
+        End Property
+
+        Public Property ProgressVisiblity As Visibility
+            Get
+                Return _ProgressVisiblity
+            End Get
+            Set
+                _ProgressVisiblity = Value
+                CallPropertyChanged(NameOf(ProgressVisiblity))
+            End Set
+        End Property
 
         Public Property ReferenceAddressCommand As ICommand
             Get
@@ -297,6 +352,7 @@ Namespace ViewModels
                 _AddresseeList = Value
                 CallPropertyChanged(NameOf(AddresseeList))
                 RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(AddresseeList)))
+                If _AddresseeList.Count > 0 Then IsOutputEnabled = True
             End Set
         End Property
 
@@ -483,29 +539,37 @@ Namespace ViewModels
         ''' <summary>
         ''' 印刷物を出力します
         ''' </summary>
-        Public Sub Output()
+        Public Async Sub Output()
 
             If AddresseeList.Count = 0 Then Exit Sub
 
-            Select Case SelectedOutputContentsValue
-                Case OutputContents.Cho3Envelope
-                    OutputList_Cho3Envelope()
-                Case OutputContents.GravePamphletEnvelope
-                    OutputList_GravePamphletEnvelope()
-                Case OutputContents.Kaku2Envelope
-                    OutputList_Kaku2Envelope()
-                Case OutputContents.LabelSheet
-                    OutputList_LabelSheet()
-                Case OutputContents.Postcard
-                    OutputList_Postcard()
-                Case OutputContents.WesternEnvelope
-                    OutputList_WesternEnvelope()
-            End Select
+            DataOutputConecter.AddListener(Me)
+            ProgressListCount = AddresseeList.Count
+            Await Task.Run(Sub()
+                               IsOutputEnabled = False
+                               ProgressVisiblity = Visibility.Visible
+                               Select Case SelectedOutputContentsValue
+                                   Case OutputContents.Cho3Envelope
+                                       OutputList_Cho3Envelope()
+                                   Case OutputContents.GravePamphletEnvelope
+                                       OutputList_GravePamphletEnvelope()
+                                   Case OutputContents.Kaku2Envelope
+                                       OutputList_Kaku2Envelope()
+                                   Case OutputContents.LabelSheet
+                                       OutputList_LabelSheet()
+                                   Case OutputContents.Postcard
+                                       OutputList_Postcard()
+                                   Case OutputContents.WesternEnvelope
+                                       OutputList_WesternEnvelope()
+                               End Select
+                               ProgressVisiblity = Visibility.Hidden
+                               IsOutputEnabled = True
+                           End Sub
+                           )
 
         End Sub
 
         Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
-
             Select Case propertyName
                 Case NameOf(Title)
                     If String.IsNullOrEmpty(propertyName) Then
@@ -513,8 +577,12 @@ Namespace ViewModels
                     Else
                         RemoveError(propertyName)
                     End If
-
             End Select
+        End Sub
+
+        Public Sub Notify(_count As Integer) Implements IProcessedCountObserver.Notify
+            ProcessedCount = _count
+            ProgressText = ProcessedCount & My.Resources.SlashClipSpace & ProgressListCount
         End Sub
     End Class
 End Namespace

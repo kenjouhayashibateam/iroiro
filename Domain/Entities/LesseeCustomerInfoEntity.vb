@@ -37,7 +37,7 @@ Public Class LesseeCustomerInfoEntity
     ''' <summary>
     ''' 面積
     ''' </summary>
-    Private ReadOnly myArea As Area
+    Private ReadOnly myArea As GraveArea
 
     ''' <summary>
     ''' 送付先名
@@ -82,7 +82,7 @@ Public Class LesseeCustomerInfoEntity
              ByVal _myReceiverAddress2 As String)
 
         myGraveNumber = New GraveNumberEntity(_gravekuiki, _graveku, _gravegawa, _graveban, _graveedaban) '墓地番号を生成する。
-        myArea = New Area(_area) '面積を生成する
+        myArea = New GraveArea(_area) '面積を生成する
         myCustomerID = New CustomerID(_myCustomerID)
         myLesseName = New LesseeName(_myLesseeName)
         myAddress1 = New Address1(_myAddress1)
@@ -280,13 +280,13 @@ Public Class LesseeCustomerInfoEntity
     ''' <summary>
     ''' 面積
     ''' </summary>
-    Private Class Area
+    Private Class GraveArea
         Private _Area As Double
 
         Sub New(ByVal myarea As Double)
             Area = myarea
         End Sub
-        Private Property Area
+        Private Property Area As Double
             Get
                 Return _Area
             End Get
@@ -295,8 +295,8 @@ Public Class LesseeCustomerInfoEntity
             End Set
         End Property
 
-        Friend Function GetArea() As Double
-            Return Area
+        Friend Function GetArea() As String
+            Return Area.ToString("n1")
         End Function
 
     End Class

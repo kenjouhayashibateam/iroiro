@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,204 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddHomeString" xml:space="preserve">
+    <value>家</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Address1" xml:space="preserve">
+    <value>Address1</value>
+  </data>
+  <data name="Address2" xml:space="preserve">
+    <value>Address2</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="AreaOfGrave" xml:space="preserve">
+    <value>AreaOfGrave</value>
+  </data>
+  <data name="Ban" xml:space="preserve">
+    <value>Ban</value>
+  </data>
+  <data name="CleaningContract" xml:space="preserve">
+    <value>清掃契約</value>
+  </data>
+  <data name="ContractDetail" xml:space="preserve">
+    <value>ContractDetail</value>
+  </data>
+  <data name="CustomerID" xml:space="preserve">
+    <value>CustomerID</value>
+  </data>
+  <data name="DiscardString" xml:space="preserve">
+    <value>放棄</value>
+  </data>
+  <data name="Edaban" xml:space="preserve">
+    <value>Edaban</value>
+  </data>
+  <data name="EightString" xml:space="preserve">
+    <value>八</value>
+  </data>
+  <data name="ExcelApp" xml:space="preserve">
+    <value>Excel.Application</value>
+  </data>
+  <data name="FamilyName" xml:space="preserve">
+    <value>FamilyName</value>
+  </data>
+  <data name="FiveString" xml:space="preserve">
+    <value>五</value>
+  </data>
+  <data name="FontName_HGPGyoushotai" xml:space="preserve">
+    <value>HGP行書体</value>
+  </data>
+  <data name="FontName_MSPGothic" xml:space="preserve">
+    <value>ＭＳ Ｐゴシック</value>
+  </data>
+  <data name="FontName_MSPMintyo" xml:space="preserve">
+    <value>ＭＳ Ｐ明朝</value>
+  </data>
+  <data name="FourString" xml:space="preserve">
+    <value>四</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>FullName</value>
+  </data>
+  <data name="FuString" xml:space="preserve">
+    <value>府</value>
+  </data>
+  <data name="Gawa" xml:space="preserve">
+    <value>Gawa</value>
+  </data>
+  <data name="GraveNumber" xml:space="preserve">
+    <value>GraveNumber</value>
+  </data>
+  <data name="GunString" xml:space="preserve">
+    <value>郡</value>
+  </data>
+  <data name="KanagawaString" xml:space="preserve">
+    <value>神奈川県</value>
+  </data>
+  <data name="KenString" xml:space="preserve">
+    <value>県</value>
+  </data>
+  <data name="Ku" xml:space="preserve">
+    <value>Ku</value>
+  </data>
+  <data name="Kuiki" xml:space="preserve">
+    <value>Kuiki</value>
+  </data>
+  <data name="LastSaveDate" xml:space="preserve">
+    <value>LastSaveDate</value>
+  </data>
+  <data name="LesseeName" xml:space="preserve">
+    <value>LesseeName</value>
+  </data>
+  <data name="LogFilePath" xml:space="preserve">
+    <value>./logs/ExceptionLogs.txt</value>
+  </data>
+  <data name="ManagementNumber" xml:space="preserve">
+    <value>ManagementNumber</value>
+  </data>
+  <data name="NineString" xml:space="preserve">
+    <value>九</value>
+  </data>
+  <data name="OneString" xml:space="preserve">
+    <value>一</value>
+  </data>
+  <data name="OrderID" xml:space="preserve">
+    <value>OrderID</value>
+  </data>
+  <data name="OutputTime" xml:space="preserve">
+    <value>OutputTime</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>PostalCode</value>
+  </data>
+  <data name="PostalMarkClipSpace" xml:space="preserve">
+    <value>〒 </value>
+  </data>
+  <data name="ReceiverAddress1" xml:space="preserve">
+    <value>ReceiverAddress1</value>
+  </data>
+  <data name="ReceiverAddress2" xml:space="preserve">
+    <value>ReceiverAddress2</value>
+  </data>
+  <data name="ReceiverName" xml:space="preserve">
+    <value>ReceiverName</value>
+  </data>
+  <data name="ReceiverPostalCode" xml:space="preserve">
+    <value>ReceiverPostalCode</value>
+  </data>
+  <data name="RegistrationTime" xml:space="preserve">
+    <value>RegistrationTime</value>
+  </data>
+  <data name="SevenString" xml:space="preserve">
+    <value>七</value>
+  </data>
+  <data name="ShiString" xml:space="preserve">
+    <value>市</value>
+  </data>
+  <data name="SixString" xml:space="preserve">
+    <value>六</value>
+  </data>
+  <data name="SquareFootageText" xml:space="preserve">
+    <value>㎡</value>
+  </data>
+  <data name="StoredProc_Call_ShunjyuenData" xml:space="preserve">
+    <value>Call_ShunjyuenData</value>
+  </data>
+  <data name="StoredProc_DeleteGravePanel" xml:space="preserve">
+    <value>DeleteGravePanel</value>
+  </data>
+  <data name="StoredProc_GetAddress" xml:space="preserve">
+    <value>GetAddress</value>
+  </data>
+  <data name="StoredProc_GetGravePanelList" xml:space="preserve">
+    <value>GetGravePanelList</value>
+  </data>
+  <data name="StoredProc_GetLastSaveDate" xml:space="preserve">
+    <value>GetLastSaveDate</value>
+  </data>
+  <data name="StoredProc_GetPostalcode" xml:space="preserve">
+    <value>GetPostalcode</value>
+  </data>
+  <data name="StoredProc_Reference_GraveNumber" xml:space="preserve">
+    <value>Reference_GraveNumber</value>
+  </data>
+  <data name="StoredProc_RegistrationGravePanel" xml:space="preserve">
+    <value>RegistrationGravePanel</value>
+  </data>
+  <data name="StoredProc_UpdateGravePanel" xml:space="preserve">
+    <value>UpdateGravePanel</value>
+  </data>
+  <data name="StringHalfHyphen" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="TenString" xml:space="preserve">
+    <value>十</value>
+  </data>
+  <data name="ThreeString" xml:space="preserve">
+    <value>三</value>
+  </data>
+  <data name="TokushimaString" xml:space="preserve">
+    <value>徳島県</value>
+  </data>
+  <data name="ToukyouString" xml:space="preserve">
+    <value>東京都</value>
+  </data>
+  <data name="TowString" xml:space="preserve">
+    <value>二</value>
+  </data>
+  <data name="WildCard_Percent" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="ZeroString" xml:space="preserve">
+    <value>〇</value>
+  </data>
 </root>

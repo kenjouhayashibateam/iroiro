@@ -91,7 +91,7 @@ Public Class AddressDataEntity
         End Sub
 
         Friend Function GetCode() As String
-            Return Code.Substring(0, 3) & "-" & Code.Substring(3, 4)
+            Return Code.Substring(0, 3) & My.Resources.StringHalfHyphen & Code.Substring(3, 4)
         End Function
 
     End Class

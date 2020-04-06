@@ -111,9 +111,9 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "Call_ShunjyuenData"
+            .CommandText = My.Resources.StoredProc_Call_ShunjyuenData
             .Parameters.Append(.CreateParameter("managementnumber", ADODB.DataTypeEnum.adChar,, 6, strManagementNumber))
-            .Parameters.Append(.CreateParameter("lesseename", ADODB.DataTypeEnum.adVarChar,, 100, "%"))
+            .Parameters.Append(.CreateParameter("lesseename", ADODB.DataTypeEnum.adVarChar,, 100, My.Resources.WildCard_Percent))
         End With
 
         Return ExecuteStoredProcSetRecord(Cmd)
@@ -143,16 +143,18 @@ Public Class SQLConectInfrastructure
         If SetLesseeRecord(customerid) Then Return Nothing
 
         '御廟は面積がない上にDouble型なので、0にして対応する
-        If RsFields("AreaOfGrave").Trim.Length = 0 Then
+        If RsFields(My.Resources.AreaOfGrave).Trim.Length = 0 Then
             Area = 0
         Else
             Area = RsFields("AreaOfGrave")
         End If
 
-        myLessee = New LesseeCustomerInfoEntity(RsFields("ManagementNumber"), RsFields("LesseeName"), RsFields("PostalCode"), RsFields("Address1"), RsFields("Address2"),
-                                                RsFields("GraveNumberKu"), RsFields("GraveNumberkuiki"), RsFields("GraveNumberGawa"), RsFields("GraveNumberBan"),
-                                                RsFields("GraveNumberEdaban"), Area, RsFields("ReceiverName"), RsFields("ReceiverPostalCode"),
-                                                RsFields("ReceiverAddress1"), RsFields("ReceiverAddress2"))
+        myLessee = New LesseeCustomerInfoEntity(RsFields(My.Resources.ManagementNumber), RsFields(My.Resources.LesseeName), RsFields(My.Resources.PostalCode),
+                                                RsFields(My.Resources.Address1), RsFields(My.Resources.Address2), RsFields(My.Resources.GraveNumber & My.Resources.Ku),
+                                                RsFields(My.Resources.GraveNumber & My.Resources.Kuiki), RsFields(My.Resources.GraveNumber & My.Resources.Gawa),
+                                                RsFields(My.Resources.GraveNumber & My.Resources.Ban), RsFields(My.Resources.GraveNumber & My.Resources.Edaban), Area,
+                                                RsFields(My.Resources.ReceiverName), RsFields(My.Resources.ReceiverPostalCode), RsFields(My.Resources.ReceiverAddress1),
+                                                RsFields(My.Resources.ReceiverAddress2))
 
         Return myLessee
 
@@ -168,7 +170,7 @@ Public Class SQLConectInfrastructure
 
         Dim ReferenceCode As String
 
-        ReferenceCode = Replace(postalcode, "-", String.Empty)
+        ReferenceCode = Replace(postalcode, My.Resources.StringHalfHyphen, String.Empty)
 
         '郵便番号がNothingや空文字の場合は空を返す
         If ReferenceCode Is Nothing Then Return Nothing
@@ -177,7 +179,7 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "GetAddress"
+            .CommandText = My.Resources.StoredProc_GetAddress
             .Parameters.Append(.CreateParameter("postalcode", ADODB.DataTypeEnum.adChar,, 7, ReferenceCode))
         End With
 
@@ -199,7 +201,7 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "GetPostalcode"
+            .CommandText = My.Resources.StoredProc_GetPostalcode
             .Parameters.Append(.CreateParameter("address", ADODB.DataTypeEnum.adLongVarChar,, 255, address))
         End With
 
@@ -208,7 +210,7 @@ Public Class SQLConectInfrastructure
         Dim myAddress As AddressDataEntity
 
         Do Until Rs.EOF
-            myAddress = New AddressDataEntity(RsFields("Address"), RsFields("PostalCode"))
+            myAddress = New AddressDataEntity(RsFields(My.Resources.Address), RsFields(My.Resources.PostalCode))
             AddressList.AddItem(myAddress)
             Rs.MoveNext()
         Loop
@@ -223,11 +225,11 @@ Public Class SQLConectInfrastructure
     ''' <returns></returns>
     Private Function GetLastSaveDate() As LastSaveDateEntity Implements IDataConectRepogitory.GetLastSaveDate
 
-        Cmd = New ADODB.Command With {.CommandText = "GetLastSaveDate"}
+        Cmd = New ADODB.Command With {.CommandText = My.Resources.StoredProc_GetLastSaveDate}
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Return New LastSaveDateEntity(RsFields("LastSaveDate"))
+        Return New LastSaveDateEntity(RsFields(My.Resources.LastSaveDate))
 
     End Function
 
@@ -244,7 +246,7 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "Reference_GraveNumber"
+            .CommandText = My.Resources.StoredProc_Reference_GraveNumber
             .Parameters.Append(.CreateParameter("ku", ADODB.DataTypeEnum.adVarChar, , 10, Ku))
             .Parameters.Append(.CreateParameter("kuiki", ADODB.DataTypeEnum.adVarChar, , 10, Kuiki))
             .Parameters.Append(.CreateParameter("gawa", ADODB.DataTypeEnum.adVarChar, , 10, Gawa))
@@ -269,9 +271,9 @@ Public Class SQLConectInfrastructure
         Dim kl As New ObservableCollection(Of GraveNumberEntity.Kuiki)
 
         Do Until Rs.EOF
-            If InStr(datastring, RsFields("Kuiki")) = 0 Then
-                datastring &= RsFields("Kuiki") & " "
-                kf = New GraveNumberEntity.Kuiki(RsFields("Kuiki"))
+            If InStr(datastring, RsFields(My.Resources.Kuiki)) = 0 Then
+                datastring &= RsFields(My.Resources.Kuiki) & Space(1)
+                kf = New GraveNumberEntity.Kuiki(RsFields(My.Resources.Kuiki))
                 kl.Add(kf)
             End If
             Rs.MoveNext()
@@ -295,16 +297,16 @@ Public Class SQLConectInfrastructure
         Dim gl As New ObservableCollection(Of GraveNumberEntity.Gawa)
 
         Do Until Rs.EOF
-            If InStr(datastring, RsFields("Gawa")) <> 0 Then
+            If InStr(datastring, RsFields(My.Resources.Gawa)) <> 0 Then
                 Rs.MoveNext()
                 Continue Do
             End If
-            If CStr(RsFields("Gawa")) = "0" Then
+            If CStr(RsFields(My.Resources.Gawa)) = "0" Then
                 Rs.MoveNext()
                 Continue Do
             End If
-            datastring &= RsFields("Gawa") & " "
-            gf = New GraveNumberEntity.Gawa(RsFields("Gawa"))
+            datastring &= RsFields(My.Resources.Gawa) & Space(1)
+            gf = New GraveNumberEntity.Gawa(RsFields(My.Resources.Gawa))
             gl.Add(gf)
             Rs.MoveNext()
         Loop
@@ -328,9 +330,9 @@ Public Class SQLConectInfrastructure
         Dim bl As New ObservableCollection(Of GraveNumberEntity.Ban)
 
         Do Until Rs.EOF
-            If InStr(datastring, RsFields("Ban")) = 0 Then
-                datastring &= RsFields("Ban") & " "
-                bf = New GraveNumberEntity.Ban(RsFields("Ban"))
+            If InStr(datastring, RsFields(My.Resources.Ban)) = 0 Then
+                datastring &= RsFields(My.Resources.Ban) & Space(1)
+                bf = New GraveNumberEntity.Ban(RsFields(My.Resources.Ban))
                 bl.Add(bf)
             End If
             Rs.MoveNext()
@@ -357,14 +359,14 @@ Public Class SQLConectInfrastructure
         Dim el As New ObservableCollection(Of GraveNumberEntity.Edaban)
 
         Do Until Rs.EOF
-            If InStr(RsFields("Edaban"), "放棄") > 0 Then
+            If InStr(RsFields(My.Resources.Edaban), My.Resources.DiscardString) > 0 Then
                 Rs.MoveNext()
                 Continue Do
             End If
 
-            If InStr(datastring, RsFields("Edaban")) = 0 Then
-                datastring &= RsFields("Edaban") & " "
-                ef = New GraveNumberEntity.Edaban(RsFields("Edaban"))
+            If InStr(datastring, RsFields(My.Resources.Edaban)) = 0 Then
+                datastring &= RsFields(My.Resources.Edaban) & Space(1)
+                ef = New GraveNumberEntity.Edaban(RsFields(My.Resources.Edaban))
                 el.Add(ef)
             End If
             Rs.MoveNext()
@@ -390,7 +392,7 @@ Public Class SQLConectInfrastructure
 
         SetGraveData(_gravekunumber, _gravekuikinumber, _gravegawanumber, _gravebannumber, _graveedabannumber)
 
-        Dim customerid As String = RsFields("ManagementNumber")
+        Dim customerid As String = RsFields(My.Resources.ManagementNumber)
         Dim lessee As LesseeCustomerInfoEntity = GetCustomerInfo(customerid)
 
         Return lessee
@@ -406,7 +408,7 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "RegistrationGravePanel"
+            .CommandText = My.Resources.StoredProc_RegistrationGravePanel
             .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetCustomerID))
             .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFamilyName))
             .Parameters.Append(.CreateParameter("fullname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFullName))
@@ -440,17 +442,10 @@ Public Class SQLConectInfrastructure
         Dim refOutputStDate As Date = outputdate_st
         Dim refOutputEnDate As Date = outputdate_en
 
-        If String.IsNullOrEmpty(customerid) Then refid = "%%%%%%"
-        If String.IsNullOrEmpty(fullname) Then refname = "%"
-        If String.IsNullOrEmpty(registrationdate_st) Then refRegistrationstdate = #1900/01/01#
-        If String.IsNullOrEmpty(registrationdate_en) Then refRegistrationendate = #9999/01/01#
-        If String.IsNullOrEmpty(outputdate_st) Then refOutputStDate = #1900/01/01#
-        If String.IsNullOrEmpty(outputdate_en) Then refOutputEnDate = #9999/01/01#
-
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "GetGravePanelList"
+            .CommandText = My.Resources.StoredProc_GetGravePanelList
             .Parameters.Append(.CreateParameter("CustomerID", ADODB.DataTypeEnum.adChar,, 6, refid))
             .Parameters.Append(.CreateParameter("FullName", ADODB.DataTypeEnum.adVarChar,, 50, refname))
             .Parameters.Append(.CreateParameter("RegistrationTime_st", ADODB.DataTypeEnum.adDate,,, refRegistrationstdate))
@@ -464,7 +459,9 @@ Public Class SQLConectInfrastructure
         Dim gpd As GravePanelDataEntity
         Dim gpdlist As New GravePanelDataListEntity
         Do Until Rs.EOF
-            gpd = New GravePanelDataEntity(RsFields("OrderID"), RsFields("CustomerID"), RsFields("FamilyName"), RsFields("FullName"), RsFields("GraveNumber"), RsFields("Area"), RsFields("ContractDetail"), RsFields("RegistrationTime"), RsFields("OutputTime"))
+            gpd = New GravePanelDataEntity(RsFields(My.Resources.OrderID), RsFields(My.Resources.CustomerID), RsFields(My.Resources.FamilyName), RsFields(My.Resources.FullName),
+                                           RsFields(My.Resources.GraveNumber), RsFields(My.Resources.Area), RsFields(My.Resources.ContractDetail), RsFields(My.Resources.RegistrationTime),
+                                           RsFields(My.Resources.OutputTime))
             gpdlist.AddItem(gpd)
             Rs.MoveNext()
         Loop
@@ -478,7 +475,7 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "DeleteGravePanel"
+            .CommandText = My.Resources.StoredProc_DeleteGravePanel
             .Parameters.Append(.CreateParameter("orderid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetID))
         End With
 
@@ -491,7 +488,7 @@ Public Class SQLConectInfrastructure
         Cmd = New ADODB.Command
 
         With Cmd
-            .CommandText = "UpdateGravePanel"
+            .CommandText = My.Resources.StoredProc_UpdateGravePanel
             .Parameters.Append(.CreateParameter("orderid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetID))
             .Parameters.Append(.CreateParameter("customerid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetCustomerID))
             .Parameters.Append(.CreateParameter("familyname", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetFamilyName))

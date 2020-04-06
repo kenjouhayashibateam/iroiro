@@ -1,9 +1,3 @@
-C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\WinForm.vbprojAssemblyReference.cache
-C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\WinForm.vbproj.ResolveComReference.cache
-C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\view\TestUserControl.g.vb
-C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行_Content.g.vb
-C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行_MarkupCompile.cache
-C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行_MarkupCompile.lref
 C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\いろいろ発行.exe.config
 C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\いろいろ発行.exe
 C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\いろいろ発行.pdb
@@ -26,6 +20,12 @@ C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\ClosedXML.pdb
 C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\ClosedXML.xml
 C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\DocumentFormat.OpenXml.xml
 C:\Users\001\source\repos\iroiro\Iroiro\bin\Debug\ExcelNumberFormat.xml
+C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\WinForm.vbprojAssemblyReference.cache
+C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\WinForm.vbproj.ResolveComReference.cache
+C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\view\TestUserControl.g.vb
+C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行_Content.g.vb
+C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行_MarkupCompile.cache
+C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行_MarkupCompile.lref
 C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\view\TestUserControl.baml
 C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\いろいろ発行.g.resources
 C:\Users\001\source\repos\iroiro\Iroiro\obj\Debug\Iroiro.AddressDataView.resources

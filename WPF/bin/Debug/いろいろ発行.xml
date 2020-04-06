@@ -114,16 +114,6 @@
   登録確認 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:WPF.My.Resources.Resources.Contract_Kusatori">
-<summary>
-  草取り に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:WPF.My.Resources.Resources.Contract_Ueki">
-<summary>
-  植木 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:WPF.My.Resources.Resources.CustomerIDLengthError">
 <summary>
   6桁の管理番号を入力 に類似しているローカライズされた文字列を検索します。
@@ -254,6 +244,21 @@
   アイテムが選択されていません に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.OutputInfo">
+<summary>
+  チェックの入った墓地札データをエクセルに出力しました に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.OutputInfo_Count0">
+<summary>
+  印刷するアイテムがありません。印刷フラグにチェックを入れるか、墓地札を追加してください に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.OutputInfoTitle">
+<summary>
+  出力結果 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.PassAddresseeRecordInfo">
 <summary>
   宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。 に類似しているローカライズされた文字列を検索します。
@@ -267,6 +272,11 @@
 <member name="P:WPF.My.Resources.Resources.PostcardText">
 <summary>
   はがき に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.SlashClipSpace">
+<summary>
+   /  に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:WPF.My.Resources.Resources.SquareFootageText">
@@ -334,7 +344,7 @@
  </summary>
  <returns></returns>
 </member>
-<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.RegistrationCustomerID">
+<member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.RegistraterCustomerID">
  <summary>
  登録する管理番号
  </summary>
@@ -574,7 +584,7 @@
  管理番号を使用して名義人データを呼び出し、各プロパティに格納します
  </summary>
 </member>
-<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.DataRegistration">
+<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.RegistrationData">
  <summary>
  墓地札データを登録します
  </summary>

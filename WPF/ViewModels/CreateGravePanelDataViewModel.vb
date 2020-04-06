@@ -99,18 +99,18 @@ Namespace ViewModels
         Private _GraveNumberEdabanList As GraveNumberEntity.EdabanList
         Private _CustomerID As String
         Private _FamilyName As String
-        Private _Area As Double
+        Private _Area As String
         Private _MessageInfo As MessageBoxInfo
         Private _CallSelectAddresseeInfo As Boolean = False
         Private _ReferenceGraveNumberCommand As ICommand
         Private _DisplayForGraveNumber As String
         Private _KuText As String
-        Private _ContractContents As ObservableCollection(Of String)
-        Private _ContractContent As String
+        Private _ContractContents As GravePanelDataEntity.ContractContents
+        Private _ContractContent As String = String.Empty
         Private _GravePanelRegistration As ICommand
         Private _IsConfirmationRegister As Boolean
         Private _CallCompleteRegistration As Boolean
-        Private _RegistrationCustomerID As String
+        Private _RegistraterCustomerID As String
         Private _FullName As String
         Private _CallRegistrationErrorMessageInfo As Boolean
         Private _RegistrationErrorMessageInfo As ICommand
@@ -129,13 +129,13 @@ Namespace ViewModels
         ''' 登録する管理番号
         ''' </summary>
         ''' <returns></returns>
-        Public Property RegistrationCustomerID As String
+        Public Property RegistraterCustomerID As String
             Get
-                Return _RegistrationCustomerID
+                Return _RegistraterCustomerID
             End Get
             Set
-                _RegistrationCustomerID = Value
-                CallPropertyChanged(NameOf(RegistrationCustomerID))
+                _RegistraterCustomerID = Value
+                CallPropertyChanged(NameOf(RegistraterCustomerID))
             End Set
         End Property
 
@@ -184,7 +184,7 @@ Namespace ViewModels
             Get
                 _GravePanelRegistration = New DelegateCommand(
                     Sub()
-                        DataRegistration()
+                        RegistrationData()
                         CallPropertyChanged(NameOf(GravePanelDataRegistration))
                     End Sub,
                     Function()
@@ -216,7 +216,7 @@ Namespace ViewModels
         ''' 契約内容リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property ContractContents As ObservableCollection(Of String)
+        Public Property ContractContents As GravePanelDataEntity.ContractContents
             Get
                 Return _ContractContents
             End Get
@@ -236,7 +236,8 @@ Namespace ViewModels
             End Get
             Set
                 _KuText = Value
-                If Not Enumerable.Contains(GraveNumberKuList, New GraveNumberEntity.Ku(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
+                Dim gtc As New GraveTextConvert
+                If Not Enumerable.Contains(GraveNumberKuList, New GraveNumberEntity.Ku(gtc.ConvertNumber_Ku(Value))) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
                 CallPropertyChanged(NameOf(KuText))
                 ValidateProperty(NameOf(KuText), Value)
             End Set
@@ -280,7 +281,7 @@ Namespace ViewModels
         ''' 面積
         ''' </summary>
         ''' <returns></returns>
-        Public Property Area As Double
+        Public Property Area As String
             Get
                 Return _Area
             End Get
@@ -345,7 +346,7 @@ Namespace ViewModels
         ''' </summary>
         Private Sub InputLesseeData()
             SetLesseeName()
-            RegistrationCustomerID = MyLessee.GetCustomerID
+            RegistraterCustomerID = MyLessee.GetCustomerID
             Area = MyLessee.GetArea
         End Sub
 
@@ -417,7 +418,13 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(BanText))
                 ValidateProperty(NameOf(BanText), Value)
                 If GraveNumberBanList Is Nothing Then Exit Property
-                If Not Enumerable.Contains(GraveNumberBanList.List, New GraveNumberEntity.Ban(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
+                If Not Enumerable.Contains(GraveNumberBanList.List, New GraveNumberEntity.Ban(Value)) Then
+                    RegistraterCustomerID = My.Resources.UndefinedCustomerID
+                    FullName = String.Empty
+                    FamilyName = String.Empty
+                    Area = 0
+                    ContractContent = String.Empty
+                End If
             End Set
         End Property
 
@@ -434,7 +441,7 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(GawaText))
                 ValidateProperty(NameOf(GawaText), Value)
                 If GraveNumberGawaList Is Nothing Then Exit Property
-                If Not Enumerable.Contains(GraveNumberGawaList.List, New GraveNumberEntity.Gawa(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
+                If Not Enumerable.Contains(GraveNumberGawaList.List, New GraveNumberEntity.Gawa(Value)) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -458,7 +465,7 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(KuikiText))
                 ValidateProperty(NameOf(KuikiText), Value)
                 If GraveNumberKuikiList Is Nothing Then Exit Property
-                If Not Enumerable.Contains(GraveNumberKuikiList.List, New GraveNumberEntity.Kuiki(Value)) Then RegistrationCustomerID = My.Resources.UndefinedCustomerID
+                If Not Enumerable.Contains(GraveNumberKuikiList.List, New GraveNumberEntity.Kuiki(Value)) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -564,11 +571,7 @@ Namespace ViewModels
             AddGraveKu("12")
             AddGraveKu("20")
 
-            ContractContents = New ObservableCollection(Of String)
-            With ContractContents
-                .Add(My.Resources.Contract_Kusatori)
-                .Add(My.Resources.Contract_Ueki)
-            End With
+            ContractContents = New GravePanelDataEntity.ContractContents
 
         End Sub
 
@@ -577,8 +580,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="originalvalue"></param>
         Private Sub AddGraveKu(ByVal originalvalue As String)
-            KuField = New GraveNumberEntity.Ku(originalvalue)
-            GraveNumberKuList.Add(KuField)
+            GraveNumberKuList.Add(New GraveNumberEntity.Ku(originalvalue))
         End Sub
 
         ''' <summary>
@@ -675,7 +677,6 @@ Namespace ViewModels
         ''' <param name="numbervalue">基になる墓地番号パーツ</param>
         Private Sub SetNextGraveNumberField(ByVal nextganre As GravenumberGanre, ByVal numbervalue As String)
 
-
             Select Case nextganre
                 Case GravenumberGanre.KUIKI
                     GraveNumberKuikiList = DataConect.GetKuikiList(numbervalue)
@@ -693,7 +694,6 @@ Namespace ViewModels
                     Else
                         IsEnabledEdaban = True
                     End If
-
                 Case Else
                     Exit Sub
             End Select
@@ -783,7 +783,6 @@ Namespace ViewModels
             MyLessee = DataConect.GetCustomerInfo(CustomerID)
             If MyLessee Is Nothing Then Exit Sub
             InputLesseeData()
-            RegistrationCustomerID = MyLessee.GetCustomerID
             DisplayForGraveNumber = MyLessee.GetGraveNumber.GetNumber
             With MyLessee.GetGraveNumber
                 KuText = .KuField.DisplayForField
@@ -792,32 +791,33 @@ Namespace ViewModels
                 BanText = .BanField.DisplayForField
                 EdabanText = .EdabanField.DisplayForField
             End With
+            RegistraterCustomerID = MyLessee.GetCustomerID
         End Sub
 
         ''' <summary>
         ''' 墓地札データを登録します
         ''' </summary>
-        Public Sub DataRegistration()
+        Public Sub RegistrationData()
 
-            DisplayForGraveNumber = ReturnDisplayForGraveNumber()
-            CreateConfirmationRegisterInfo()
-            IsConfirmationRegister = True
-
-            Dim NowDate As Date = Now
-            Dim DefaultDate As Date = My.Resources.DefaultDate
-            If MsgResult = MessageBoxResult.No Then Exit Sub
             If HasErrors Then
                 CallRegistrationErrorMessageInfo = True
                 Exit Sub
             End If
-            Dim gpd As New GravePanelDataEntity(0, RegistrationCustomerID, FamilyName, FullName, DisplayForGraveNumber, Area, ContractContent, NowDate, DefaultDate)
+
+            DisplayForGraveNumber = ReturnDisplayForGraveNumber()
+            CreateConfirmationRegisterInfo()
+            IsConfirmationRegister = True
+            Dim NowDate As Date = Now
+            Dim DefaultDate As Date = My.Resources.DefaultDate
+            If MsgResult = MessageBoxResult.No Then Exit Sub
+
+            Dim gpd As New GravePanelDataEntity(0, RegistraterCustomerID, FamilyName, FullName, DisplayForGraveNumber, Area, ContractContent, NowDate, DefaultDate)
             DataConect.GravePanelRegistration(gpd)
 
             Dim godl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
             godl.AddItem(gpd)
 
             CreateCompleteRegistrationInfo()
-
             DataClear()
 
         End Sub
@@ -883,12 +883,13 @@ Namespace ViewModels
         ''' </summary>
         Private Sub DataClear()
 
+            SelectedKu = String.Empty
             KuText = String.Empty
             KuikiText = String.Empty
             GawaText = String.Empty
             BanText = String.Empty
             EdabanText = String.Empty
-            RegistrationCustomerID = String.Empty
+            RegistraterCustomerID = String.Empty
             FamilyName = String.Empty
             FullName = String.Empty
             ContractContent = String.Empty
@@ -905,7 +906,7 @@ Namespace ViewModels
                 Sub()
                     MessageInfo = New MessageBoxInfo With
                     {
-                    .Message = My.Resources.FieldPropertyMessage_CustomerID & RegistrationCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName & FamilyName &
+                    .Message = My.Resources.FieldPropertyMessage_CustomerID & RegistraterCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName & FamilyName &
                     vbNewLine & My.Resources.FieldPropertyMessage_GraveNumber & DisplayForGraveNumber & vbNewLine & My.Resources.FieldPropertyMessage_ContractContent &
                     ContractContent & vbNewLine & My.Resources.FieldPropertyMessage_RegistrationDate & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine &
                     My.Resources.ConfirmationRegisterInfo,
@@ -936,7 +937,6 @@ Namespace ViewModels
         End Sub
 
         Private Sub SetValiDateProperty_StringEmptyMessage(ByVal propertyName As String, value As Object)
-
             If String.IsNullOrEmpty(value) Then
                 AddError(propertyName, My.Resources.StringEmptyMessage)
             Else

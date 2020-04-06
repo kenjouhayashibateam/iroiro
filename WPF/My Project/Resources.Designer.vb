@@ -169,24 +169,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  草取り に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Contract_Kusatori() As String
-            Get
-                Return ResourceManager.GetString("Contract.Kusatori", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  植木 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Contract_Ueki() As String
-            Get
-                Return ResourceManager.GetString("Contract.Ueki", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  6桁の管理番号を入力 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property CustomerIDLengthError() As String
@@ -421,6 +403,33 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  チェックの入った墓地札データをエクセルに出力しました に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property OutputInfo() As String
+            Get
+                Return ResourceManager.GetString("OutputInfo", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  印刷するアイテムがありません。印刷フラグにチェックを入れるか、墓地札を追加してください に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property OutputInfo_Count0() As String
+            Get
+                Return ResourceManager.GetString("OutputInfo_Count0", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  出力結果 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property OutputInfoTitle() As String
+            Get
+                Return ResourceManager.GetString("OutputInfoTitle", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property PassAddresseeRecordInfo() As String
@@ -444,6 +453,15 @@ Namespace My.Resources
         Friend ReadOnly Property PostcardText() As String
             Get
                 Return ResourceManager.GetString("PostcardText", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''   /  に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property SlashClipSpace() As String
+            Get
+                Return ResourceManager.GetString("SlashClipSpace", resourceCulture)
             End Get
         End Property
         

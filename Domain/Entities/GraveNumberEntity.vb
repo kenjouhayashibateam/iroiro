@@ -7,11 +7,11 @@ Imports System.Collections.ObjectModel
 Interface ITextConvert
 
     ''' <summary>
-    ''' 区を相当する漢字にして返します
+    ''' 区を相当する漢字はコード、コードは漢字にして返します
     ''' </summary>
-    ''' <param name="kunumber">区ナンバー</param>
+    ''' <param name="value">区ナンバーあるいはコード</param>
     ''' <returns></returns>
-    Function ConvertNumber_Ku(ByVal kunumber As GraveNumberEntity.Ku) As String
+    Function ConvertNumber_Ku(ByVal value As String) As String
     ''' <summary>
     ''' 墓地番号を表示用にするため、0を削除します
     ''' </summary>
@@ -30,29 +30,47 @@ Public Class GraveTextConvert
     ''' <summary>
     ''' 区域コードを漢字に変換します
     ''' </summary>
-    Public Function ConvertNumber_Ku(kunumber As GraveNumberEntity.Ku) As String Implements ITextConvert.ConvertNumber_Ku
+    Public Function ConvertNumber_Ku(value As String) As String Implements ITextConvert.ConvertNumber_Ku
 
-        Select Case kunumber.Field
+        Select Case value
             Case "01"
-                Return "東"
+                Return My.Resources.EastString
             Case "02"
-                Return "西"
+                Return My.Resources.WestString
             Case "03"
-                Return "南"
+                Return My.Resources.SouthString
             Case "04"
-                Return "北"
+                Return My.Resources.NorthString
             Case "05"
-                Return "中"
+                Return My.Resources.CenterString
             Case 10
-                Return "東特"
+                Return My.Resources.EastSpecialString
             Case 11
-                Return "二特"
+                Return My.Resources.SecondSpecialString
             Case 12
-                Return "北特"
+                Return My.Resources.NorthSpecialString
             Case 20
-                Return "御廟"
+                Return My.Resources.Ossuary
+            Case My.Resources.EastString
+                Return "01"
+            Case My.Resources.WestString
+                Return "02"
+            Case My.Resources.SouthString
+                Return "03"
+            Case My.Resources.NorthString
+                Return "04"
+            Case My.Resources.CenterString
+                Return "05"
+            Case My.Resources.EastSpecialString
+                Return 10
+            Case My.Resources.SecondSpecialString
+                Return 11
+            Case My.Resources.NorthSpecialString
+                Return 12
+            Case My.Resources.Ossuary
+                Return 20
             Case Else
-                Return kunumber.Field
+                Return String.Empty
         End Select
 
     End Function
@@ -63,26 +81,21 @@ Public Class GraveTextConvert
     ''' <param name="number">変換する文字列</param>
     Public Function ConvertNumber_0Delete(number As String) As String Implements ITextConvert.ConvertNumber_0Delete
 
-        Dim ReturnString As String
         Dim StringVerification As New Regex("^[0-9]+$")
 
-        If StringVerification.IsMatch(number) Then
-            Return IIf(CDbl(number) = 0, "", CDbl(number))
-        End If
+        'numberが数字として認識できるなら、数値として返す。ただし、0は空白を返す
+        If StringVerification.IsMatch(number) Then Return IIf(CDbl(number) = 0, String.Empty, CDbl(number))
 
         If number = String.Empty Then Return String.Empty
 
-        Dim I As Integer = 0
-        StringVerification = New Regex("[0-9]")
-        Do Until number.Length = I + 1
-            If Not StringVerification.IsMatch(number.Substring(I, 1)) Then Exit Do
-            If number.Substring(I, 1) > 0 Then Exit Do
-            I += 1
-        Loop
+        'numberの左側から一文字ずつ評価して、最初に0以外の数字が来たらループを抜け、その位置からの文字列を返す
+        Dim i As Integer
+        For i = 0 To number.Length - 1
+            If Not StringVerification.IsMatch(number.Substring(i, 1)) Then Exit For
+            If number.Substring(i, 1) > 0 Then Exit For
+        Next
 
-        ReturnString = number.Substring(I)
-
-        Return ReturnString
+        Return number.Substring(i)
 
     End Function
 End Class
@@ -103,29 +116,23 @@ Public Class GraveNumberEntity
 
     ''' <param name="_ku">区</param>
     Sub New(ByVal _ku As String)
-
         KuField = New Ku(_ku)
-
     End Sub
 
     ''' <param name="_ku">区</param>
     ''' <param name="_kuiki">区域</param>
     Sub New(ByVal _ku As String, ByVal _kuiki As String)
-
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
-
     End Sub
 
     ''' <param name="_ku">区</param>
     ''' <param name="_kuiki">区域</param>
     ''' <param name="_gawa">側</param>
     Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String)
-
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
-
     End Sub
 
     ''' <param name="_ku">区</param>
@@ -133,12 +140,10 @@ Public Class GraveNumberEntity
     ''' <param name="_gawa">側</param>
     ''' <param name="_ban">番</param>
     Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String)
-
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
         BanField = New Ban(_ban)
-
     End Sub
 
     ''' <param name="_ku">区</param>
@@ -147,11 +152,11 @@ Public Class GraveNumberEntity
     ''' <param name="_ban">番</param>
     ''' <param name="_edaban">枝番</param>
     Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String, ByVal _edaban As String)
-
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
         BanField = New Ban(_ban)
+
         If _edaban Is Nothing Then
             EdabanField = New Edaban(String.Empty)
         Else
@@ -167,7 +172,9 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function GetNumber() As String
-        Return gtc.ConvertNumber_Ku(KuField) & gtc.ConvertNumber_0Delete(KuikiField.Field) & "区" & gtc.ConvertNumber_0Delete(GawaField.Field) & "側" & RTrim(gtc.ConvertNumber_0Delete(BanField.Field) & " " & gtc.ConvertNumber_0Delete(EdabanField.Field)) & "番"
+        Return gtc.ConvertNumber_Ku(KuField.CodeField) & gtc.ConvertNumber_0Delete(KuikiField.CodeField) & My.Resources.KuString &
+            gtc.ConvertNumber_0Delete(GawaField.CodeField) & My.Resources.GawaString & RTrim(gtc.ConvertNumber_0Delete(BanField.CodeField) & Space(1) &
+            gtc.ConvertNumber_0Delete(EdabanField.CodeField)) & My.Resources.BanString
     End Function
 
     ''' <summary>
@@ -175,7 +182,7 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function ConvertKuString() As String
-        Return gtc.ConvertNumber_Ku(KuField)
+        Return gtc.ConvertNumber_Ku(KuField.CodeField)
     End Function
 
     ''' <summary>
@@ -183,7 +190,7 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function ConvertKuikiString() As String
-        Return gtc.ConvertNumber_0Delete(KuikiField.Field)
+        Return gtc.ConvertNumber_0Delete(KuikiField.CodeField)
     End Function
 
     ''' <summary>
@@ -191,7 +198,7 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function ConvertGawaString() As String
-        Return gtc.ConvertNumber_0Delete(GawaField.Field)
+        Return gtc.ConvertNumber_0Delete(GawaField.CodeField)
     End Function
 
     ''' <summary>
@@ -199,7 +206,7 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function ConvertBanString() As String
-        Return gtc.ConvertNumber_0Delete(BanField.Field)
+        Return gtc.ConvertNumber_0Delete(BanField.CodeField)
     End Function
 
     ''' <summary>
@@ -207,7 +214,7 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function ConvertEdabanString() As String
-        Return gtc.ConvertNumber_0Delete(EdabanField.Field)
+        Return gtc.ConvertNumber_0Delete(EdabanField.CodeField)
     End Function
 
     ''' <summary>
@@ -218,7 +225,8 @@ Public Class GraveNumberEntity
         Public Property Number As String
 
         Sub New(ByVal _ku As Ku, ByVal _kuiki As Kuiki, ByVal _gawa As Gawa, ByVal _ban As Ban, ByVal _edaban As Edaban)
-            Number = _ku.DisplayForField & _kuiki.DisplayForField & "区" & _gawa.DisplayForField & "側" & _ban.DisplayForField & _edaban.DisplayForField & "番"
+            Number = _ku.DisplayForField & _kuiki.DisplayForField & My.Resources.KuString & _gawa.DisplayForField & My.Resources.GawaString & _ban.DisplayForField &
+                _edaban.DisplayForField & My.Resources.BanString
         End Sub
     End Class
 
@@ -236,31 +244,48 @@ Public Class GraveNumberEntity
     End Class
 
     ''' <summary>
+    ''' 墓地番号のFieldクラスのスーパークラス
+    ''' </summary>
+    Public MustInherit Class GraveNumberField
+
+        Protected ReadOnly gtc As New GraveTextConvert
+        Public Property DisplayForField As String
+        Public Property CodeField As String
+
+        Public Overrides Function Equals(obj As Object) As Boolean
+            Return FieldTryCast(obj, Me)
+        End Function
+
+        Public Function FieldTryCast(ByRef obj As Object, ByVal _gravenumberfield As GraveNumberField) As Boolean
+            Dim reasion As GraveNumberField = TryCast(obj, GraveNumberField)
+            If reasion Is Nothing Then Return False
+            If Not reasion.DisplayForField.Equals(_gravenumberfield.DisplayForField) Then Return False
+            Return Not reasion.CodeField.Equals(_gravenumberfield.CodeField)
+        End Function
+
+    End Class
+
+    ''' <summary>
     ''' 区クラス
     ''' </summary>
     Public Class Ku
-
-        Private ReadOnly gtc As New GraveTextConvert
-        Public Property DisplayForField As String
-        Public Property Field As String
+        Inherits GraveNumberField
 
         Sub New(ByVal _value As String)
-            Field = _value
-            DisplayForField = gtc.ConvertNumber_Ku(Me)
+            CodeField = _value
+            DisplayForField = gtc.ConvertNumber_Ku(CodeField)
         End Sub
+
     End Class
 
     ''' <summary>
     ''' 区域クラス
     ''' </summary>
     Public Class Kuiki
-
-        Private ReadOnly gtc As New GraveTextConvert
-        Public Property DisplayForField As String
-        Public Property Field As String
+        Inherits GraveNumberField
 
         Sub New(ByVal _value As String)
-            Field = _value
+            CodeField = _value
             If gtc.ConvertNumber_0Delete(_value) = String.Empty Then
                 DisplayForField = "0"
             Else
@@ -274,13 +299,10 @@ Public Class GraveNumberEntity
     ''' 側クラス
     ''' </summary>
     Public Class Gawa
-
-        Private ReadOnly gtc As New GraveTextConvert
-        Public Property DisplayForField As String
-        Public Property Field As String
+        Inherits GraveNumberField
 
         Sub New(ByVal _value As String)
-            Field = _value
+            CodeField = _value
             If gtc.ConvertNumber_0Delete(_value) = String.Empty Then
                 DisplayForField = "0"
             Else
@@ -294,13 +316,10 @@ Public Class GraveNumberEntity
     ''' 番クラス
     ''' </summary>
     Public Class Ban
-
-        Private ReadOnly gtc As New GraveTextConvert
-        Public Property DisplayForField As String
-        Public Property Field As String
+        Inherits GraveNumberField
 
         Sub New(ByVal _value As String)
-            Field = _value
+            CodeField = _value
             DisplayForField = gtc.ConvertNumber_0Delete(_value)
         End Sub
 
@@ -310,13 +329,10 @@ Public Class GraveNumberEntity
     ''' 枝番クラス
     ''' </summary>
     Public Class Edaban
-
-        Private ReadOnly gtc As New GraveTextConvert
-        Public Property DisplayForField As String
-        Public Property Field As String
+        Inherits GraveNumberField
 
         Sub New(ByVal _value As String)
-            Field = _value
+            CodeField = _value
             DisplayForField = gtc.ConvertNumber_0Delete(_value)
         End Sub
     End Class

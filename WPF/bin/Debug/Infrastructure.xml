@@ -8,18 +8,343 @@ Infrastructure
 <members>
 <member name="T:Infrastructure.My.Resources.Resources">
 <summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.ResourceManager">
 <summary>
-  Returns the cached ResourceManager instance used by this class.
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.Culture">
 <summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
+  すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.AddHomeString">
+<summary>
+  家 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Address">
+<summary>
+  Address に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Address1">
+<summary>
+  Address1 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Address2">
+<summary>
+  Address2 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Area">
+<summary>
+  Area に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.AreaOfGrave">
+<summary>
+  AreaOfGrave に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Ban">
+<summary>
+  Ban に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.CleaningContract">
+<summary>
+  清掃契約 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ContractDetail">
+<summary>
+  ContractDetail に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.CustomerID">
+<summary>
+  CustomerID に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.DiscardString">
+<summary>
+  放棄 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Edaban">
+<summary>
+  Edaban に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.EightString">
+<summary>
+  八 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ExcelApp">
+<summary>
+  Excel.Application に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FamilyName">
+<summary>
+  FamilyName に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FiveString">
+<summary>
+  五 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FontName_HGPGyoushotai">
+<summary>
+  HGP行書体 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FontName_MSPGothic">
+<summary>
+  ＭＳ Ｐゴシック に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FontName_MSPMintyo">
+<summary>
+  ＭＳ Ｐ明朝 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FourString">
+<summary>
+  四 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FullName">
+<summary>
+  FullName に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FuString">
+<summary>
+  府 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Gawa">
+<summary>
+  Gawa に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.GraveNumber">
+<summary>
+  GraveNumber に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.GunString">
+<summary>
+  郡 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.KanagawaString">
+<summary>
+  神奈川県 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.KenString">
+<summary>
+  県 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Ku">
+<summary>
+  Ku に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.Kuiki">
+<summary>
+  Kuiki に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.LastSaveDate">
+<summary>
+  LastSaveDate に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.LesseeName">
+<summary>
+  LesseeName に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.LogFilePath">
+<summary>
+  ./logs/ExceptionLogs.txt に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ManagementNumber">
+<summary>
+  ManagementNumber に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.NineString">
+<summary>
+  九 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.OneString">
+<summary>
+  一 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.OrderID">
+<summary>
+  OrderID に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.OutputTime">
+<summary>
+  OutputTime に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.PostalCode">
+<summary>
+  PostalCode に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.PostalMarkClipSpace">
+<summary>
+  〒  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ReceiverAddress1">
+<summary>
+  ReceiverAddress1 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ReceiverAddress2">
+<summary>
+  ReceiverAddress2 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ReceiverName">
+<summary>
+  ReceiverName に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ReceiverPostalCode">
+<summary>
+  ReceiverPostalCode に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.RegistrationTime">
+<summary>
+  RegistrationTime に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.SevenString">
+<summary>
+  七 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ShiString">
+<summary>
+  市 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.SixString">
+<summary>
+  六 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.SquareFootageText">
+<summary>
+  ㎡ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_Call_ShunjyuenData">
+<summary>
+  Call_ShunjyuenData に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_DeleteGravePanel">
+<summary>
+  DeleteGravePanel に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_GetAddress">
+<summary>
+  GetAddress に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_GetGravePanelList">
+<summary>
+  GetGravePanelList に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_GetLastSaveDate">
+<summary>
+  GetLastSaveDate に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_GetPostalcode">
+<summary>
+  GetPostalcode に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_Reference_GraveNumber">
+<summary>
+  Reference_GraveNumber に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_RegistrationGravePanel">
+<summary>
+  RegistrationGravePanel に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StoredProc_UpdateGravePanel">
+<summary>
+  UpdateGravePanel に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.StringHalfHyphen">
+<summary>
+  - に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.TenString">
+<summary>
+  十 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ThreeString">
+<summary>
+  三 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.TokushimaString">
+<summary>
+  徳島県 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ToukyouString">
+<summary>
+  東京都 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.TowString">
+<summary>
+  二 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.WildCard_Percent">
+<summary>
+  % に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.ZeroString">
+<summary>
+  〇 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="T:Infrastructure.IAddressConvert">
@@ -81,7 +406,7 @@ Infrastructure
 </member>
 <member name="T:Infrastructure.IHorizontalOutputBehavior">
  <summary>
- エクセルデータを横向けに出力
+ データを横向けに出力
  </summary>
 </member>
 <member name="M:Infrastructure.IHorizontalOutputBehavior.SetData(Domain.DestinationDataEntity)">
@@ -89,11 +414,21 @@ Infrastructure
  出力するデータをセットします
  </summary>
 </member>
+<member name="T:Infrastructure.IVerticalOutputListBehavior">
+ <summary>
+ データを縦向けに出力
+ </summary>
+</member>
 <member name="M:Infrastructure.IVerticalOutputListBehavior.SetData(System.Int32,Domain.DestinationDataEntity)">
  <summary>
  出力するデータをセットします
  </summary>
  <param name="startrowposition"></param>
+</member>
+<member name="T:Infrastructure.IGravePanelListBehavior">
+ <summary>
+ 墓地札データを出力
+ </summary>
 </member>
 <member name="M:Infrastructure.IGravePanelListBehavior.SetData(System.Int32,Domain.GravePanelDataEntity)">
  <summary>
@@ -149,6 +484,13 @@ Infrastructure
  </summary>
  <returns></returns>
 </member>
+<member name="M:Infrastructure.AddressConvert.BranchConvertNumber(System.String)">
+ <summary>
+ 文字列の数字を漢字に変換します。数字出ない場合は引数をそのまま返します
+ </summary>
+ <param name="addressString">変換文字列</param>
+ <returns></returns>
+</member>
 <member name="M:Infrastructure.AddressConvert.ConvertNumber(System.Int32)">
  <summary>
  数字を漢字変換して返します
@@ -180,6 +522,11 @@ Infrastructure
 <member name="T:Infrastructure.ExcelOutputInfrastructure">
  <summary>
  エクセルへの処理を行います
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.Listener">
+ <summary>
+ 進捗を受け取るリスナー
  </summary>
 </member>
 <member name="P:Infrastructure.ExcelOutputInfrastructure.OutputDataGanre">
@@ -216,6 +563,11 @@ Infrastructure
 <member name="F:Infrastructure.ExcelOutputInfrastructure.ExlWorkSheet">
  <summary>
  ワークシート
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.StartIndex">
+ <summary>
+ 開始位置を決める為の基準のIndex
  </summary>
 </member>
 <member name="M:Infrastructure.ExcelOutputInfrastructure.SheetSetting">

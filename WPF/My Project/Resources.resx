@@ -153,12 +153,6 @@
   <data name="ConfirmationRegisterInfoTitle" xml:space="preserve">
     <value>登録確認</value>
   </data>
-  <data name="Contract.Kusatori" xml:space="preserve">
-    <value>草取り</value>
-  </data>
-  <data name="Contract.Ueki" xml:space="preserve">
-    <value>植木</value>
-  </data>
   <data name="CustomerIDLengthError" xml:space="preserve">
     <value>6桁の管理番号を入力</value>
   </data>
@@ -237,6 +231,15 @@
   <data name="NothingSelectedItemMessage" xml:space="preserve">
     <value>アイテムが選択されていません</value>
   </data>
+  <data name="OutputInfo" xml:space="preserve">
+    <value>チェックの入った墓地札データをエクセルに出力しました</value>
+  </data>
+  <data name="OutputInfoTitle" xml:space="preserve">
+    <value>出力結果</value>
+  </data>
+  <data name="OutputInfo_Count0" xml:space="preserve">
+    <value>印刷するアイテムがありません。印刷フラグにチェックを入れるか、墓地札を追加してください</value>
+  </data>
   <data name="PassAddresseeRecordInfo" xml:space="preserve">
     <value>宛名、郵便番号、住所、番地の順で作ったリストをコピーしてください。次のレコードに進みます。</value>
   </data>
@@ -245,6 +248,9 @@
   </data>
   <data name="PostcardText" xml:space="preserve">
     <value>はがき</value>
+  </data>
+  <data name="SlashClipSpace" xml:space="preserve">
+    <value> / </value>
   </data>
   <data name="SquareFootageText" xml:space="preserve">
     <value> ㎡</value>

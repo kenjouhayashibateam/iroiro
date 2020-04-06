@@ -1,4 +1,6 @@
-﻿Public Class GravePanelDataEntity
+﻿Imports System.Collections.ObjectModel
+
+Public Class GravePanelDataEntity
 
     Private _MyIsPrintout As IsPrintout
     Private _MyPrintOutTime As PrintoutTime
@@ -28,6 +30,12 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property MyRegistrationTime As RegistrationTime
+
+    ''' <summary>
+    ''' 契約内容リストクラス
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property MyContractContents As New ContractContents
 
     ''' <summary>
     ''' プリントアウトするかのBool
@@ -73,7 +81,10 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property MyArea As Area
-
+    ''' <summary>
+    ''' 申込者名
+    ''' </summary>
+    ''' <returns></returns>
     Public Property MyFullName As FullName
 
     Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumber As String, ByVal _area As Double, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
@@ -100,7 +111,10 @@
         MyPrintOutTime = New PrintoutTime(_printouttime)
         MyIsPrintout = New IsPrintout(_printouttime)
     End Sub
-
+    ''' <summary>
+    ''' OrderIDを返します
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetID() As Integer
         Return MyOrderID.ID
     End Function
@@ -109,8 +123,8 @@
         Return MyFullName.Name
     End Function
 
-    Public Function GetArea() As Double
-        Return MyArea.AreaValue
+    Public Function GetArea() As String
+        Return MyArea.AreaValue.ToString("n1")
     End Function
 
     ''' <summary>
@@ -161,6 +175,12 @@
         Return MyFamilyName.GetName
     End Function
 
+    Public Function GetContractContents() As ObservableCollection(Of String)
+        Return MyContractContents.List
+    End Function
+    ''' <summary>
+    ''' 申込者名クラス
+    ''' </summary>
     Public Class FullName
         Public Property Name As String
 
@@ -231,7 +251,7 @@
         Public Property MyDate As Date
 
         Sub New(ByVal _registrationtime As Date)
-            MyDate = _registrationtime
+            MyDate = _registrationtime.ToShortDateString
         End Sub
 
     End Class
@@ -299,9 +319,23 @@
             AreaValue = _myarea
         End Sub
 
-        Public Function GetArea() As Double
-            Return AreaValue
+        Public Function GetArea() As String
+            Return AreaValue.ToString("0.0")
         End Function
+
+    End Class
+
+    ''' <summary>
+    ''' 契約内容リスト
+    ''' </summary>
+    Public Class ContractContents
+
+        Public Property List As New ObservableCollection(Of String)
+
+        Sub New()
+            List.Add(My.Resources.Contract_Ueki)
+            List.Add(My.Resources.Contract_Kusatori)
+        End Sub
 
     End Class
 End Class

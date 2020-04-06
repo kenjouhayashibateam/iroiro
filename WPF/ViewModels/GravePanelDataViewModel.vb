@@ -37,6 +37,9 @@ Namespace ViewModels
         Private _FamilyName As String
         Private _FullName As String
         Private _CallIsDeleteDataInfo As Boolean
+        Private _CallOutputInfo As Boolean
+
+        Public Property ContractContents As New GravePanelDataEntity.ContractContents
 
         Public Property FullName As String
             Get
@@ -182,8 +185,6 @@ Namespace ViewModels
                 GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FullName, #1900/01/01#, #9999/01/01#, #1900/01/01#, #9999/01/01#).List
                 CallPropertyChanged(NameOf(GravePanelList))
             End If
-
-
         End Sub
 
         Sub New()
@@ -196,7 +197,6 @@ Namespace ViewModels
             OutputPosition = 1
             GravePanelList = GravePanelDataListEntity.GetInstance
             GetList()
-
         End Sub
 
         ''' <summary>
@@ -232,7 +232,6 @@ Namespace ViewModels
             Set
                 _MyGravePanel = Value
                 CallPropertyChanged(NameOf(MyGravePanel))
-                UpdateIsPrintoutValue()
             End Set
         End Property
 
@@ -283,9 +282,9 @@ Namespace ViewModels
         Private Sub GetList()
             Dim refRetistrationDate_st, refOutputDate_en As Date
             If IsNewRecordOnly Then
-                refOutputDate_en = Now
-            Else
                 refOutputDate_en = My.Resources.DefaultDate
+            Else
+                refOutputDate_en = Now
             End If
             If IsPast3MonthsPart Then
                 refRetistrationDate_st = DateAdd(DateInterval.Month, -3, Now)
@@ -383,6 +382,7 @@ Namespace ViewModels
         End Sub
 
         Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
+
             Select Case propertyName
                 Case NameOf(MyGravePanel)
                     If MyGravePanel Is Nothing Then
@@ -391,22 +391,64 @@ Namespace ViewModels
                         RemoveError(propertyName)
                     End If
             End Select
+
         End Sub
 
         Public Sub Notify(gravepanelData As GravePanelDataEntity) Implements INotifyListAdd.Notify
             GravePanelList.AddItem(gravepanelData)
         End Sub
 
+        Public Property OutputInfoCommand As DelegateCommand
+
         Public Sub Output()
 
-            OutputDataConecter.GravePanelOutput()
+            OutputDataConecter.GravePanelOutput(OutputPosition)
 
+            Dim i As Integer = 0
             For Each gpd As GravePanelDataEntity In GravePanelList.List
                 If gpd.MyIsPrintout.Value = False Then Continue For
                 gpd.MyPrintOutTime.MyDate = Now
                 DataBaseConecter.GravePanelUpdate(gpd)
+                CallPropertyChanged(NameOf(GravePanelList))
+                i += 1
             Next
 
+            If i = 0 Then
+                OutputInfo(My.Resources.OutputInfo_Count0, My.Resources.OutputInfoTitle, MessageBoxImage.Warning)
+            Else
+                OutputInfo(My.Resources.OutputInfo, My.Resources.OutputInfoTitle, MessageBoxImage.Information)
+            End If
+
+        End Sub
+
+        Public Property CallOutputInfo As Boolean
+            Get
+                Return _CallOutputInfo
+            End Get
+            Set
+                _CallOutputInfo = Value
+                CallPropertyChanged(NameOf(CallOutputInfo))
+                _CallOutputInfo = False
+            End Set
+        End Property
+
+        Private Sub OutputInfo(ByVal msg As String, ByVal title As String, ByVal image As MessageBoxImage)
+
+            OutputInfoCommand = New DelegateCommand(
+                Sub()
+                    MessageInfo = New MessageBoxInfo With
+                    {
+                    .Message = msg,
+                    .Button = MessageBoxButton.OK,
+                    .Title = title,
+                    .Image = image
+                    }
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+            CallOutputInfo = True
         End Sub
 
     End Class

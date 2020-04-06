@@ -37,6 +37,9 @@
         <ib:DataTrigger Binding="{Binding CallIsDeleteDataInfo}" Value="true">
             <ib:InvokeCommandAction Command="{Binding IsDeleteDataInfoCommand}"/>
         </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallOutputInfo}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding OutputInfoCommand}"/>
+        </ib:DataTrigger>
     </ib:Interaction.Triggers>
     
     <Grid x:Name="MainGrid">
@@ -66,7 +69,14 @@
                 <DataGridTextColumn Header="家" Width="1*" Binding="{Binding MyFamilyName.Name}"/>
                 <DataGridTextColumn Header="申込者名" Width="2*" Binding="{Binding MyFullName.Name}" />
                 <DataGridTextColumn  Header="墓地番号" Width="2*" Binding="{Binding MyGraveNumber.Number}"/>
-                <DataGridTextColumn Header="登録日時" Width="2*" Binding="{Binding MyRegistrationTime.MyDate}"/>
+                <DataGridTemplateColumn Header="契約内容" Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox IsEditable="True" ItemsSource="{Binding MyContractContents.List}" Text="{Binding MyContractContent}"/>
+                        </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="登録日" Width="2*" Binding="{Binding MyRegistrationTime.MyDate}"/>
                 <DataGridTemplateColumn Header="印刷フラグ" Width="1*"  >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -1,6 +1,13 @@
 ﻿Imports System.Collections.ObjectModel
 
 ''' <summary>
+''' リストの処理の進捗を知らせます
+''' </summary>
+Public Interface IProcessedCountObserver
+    Sub Notify(ByVal _count As Integer)
+End Interface
+
+''' <summary>
 ''' 出力するデータの処理を行うリポジトリ
 ''' </summary>
 Public Interface IOutputDataRepogitory
@@ -50,6 +57,8 @@ Public Interface IOutputDataRepogitory
     ''' <summary>
     ''' 墓地札
     ''' </summary>
-    Sub GravePanelOutput()
+    Sub GravePanelOutput(ByVal outputPosition As Integer)
+
+    Sub AddListener(ByVal _listener As IProcessedCountObserver)
 
 End Interface

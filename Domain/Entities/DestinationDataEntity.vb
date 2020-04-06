@@ -47,7 +47,10 @@ Public Class DestinationDataEntity
     ''' 金額
     ''' </summary>
     Public Property MoneyData As Money
-
+    ''' <summary>
+    ''' 管理番号
+    ''' </summary>
+    ''' <returns></returns>
     Public Property MyCustomerID As CustomerID
 
     '''<param name="_customerid">管理番号</param>
@@ -89,6 +92,9 @@ Public Class DestinationDataEntity
         MyAddress2 = New Address2(_address2)
     End Sub
 
+    ''' <summary>
+    ''' 管理番号
+    ''' </summary>
     Public Class CustomerID
         Private _ID As String
 
@@ -108,7 +114,9 @@ Public Class DestinationDataEntity
             Return ID
         End Function
     End Class
-
+    ''' <summary>
+    ''' 名前
+    ''' </summary>
     Public Class Name
         Private _MyName As String
 
@@ -130,7 +138,9 @@ Public Class DestinationDataEntity
         End Function
 
     End Class
-
+    ''' <summary>
+    ''' 敬称
+    ''' </summary>
     Public Class Title
         Private _TitleString As String
 
@@ -151,7 +161,9 @@ Public Class DestinationDataEntity
             Return TitleString
         End Function
     End Class
-
+    ''' <summary>
+    ''' 郵便番号
+    ''' </summary>
     Public Class PostalCode
         Public Property Code As String
 
@@ -163,7 +175,9 @@ Public Class DestinationDataEntity
             Return Code
         End Function
     End Class
-
+    ''' <summary>
+    ''' 住所1
+    ''' </summary>
     Public Class Address1
         Public Property Address As String
 
@@ -175,7 +189,9 @@ Public Class DestinationDataEntity
             Return Address
         End Function
     End Class
-
+    ''' <summary>
+    ''' 住所2
+    ''' </summary>
     Public Class Address2
         Public Property Address As String
 
@@ -187,7 +203,9 @@ Public Class DestinationDataEntity
             Return Address
         End Function
     End Class
-
+    ''' <summary>
+    ''' 備考1
+    ''' </summary>
     Public Class Note1
         Public Property Value As String
 
@@ -199,7 +217,9 @@ Public Class DestinationDataEntity
             Return Value
         End Function
     End Class
-
+    ''' <summary>
+    ''' 備考2
+    ''' </summary>
     Public Class Note2
         Public Property Value As String
 
@@ -211,7 +231,9 @@ Public Class DestinationDataEntity
             Return Value
         End Function
     End Class
-
+    ''' <summary>
+    ''' 備考3
+    ''' </summary>
     Public Class Note3
         Public Property Value As String
 
@@ -223,7 +245,9 @@ Public Class DestinationDataEntity
             Return Value
         End Function
     End Class
-
+    ''' <summary>
+    ''' 備考4
+    ''' </summary>
     Public Class Note4
         Public Property Value As String
 
@@ -235,7 +259,9 @@ Public Class DestinationDataEntity
             Return Value
         End Function
     End Class
-
+    ''' <summary>
+    ''' 備考5
+    ''' </summary>
     Public Class Note5
         Public Property Value As String
 
@@ -247,7 +273,9 @@ Public Class DestinationDataEntity
             Return Value
         End Function
     End Class
-
+    ''' <summary>
+    ''' 金額
+    ''' </summary>
     Public Class Money
         Public Property Price As String
 

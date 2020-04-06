@@ -8,18 +8,93 @@ Domain
 <members>
 <member name="T:Domain.My.Resources.Resources">
 <summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
 </summary>
 </member>
 <member name="P:Domain.My.Resources.Resources.ResourceManager">
 <summary>
-  Returns the cached ResourceManager instance used by this class.
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
 </summary>
 </member>
 <member name="P:Domain.My.Resources.Resources.Culture">
 <summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
+  すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.BanString">
+<summary>
+  番 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.CenterString">
+<summary>
+  中 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.Contract_Kusatori">
+<summary>
+  草取り に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.Contract_Ueki">
+<summary>
+  植木手入れ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.EastSpecialString">
+<summary>
+  東特 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.EastString">
+<summary>
+  東 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.GawaString">
+<summary>
+  側 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.KuString">
+<summary>
+  区 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.NorthSpecialString">
+<summary>
+  北特 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.NorthString">
+<summary>
+  北 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.Ossuary">
+<summary>
+  御廟 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.SecondSpecialString">
+<summary>
+  二特 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.SouthString">
+<summary>
+  南 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.StringHalfHyphen">
+<summary>
+  - に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Domain.My.Resources.Resources.WestString">
+<summary>
+  西 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="T:Domain.AddressDataEntity">
@@ -127,6 +202,12 @@ Domain
  金額
  </summary>
 </member>
+<member name="P:Domain.DestinationDataEntity.MyCustomerID">
+ <summary>
+ 管理番号
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:Domain.DestinationDataEntity.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
 <param name="_customerid">管理番号</param>
  <param name="_addresseename">宛名</param>
@@ -141,16 +222,76 @@ Domain
  <param name="_note4">備考4</param>
  <param name="_note5">備考5</param>
 </member>
+<member name="T:Domain.DestinationDataEntity.CustomerID">
+ <summary>
+ 管理番号
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Name">
+ <summary>
+ 名前
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Title">
+ <summary>
+ 敬称
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.PostalCode">
+ <summary>
+ 郵便番号
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Address1">
+ <summary>
+ 住所1
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Address2">
+ <summary>
+ 住所2
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Note1">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Note2">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Note3">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Note4">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Note5">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="T:Domain.DestinationDataEntity.Money">
+ <summary>
+ 金額
+ </summary>
+</member>
 <member name="T:Domain.ITextConvert">
  <summary>
  文字列を変換します
  </summary>
 </member>
-<member name="M:Domain.ITextConvert.ConvertNumber_Ku(Domain.GraveNumberEntity.Ku)">
+<member name="M:Domain.ITextConvert.ConvertNumber_Ku(System.String)">
  <summary>
- 区を相当する漢字にして返します
+ 区を相当する漢字はコード、コードは漢字にして返します
  </summary>
- <param name="kunumber">区ナンバー</param>
+ <param name="value">区ナンバーあるいはコード</param>
  <returns></returns>
 </member>
 <member name="M:Domain.ITextConvert.ConvertNumber_0Delete(System.String)">
@@ -165,7 +306,7 @@ Domain
  墓地番号文字列変換クラス
  </summary>
 </member>
-<member name="M:Domain.GraveTextConvert.ConvertNumber_Ku(Domain.GraveNumberEntity.Ku)">
+<member name="M:Domain.GraveTextConvert.ConvertNumber_Ku(System.String)">
  <summary>
  区域コードを漢字に変換します
  </summary>
@@ -252,6 +393,11 @@ Domain
  管理番号
  </summary>
 </member>
+<member name="T:Domain.GraveNumberEntity.GraveNumberField">
+ <summary>
+ 墓地番号のFieldクラスのスーパークラス
+ </summary>
+</member>
 <member name="T:Domain.GraveNumberEntity.Ku">
  <summary>
  区クラス
@@ -327,6 +473,12 @@ Domain
  </summary>
  <returns></returns>
 </member>
+<member name="P:Domain.GravePanelDataEntity.MyContractContents">
+ <summary>
+ 契約内容リストクラス
+ </summary>
+ <returns></returns>
+</member>
 <member name="P:Domain.GravePanelDataEntity.MyIsPrintout">
  <summary>
  プリントアウトするかのBool
@@ -348,6 +500,18 @@ Domain
 <member name="P:Domain.GravePanelDataEntity.MyArea">
  <summary>
  面積
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.GravePanelDataEntity.MyFullName">
+ <summary>
+ 申込者名
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetID">
+ <summary>
+ OrderIDを返します
  </summary>
  <returns></returns>
 </member>
@@ -386,6 +550,11 @@ Domain
  苗字を返します
  </summary>
  <returns></returns>
+</member>
+<member name="T:Domain.GravePanelDataEntity.FullName">
+ <summary>
+ 申込者名クラス
+ </summary>
 </member>
 <member name="T:Domain.GravePanelDataEntity.OrderID">
  <summary>
@@ -430,6 +599,11 @@ Domain
 <member name="T:Domain.GravePanelDataEntity.Area">
  <summary>
  面積クラス
+ </summary>
+</member>
+<member name="T:Domain.GravePanelDataEntity.ContractContents">
+ <summary>
+ 契約内容リスト
  </summary>
 </member>
 <member name="T:Domain.GravePanelDataListEntity">
@@ -606,7 +780,7 @@ Domain
  管理番号
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.Area">
+<member name="T:Domain.LesseeCustomerInfoEntity.GraveArea">
  <summary>
  面積
  </summary>
@@ -634,6 +808,11 @@ Domain
 <member name="T:Domain.ILoggerRepogitory">
  <summary>
  ログを保管します
+ </summary>
+</member>
+<member name="T:Domain.IProcessedCountObserver">
+ <summary>
+ リストの処理の進捗を知らせます
  </summary>
 </member>
 <member name="T:Domain.IOutputDataRepogitory">
@@ -676,7 +855,7 @@ Domain
  ラベル
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput">
+<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput(System.Int32)">
  <summary>
  墓地札
  </summary>
