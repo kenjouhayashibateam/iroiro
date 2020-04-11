@@ -11,6 +11,10 @@ End Interface
 ''' 出力するデータの処理を行うリポジトリ
 ''' </summary>
 Public Interface IOutputDataRepogitory
+    ''' <summary>
+    ''' OutputしたデータをClearします
+    ''' </summary>
+    Sub DataClear()
 
     ''' <summary>
     ''' 振込用紙
@@ -59,6 +63,10 @@ Public Interface IOutputDataRepogitory
     ''' </summary>
     Sub GravePanelOutput(ByVal outputPosition As Integer)
 
+    ''' <summary>
+    ''' 進捗カウントを受け取るリスナーを登録します
+    ''' </summary>
+    ''' <param name="_listener"></param>
     Sub AddListener(ByVal _listener As IProcessedCountObserver)
 
 End Interface

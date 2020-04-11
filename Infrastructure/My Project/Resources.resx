@@ -150,6 +150,9 @@
   <data name="DiscardString" xml:space="preserve">
     <value>放棄</value>
   </data>
+  <data name="DoubleAsterisk" xml:space="preserve">
+    <value>**</value>
+  </data>
   <data name="Edaban" xml:space="preserve">
     <value>Edaban</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="FamilyName" xml:space="preserve">
     <value>FamilyName</value>
+  </data>
+  <data name="FILENAME" xml:space="preserve">
+    <value>Iroiro</value>
   </data>
   <data name="FiveString" xml:space="preserve">
     <value>五</value>
@@ -180,6 +186,9 @@
   <data name="FullName" xml:space="preserve">
     <value>FullName</value>
   </data>
+  <data name="FullwidthClosingParenthesis" xml:space="preserve">
+    <value>（</value>
+  </data>
   <data name="FuString" xml:space="preserve">
     <value>府</value>
   </data>
@@ -191,6 +200,9 @@
   </data>
   <data name="GunString" xml:space="preserve">
     <value>郡</value>
+  </data>
+  <data name="HGRegularRegularScriptPRO" xml:space="preserve">
+    <value>HG正楷書体-PRO</value>
   </data>
   <data name="KanagawaString" xml:space="preserve">
     <value>神奈川県</value>
@@ -249,11 +261,17 @@
   <data name="RegistrationTime" xml:space="preserve">
     <value>RegistrationTime</value>
   </data>
+  <data name="SAVEPATH" xml:space="preserve">
+    <value>.\files\IroiroFile.xlsx</value>
+  </data>
   <data name="SevenString" xml:space="preserve">
     <value>七</value>
   </data>
   <data name="ShiString" xml:space="preserve">
     <value>市</value>
+  </data>
+  <data name="SingleAsterisk" xml:space="preserve">
+    <value>*</value>
   </data>
   <data name="SixString" xml:space="preserve">
     <value>六</value>

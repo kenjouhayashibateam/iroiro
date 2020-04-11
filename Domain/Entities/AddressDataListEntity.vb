@@ -1,5 +1,8 @@
 ﻿Imports System.Collections.ObjectModel
 
+''' <summary>
+''' AddressDataEntityをリストで保持します
+''' </summary>
 Public Class AddressDataListEntity
 
     Public Property MyList As New ObservableCollection(Of AddressDataEntity)

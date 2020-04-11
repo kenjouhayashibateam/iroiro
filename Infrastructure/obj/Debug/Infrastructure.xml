@@ -77,6 +77,11 @@ Infrastructure
   放棄 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:Infrastructure.My.Resources.Resources.DoubleAsterisk">
+<summary>
+  ** に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:Infrastructure.My.Resources.Resources.Edaban">
 <summary>
   Edaban に類似しているローカライズされた文字列を検索します。
@@ -95,6 +100,11 @@ Infrastructure
 <member name="P:Infrastructure.My.Resources.Resources.FamilyName">
 <summary>
   FamilyName に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.FILENAME">
+<summary>
+  Iroiro に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.FiveString">
@@ -127,6 +137,11 @@ Infrastructure
   FullName に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:Infrastructure.My.Resources.Resources.FullwidthClosingParenthesis">
+<summary>
+  （ に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:Infrastructure.My.Resources.Resources.FuString">
 <summary>
   府 に類似しているローカライズされた文字列を検索します。
@@ -145,6 +160,11 @@ Infrastructure
 <member name="P:Infrastructure.My.Resources.Resources.GunString">
 <summary>
   郡 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.HGRegularRegularScriptPRO">
+<summary>
+  HG正楷書体-PRO に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.KanagawaString">
@@ -242,6 +262,11 @@ Infrastructure
   RegistrationTime に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:Infrastructure.My.Resources.Resources.SAVEPATH">
+<summary>
+  .\files\IroiroFile.xlsx に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:Infrastructure.My.Resources.Resources.SevenString">
 <summary>
   七 に類似しているローカライズされた文字列を検索します。
@@ -250,6 +275,11 @@ Infrastructure
 <member name="P:Infrastructure.My.Resources.Resources.ShiString">
 <summary>
   市 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:Infrastructure.My.Resources.Resources.SingleAsterisk">
+<summary>
+  * に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.SixString">
@@ -416,7 +446,7 @@ Infrastructure
 </member>
 <member name="T:Infrastructure.IVerticalOutputListBehavior">
  <summary>
- データを縦向けに出力
+ データのリストを縦向けに出力
  </summary>
 </member>
 <member name="M:Infrastructure.IVerticalOutputListBehavior.SetData(System.Int32,Domain.DestinationDataEntity)">
@@ -424,6 +454,12 @@ Infrastructure
  出力するデータをセットします
  </summary>
  <param name="startrowposition"></param>
+</member>
+<member name="M:Infrastructure.IVerticalOutputListBehavior.GetDestinationDataList">
+ <summary>
+ 宛名クラスを保持するリスト
+ </summary>
+ <returns></returns>
 </member>
 <member name="T:Infrastructure.IGravePanelListBehavior">
  <summary>
@@ -570,9 +606,35 @@ Infrastructure
  開始位置を決める為の基準のIndex
  </summary>
 </member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.buf">
+ <summary>
+ ファイルの位置を指定、選択します
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.AddresseeList">
+ <summary>
+ 宛先クラスを格納したリスト
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.ProcessedCount">
+ <summary>
+ 進捗のカウント
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:Infrastructure.ExcelOutputInfrastructure.SheetSetting">
  <summary>
- エクセルを起動して、アプリ用のブックを開きます
+ いろいろ発行エクセルファイルを閉じて、メモリ上にClosedXMLのSheetを生成します。
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.ExcelClose">
+ <summary>
+ いろいろ発行エクセルファイルを閉じます
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.ExcelOpen">
+ <summary>
+ いろいろ発行エクセルファイルを開きます
  </summary>
 </member>
 <member name="M:Infrastructure.ExcelOutputInfrastructure.SetStartRowPosition(Infrastructure.IVerticalOutputBehavior)">
@@ -580,6 +642,18 @@ Infrastructure
  入力するでーたの印刷範囲の一番上のRowを返します
  </summary>
  <returns></returns>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.SettingNewSheet_Horizontal(Infrastructure.IExcelOutputBehavior)">
+ <summary>
+ 横向けOutput用のシートをセッティングします
+ </summary>
+ <param name="eob"></param>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.SettingNewSheet_Vertical(Infrastructure.IExcelOutputBehavior)">
+ <summary>
+ 縦向けOutput用のシートをセッティングします
+ </summary>
+ <param name="eob"></param>
 </member>
 <member name="M:Infrastructure.ExcelOutputInfrastructure.OutputHorizontalProcessing(Infrastructure.IHorizontalOutputBehavior)">
  <summary>
@@ -833,6 +907,18 @@ Infrastructure
  <param name="outputdate_st"></param>
  <param name="outputdate_en"></param>
  <returns></returns>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.GravePanelDeletion(Domain.GravePanelDataEntity)">
+ <summary>
+ 墓地札データを削除します
+ </summary>
+ <param name="_gravepaneldata"></param>
+</member>
+<member name="M:Infrastructure.SQLConectInfrastructure.GravePanelUpdate(Domain.GravePanelDataEntity)">
+ <summary>
+ 墓地札データを更新します
+ </summary>
+ <param name="_gravepaneldata"></param>
 </member>
 </members>
 </doc>

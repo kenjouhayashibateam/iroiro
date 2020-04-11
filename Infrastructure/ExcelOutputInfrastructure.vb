@@ -79,7 +79,7 @@ Interface IHorizontalOutputBehavior
 End Interface
 
 ''' <summary>
-''' データを縦向けに出力
+''' データのリストを縦向けに出力
 ''' </summary>
 Interface IVerticalOutputListBehavior
     Inherits IVerticalOutputBehavior
@@ -90,6 +90,10 @@ Interface IVerticalOutputListBehavior
     ''' <param name="startrowposition"></param>
     Sub SetData(ByVal startrowposition As Integer, ByVal destinationdata As DestinationDataEntity)
 
+    ''' <summary>
+    ''' 宛名クラスを保持するリスト
+    ''' </summary>
+    ''' <returns></returns>
     Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity)
 End Interface
 
@@ -161,7 +165,6 @@ Public Class AddressConvert
         AddressText = Replace(AddressText, My.Resources.KanagawaString, String.Empty)
         AddressText = Replace(AddressText, My.Resources.TokushimaString, String.Empty)
         If AddressText Is Nothing Then Return String.Empty
-        If Address1.Length <> AddressText.Length Then Return AddressText
 
         '郡が入っている住所はそのまま返す
         If InStr(AddressText, My.Resources.GunString) <> 0 Then Return AddressText
@@ -171,6 +174,10 @@ Public Class AddressConvert
 
         '府と市を比べる
         AddressText = VerifyAddressString(AddressText, My.Resources.FuString)
+
+        '”("から先を削除する
+        Dim addressarray() As String = Split(AddressText, My.Resources.FullwidthClosingParenthesis)
+        AddressText = addressarray(0)
 
         Return AddressText
 
@@ -206,28 +213,28 @@ Public Class AddressConvert
         '7-1-7東栗谷マンション202の場合
 
         'Address2の数字以外の文字列を*に変換する ⇒  ７*１*７********２０２
-        basestring = Regex.Replace(StrConv(Address2, vbWide), "[^０-９]", "*")
+        basestring = Regex.Replace(StrConv(Address2, vbWide), "[^０-９]", My.Resources.SingleAsterisk)
         '*を基準に配列を生成する⇒７,１,７,,,,,,,,２０２
-        Dim numberarray() As String = Split(basestring, "*")
+        Dim numberarray() As String = Split(basestring, My.Resources.SingleAsterisk)
         '数字を漢字に変換する。⇒七,一,七,,,,,,,,二〇二
         For i As Integer = 0 To UBound(numberarray)
             numberarray(i) = BranchConvertNumber(Trim(numberarray(i)))
         Next
 
         'Address2の数字を*に置換⇒*－*－*東栗谷マンション***
-        basestring = Regex.Replace(StrConv(Address2, vbWide), "[０-９]", "*")
+        basestring = Regex.Replace(StrConv(Address2, vbWide), "[０-９]", My.Resources.SingleAsterisk)
 
         '**と二つ以上連続することのないように置換する⇒*－*－*東栗谷マンション*
-        Do Until InStr(basestring, "**") = 0
-            basestring = Replace(basestring, "**", "*")
+        Do Until InStr(basestring, My.Resources.DoubleAsterisk) = 0
+            basestring = Replace(basestring, My.Resources.DoubleAsterisk, My.Resources.SingleAsterisk)
         Loop
 
         'numberarrayの空文字以外の要素を最初から順に取り出し、basestringの最初の*に要素を置換する⇒七－一－七東栗谷マンション二〇二
         For j As Integer = 0 To UBound(numberarray)
-            If Not String.IsNullOrEmpty(numberarray(j)) Then basestring = Replace(basestring, "*", numberarray(j), 1, 1)
+            If Not String.IsNullOrEmpty(numberarray(j)) Then basestring = Replace(basestring, My.Resources.SingleAsterisk, numberarray(j), 1, 1)
         Next
         'ハイフンを置換する
-        basestring = Replace(basestring, "－", "ー")
+        basestring = Replace(basestring, "－", "ー") 'Resourceに登録したいが、名前がつけづらい。なので、直打ちにしています
         '*を空欄に置換して値を返す
         Return Replace(basestring, "*", String.Empty)
 
@@ -418,28 +425,43 @@ Public Class ExcelOutputInfrastructure
     ''' </summary>
     Private Shared StartIndex As Integer
 
-    Private Const SAVEPATH As String = ".\files\IroiroFile.xlsx"
-
-    Private Const FILENAME As String = "Iroiro"
-
-    Private ReadOnly buf As String = Dir(SAVEPATH)
+    ''' <summary>
+    ''' ファイルの位置を指定、選択します
+    ''' </summary>
+    Private ReadOnly buf As String = Dir(My.Resources.SAVEPATH)
 
     Private exlworkbooks As Excel.Workbooks
 
+    ''' <summary>
+    ''' 宛先クラスを格納したリスト
+    ''' </summary>
     Private ReadOnly AddresseeList As List(Of DestinationDataEntity)
 
     Private exlapp As Excel.Application
 
+    ''' <summary>
+    ''' 進捗のカウント
+    ''' </summary>
+    ''' <returns></returns>
     Private Property ProcessedCount As Integer
 
     ''' <summary>
-    ''' エクセルを起動して、アプリ用のブックを開きます
+    ''' いろいろ発行エクセルファイルを閉じて、メモリ上にClosedXMLのSheetを生成します。
     ''' </summary>
     Private Sub SheetSetting()
 
-        Dim bolSheetCheck As Boolean = False
-        Dim myWorkbook As Excel.Workbook = Nothing
+        ExcelClose()
 
+        ExlWorkbook = New XLWorkbook
+        If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
+        ExlWorkSheet.Cells.Style.NumberFormat.SetNumberFormatId(49)
+
+    End Sub
+
+    ''' <summary>
+    ''' いろいろ発行エクセルファイルを閉じます
+    ''' </summary>
+    Private Sub ExcelClose()
         Try
             exlapp = GetObject(, My.Resources.ExcelApp)
         Catch ex As Exception
@@ -448,6 +470,8 @@ Public Class ExcelOutputInfrastructure
 
         exlworkbooks = exlapp.Workbooks
 
+        Dim bolSheetCheck As Boolean = False
+        Dim myWorkbook As Excel.Workbook = Nothing
         For Each myWorkbook In exlworkbooks
             If myWorkbook.Name <> buf Then Continue For
             bolSheetCheck = True
@@ -455,16 +479,12 @@ Public Class ExcelOutputInfrastructure
         Next
 
         If bolSheetCheck Then myWorkbook.Close(False)
-
         If exlworkbooks.Count = 0 Then exlapp.Quit()
-
-        ExlWorkbook = New XLWorkbook
-        If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(FileName)
-
-        ExlWorkSheet.Cells.Style.NumberFormat.SetNumberFormatId(49)
-
     End Sub
 
+    ''' <summary>
+    ''' いろいろ発行エクセルファイルを開きます
+    ''' </summary>
     Private Sub ExcelOpen()
 
         Dim bolSheetCheck As Boolean = False
@@ -478,7 +498,7 @@ Public Class ExcelOutputInfrastructure
 
         If bolSheetCheck = False Then
             exlapp.Visible = True
-            Dim openpath As String = System.IO.Path.GetFullPath(SAVEPATH)
+            Dim openpath As String = System.IO.Path.GetFullPath(My.Resources.SAVEPATH)
             Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)
             executebook.Activate()
         End If
@@ -503,6 +523,10 @@ Public Class ExcelOutputInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 横向けOutput用のシートをセッティングします
+    ''' </summary>
+    ''' <param name="eob"></param>
     Private Sub SettingNewSheet_Horizontal(ByVal eob As IExcelOutputBehavior)
 
         If OutputDataGanre = eob.GetDataName Then Exit Sub
@@ -511,9 +535,34 @@ Public Class ExcelOutputInfrastructure
         ColumnSizes = eob.SetColumnSizes
         RowSizes = eob.SetRowSizes
 
+        DataClear()
+        eob.SetCellFont()
+
+        With ExlWorkSheet
+            .PageSetup.PrintAreas.Clear()
+            .PageSetup.PrintAreas.Add(eob.SetPrintAreaString)
+        End With
+
+    End Sub
+
+    ''' <summary>
+    ''' 縦向けOutput用のシートをセッティングします
+    ''' </summary>
+    ''' <param name="eob"></param>
+    Private Sub SettingNewSheet_Vertical(ByVal eob As IExcelOutputBehavior)
+
+        ColumnSizes = eob.SetColumnSizes
+        RowSizes = eob.SetRowSizes
+        If OutputDataGanre = eob.GetDataName Then Exit Sub
+        OutputDataGanre = eob.GetDataName
+        SetMargin()
+
         With ExlWorkSheet
             .Cells.Clear()
-            eob.SetCellFont()
+            'ColumnSizesの配列の中の数字をシートのカラムの幅に設定する
+            For i As Integer = 0 To UBound(ColumnSizes)
+                .Column(i + 1).Width = ColumnSizes(i)
+            Next
             .PageSetup.PrintAreas.Clear()
             .PageSetup.PrintAreas.Add(eob.SetPrintAreaString)
         End With
@@ -567,35 +616,17 @@ Public Class ExcelOutputInfrastructure
                 Hob.CellProperty(sheetindex)
                 Hob.SetData(dde)
                 ProcessedCount += 1
-                Listener.Notify(ProcessedCount)
+                If Listener IsNot Nothing Then Listener.Notify(ProcessedCount)
             Next
         End With
 
-        ExlWorkbook.SaveAs(SAVEPATH)
+        ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
 
         ExcelOpen()
 
     End Sub
 
-    Private Sub SettingNewSheet_Vertical(ByVal eob As IExcelOutputBehavior)
 
-        ColumnSizes = eob.SetColumnSizes
-        RowSizes = eob.SetRowSizes
-        If OutputDataGanre = eob.GetDataName Then Exit Sub
-        OutputDataGanre = eob.GetDataName
-        SetMargin()
-
-        With ExlWorkSheet
-            .Cells.Clear()
-            'ColumnSizesの配列の中の数字をシートのカラムの幅に設定する
-            For i As Integer = 0 To UBound(ColumnSizes)
-                .Column(i + 1).Width = ColumnSizes(i)
-            Next
-            .PageSetup.PrintAreas.Clear()
-            .PageSetup.PrintAreas.Add(eob.SetPrintAreaString)
-        End With
-
-    End Sub
 
     ''' <summary>
     ''' 縦向けにリストのデータを入力する処理
@@ -631,13 +662,13 @@ Public Class ExcelOutputInfrastructure
                 Volb.CellsJoin(StartRowPosition)
                 Volb.SetData(StartRowPosition, dde)
                 ProcessedCount += 1
-                Listener.Notify(ProcessedCount)
+                If Listener IsNot Nothing Then Listener.Notify(ProcessedCount)
             Next
             .Style.Font.FontName = Volb.SetCellFont
         End With
 
         If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
-        ExlWorkbook.SaveAs(SAVEPATH)
+        ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
         ExcelOpen()
 
     End Sub
@@ -682,7 +713,7 @@ Public Class ExcelOutputInfrastructure
         End With
 
         If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
-        ExlWorkbook.SaveAs(SAVEPATH)
+        ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
         ExcelOpen()
 
     End Sub
@@ -796,6 +827,12 @@ Public Class ExcelOutputInfrastructure
         Listener = _listener
     End Sub
 
+    Public Sub DataClear() Implements IOutputDataRepogitory.DataClear
+        If ExlWorkSheet Is Nothing Then Exit Sub
+        ExlWorkSheet.Cells.Clear()
+        StartIndex = 0
+    End Sub
+
     ''' <summary>
     ''' 墓地札クラス
     ''' </summary>
@@ -848,7 +885,7 @@ Public Class ExcelOutputInfrastructure
         End Sub
 
         Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return "HG正楷書体-PRO"
+            Return My.Resources.HGRegularRegularScriptPRO
         End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IExcelOutputBehavior.CellProperty
@@ -924,18 +961,18 @@ Public Class ExcelOutputInfrastructure
             With ExlWorkSheet
                 '郵便番号
                 For I As Integer = 1 To 7
-                    .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", "").Substring(I - 1, 1)
+                    .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty).Substring(I - 1, 1)
                 Next
 
                 '住所
                 Dim addresstext1 As String = String.Empty
                 Dim addresstext2 As String = String.Empty
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
-                addresstext1 = destinationdata.MyAddress1.GetAddress
-                addresstext2 = destinationdata.MyAddress2.GetAddress
+                addresstext1 = ac.GetConvertAddress1
+                addresstext2 = ac.GetConvertAddress2
                 If addresstext1.Length + addresstext2.Length < 15 Then
-                    addresstext1 = destinationdata.MyAddress1.GetAddress & " " & destinationdata.MyAddress2.GetAddress
-                    addresstext2 = String.Empty
+                    .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
+                    .Cell(startrowposition + 4, 6).Value = String.Empty
                 Else
                     .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
                     .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress2
@@ -949,9 +986,9 @@ Public Class ExcelOutputInfrastructure
 
                 '宛名
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
+                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
                 Else
-                    addresseename = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle
+                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
                 End If
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
@@ -1115,11 +1152,11 @@ Public Class ExcelOutputInfrastructure
             Return My.Resources.FontName_MSPMintyo
         End Function
 
-        Private Function IExcelOutputBehavior_SetColumnSizes1() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+        Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
             Return {3.71, 25.14, 7.57, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 7.29, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 0.31}
         End Function
 
-        Private Function IExcelOutputBehavior_SetRowSizes1() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+        Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
             Return {279, 172.5, 19.5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 101.25}
         End Function
 
@@ -1221,8 +1258,8 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(0, stringlength)
                 If destinationdata.MyAddress2.GetAddress.Length > 20 Then .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(20)
 
-                .Cell(startrowposition + 11, 2).Value = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle  '宛先の宛名
-                .Cell(startrowposition + 13, 13).Value = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle 'お客様控えの名前
+                .Cell(startrowposition + 11, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle  '宛先の宛名
+                .Cell(startrowposition + 13, 13).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle 'お客様控えの名前
 
                 'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
                 Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, destinationdata.MyAddress2.GetAddress)
@@ -1313,20 +1350,20 @@ Public Class ExcelOutputInfrastructure
 
         Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
 
-            Dim addresstext1 As String = ""
-            Dim addresstext2 As String = ""
+            Dim addresstext1 As String = String.Empty
+            Dim addresstext2 As String = String.Empty
             Dim addresseename As String
 
             With ExlWorkSheet
                 '郵便番号
                 For I As Integer = 1 To 7
-                    .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", "").Substring(I - 1, 1)
+                    .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty).Substring(I - 1, 1)
                 Next
 
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 '住所
                 If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
-                    addresstext1 = ac.GetConvertAddress1 & " " & ac.GetConvertAddress2
+                    addresstext1 = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
                 Else
                     addresstext1 = ac.GetConvertAddress1
                     addresstext2 = ac.GetConvertAddress2
@@ -1339,13 +1376,13 @@ Public Class ExcelOutputInfrastructure
                 End If
 
                 .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
-                .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress1
+                .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress2
 
                 '宛名
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
+                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
                 Else
-                    addresseename = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle
+                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
                 End If
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
@@ -1459,7 +1496,7 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
                 '宛名
-                .Cell(startrowposition + 4, 2).Value = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle
+                .Cell(startrowposition + 4, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
             End With
 
         End Sub
@@ -1477,7 +1514,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {38.13, 23.5, 15.38, 9.63, 9.63, 23.38}
+            Return {45.29, 23.43, 15.43, 9.57, 9.57, 8.57}
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
@@ -1571,7 +1608,7 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
                 '宛名
-                .Cell(startrowposition + 4, 2).Value = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle
+                .Cell(startrowposition + 4, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
             End With
 
         End Sub
@@ -1589,11 +1626,11 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {41.88, 23.5, 30.25, 9.63, 8.5}
+            Return {49.43, 23.43, 28.86, 9.43, 9.43}
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {71.25, 132.75, 51, 409.5, 409.5, 6.75}
+            Return {45.75, 132.75, 51.75, 409.5, 409.5, 9}
         End Function
 
         Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
@@ -1670,9 +1707,9 @@ Public Class ExcelOutputInfrastructure
 
         Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
 
-            Dim addresstext1 As String = String.Empty
-            Dim addresstext2 As String = String.Empty
-            Dim addresseename, postalcode As String
+            Dim addressText1 As String = String.Empty
+            Dim addressText2 As String = String.Empty
+            Dim addresseeName, postalcode As String
 
             With ExlWorkSheet
                 postalcode = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty)
@@ -1685,7 +1722,8 @@ Public Class ExcelOutputInfrastructure
                 '住所
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
-                    addresstext1 = ac.GetConvertAddress1 & " " & ac.GetConvertAddress2
+                    addressText1 = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
+                    addressText2 = String.Empty
                 Else
                     addresstext1 = ac.GetConvertAddress1
                     addresstext2 = ac.GetConvertAddress2
@@ -1702,7 +1740,7 @@ Public Class ExcelOutputInfrastructure
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
                     addresseename = destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
                 Else
-                    addresseename = destinationdata.AddresseeName.GetName & " " & destinationdata.MyTitle.GetTitle
+                    addresseename = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
                 End If
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With

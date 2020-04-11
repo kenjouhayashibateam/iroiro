@@ -3,7 +3,9 @@ Imports WPF.Command
 Imports WPF.Data
 
 Namespace ViewModels
-
+    ''' <summary>
+    ''' ビューモデルの基本クラス
+    ''' </summary>
     Public MustInherit Class BaseViewModel
         Implements INotifyPropertyChanged, INotifyDataErrorInfo
 
@@ -13,6 +15,10 @@ Namespace ViewModels
         Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
         Public Event ErrorsChanged As EventHandler(Of DataErrorsChangedEventArgs) Implements INotifyDataErrorInfo.ErrorsChanged
 
+        ''' <summary>
+        ''' エラーメッセージ
+        ''' </summary>
+        ''' <returns></returns>
         Public Property InputErrorString As String
             Get
                 Return _InputErrorString
@@ -33,6 +39,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' フォームを呼び出すタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CallShowForm As Boolean
             Get
                 Return _CallShowForm
@@ -44,18 +54,26 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' フォームを呼び出すコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ShowFormCommand As DelegateCommand
 
+        ''' <summary>
+        ''' プロパティの値が変わったことを知らせるイベントを発生させます
+        ''' </summary>
         Protected Overridable Overloads Sub CallPropertyChanged()
-
             Dim caller As StackFrame = New StackFrame(1)
             Dim methodNames As String() = caller.GetMethod.Name.Split("_")
             Dim propertyName As String = methodNames(methodNames.Length - 1)
 
             CallPropertyChanged(propertyName)
-
         End Sub
 
+        ''' <summary>
+        ''' プロパティの値が変わったことを知らせるイベントを発生させます
+        ''' </summary>
         Protected Overloads Sub CallPropertyChanged(ByVal propertyname As String)
             RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyname))
         End Sub
@@ -74,10 +92,23 @@ Namespace ViewModels
             CallShowForm = True
         End Sub
 
+        ''' <summary>
+        ''' エラーを管理するメソッド
+        ''' </summary>
+        ''' <param name="propertyName">プロパティ名</param>
+        ''' <param name="value">プロパティの値</param>
         Protected MustOverride Sub ValidateProperty(ByVal propertyName As String, ByVal value As Object)
 
+        ''' <summary>
+        ''' エラーメッセージを保持するディクショナリ
+        ''' </summary>
         Private ReadOnly _currentErrors As Dictionary(Of String, String) = New Dictionary(Of String, String)()
 
+        ''' <summary>
+        ''' エラーメッセージをディクショナリに追加します
+        ''' </summary>
+        ''' <param name="propertyName">プロパティ名</param>
+        ''' <param name="_error">エラーメッセージ</param>
         Protected Sub AddError(ByVal propertyName As String, ByVal _error As String)
             If Not _currentErrors.ContainsKey(propertyName) Then
                 _currentErrors(propertyName) = _error
@@ -85,6 +116,10 @@ Namespace ViewModels
             End If
         End Sub
 
+        ''' <summary>
+        ''' エラーを削除します
+        ''' </summary>
+        ''' <param name="propertyName">プロパティ名</param>
         Protected Sub RemoveError(ByVal propertyName As String)
             If _currentErrors.ContainsKey(propertyName) Then
                 _currentErrors.Remove(propertyName)
@@ -92,10 +127,19 @@ Namespace ViewModels
             End If
         End Sub
 
+        ''' <summary>
+        ''' エラーが発生、または解消されたことを知らせるイベントを発生させます
+        ''' </summary>
+        ''' <param name="propertyName"></param>
         Private Sub OnErrorsChanged(ByVal propertyName As String)
             RaiseEvent ErrorsChanged(Me, New DataErrorsChangedEventArgs(propertyName))
         End Sub
 
+        ''' <summary>
+        ''' エラーメッセージを取得します
+        ''' </summary>
+        ''' <param name="propertyName">プロパティ名</param>
+        ''' <returns></returns>
         Public Function GetErrors(propertyName As String) As IEnumerable Implements INotifyDataErrorInfo.GetErrors
 
             If String.IsNullOrEmpty(propertyName) Then Return Nothing
@@ -105,6 +149,10 @@ Namespace ViewModels
 
         End Function
 
+        ''' <summary>
+        ''' 現在エラーがあるかどうかを判断し、あればTrueを返します
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property HasErrors As Boolean Implements INotifyDataErrorInfo.HasErrors
             Get
                 Return _currentErrors.Count > 0

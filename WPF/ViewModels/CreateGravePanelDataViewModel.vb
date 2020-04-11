@@ -7,6 +7,9 @@ Imports WPF.Command
 Imports WPF.Data
 Imports System.Linq
 
+''' <summary>
+''' 墓地札データが追加されたことを通知します
+''' </summary>
 Public Interface INotifyListAdd
     Sub Notify(ByVal gravepanelData As GravePanelDataEntity)
 End Interface
@@ -19,6 +22,9 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements INotifyPropertyChanged, INotifyCollectionChanged
 
+        ''' <summary>
+        ''' 墓地札追加通知を受け取るリスナー
+        ''' </summary>
         Private Listener As INotifyListAdd
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
@@ -38,6 +44,10 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property CompleteRegistrationInfo As DelegateCommand
 
+        ''' <summary>
+        ''' 墓地札追加通知を受け取るリスナーを設定します
+        ''' </summary>
+        ''' <param name="_listener"></param>
         Public Sub AddListAddListener(ByVal _listener As INotifyListAdd)
             Listener = _listener
         End Sub
@@ -115,6 +125,10 @@ Namespace ViewModels
         Private _CallRegistrationErrorMessageInfo As Boolean
         Private _RegistrationErrorMessageInfo As ICommand
 
+        ''' <summary>
+        ''' 申込者名
+        ''' </summary>
+        ''' <returns></returns>
         Public Property FullName As String
             Get
                 Return _FullName
@@ -258,8 +272,16 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' メッセージボックスから受け取る結果の値
+        ''' </summary>
+        ''' <returns></returns>
         Private Property MsgResult As MessageBoxResult
 
+        ''' <summary>
+        ''' 名義人クラス
+        ''' </summary>
+        ''' <returns></returns>
         Private Property MyLessee As LesseeCustomerInfoEntity
 
         ''' <summary>
@@ -388,7 +410,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Private Function ReturnDisplayForGraveNumber() As String
-            Return KuText & KuikiText & My.Resources.GraveKuString & GawaText & My.Resources.GraveGawaString & BanText & EdabanText & My.Resources.GraveBanString
+            Return KuText & IIf(KuikiText = 0, String.Empty, KuikiText) & My.Resources.GraveKuString & GawaText & My.Resources.GraveGawaString & BanText & EdabanText & My.Resources.GraveBanString
         End Function
 
         ''' <summary>
@@ -782,7 +804,6 @@ Namespace ViewModels
         Public Sub ReferenceLesseeData()
             MyLessee = DataConect.GetCustomerInfo(CustomerID)
             If MyLessee Is Nothing Then Exit Sub
-            InputLesseeData()
             DisplayForGraveNumber = MyLessee.GetGraveNumber.GetNumber
             With MyLessee.GetGraveNumber
                 KuText = .KuField.DisplayForField
@@ -792,6 +813,7 @@ Namespace ViewModels
                 EdabanText = .EdabanField.DisplayForField
             End With
             RegistraterCustomerID = MyLessee.GetCustomerID
+            InputLesseeData()   '最後にInputLesseeDataを書かないと、空欄になってしまう場合がある。必要なら検証する
         End Sub
 
         ''' <summary>
@@ -822,6 +844,10 @@ Namespace ViewModels
 
         End Sub
 
+        ''' <summary>
+        ''' 登録する際のエラーメッセージを出すタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CallRegistrationErrorMessageInfo As Boolean
             Get
                 Return _CallRegistrationErrorMessageInfo
@@ -833,6 +859,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 登録する際のエラーメッセージを生成するコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property RegistrationErrorMessageInfo As ICommand
             Get
                 _RegistrationErrorMessageInfo = New DelegateCommand(
@@ -936,6 +966,11 @@ Namespace ViewModels
             End Select
         End Sub
 
+        ''' <summary>
+        ''' 文字列が空なことをエラー通知します
+        ''' </summary>
+        ''' <param name="propertyName"></param>
+        ''' <param name="value"></param>
         Private Sub SetValiDateProperty_StringEmptyMessage(ByVal propertyName As String, value As Object)
             If String.IsNullOrEmpty(value) Then
                 AddError(propertyName, My.Resources.StringEmptyMessage)

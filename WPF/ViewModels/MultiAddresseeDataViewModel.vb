@@ -13,7 +13,7 @@ Namespace ViewModels
     ''' </summary>
     Public Class MultiAddresseeDataViewModel
         Inherits BaseViewModel
-        Implements INotifyPropertyChanged, INotifyCollectionChanged, IProcessedCountObserver
+        Implements INotifyPropertyChanged, INotifyCollectionChanged, IProcessedCountObserver, IAddressDataViewCloseListener
 
         Private ReadOnly DataBaseConecter As IDataConectRepogitory
         Private ReadOnly DataOutputConecter As IOutputDataRepogitory
@@ -36,8 +36,35 @@ Namespace ViewModels
         Private _ProgressListCount As Integer
         Private _ProcessedCount As Integer
         Private _IsOutputEnabled As Boolean
+        Private _Addressee As String
+        Private _Postalcode As String
+        Private _Address1 As String
+        Private _ReferenceAddressListCommand As ICommand
+        Private _Address2 As String
+        Private _CallSelectAddresseeInfo As Boolean
+        Private _MsgResult As MessageBoxResult
+        Private _ReferenceLesseeCommand As DelegateCommand
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
+        ''' <summary>
+        ''' 宛名
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Addressee As String
+            Get
+                Return _Addressee
+            End Get
+            Set
+                _Addressee = Value
+                CallPropertyChanged(NameOf(Addressee))
+                ValidateProperty(NameOf(Addressee), Value)
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 出力ボタンのEnableを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property IsOutputEnabled As Boolean
             Get
                 Return _IsOutputEnabled
@@ -48,6 +75,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 処理数
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ProgressListCount As Integer
             Get
                 Return _ProgressListCount
@@ -58,6 +89,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 進捗カウント
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ProcessedCount As Integer
             Get
                 Return _ProcessedCount
@@ -68,6 +103,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 進捗メニューに表示するカウント
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ProgressText As String
             Get
                 Return _ProgressText
@@ -78,6 +117,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 進捗メニューを可視化を管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ProgressVisiblity As Visibility
             Get
                 Return _ProgressVisiblity
@@ -88,11 +131,37 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 住所で検索するコマンド
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ReferenceAddressListCommand As ICommand
+            Get
+                _ReferenceAddressListCommand = New DelegateCommand(
+                Sub()
+                    ReferenceAddress()
+                    CallPropertyChanged(NameOf(ReferenceAddressListCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+                Return _ReferenceAddressListCommand
+            End Get
+            Set
+                _ReferenceAddressListCommand = Value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 郵便番号で検索するコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ReferenceAddressCommand As ICommand
             Get
                 _ReferenceAddressCommand = New DelegateCommand(
                     Sub()
-                        ReferenceAddress()
+                        ReferenceAddress_Postalcode()
                         CallPropertyChanged(NameOf(ReferenceAddressCommand))
                     End Sub,
                     Function()
@@ -106,8 +175,89 @@ Namespace ViewModels
             End Set
         End Property
 
-        Private Sub ReferenceAddress()
-            Dim ade As AddressDataEntity = DataBaseConecter.GetAddress(MyAddressee.MyPostalCode.Code)
+        ''' <summary>
+        ''' 住所2
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Address2 As String
+            Get
+                Return _Address2
+            End Get
+            Set
+                _Address2 = Value
+                CallPropertyChanged(NameOf(Address2))
+                ValidateProperty(NameOf(Address2), Value)
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 郵便番号
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Postalcode As String
+            Get
+                Return _Postalcode
+            End Get
+            Set
+                _Postalcode = Value
+                CallPropertyChanged(NameOf(Postalcode))
+                ValidateProperty(NameOf(Postalcode), Value)
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 住所を検索します
+        ''' </summary>
+        Public Sub ReferenceAddress()
+
+            Dim myAddress As AddressDataEntity
+            Dim AddressList As AddressDataListEntity
+
+            AddressList = DataBaseConecter.GetAddressList(Address1)
+            If AddressList.GetCount = 0 Then Exit Sub
+
+            '検索結果が1件なら住所一覧画面は呼ばずにプロパティに入力する
+            If AddressList.GetCount = 1 Then
+                myAddress = AddressList.GetItem(0)
+                Address1 = myAddress.MyAddress.Address
+                Dim mycode As String = myAddress.MyPostalcode.Code
+                Postalcode = mycode.Substring(0, 3) & "-" & mycode.Substring(3, 4)
+                Exit Sub
+            End If
+
+            Dim advm As AddressDataViewModel
+
+            advm = New AddressDataViewModel(AddressList)
+            advm.AddListener(Me)
+
+            CreateShowFormCommand(New AddressDataView)
+
+        End Sub
+
+        ''' <summary>
+        ''' 住所1
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Address1 As String
+            Get
+                Return _Address1
+            End Get
+            Set
+                _Address1 = Value
+                CallPropertyChanged(NameOf(Address1))
+                ValidateProperty(NameOf(Address1), Value)
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 郵便番号での住所検索
+        ''' </summary>
+        Private Sub ReferenceAddress_Postalcode()
+            If String.IsNullOrEmpty(Postalcode) Then Exit Sub
+            Dim ade As AddressDataEntity = DataBaseConecter.GetAddress(Postalcode)
+            If ade Is Nothing Then Exit Sub
+            Postalcode = ade.MyPostalcode.Code
+            Address1 = ade.MyAddress.Address
         End Sub
 
         ''' <summary>
@@ -352,7 +502,6 @@ Namespace ViewModels
                 _AddresseeList = Value
                 CallPropertyChanged(NameOf(AddresseeList))
                 RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(AddresseeList)))
-                If _AddresseeList.Count > 0 Then IsOutputEnabled = True
             End Set
         End Property
 
@@ -382,25 +531,153 @@ Namespace ViewModels
         End Sub
 
         ''' <summary>
-        ''' リストに追加する名義人データを返します
+        ''' 名義人検索コマンド
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ReferenceLesseeCommand As DelegateCommand
+            Get
+                _ReferenceLesseeCommand = New DelegateCommand(
+                Sub()
+                    ReferenceLessee()
+                    CallPropertyChanged(NameOf(ReferenceLesseeCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+                Return _ReferenceLesseeCommand
+            End Get
+            Set
+                _ReferenceLesseeCommand = Value
+            End Set
+        End Property
+        ''' <summary>
+        ''' 名義人検索
+        ''' </summary>
+        Public Sub ReferenceLessee()
+
+            Dim lse As LesseeCustomerInfoEntity
+
+            lse = DataBaseConecter.GetCustomerInfo(CustomerID)
+
+            If lse Is Nothing Then Exit Sub
+
+            If lse.GetReceiverName = String.Empty Then
+                SetLesseeProperty(lse)
+                Exit Sub
+            End If
+
+            If lse.GetLesseeName = lse.GetReceiverName Then
+                SetReceiverProperty(lse)
+                Exit Sub
+            Else
+                CreateSelectAddresseeInfo(lse)
+                CallSelectAddresseeInfo = True
+            End If
+
+            If MsgResult = MessageBoxResult.Yes Then
+                SetLesseeProperty(lse)
+            Else
+                SetReceiverProperty(lse)
+            End If
+
+        End Sub
+
+        Public Property MsgResult As MessageBoxResult
+            Get
+                Return _MsgResult
+            End Get
+            Set
+                _MsgResult = Value
+                CallPropertyChanged(NameOf(MsgResult))
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 名義人と送付先のどちらを使用するかのメッセージを表示するタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property CallSelectAddresseeInfo As Boolean
+            Get
+                Return _CallSelectAddresseeInfo
+            End Get
+            Set
+                _CallSelectAddresseeInfo = Value
+                CallPropertyChanged(NameOf(CallSelectAddresseeInfo))
+                _CallSelectAddresseeInfo = False
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 名義人と送付先のどちらを使用するかのメッセージを表示するコマンド
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SelectAddresseeInfo As DelegateCommand
+
+        ''' <summary>
+        ''' 名義人と送付先のどちらを使用するかのメッセージを表示するコマンドを生成します
+        ''' </summary>
+        ''' <param name="lse">名義人データ</param>
+        Public Sub CreateSelectAddresseeInfo(ByVal lse As LesseeCustomerInfoEntity)
+
+            SelectAddresseeInfo = New DelegateCommand(
+            Sub() 'テンプレート構文調べる
+                MessageInfo = New MessageBoxInfo With
+                {
+               .Message = My.Resources.FieldPropertyMessage_Lessee & lse.GetLesseeName & vbNewLine & lse.GetAddress1 & lse.GetAddress2 & vbNewLine &
+                                vbNewLine & My.Resources.FieldPropertyMessage_Receiver & lse.GetReceiverName & vbNewLine & lse.GetReceiverAddress1 &
+                                lse.GetReceiverAddress2 & vbNewLine & vbNewLine & My.Resources.DataSelectInfo & vbNewLine & vbNewLine &
+                                 My.Resources.LesseeDataSelect,
+                                 .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
+                                }
+                MsgResult = MessageInfo.Result
+                CallPropertyChanged(NameOf(SelectAddresseeInfo))
+            End Sub,
+            Function()
+                Return True
+            End Function
+            )
+
+        End Sub
+
+        ''' <summary>
+        ''' 送付先情報をプロパティにセットします
+        ''' </summary>
+        ''' <param name="mylessee">名義人データ</param>
+        Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+            Addressee = mylessee.GetReceiverName
+            Postalcode = mylessee.GetReceiverPostalcode
+            Address1 = mylessee.GetReceiverAddress1
+            Address2 = mylessee.GetReceiverAddress2
+        End Sub
+
+        ''' <summary>
+        ''' 名義人情報をプロパティにセットします
+        ''' </summary>
+        ''' <param name="mylessee">名義人データ</param>
+        Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+            Addressee = mylessee.GetLesseeName
+            Postalcode = mylessee.GetPostalCode
+            Address1 = mylessee.GetAddress1
+            Address2 = mylessee.GetAddress2
+        End Sub
+
+        ''' <summary>
+        ''' リストに追加します
         ''' </summary>
         Public Sub AddItem()
 
-            Dim lessee As LesseeCustomerInfoEntity
-            Dim myaddressee As DestinationDataEntity
+            If HasErrors Then Exit Sub
 
-            lessee = DataBaseConecter.GetCustomerInfo(CustomerID)
-
-            If lessee Is Nothing Then Exit Sub
-
-            With lessee
-                myaddressee = New DestinationDataEntity(.GetCustomerID, .GetLesseeName, Title, .GetPostalCode, .GetAddress1, .GetAddress2)
-            End With
+            Dim myaddressee As New DestinationDataEntity(CustomerID, Addressee, Title, Postalcode, Address1, Address2)
 
             AddresseeList.Add(myaddressee)
-
+            IsOutputEnabled = True
             CustomerID = String.Empty
-
+            Addressee = String.Empty
+            Address1 = String.Empty
+            Address2 = String.Empty
+            Postalcode = String.Empty
         End Sub
 
         ''' <summary>
@@ -424,7 +701,7 @@ Namespace ViewModels
                 mylist.Add(addressee)
             Next
             AddresseeList = mylist
-
+            IsOutputEnabled = True
         End Sub
 
         ''' <summary>
@@ -462,7 +739,7 @@ Namespace ViewModels
                 If Not StringVerification.IsMatch(customeridarray(i)) Then Continue For
                 mylist.Add(customeridarray(i))
             Next
-
+            If mylist.Count > 0 Then IsOutputEnabled = True
             Return mylist
 
         End Function
@@ -534,6 +811,8 @@ Namespace ViewModels
                 Exit For
             Next
 
+            If AddresseeList.Count = 0 Then IsOutputEnabled = False
+
         End Sub
 
         ''' <summary>
@@ -544,6 +823,7 @@ Namespace ViewModels
             If AddresseeList.Count = 0 Then Exit Sub
 
             DataOutputConecter.AddListener(Me)
+            DataOutputConecter.DataClear()
             ProgressListCount = AddresseeList.Count
             Await Task.Run(Sub()
                                IsOutputEnabled = False
@@ -570,19 +850,23 @@ Namespace ViewModels
         End Sub
 
         Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
-            Select Case propertyName
-                Case NameOf(Title)
-                    If String.IsNullOrEmpty(propertyName) Then
-                        AddError(propertyName, My.Resources.StringEmptyMessage)
-                    Else
-                        RemoveError(propertyName)
-                    End If
-            End Select
+
+            If String.IsNullOrEmpty(value) Then
+                AddError(propertyName, My.Resources.StringEmptyMessage)
+            Else
+                RemoveError(propertyName)
+            End If
+
         End Sub
 
         Public Sub Notify(_count As Integer) Implements IProcessedCountObserver.Notify
             ProcessedCount = _count
             ProgressText = ProcessedCount & My.Resources.SlashClipSpace & ProgressListCount
+        End Sub
+
+        Public Sub AddressDataNotify(_postalcode As String, _address As String) Implements IAddressDataViewCloseListener.AddressDataNotify
+            Postalcode = _postalcode
+            Address1 = _address
         End Sub
     End Class
 End Namespace

@@ -97,6 +97,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  #1900/01/01# に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property DeraultDate() As String
+            Get
+                Return ResourceManager.GetString("DeraultDate", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  東特 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property EastSpecialString() As String

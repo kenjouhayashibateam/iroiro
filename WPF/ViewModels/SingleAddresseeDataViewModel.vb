@@ -1,5 +1,4 @@
-﻿Imports System.ComponentModel
-Imports Domain
+﻿Imports Domain
 Imports Infrastructure
 Imports WPF.Command
 Imports WPF.Data
@@ -13,11 +12,27 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements IAddressDataViewCloseListener
 
+        ''' <summary>
+        ''' 住所が長い方に注意を促すメッセージコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property AddressOverLengthInfo As DelegateCommand
+        ''' <summary>
+        ''' 名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property SelectAddresseeInfo As DelegateCommand
+        ''' <summary>
+        ''' エラーメッセージを表示するコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ErrorMessageInfo As DelegateCommand
         Public Property MsgResult As MessageBoxResult
 
+        ''' <summary>
+        ''' 墓地札管理画面を呼び出すタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CallGravePanelDataView As Boolean
             Get
                 Return _CallGravePanelDataView
@@ -165,7 +180,15 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property GotoMultiAddresseeDataView As ICommand
             Get
-                If _GotoMultiAddresseeDataView Is Nothing Then _GotoMultiAddresseeDataView = GotoMultiAddresseeDataViewCommand()
+                _GotoMultiAddresseeDataView = New DelegateCommand(
+                    Sub()
+                        ShowMultiAddresseeDataView()
+                        CallPropertyChanged(NameOf(GotoMultiAddresseeDataView))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _GotoMultiAddresseeDataView
             End Get
             Set
@@ -173,58 +196,27 @@ Namespace ViewModels
             End Set
         End Property
 
-        Public Function GotoMultiAddresseeDataViewCommand() As DelegateCommand
-
-            ShowFormCommand = New DelegateCommand(
-                Sub()
-                    ShowMultiAddresseeDataView()
-                    CallPropertyChanged(NameOf(ShowFormCommand))
-                End Sub,
-                Function()
-                    Return True
-                End Function
-                )
-
-            Return ShowFormCommand
-
-        End Function
         ''' <summary>
         ''' データをOutputするコマンド
         ''' </summary>
         ''' <returns></returns>
         Public Property DataOutput As ICommand
             Get
-                If _DataOutput Is Nothing Then _DataOutput = DataOutputDelegate()
+                _DataOutput = New DelegateCommand(
+                    Sub()
+                        Output()
+                        CallPropertyChanged(NameOf(DataOutput))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _DataOutput
             End Get
             Set
                 _DataOutput = Value
             End Set
         End Property
-
-        Public Property DelegateCommand As DelegateCommand
-
-        Public Function DataOutputDelegate() As DelegateCommand
-
-            DelegateCommand = New DelegateCommand(
-                Sub()
-                    Output()
-                    CallPropertyChanged(NameOf(DelegateCommand))
-                End Sub,
-                Function()
-                    Dim ec As Boolean = False
-                    ec = AddresseeName IsNot String.Empty
-                    If ec Then ec = PostalCode IsNot String.Empty
-                    If ec Then ec = Address1 IsNot String.Empty
-                    If ec Then ec = Address2 IsNot String.Empty
-                    If ec Then ec = Not (HasErrors)
-                    Return ec
-                End Function
-                )
-
-            Return DelegateCommand
-
-        End Function
 
         ''' <summary>
         ''' 備考欄を空欄にするコマンド
@@ -276,7 +268,16 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property PostalcodeReference As ICommand
             Get
-                If _ReferencePostalcode Is Nothing Then _ReferencePostalcode = PostalcodeReferenceCommand()
+                _ReferencePostalcode = New DelegateCommand(
+                    Sub()
+                        If GetErrors(PostalCode) IsNot Nothing Then Return
+                        ReferenceAddress_Postalcode()
+                        CallPropertyChanged(NameOf(PostalcodeReference))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _ReferencePostalcode
             End Get
             Set
@@ -284,51 +285,26 @@ Namespace ViewModels
             End Set
         End Property
 
-        Public Function PostalcodeReferenceCommand() As DelegateCommand
-
-            If GetErrors(PostalCode) IsNot Nothing Then Return Nothing
-            DelegateCommand = New DelegateCommand(
-                Sub()
-                    ReferenceAddress_Postalcode()
-                    CallPropertyChanged(NameOf(DelegateCommand))
-                End Sub,
-                Function()
-                    Return True
-                End Function
-                )
-
-            Return DelegateCommand
-
-        End Function
-
         ''' <summary>
         ''' 名義人データ検索コマンド
         ''' </summary>
         Public Property ReferenceLesseeCommand As ICommand
             Get
-                If _ReferenceLesseeCommand Is Nothing Then _ReferenceLesseeCommand = ReferenceLesseeDelegate()
+                _ReferenceLesseeCommand = New DelegateCommand(
+                    Sub()
+                        ReferenceLessee()
+                        CallPropertyChanged(NameOf(ReferenceLesseeCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
                 Return _ReferenceLesseeCommand
             End Get
             Set
                 _ReferenceLesseeCommand = Value
             End Set
         End Property
-
-        Public Function ReferenceLesseeDelegate() As DelegateCommand
-
-            DelegateCommand = New DelegateCommand(
-                Sub()
-                    ReferenceLessee()
-               CallPropertyChanged(NameOf(DelegateCommand))
-                End Sub,
-                Function()
-                    Return True
-                End Function
-                )
-
-            Return DelegateCommand
-
-        End Function
 
         Private _Addresseename As String = String.Empty
         Private _PostalCode As String = String.Empty
@@ -600,9 +576,28 @@ Namespace ViewModels
         Sub New()
             Me.New(New SQLConectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
+
+        '<System.Runtime.InteropServices.DllImport("winmm.dll", CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
+        'Private Shared Function mciSendString(ByVal command As String, ByVal buffer As System.Text.StringBuilder, ByVal bufferSize As Integer, ByVal hwndCallback As IntPtr) As Integer
+        'End Function
+
+        'Private Sub PlaySound()
+        '    Dim fileName As String = ".\sounds\Cry.mp3"
+        '    Dim aliasName As String = "MediaFile"
+        '    Dim audio As String
+        '    'ファイルを開く
+        '    audio = "open """ + fileName + """ type mpegvideo alias " + aliasName
+        '    If MciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
+        '        Return
+        '    End If '再生する
+        '    audio = "play " + aliasName
+        '    MciSendString(audio, Nothing, 0, IntPtr.Zero)
+        'End Sub
+
         ''' <param name="lesseerepository">名義人データ</param>
         ''' <param name="excelrepository">エクセルデータ</param>
         Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IOutputDataRepogitory)
+            'PlaySound()
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
             Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
@@ -655,16 +650,6 @@ Namespace ViewModels
 
         End Sub
 
-        Private Sub NoteInput()
-            Note1 = My.Resources.FieldPropertyMessage_CustomerID & MyLessee.GetCustomerID
-            Note2 = MyLessee.GetGraveNumber.GetNumber
-            If MyLessee.GetArea > 0 Then
-                Note3 = My.Resources.FieldPropertyMessage_Area & MyLessee.GetArea & My.Resources.SquareFootageText
-            Else
-                Note3 = String.Empty
-            End If
-        End Sub
-
         Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
             AddresseeName = mylessee.GetReceiverName
             PostalCode = mylessee.GetReceiverPostalcode
@@ -677,6 +662,16 @@ Namespace ViewModels
             PostalCode = mylessee.GetPostalCode
             Address1 = mylessee.GetAddress1
             Address2 = mylessee.GetAddress2
+        End Sub
+
+        Private Sub NoteInput()
+            Note1 = My.Resources.FieldPropertyMessage_CustomerID & MyLessee.GetCustomerID
+            Note2 = MyLessee.GetGraveNumber.GetNumber
+            If MyLessee.GetArea > 0 Then
+                Note3 = My.Resources.FieldPropertyMessage_Area & MyLessee.GetArea & My.Resources.SquareFootageText
+            Else
+                Note3 = String.Empty
+            End If
         End Sub
 
         ''' <summary>
@@ -693,7 +688,6 @@ Namespace ViewModels
         ''' </summary>
         Public Sub InputTransferData()
             DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck)
-            SetDefaultValue()
         End Sub
 
         ''' <summary>
@@ -742,6 +736,10 @@ Namespace ViewModels
         Private AddressList As AddressDataListEntity
         Private _CallShowAddressDataView As Boolean
 
+        ''' <summary>
+        ''' 住所リストを表示するタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CallShowAddressDataView As Boolean
             Get
                 Return _CallShowAddressDataView
@@ -800,11 +798,7 @@ Namespace ViewModels
             PostalCode = String.Empty
             Address1 = String.Empty
             Address2 = String.Empty
-            Note1 = String.Empty
-            Note2 = String.Empty
-            Note3 = String.Empty
-            Note4 = String.Empty
-            Note5 = String.Empty
+            NoteTextClear()
             Money = String.Empty
 
         End Sub
@@ -837,7 +831,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="_postalcode"></param>
         ''' <param name="_address"></param>
-        Public Sub Notify(_postalcode As String, _address As String) Implements IAddressDataViewCloseListener.Notify
+        Public Sub AddressDataNotify(_postalcode As String, _address As String) Implements IAddressDataViewCloseListener.AddressDataNotify
             PostalCode = _postalcode
             Address1 = _address
         End Sub
@@ -951,6 +945,9 @@ Namespace ViewModels
         End Sub
 
         Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
+
+            Dim rx As Regex
+
             Select Case propertyName
                 Case NameOf(CustomerID)
                     If CustomerID.Length = 6 Then
@@ -970,7 +967,7 @@ Namespace ViewModels
                     Else
                         RemoveError(NameOf(PostalCode))
                     End If
-                    Dim rx As New Regex("^[0-9]{3}-[0-9]{4}$")
+                    rx = New Regex("^[0-9]{3}-[0-9]{4}$")
                     If rx.IsMatch(PostalCode) Then
                         RemoveError(NameOf(PostalCode))
                     Else

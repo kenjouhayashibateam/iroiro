@@ -129,6 +129,9 @@
   <data name="Contract.Ueki" xml:space="preserve">
     <value>植木手入れ</value>
   </data>
+  <data name="DeraultDate" xml:space="preserve">
+    <value>#1900/01/01#</value>
+  </data>
   <data name="EastSpecialString" xml:space="preserve">
     <value>東特</value>
   </data>

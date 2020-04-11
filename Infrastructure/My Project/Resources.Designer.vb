@@ -160,6 +160,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  ** に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property DoubleAsterisk() As String
+            Get
+                Return ResourceManager.GetString("DoubleAsterisk", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Edaban に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property Edaban() As String
@@ -192,6 +201,15 @@ Namespace My.Resources
         Friend ReadOnly Property FamilyName() As String
             Get
                 Return ResourceManager.GetString("FamilyName", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Iroiro に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FILENAME() As String
+            Get
+                Return ResourceManager.GetString("FILENAME", resourceCulture)
             End Get
         End Property
         
@@ -250,6 +268,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  （ に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property FullwidthClosingParenthesis() As String
+            Get
+                Return ResourceManager.GetString("FullwidthClosingParenthesis", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  府 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property FuString() As String
@@ -282,6 +309,15 @@ Namespace My.Resources
         Friend ReadOnly Property GunString() As String
             Get
                 Return ResourceManager.GetString("GunString", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  HG正楷書体-PRO に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property HGRegularRegularScriptPRO() As String
+            Get
+                Return ResourceManager.GetString("HGRegularRegularScriptPRO", resourceCulture)
             End Get
         End Property
         
@@ -457,6 +493,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  .\files\IroiroFile.xlsx に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property SAVEPATH() As String
+            Get
+                Return ResourceManager.GetString("SAVEPATH", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  七 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property SevenString() As String
@@ -471,6 +516,15 @@ Namespace My.Resources
         Friend ReadOnly Property ShiString() As String
             Get
                 Return ResourceManager.GetString("ShiString", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  * に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property SingleAsterisk() As String
+            Get
+                Return ResourceManager.GetString("SingleAsterisk", resourceCulture)
             End Get
         End Property
         

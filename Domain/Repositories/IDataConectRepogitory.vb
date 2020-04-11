@@ -93,6 +93,10 @@ Public Interface IDataConectRepogitory
     ''' <param name="_gravepaneldata"></param>
     Sub GravePanelDeletion(ByVal _gravepaneldata As GravePanelDataEntity)
 
+    ''' <summary>
+    ''' 墓地札データを更新します
+    ''' </summary>
+    ''' <param name="_gravepaneldata"></param>
     Sub GravePanelUpdate(ByVal _gravepaneldata As GravePanelDataEntity)
 
 End Interface

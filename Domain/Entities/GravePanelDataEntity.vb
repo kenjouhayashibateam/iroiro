@@ -1,5 +1,8 @@
 ﻿Imports System.Collections.ObjectModel
 
+''' <summary>
+''' 墓地札データクラス
+''' </summary>
 Public Class GravePanelDataEntity
 
     Private _MyIsPrintout As IsPrintout
@@ -105,7 +108,8 @@ Public Class GravePanelDataEntity
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
         MyFullName = New FullName(_fullname)
-        MyGraveNumber = New GraveNumber(_gravenumberKu & _gravenumberKuiki & "区" & _gravenumberGawa & "側" & _gravenumberBan & _gravenumberEdaban & "番")
+        MyGraveNumber = New GraveNumber(_gravenumberKu & _gravenumberKuiki & My.Resources.KuString & _gravenumberGawa & My.Resources.GawaString & _gravenumberBan &
+                                        _gravenumberEdaban & My.Resources.BanString)
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)
         MyPrintOutTime = New PrintoutTime(_printouttime)
@@ -118,15 +122,20 @@ Public Class GravePanelDataEntity
     Public Function GetID() As Integer
         Return MyOrderID.ID
     End Function
-
+    ''' <summary>
+    ''' 申込者名を返します
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetFullName() As String
         Return MyFullName.Name
     End Function
-
+    ''' <summary>
+    ''' 面積を返します
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetArea() As String
         Return MyArea.AreaValue.ToString("n1")
     End Function
-
     ''' <summary>
     ''' プリントアウト日時を返します
     ''' </summary>
@@ -134,7 +143,6 @@ Public Class GravePanelDataEntity
     Public Function GetPrintoutTime() As Date
         Return MyPrintOutTime.MyDate
     End Function
-
     ''' <summary>
     ''' 登録日時を返します
     ''' </summary>
@@ -142,7 +150,6 @@ Public Class GravePanelDataEntity
     Public Function GetRegistrationTime() As Date
         Return MyRegistrationTime.MyDate
     End Function
-
     ''' <summary>
     ''' 契約内容を返します
     ''' </summary>
@@ -150,7 +157,6 @@ Public Class GravePanelDataEntity
     Public Function GetContractContent() As String
         Return MyContractContent.GetContent
     End Function
-
     ''' <summary>
     ''' 墓地番号を返します
     ''' </summary>
@@ -158,7 +164,6 @@ Public Class GravePanelDataEntity
     Public Function GetGraveNumber() As String
         Return MyGraveNumber.Number
     End Function
-
     ''' <summary>
     ''' 管理番号を返します
     ''' </summary>
@@ -166,7 +171,6 @@ Public Class GravePanelDataEntity
     Public Function GetCustomerID() As String
         Return MyCustomerID.GetID
     End Function
-
     ''' <summary>
     ''' 苗字を返します
     ''' </summary>
@@ -174,7 +178,10 @@ Public Class GravePanelDataEntity
     Public Function GetFamilyName() As String
         Return MyFamilyName.GetName
     End Function
-
+    ''' <summary>
+    ''' 契約内容を返します
+    ''' </summary>
+    ''' <returns></returns>
     Public Function GetContractContents() As ObservableCollection(Of String)
         Return MyContractContents.List
     End Function
@@ -205,7 +212,6 @@ Public Class GravePanelDataEntity
     ''' プリントアウトするかの確認クラス
     ''' </summary>
     Public Class IsPrintout
-
         Public Property Value As Boolean
 
         Sub New(ByVal _printouttime As Date)
@@ -213,29 +219,25 @@ Public Class GravePanelDataEntity
         End Sub
 
         Public Sub ComparisonCheck(ByVal _printouttime As Date)
-            Value = _printouttime = #1900/01/01#
+            Value = _printouttime = My.Resources.DeraultDate
         End Sub
-
     End Class
 
     ''' <summary>
     ''' プリントアウト日時クラス
     ''' </summary>
     Public Class PrintoutTime
-
         Public Property MyDate As Date
 
         Sub New(ByVal _purintouttime As Date)
             MyDate = _purintouttime
         End Sub
-
     End Class
 
     ''' <summary>
     ''' 墓地番号クラス
     ''' </summary>
     Public Class GraveNumber
-
         Public Property Number As String
 
         Sub New(ByVal _gravenumber As String)
@@ -247,20 +249,17 @@ Public Class GravePanelDataEntity
     ''' 登録日時クラス
     ''' </summary>
     Public Class RegistrationTime
-
         Public Property MyDate As Date
 
         Sub New(ByVal _registrationtime As Date)
             MyDate = _registrationtime.ToShortDateString
         End Sub
-
     End Class
 
     ''' <summary>
     ''' 契約内容クラス
     ''' </summary>
     Public Class ContractContent
-
         Public Property Content As String
 
         Sub New(ByVal _contractdetail As String)
@@ -276,7 +275,6 @@ Public Class GravePanelDataEntity
     ''' 苗字クラス
     ''' </summary>
     Public Class FamilyName
-
         Public Property Name As String
 
         Sub New(ByVal _name As String)
@@ -292,7 +290,6 @@ Public Class GravePanelDataEntity
     ''' 管理番号クラス
     ''' </summary>
     Public Class CustomerID
-
         Public Property ID As String
 
         Sub New(ByVal _customerid As String)
@@ -312,7 +309,6 @@ Public Class GravePanelDataEntity
     ''' 面積クラス
     ''' </summary>
     Public Class Area
-
         Public Property AreaValue As Double
 
         Sub New(ByVal _myarea As Double)
@@ -322,20 +318,17 @@ Public Class GravePanelDataEntity
         Public Function GetArea() As String
             Return AreaValue.ToString("0.0")
         End Function
-
     End Class
 
     ''' <summary>
     ''' 契約内容リスト
     ''' </summary>
     Public Class ContractContents
-
         Public Property List As New ObservableCollection(Of String)
 
         Sub New()
             List.Add(My.Resources.Contract_Ueki)
             List.Add(My.Resources.Contract_Kusatori)
         End Sub
-
     End Class
 End Class

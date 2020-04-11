@@ -10,7 +10,7 @@ Namespace ViewModels
     ''' 住所データをリスナーに渡します
     ''' </summary>
     Public Interface IAddressDataViewCloseListener
-        Sub Notify(ByVal _postalcode As String, ByVal _address As String)
+        Sub AddressDataNotify(ByVal _postalcode As String, ByVal _address As String)
     End Interface
 
     ''' <summary>
@@ -37,7 +37,7 @@ Namespace ViewModels
             Get
                 _SetAddressDataCommand = New DelegateCommand(
                     Sub()
-                        If MyAddress IsNot Nothing Then Listener.Notify(MyAddress.GetPostalCode, MyAddress.GetAddress)
+                        If MyAddress IsNot Nothing Then Listener.AddressDataNotify(MyAddress.GetPostalCode, MyAddress.GetAddress)
                         CallPropertyChanged(NameOf(SetAddressDataCommand))
                     End Sub,
                     Function()

@@ -42,6 +42,11 @@ Domain
   植木手入れ に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:Domain.My.Resources.Resources.DeraultDate">
+<summary>
+  #1900/01/01# に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:Domain.My.Resources.Resources.EastSpecialString">
 <summary>
   東特 に類似しているローカライズされた文字列を検索します。
@@ -142,6 +147,11 @@ Domain
  郵便番号
  </summary>
 </member>
+<member name="T:Domain.AddressDataListEntity">
+ <summary>
+ AddressDataEntityをリストで保持します
+ </summary>
+</member>
 <member name="T:Domain.DestinationDataEntity">
  <summary>
  エクセルに出力する宛名等を格納するクラス
@@ -221,6 +231,14 @@ Domain
  <param name="_note3">備考3</param>
  <param name="_note4">備考4</param>
  <param name="_note5">備考5</param>
+</member>
+<member name="M:Domain.DestinationDataEntity.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
+<param name="_customerid">管理番号</param>
+ <param name="_addresseename">宛名</param>
+ <param name="_title">敬称</param>
+ <param name="_postalcode">郵便番号</param>
+ <param name="_address1">住所1</param>
+ <param name="_address2">住所2</param>
 </member>
 <member name="T:Domain.DestinationDataEntity.CustomerID">
  <summary>
@@ -443,6 +461,11 @@ Domain
  区域リストクラス
  </summary>
 </member>
+<member name="T:Domain.GravePanelDataEntity">
+ <summary>
+ 墓地札データクラス
+ </summary>
+</member>
 <member name="P:Domain.GravePanelDataEntity.MyCustomerID">
  <summary>
  管理番号クラス
@@ -515,6 +538,18 @@ Domain
  </summary>
  <returns></returns>
 </member>
+<member name="M:Domain.GravePanelDataEntity.GetFullName">
+ <summary>
+ 申込者名を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetArea">
+ <summary>
+ 面積を返します
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:Domain.GravePanelDataEntity.GetPrintoutTime">
  <summary>
  プリントアウト日時を返します
@@ -548,6 +583,12 @@ Domain
 <member name="M:Domain.GravePanelDataEntity.GetFamilyName">
  <summary>
  苗字を返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Domain.GravePanelDataEntity.GetContractContents">
+ <summary>
+ 契約内容を返します
  </summary>
  <returns></returns>
 </member>
@@ -614,6 +655,11 @@ Domain
 <member name="T:Domain.LastSaveDateEntity">
  <summary>
  名義人データ最終更新日クラス
+ </summary>
+</member>
+<member name="T:Domain.LastSaveDateEntity.SaveDate">
+ <summary>
+ 更新日の日付クラス
  </summary>
 </member>
 <member name="T:Domain.LesseeCustomerInfoEntity">
@@ -820,6 +866,11 @@ Domain
  出力するデータの処理を行うリポジトリ
  </summary>
 </member>
+<member name="M:Domain.IOutputDataRepogitory.DataClear">
+ <summary>
+ OutputしたデータをClearします
+ </summary>
+</member>
 <member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
  振込用紙
@@ -859,6 +910,12 @@ Domain
  <summary>
  墓地札
  </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.AddListener(Domain.IProcessedCountObserver)">
+ <summary>
+ 進捗カウントを受け取るリスナーを登録します
+ </summary>
+ <param name="_listener"></param>
 </member>
 <member name="T:Domain.IDataConectRepogitory">
  <summary>
@@ -950,6 +1007,12 @@ Domain
 <member name="M:Domain.IDataConectRepogitory.GravePanelDeletion(Domain.GravePanelDataEntity)">
  <summary>
  墓地札データを削除します
+ </summary>
+ <param name="_gravepaneldata"></param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GravePanelUpdate(Domain.GravePanelDataEntity)">
+ <summary>
+ 墓地札データを更新します
  </summary>
  <param name="_gravepaneldata"></param>
 </member>

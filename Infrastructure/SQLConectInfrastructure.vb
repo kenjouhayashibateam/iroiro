@@ -172,7 +172,8 @@ Public Class SQLConectInfrastructure
 
         ReferenceCode = Replace(postalcode, My.Resources.StringHalfHyphen, String.Empty)
 
-        '郵便番号がNothingや空文字の場合は空を返す
+        '郵便番号がNothing等のエラーの場合は空を返す
+        If Not ReferenceCode.Length = 7 Then Return Nothing
         If ReferenceCode Is Nothing Then Return Nothing
         If ReferenceCode = String.Empty Then Return Nothing
 
@@ -197,7 +198,7 @@ Public Class SQLConectInfrastructure
 
         Dim AddressList As New AddressDataListEntity
 
-        If address.Trim.Length = 0 Then Return AddressList
+        If String.IsNullOrEmpty(address) Then Return AddressList
         Cmd = New ADODB.Command
 
         With Cmd
@@ -470,6 +471,10 @@ Public Class SQLConectInfrastructure
 
     End Function
 
+    ''' <summary>
+    ''' 墓地札データを削除します
+    ''' </summary>
+    ''' <param name="_gravepaneldata"></param>
     Public Sub GravePanelDeletion(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelDeletion
 
         Cmd = New ADODB.Command
@@ -483,6 +488,10 @@ Public Class SQLConectInfrastructure
 
     End Sub
 
+    ''' <summary>
+    ''' 墓地札データを更新します
+    ''' </summary>
+    ''' <param name="_gravepaneldata"></param>
     Public Sub GravePanelUpdate(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelUpdate
 
         Cmd = New ADODB.Command

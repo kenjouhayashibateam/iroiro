@@ -13,6 +13,9 @@ Public Class LastSaveDateEntity
         Return MySaveDate.GetDate
     End Function
 
+    ''' <summary>
+    ''' 更新日の日付クラス
+    ''' </summary>
     Protected Class SaveDate
 
         Private Property MyDate As Date

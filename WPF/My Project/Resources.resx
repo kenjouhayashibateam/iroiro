@@ -228,6 +228,9 @@
   <data name="MandatoryItemsNotPreparedTitle" xml:space="preserve">
     <value>必須項目不備</value>
   </data>
+  <data name="MoneyInputError" xml:space="preserve">
+    <value>金額は半角数字で入力してください</value>
+  </data>
   <data name="NothingSelectedItemMessage" xml:space="preserve">
     <value>アイテムが選択されていません</value>
   </data>

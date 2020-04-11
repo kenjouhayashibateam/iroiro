@@ -394,6 +394,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  金額は半角数字で入力してください に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property MoneyInputError() As String
+            Get
+                Return ResourceManager.GetString("MoneyInputError", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  アイテムが選択されていません に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property NothingSelectedItemMessage() As String

@@ -1,6 +1,9 @@
 ﻿Imports System.Windows.Interactivity
 
 Namespace Behaviors
+    ''' <summary>
+    ''' フォームを呼び出します
+    ''' </summary>
     Public Class ShowDialogBehavior
         Inherits TriggerAction(Of FrameworkElement)
 

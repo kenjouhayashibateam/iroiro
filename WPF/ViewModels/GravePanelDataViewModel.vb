@@ -19,6 +19,10 @@ Namespace ViewModels
         Private ReadOnly DataBaseConecter As IDataConectRepogitory
         Private ReadOnly OutputDataConecter As IOutputDataRepogitory
 
+        ''' <summary>
+        ''' 墓地データを削除したことをメッセージで知らせるコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property DeletedGravePanelInfo As DelegateCommand
 
         Private tre As Regex
@@ -39,8 +43,16 @@ Namespace ViewModels
         Private _CallIsDeleteDataInfo As Boolean
         Private _CallOutputInfo As Boolean
 
+        ''' <summary>
+        ''' 契約内容のリスト
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ContractContents As New GravePanelDataEntity.ContractContents
 
+        ''' <summary>
+        ''' 申込者名
+        ''' </summary>
+        ''' <returns></returns>
         Public Property FullName As String
             Get
                 Return _FullName
@@ -52,6 +64,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 苗字
+        ''' </summary>
+        ''' <returns></returns>
         Public Property FamilyName As String
             Get
                 Return _FamilyName
@@ -62,6 +78,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 管理番号
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CustomerID As String
             Get
                 Return _CustomerID
@@ -73,6 +93,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 墓地札データOutputコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property OutputGravePanelCommand As ICommand
             Get
                 _OutputGravePanelCommand = New DelegateCommand(
@@ -129,7 +153,10 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(MessageInfo))
             End Set
         End Property
-
+        ''' <summary>
+        ''' 墓地札データを削除するコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property DeleteGravePanelDataCommand As ICommand
             Get
                 _DeleteGravePanelDataCommand = New DelegateCommand(
@@ -148,6 +175,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 出力する位置を1～3までで設定します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property OutputPosition As String
             Get
                 Return _OutputPosition
@@ -167,6 +198,10 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 過去3か月分のみ表示するかのチェック
+        ''' </summary>
+        ''' <returns></returns>
         Public Property IsPast3MonthsPart As Boolean
             Get
                 Return _IsPast3MonthsPart
@@ -174,18 +209,9 @@ Namespace ViewModels
             Set
                 _IsPast3MonthsPart = Value
                 CallPropertyChanged(NameOf(IsPast3MonthsPart))
-                GetPast3MonthsList()
+                GetList()
             End Set
         End Property
-
-        Private Sub GetPast3MonthsList()
-            If IsPast3MonthsPart Then
-                GetList()
-            Else
-                GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FullName, #1900/01/01#, #9999/01/01#, #1900/01/01#, #9999/01/01#).List
-                CallPropertyChanged(NameOf(GravePanelList))
-            End If
-        End Sub
 
         Sub New()
             Me.New(New SQLConectInfrastructure, New ExcelOutputInfrastructure)
@@ -235,6 +261,9 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 印刷フラグに対する日付を管理します
+        ''' </summary>
         Private Sub UpdateIsPrintoutValue()
 
             Dim dateCheck As Boolean = MyGravePanel.MyPrintOutTime.MyDate = My.Resources.DefaultDate
@@ -279,6 +308,9 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' データベースから墓地札データを取得し、リストに格納します
+        ''' </summary>
         Private Sub GetList()
             Dim refRetistrationDate_st, refOutputDate_en As Date
             If IsNewRecordOnly Then
@@ -314,8 +346,15 @@ Namespace ViewModels
 
         End Sub
 
+        ''' <summary>
+        ''' 墓地札データ削除確認メッセージコマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property IsDeleteDataInfoCommand As DelegateCommand
-
+        ''' <summary>
+        ''' 墓地札データ削除確認コマンドを呼び出すタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CallIsDeleteDataInfo As Boolean
             Get
                 Return _CallIsDeleteDataInfo
@@ -326,7 +365,10 @@ Namespace ViewModels
                 _CallIsDeleteDataInfo = False
             End Set
         End Property
-
+        ''' <summary>
+        ''' 墓地札データ削除確認メッセージボックスを呼び出し、その結果を返します
+        ''' </summary>
+        ''' <returns></returns>
         Public Function CreateIsDeleteDataInfo_ReturnAnswer() As MsgBoxResult
 
             IsDeleteDataInfoCommand = New DelegateCommand(
@@ -350,6 +392,10 @@ Namespace ViewModels
             Return MessageInfo.Result
         End Function
 
+        ''' <summary>
+        ''' 墓地札データの項目を並べた文字列を返します
+        ''' </summary>
+        ''' <returns></returns>
         Private Function MyGravePanelDataDetailString() As String
             If MyGravePanel Is Nothing Then Return String.Empty
             Return My.Resources.FieldPropertyMessage_CustomerID & MyGravePanel.GetCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName &
@@ -398,8 +444,15 @@ Namespace ViewModels
             GravePanelList.AddItem(gravepanelData)
         End Sub
 
+        ''' <summary>
+        ''' 墓地札データ出力コマンド
+        ''' </summary>
+        ''' <returns></returns>
         Public Property OutputInfoCommand As DelegateCommand
 
+        ''' <summary>
+        ''' リストの墓地札データを出力します
+        ''' </summary>
         Public Sub Output()
 
             OutputDataConecter.GravePanelOutput(OutputPosition)
@@ -421,6 +474,10 @@ Namespace ViewModels
 
         End Sub
 
+        ''' <summary>
+        ''' 出力確認メッセージボックスを呼び出すタイミングを管理します
+        ''' </summary>
+        ''' <returns></returns>
         Public Property CallOutputInfo As Boolean
             Get
                 Return _CallOutputInfo
@@ -432,6 +489,12 @@ Namespace ViewModels
             End Set
         End Property
 
+        ''' <summary>
+        ''' 出力確認メッセージボックスを生成します
+        ''' </summary>
+        ''' <param name="msg">メッセージ</param>
+        ''' <param name="title">タイトル</param>
+        ''' <param name="image">メッセージボックスの種類</param>
         Private Sub OutputInfo(ByVal msg As String, ByVal title As String, ByVal image As MessageBoxImage)
 
             OutputInfoCommand = New DelegateCommand(

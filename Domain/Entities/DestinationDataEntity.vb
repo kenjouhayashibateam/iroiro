@@ -82,6 +82,12 @@ Public Class DestinationDataEntity
         MoneyData = New Money(_money)
     End Sub
 
+    '''<param name="_customerid">管理番号</param>
+    ''' <param name="_addresseename">宛名</param>
+    ''' <param name="_title">敬称</param>
+    ''' <param name="_postalcode">郵便番号</param>
+    ''' <param name="_address1">住所1</param>
+    ''' <param name="_address2">住所2</param>
     Sub New(ByVal _customerid As String, ByVal _addresseename As String, ByVal _title As String, ByVal _postalcode As String, ByVal _address1 As String, _address2 As String)
 
         MyCustomerID = New CustomerID(_customerid)
