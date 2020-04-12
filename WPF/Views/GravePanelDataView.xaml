@@ -12,7 +12,7 @@
 	xmlns:b="clr-namespace:WPF.Behaviors"
    
      xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-             Title="墓地札一覧" Height="500" Width="800" WindowStartupLocation="CenterScreen"  >
+             Title="墓地札一覧" Height="500" Width="700" WindowStartupLocation="CenterScreen"  >
     
     <Window.DataContext>
         <vm:GravePanelDataViewModel/>
@@ -51,7 +51,7 @@
         <GroupBox Header="絞り込み条件" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="0.5*"/>
@@ -76,11 +76,11 @@
                         </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="登録日" Width="2*" Binding="{Binding MyRegistrationTime.MyDate}"/>
+                <DataGridTextColumn Header="登録日" Width="2*" Binding="{Binding MyRegistrationTime.MyDate,StringFormat=yyyy/MM/dd}"/>
                 <DataGridTemplateColumn Header="印刷フラグ" Width="1*"  >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding  MyIsPrintout.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox IsChecked="{Binding  MyIsPrintout.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -88,7 +88,7 @@
         </DataGrid>
         <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>

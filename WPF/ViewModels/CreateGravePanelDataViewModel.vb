@@ -5,9 +5,8 @@ Imports Domain
 Imports Infrastructure
 Imports WPF.Command
 Imports WPF.Data
-Imports System.Linq
 
-''' <summary>
+''' <summary> 
 ''' 墓地札データが追加されたことを通知します
 ''' </summary>
 Public Interface INotifyListAdd

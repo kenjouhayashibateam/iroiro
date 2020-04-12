@@ -1540,11 +1540,6 @@
  墓地札リスト画面を開きます。要コード検証　
  </summary>
 </member>
-<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateAddressOverLengthInfo">
- <summary>
- 住所が長い場合の注意を促すメッセージを生成します
- </summary>
-</member>
 <member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.CreateSelectAddresseeInfo">
  <summary>
  名義人と送付先のどちらを使用するかのメッセージを生成します
@@ -1603,7 +1598,7 @@
  <param name="parameter">パラメータ</param>
 </member>
 <member name="T:WPF.INotifyListAdd">
- <summary>
+ <summary> 
  墓地札データが追加されたことを通知します
  </summary>
 </member>
@@ -1685,36 +1680,6 @@ AddressDataView
 <member name="M:WPF.AddressDataView.InitializeComponent">
 <summary>
 InitializeComponent
-</summary>
-</member>
-<member name="T:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-<summary>
-GeneratedInternalTypeHelper
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-<summary>
-CreateInstance
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-<summary>
-GetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-<summary>
-SetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-<summary>
-CreateDelegate
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-<summary>
-AddEventHandler
 </summary>
 </member>
 </members>

@@ -17,6 +17,21 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Public Property AddressOverLengthInfo As DelegateCommand
+
+        Public Sub CreateAddressOverLengthInfo()
+            AddressOverLengthInfo = New DelegateCommand(
+                Sub() '無名関数（匿名関数）
+                    MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
+                    .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Information, .Title = My.Resources.ToBeAdjusted}
+                    CallPropertyChanged(NameOf(AddressOverLengthInfo))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+            CallAddressOverLengthMessage = True
+        End Sub
+
         ''' <summary>
         ''' 名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド
         ''' </summary>
@@ -53,6 +68,7 @@ Namespace ViewModels
                 Return _CallAddressOverLengthMessage
             End Get
             Set
+                If _CallAddressOverLengthMessage = Value Then Return
                 _CallAddressOverLengthMessage = Value
                 CallPropertyChanged(NameOf(CallAddressOverLengthMessage))
                 _CallAddressOverLengthMessage = False
@@ -853,10 +869,12 @@ Namespace ViewModels
         Public Sub Output()
 
             If HasErrors Then Exit Sub
+            Dim ac As New AddressConvert(Address1, Address2)
 
             Select Case SelectedOutputContentsValue
                 Case OutputContents.Cho3Envelope
                     InputCho3Envelope()
+                    If ac.GetConvertAddress2.Length > 15 Then CreateAddressOverLengthInfo()
                 Case OutputContents.GravePamphletEnvelope
                     InputGravePamphletEnvelope()
                 Case OutputContents.Kaku2Envelope
@@ -867,15 +885,9 @@ Namespace ViewModels
                     InputPostcard()
                 Case OutputContents.TransferPaper
                     InputTransferData()
-                    If Address1.Length + Address2.Length > 39 Then
-                        CreateAddressOverLengthInfo()
-                        CallAddressOverLengthMessage = True
-                    End If
                 Case OutputContents.WesternEnbelope
                     InputWesternEnvelope()
             End Select
-
-            CallAddressOverLengthMessage = False
 
         End Sub
 
@@ -898,25 +910,6 @@ Namespace ViewModels
         ''' </summary>
         Public Sub ShowGravePanelDataView()
             CreateShowFormCommand(New GravePanelDataView)
-        End Sub
-
-        ''' <summary>
-        ''' 住所が長い場合の注意を促すメッセージを生成します
-        ''' </summary>
-        Public Sub CreateAddressOverLengthInfo()
-
-            AddressOverLengthInfo = New DelegateCommand(
-            Sub() '無名関数（匿名関数）
-                MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
-                .Button = MessageBoxButton.OK,
-                .Image = MessageBoxImage.Information, .Title = My.Resources.ToBeAdjusted}
-                CallPropertyChanged(NameOf(AddressOverLengthInfo))
-            End Sub,
-            Function()
-                Return True
-            End Function
-            )
-
         End Sub
 
         ''' <summary>

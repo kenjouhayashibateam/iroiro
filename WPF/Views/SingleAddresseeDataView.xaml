@@ -18,7 +18,7 @@
     </Window.DataContext>
 
 
-    <i:Interaction.Triggers>        
+    <i:Interaction.Triggers>
         <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
             <b:MessageBoxBehavior/>
         </interactions:PropertyChangedTrigger>
@@ -99,7 +99,7 @@
                                 <ColumnDefinition Width="0.3*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="AddresseeName" FontSize="14"  VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding AddresseeName}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3" />
-                            <TextBox x:Name="TitleTextBox" FontSize="14" VerticalContentAlignment="Center" Text="{Binding Title}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,3,3,3"/>
+                            <TextBox x:Name="TitleTextBox" FontSize="14" VerticalContentAlignment="Center" Text="{Binding Title}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="3"/>
                         </Grid>
                     </Grid>
                     <TextBox x:Name="PostalcodeTextBox" FontSize="14" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1" Text="{Binding PostalCode}" MaxLength="8" InputMethod.PreferredImeState="Off" Margin="0,3,60,3">
@@ -127,16 +127,16 @@
                             <ColumnDefinition Width="0.5*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.25*"/>
-                            <RowDefinition Height="0.25*"/>
-                            <RowDefinition Height="0.25*" />
-                            <RowDefinition Height="0.25*" />
-                            <RowDefinition Height="0.25*" />
-                            <RowDefinition Height="0.25*" />
-                            <RowDefinition Height="0.25*"/>
+                            <RowDefinition Height="33"/>
+                            <RowDefinition Height="33*"/>
+                            <RowDefinition Height="33*" />
+                            <RowDefinition Height="33*" />
+                            <RowDefinition Height="33*" />
+                            <RowDefinition Height="33*" />
+                            <RowDefinition Height="32*"/>
                         </Grid.RowDefinitions>
                         <Label x:Name="MoneyLabel" Content="振込金額" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                        <extk:WatermarkTextBox x:Name="MoneyTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Watermark="数字のみ入力" Text="{Binding Money}" MaxLength="8" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off" Margin="0,3,50,2"/>
+                        <extk:WatermarkTextBox x:Name="MoneyTextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Watermark="数字のみ入力" Text="{Binding Money}" MaxLength="7" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off" Margin="0,3,50,2"/>
                         <Label x:Name="Note1Label" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="備考1"/>
                         <TextBox x:Name="Note1TextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note1}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,1,3,1"/>
                         <Label x:Name="Note2Label" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Content="備考2"/>

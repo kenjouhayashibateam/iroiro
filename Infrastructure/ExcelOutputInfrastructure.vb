@@ -1165,7 +1165,7 @@ Public Class ExcelOutputInfrastructure
             With ExlWorkSheet
                 .PageSetup.PaperSize = XLPaperSize.B5Paper
                 '宛名欄
-                .Cell(11, 2).Style.Font.FontSize = 14
+                .Cell(12, 2).Style.Font.FontSize = 14
                 '金額欄
                 With .Range(.Cell(startrowposition + 3, 4), .Cell(startrowposition + 3, 11)).Style
                     .Font.FontSize = 14
@@ -1252,13 +1252,13 @@ Public Class ExcelOutputInfrastructure
                 If destinationdata.MyAddress2.GetAddress.Length < 20 Then
                     stringlength = destinationdata.MyAddress2.GetAddress.Length
                 Else
-                    stringlength = 20
+                    stringlength = 18
                 End If
                 '宛先住所2　長い場合は2行で入力
                 .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(0, stringlength)
-                If destinationdata.MyAddress2.GetAddress.Length > 20 Then .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(20)
+                If destinationdata.MyAddress2.GetAddress.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(stringlength)
 
-                .Cell(startrowposition + 11, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle  '宛先の宛名
+                .Cell(startrowposition + 12, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle  '宛先の宛名
                 .Cell(startrowposition + 13, 13).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle 'お客様控えの名前
 
                 'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
