@@ -403,6 +403,15 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  アイテムが選択されないまま画面を閉じます。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property NoAddressItemCloseInfo() As String
+            Get
+                Return ResourceManager.GetString("NoAddressItemCloseInfo", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  アイテムが選択されていません に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property NothingSelectedItemMessage() As String

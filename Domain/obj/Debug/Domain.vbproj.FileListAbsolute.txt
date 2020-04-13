@@ -11,3 +11,4 @@ C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbproj.CopyComplete
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.dll
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.xml
 C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.pdb
+C:\Users\001\source\repos\iroiro\Domain\obj\Debug\Domain.vbprojAssemblyReference.cache

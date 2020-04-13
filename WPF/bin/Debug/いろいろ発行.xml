@@ -244,6 +244,11 @@
   金額は半角数字で入力してください に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.NoAddressItemCloseInfo">
+<summary>
+  アイテムが選択されないまま画面を閉じます。 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.NothingSelectedItemMessage">
 <summary>
   アイテムが選択されていません に類似しているローカライズされた文字列を検索します。

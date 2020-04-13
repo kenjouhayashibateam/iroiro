@@ -3,6 +3,7 @@ Imports System.ComponentModel
 Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
 Imports WPF.Command
+Imports WPF.Data
 
 Namespace ViewModels
 
@@ -28,6 +29,29 @@ Namespace ViewModels
         Private _Address As String
         Private _myAddress As AddressDataEntity
         Private _SetAddressDataCommand As ICommand
+        Private _CallCloseMessage As Boolean
+        Private _MessageInfo As MessageBoxInfo
+
+        Public Property MessageInfo As MessageBoxInfo
+            Get
+                Return _MessageInfo
+            End Get
+            Set
+                _MessageInfo = Value
+                CallPropertyChanged(NameOf(MessageInfo))
+            End Set
+        End Property
+
+        Public Property CallCloseMessage As Boolean
+            Get
+                Return _CallCloseMessage
+            End Get
+            Set
+                _CallCloseMessage = Value
+                CallPropertyChanged(NameOf(CallCloseMessage))
+                _CallCloseMessage = False
+            End Set
+        End Property
 
         ''' <summary>
         ''' 住所データをリスナーに渡すコマンド
@@ -37,7 +61,11 @@ Namespace ViewModels
             Get
                 _SetAddressDataCommand = New DelegateCommand(
                     Sub()
-                        If MyAddress IsNot Nothing Then Listener.AddressDataNotify(MyAddress.GetPostalCode, MyAddress.GetAddress)
+                        If MyAddress Is Nothing Then
+                            CallNoSelectedCloseMessage()
+                        Else
+                            Listener.AddressDataNotify(MyAddress.GetPostalCode, MyAddress.GetAddress)
+                        End If
                         CallPropertyChanged(NameOf(SetAddressDataCommand))
                     End Sub,
                     Function()
@@ -50,6 +78,28 @@ Namespace ViewModels
                 _SetAddressDataCommand = Value
             End Set
         End Property
+
+        Public Property NoSelectedCloseMessage As DelegateCommand
+
+        Public Sub CallNoSelectedCloseMessage()
+
+            NoSelectedCloseMessage = New DelegateCommand(
+                    Sub()
+                        MessageInfo = New MessageBoxInfo With {
+                                                 .Title = My.Resources.NothingSelectedItemMessage,
+                                                 .Message = My.Resources.NoAddressItemCloseInfo,
+                                                 .Button = MessageBoxButton.OK,
+                                                 .Image = MessageBoxImage.Information
+                                                 }
+                        CallPropertyChanged(NameOf(CallNoSelectedCloseMessage))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
+            CallCloseMessage = True
+
+        End Sub
 
         Public Property MyAddress As AddressDataEntity
             Get

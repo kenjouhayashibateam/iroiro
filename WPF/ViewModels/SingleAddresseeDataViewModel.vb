@@ -603,11 +603,11 @@ Namespace ViewModels
         '    Dim audio As String
         '    'ファイルを開く
         '    audio = "open """ + fileName + """ type mpegvideo alias " + aliasName
-        '    If MciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
+        '    If mciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
         '        Return
         '    End If '再生する
         '    audio = "play " + aliasName
-        '    MciSendString(audio, Nothing, 0, IntPtr.Zero)
+        '    mciSendString(audio, Nothing, 0, IntPtr.Zero)
         'End Sub
 
         ''' <param name="lesseerepository">名義人データ</param>

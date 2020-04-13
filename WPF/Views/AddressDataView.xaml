@@ -5,14 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:WPF.ViewModels"
         xmlns:local="clr-namespace:WPF"     
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:ib="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactions="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:b="clr-namespace:WPF.Behaviors"
         mc:Ignorable="d"
         Title="住所を選択して下さい" Height="221.935" Width="332.834" >
     
     <Window.DataContext >
         <vm:AddressDataViewModel/>
     </Window.DataContext>
-    
+
+    <i:Interaction.Triggers>
+        <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
+            <b:MessageBoxBehavior/>
+        </interactions:PropertyChangedTrigger>
+    </i:Interaction.Triggers>
+
+    <ib:Interaction.Triggers>
+        <ib:DataTrigger Binding="{Binding CallCloseMessage}" Value="True">
+            <ib:InvokeCommandAction Command="{Binding NoSelectedCloseMessage}"/>
+        </ib:DataTrigger>
+    </ib:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
@@ -27,11 +41,11 @@
         </DataGrid>
         <Button x:Name="ExitButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             閉じる（選択している住所が基の画面に反映されます）
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding SetAddressDataCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            <ib:Interaction.Triggers>
+                <ib:EventTrigger EventName="Click">
+                    <ib:InvokeCommandAction Command="{Binding SetAddressDataCommand}"/>
+                </ib:EventTrigger>
+            </ib:Interaction.Triggers>
         </Button>
     </Grid>
     

@@ -21,6 +21,43 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements INotifyPropertyChanged, INotifyCollectionChanged
 
+        Private ReadOnly DataConect As IDataConectRepogitory
+        Private _IsEnabledKuiki As Boolean = False
+        Private _IsEnabledGawa As Boolean = False
+        Private _IsEnabledBan As Boolean = False
+        Private _IsEnabledEdaban As Boolean = False
+        Private _SelectedKu As String
+        Private _SelectedKuiki As String
+        Private _SelectedGawa As String
+        Private _SelectedBan As String
+        Private _SelectedEdaban As String
+        Private _GraveNumberKuikiList As GraveNumberEntity.KuikiList
+        Private _KuikiText As String
+        Private _GraveNumberGawaList As GraveNumberEntity.GawaList
+        Private _GawaText As String
+        Private _GraveNumberKuList As ObservableCollection(Of GraveNumberEntity.Ku)
+        Private _BanText As String
+        Private _GraveNumberBanList As GraveNumberEntity.BanList
+        Private _EdabanText As String
+        Private _GraveNumberEdabanList As GraveNumberEntity.EdabanList
+        Private _CustomerID As String
+        Private _FamilyName As String
+        Private _Area As String
+        Private _MessageInfo As MessageBoxInfo
+        Private _CallSelectAddresseeInfo As Boolean = False
+        Private _ReferenceGraveNumberCommand As ICommand
+        Private _DisplayForGraveNumber As String
+        Private _KuText As String
+        Private _ContractContents As GravePanelDataEntity.ContractContents
+        Private _ContractContent As String = String.Empty
+        Private _GravePanelRegistration As ICommand
+        Private _IsConfirmationRegister As Boolean
+        Private _CallCompleteRegistration As Boolean
+        Private _RegistraterCustomerID As String
+        Private _FullName As String
+        Private _CallRegistrationErrorMessageInfo As Boolean
+        Private _RegistrationErrorMessageInfo As ICommand
+
         ''' <summary>
         ''' 墓地札追加通知を受け取るリスナー
         ''' </summary>
@@ -86,43 +123,6 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(MessageInfo))
             End Set
         End Property
-
-        Private ReadOnly DataConect As IDataConectRepogitory
-        Private _IsEnabledKuiki As Boolean = False
-        Private _IsEnabledGawa As Boolean = False
-        Private _IsEnabledBan As Boolean = False
-        Private _IsEnabledEdaban As Boolean = False
-        Private _SelectedKu As String
-        Private _SelectedKuiki As String
-        Private _SelectedGawa As String
-        Private _SelectedBan As String
-        Private _SelectedEdaban As String
-        Private _GraveNumberKuikiList As GraveNumberEntity.KuikiList
-        Private _KuikiText As String
-        Private _GraveNumberGawaList As GraveNumberEntity.GawaList
-        Private _GawaText As String
-        Private _GraveNumberKuList As ObservableCollection(Of GraveNumberEntity.Ku)
-        Private _BanText As String
-        Private _GraveNumberBanList As GraveNumberEntity.BanList
-        Private _EdabanText As String
-        Private _GraveNumberEdabanList As GraveNumberEntity.EdabanList
-        Private _CustomerID As String
-        Private _FamilyName As String
-        Private _Area As String
-        Private _MessageInfo As MessageBoxInfo
-        Private _CallSelectAddresseeInfo As Boolean = False
-        Private _ReferenceGraveNumberCommand As ICommand
-        Private _DisplayForGraveNumber As String
-        Private _KuText As String
-        Private _ContractContents As GravePanelDataEntity.ContractContents
-        Private _ContractContent As String = String.Empty
-        Private _GravePanelRegistration As ICommand
-        Private _IsConfirmationRegister As Boolean
-        Private _CallCompleteRegistration As Boolean
-        Private _RegistraterCustomerID As String
-        Private _FullName As String
-        Private _CallRegistrationErrorMessageInfo As Boolean
-        Private _RegistrationErrorMessageInfo As ICommand
 
         ''' <summary>
         ''' 申込者名

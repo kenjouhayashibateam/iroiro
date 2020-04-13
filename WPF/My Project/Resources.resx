@@ -231,6 +231,9 @@
   <data name="MoneyInputError" xml:space="preserve">
     <value>金額は半角数字で入力してください</value>
   </data>
+  <data name="NoAddressItemCloseInfo" xml:space="preserve">
+    <value>アイテムが選択されないまま画面を閉じます。</value>
+  </data>
   <data name="NothingSelectedItemMessage" xml:space="preserve">
     <value>アイテムが選択されていません</value>
   </data>

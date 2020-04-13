@@ -17,7 +17,6 @@
         <vm:SingleAddresseeDataViewModel/>
     </Window.DataContext>
 
-
     <i:Interaction.Triggers>
         <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
             <b:MessageBoxBehavior/>
