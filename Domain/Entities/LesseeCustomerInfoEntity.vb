@@ -37,7 +37,7 @@ Public Class LesseeCustomerInfoEntity
     ''' <summary>
     ''' 面積
     ''' </summary>
-    Private ReadOnly myArea As GraveArea
+    Private ReadOnly myArea As Area
 
     ''' <summary>
     ''' 送付先名
@@ -82,7 +82,7 @@ Public Class LesseeCustomerInfoEntity
              ByVal _myReceiverAddress2 As String)
 
         myGraveNumber = New GraveNumberEntity(_gravekuiki, _graveku, _gravegawa, _graveban, _graveedaban) '墓地番号を生成する。
-        myArea = New GraveArea(_area) '面積を生成する
+        myArea = New Area(_area) '面積を生成する
         myCustomerID = New CustomerID(_myCustomerID)
         myLesseName = New LesseeName(_myLesseeName)
         myAddress1 = New Address1(_myAddress1)
@@ -133,15 +133,15 @@ Public Class LesseeCustomerInfoEntity
     ''' <summary>
     ''' 管理番号を返します
     ''' </summary>
-    Public Function GetCustomerID() As String
-        Return myCustomerID.GetNumber
+    Public Function GetCustomerID() As CustomerID
+        Return myCustomerID
     End Function
 
     ''' <summary>
     ''' 面積を返します
     ''' </summary>
-    Public Function GetArea() As String
-        Return myArea.GetArea
+    Public Function GetArea() As Area
+        Return myArea
     End Function
 
     ''' <summary>
@@ -223,80 +223,6 @@ Public Class LesseeCustomerInfoEntity
 
         Friend Function GetAddress() As String
             Return Address
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 郵便番号
-    ''' </summary>
-    Private Class PostalCode
-
-        Private _Code As String
-
-        Private Property Code As String
-            Get
-                Return _Code
-            End Get
-            Set
-                _Code = Value
-            End Set
-        End Property
-
-        Sub New(ByVal myPostalCode As String)
-            Code = myPostalCode
-        End Sub
-
-        Friend Function GetCode() As String
-            Return Code
-        End Function
-
-    End Class
-    ''' <summary>
-    ''' 管理番号
-    ''' </summary>
-    Private Class CustomerID
-        Private _Number As String
-
-        Private Property Number As String
-            Get
-                Return _Number
-            End Get
-            Set
-                _Number = Value
-            End Set
-        End Property
-
-        Sub New(ByVal managementnumber As String)
-            Number = managementnumber
-        End Sub
-
-        Friend Function GetNumber() As String
-            Return Number
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 面積
-    ''' </summary>
-    Private Class GraveArea
-        Private _Area As Double
-
-        Sub New(ByVal myarea As Double)
-            Area = myarea
-        End Sub
-        Private Property Area As Double
-            Get
-                Return _Area
-            End Get
-            Set
-                _Area = Value
-            End Set
-        End Property
-
-        Friend Function GetArea() As String
-            Return Area.ToString("n1")
         End Function
 
     End Class

@@ -758,101 +758,95 @@ Infrastructure
  メモ帳にログを書き込みます
  </summary>
 </member>
-<member name="T:Infrastructure.SQLConectInfrastructure">
+<member name="T:Infrastructure.SQLConnectInfrastructure">
  <summary>
  SQLServerと接続するモデルクラス
  </summary>
 </member>
-<member name="P:Infrastructure.SQLConectInfrastructure.Cmd">
+<member name="P:Infrastructure.SQLConnectInfrastructure.Cmd">
  <summary>
  データを取得するためのルートを確立するコマンドクラス
  </summary>
 </member>
-<member name="P:Infrastructure.SQLConectInfrastructure.LogFileConecter">
+<member name="P:Infrastructure.SQLConnectInfrastructure.LogFileConecter">
  <summary>
  ログファイルを生成します
  </summary>
  <returns></returns>
 </member>
-<member name="F:Infrastructure.SQLConectInfrastructure.SHUNJUENCONSTRING">
+<member name="F:Infrastructure.SQLConnectInfrastructure.SHUNJUENCONSTRING">
  <summary>
  SQLServerに接続するための接続文字列
  </summary>
 </member>
-<member name="P:Infrastructure.SQLConectInfrastructure.Rs">
+<member name="P:Infrastructure.SQLConnectInfrastructure.Rs">
  <summary>
  コマンドから取得したデータを格納するクラス
  </summary>
 </member>
-<member name="P:Infrastructure.SQLConectInfrastructure.Cn">
+<member name="P:Infrastructure.SQLConnectInfrastructure.Cn">
  <summary>
  VB.NETとSQLServerを接続するクラス
  </summary>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(ADODB.Command@)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(ADODB.Command@)">
  <summary>
- Rsにデータを格納し、Rs.EOFの結果を返します
+ Rsにデータを格納します
  </summary>
  <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetCompleteCmd(ADODB.Command)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetCompleteCmd(ADODB.Command)">
  <summary>
  Cmdのプロパティを完成させて返します
  </summary>
  <param name="execmd"></param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.ExecuteStoredProc(ADODB.Command@)">
- <summary>
- 戻り値のないストアドプロシージャを実行します
- </summary>
- <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-</member>
-<member name="M:Infrastructure.SQLConectInfrastructure.ADONothing">
+<member name="M:Infrastructure.SQLConnectInfrastructure.ADONothing">
  <summary>
  ADODBのインスタンスを削除します
  </summary>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.SetLesseeRecord(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.SetLesseeRecord(System.String)">
  <summary>
- 名義人データを検索し、Rs.EOFの答えを返します
+ 名義人データを検索します
  </summary>
  <param name="strManagementNumber">検索する管理番号</param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.RsFields(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.RsFields(System.String)">
  <summary>
  レコードセットのフィールドのValueを文字列形式で返します
  </summary>
  <param name="FieldName">データベース（ストアドプロシージャ）から取得するフィールドの名前</param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetCustomerInfo(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetCustomerInfo(System.String)">
  <summary>
  名義人クラスを返します
  </summary>
  <param name="customerid">検索する管理番号</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetAddress(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetAddress(System.String)">
  <summary>
  住所を検索します
  </summary>
  <param name="postalcode">検索する郵便番号</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetAddressList(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetAddressList(System.String)">
  <summary>
  住所欄の文字列を使って住所検索し、該当する住所をリストにして返します
  </summary>
  <param name="address">検索する住所</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetLastSaveDate">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetLastSaveDate">
  <summary>
  春秋苑システムデータの最終更新日を取得します
  </summary>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.SetGraveData(System.String,System.String,System.String,System.String,System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.SetGraveData(System.String,System.String,System.String,System.String,System.String)">
  <summary>
  墓地番号データをRsに格納します
  </summary>
@@ -862,14 +856,14 @@ Infrastructure
  <param name="Ban">番</param>
  <param name="Edaban">枝番</param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetKuikiList(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetKuikiList(System.String)">
  <summary>
  墓地の区に属する区域のリストを返します
  </summary>
  <param name="_gravekunumber">区</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetGawaList(System.String,System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetGawaList(System.String,System.String)">
  <summary>
  墓地の区、区域に属する側のリストを返します
  </summary>
@@ -877,7 +871,7 @@ Infrastructure
  <param name="_gravekuikinumber">区域</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetBanList(System.String,System.String,System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetBanList(System.String,System.String,System.String)">
  <summary>
  墓地の側に属する番のリストを返します
  </summary>
@@ -886,7 +880,7 @@ Infrastructure
  <param name="_gravegawanumber">側</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetEdabanList(System.String,System.String,System.String,System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetEdabanList(System.String,System.String,System.String,System.String)">
  <summary>
  墓地の番に属する枝番のリストを返します
  </summary>
@@ -896,7 +890,7 @@ Infrastructure
  <param name="_gravebannumber">番</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetCustomerInfo_GraveNumber(System.String,System.String,System.String,System.String,System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetCustomerInfo_GraveNumber(System.String,System.String,System.String,System.String,System.String)">
  <summary>
  墓地番号から、名義人情報を取得します
  </summary>
@@ -907,13 +901,13 @@ Infrastructure
  <param name="_graveedabannumber">枝番</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GravePanelRegistration(Domain.GravePanelDataEntity)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GravePanelRegistration(Domain.GravePanelDataEntity)">
  <summary>
  墓地札データ登録
  </summary>
  <param name="_gravepaneldata">登録墓地札データ</param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GetGravePanelDataList(System.String,System.String,System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetGravePanelDataList(System.String,System.String,System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
  <summary>
  墓地札データの一覧を取得し、リストで返します
  </summary>
@@ -925,13 +919,13 @@ Infrastructure
  <param name="outputdate_en"></param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GravePanelDeletion(Domain.GravePanelDataEntity)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GravePanelDeletion(Domain.GravePanelDataEntity)">
  <summary>
  墓地札データを削除します
  </summary>
  <param name="_gravepaneldata"></param>
 </member>
-<member name="M:Infrastructure.SQLConectInfrastructure.GravePanelUpdate(Domain.GravePanelDataEntity)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GravePanelUpdate(Domain.GravePanelDataEntity)">
  <summary>
  墓地札データを更新します
  </summary>

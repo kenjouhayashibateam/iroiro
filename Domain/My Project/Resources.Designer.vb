@@ -61,15 +61,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  番 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property BanString() As String
-            Get
-                Return ResourceManager.GetString("BanString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  中 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property CenterString() As String
@@ -120,15 +111,6 @@ Namespace My.Resources
         Friend ReadOnly Property EastString() As String
             Get
                 Return ResourceManager.GetString("EastString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  側 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property GawaString() As String
-            Get
-                Return ResourceManager.GetString("GawaString", resourceCulture)
             End Get
         End Property
         

@@ -4,7 +4,7 @@ Imports System.Collections.ObjectModel
 ''' <summary>
 ''' 文字列を変換します
 ''' </summary>
-Interface ITextConvert
+Friend Interface ITextConvert
 
     ''' <summary>
     ''' 区を相当する漢字はコード、コードは漢字にして返します
@@ -115,13 +115,13 @@ Public Class GraveNumberEntity
     Public Property MyFormalNumber As FormalNumber
 
     ''' <param name="_ku">区</param>
-    Sub New(ByVal _ku As String)
+    Public Sub New(ByVal _ku As String)
         KuField = New Ku(_ku)
     End Sub
 
     ''' <param name="_ku">区</param>
     ''' <param name="_kuiki">区域</param>
-    Sub New(ByVal _ku As String, ByVal _kuiki As String)
+    Public Sub New(ByVal _ku As String, ByVal _kuiki As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
     End Sub
@@ -129,7 +129,7 @@ Public Class GraveNumberEntity
     ''' <param name="_ku">区</param>
     ''' <param name="_kuiki">区域</param>
     ''' <param name="_gawa">側</param>
-    Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String)
+    Public Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
@@ -139,7 +139,7 @@ Public Class GraveNumberEntity
     ''' <param name="_kuiki">区域</param>
     ''' <param name="_gawa">側</param>
     ''' <param name="_ban">番</param>
-    Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String)
+    Public Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
@@ -151,7 +151,7 @@ Public Class GraveNumberEntity
     ''' <param name="_gawa">側</param>
     ''' <param name="_ban">番</param>
     ''' <param name="_edaban">枝番</param>
-    Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String, ByVal _edaban As String)
+    Public Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String, ByVal _edaban As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
@@ -172,9 +172,11 @@ Public Class GraveNumberEntity
     ''' </summary>
     ''' <returns></returns>
     Public Function GetNumber() As String
-        Return gtc.ConvertNumber_Ku(KuField.CodeField) & gtc.ConvertNumber_0Delete(KuikiField.CodeField) & My.Resources.KuString &
-            gtc.ConvertNumber_0Delete(GawaField.CodeField) & My.Resources.GawaString & RTrim(gtc.ConvertNumber_0Delete(BanField.CodeField) & Space(1) &
-            gtc.ConvertNumber_0Delete(EdabanField.CodeField)) & My.Resources.BanString
+        With gtc
+            Return $"{ .ConvertNumber_Ku(KuField.CodeField)}{ .ConvertNumber_0Delete(KuikiField.CodeField)}区
+                          { .ConvertNumber_0Delete(GawaField.CodeField)}側{RTrim(gtc.ConvertNumber_0Delete(BanField.CodeField))}{Space(1)}
+                          { .ConvertNumber_0Delete(EdabanField.CodeField)}番"
+        End With
     End Function
 
     ''' <summary>
@@ -224,45 +226,10 @@ Public Class GraveNumberEntity
 
         Public Property Number As String
 
-        Sub New(ByVal _ku As Ku, ByVal _kuiki As Kuiki, ByVal _gawa As Gawa, ByVal _ban As Ban, ByVal _edaban As Edaban)
-            Number = _ku.DisplayForField & _kuiki.DisplayForField & My.Resources.KuString & _gawa.DisplayForField & My.Resources.GawaString & _ban.DisplayForField &
-                _edaban.DisplayForField & My.Resources.BanString
+        Public Sub New(ByVal _ku As Ku, ByVal _kuiki As Kuiki, ByVal _gawa As Gawa, ByVal _ban As Ban, ByVal _edaban As Edaban)
+            Number = $"{_ku.DisplayForField}{_kuiki.DisplayForField}区{_gawa.DisplayForField}側{_ban.DisplayForField}
+                                {_edaban.DisplayForField}番"
         End Sub
-    End Class
-
-    ''' <summary>
-    ''' 管理番号
-    ''' </summary>
-    Public Class CustomerID
-
-        Public Property ID As String
-
-        Sub New(ByVal _customerid As String)
-            ID = _customerid
-        End Sub
-
-    End Class
-
-    ''' <summary>
-    ''' 墓地番号のFieldクラスのスーパークラス
-    ''' </summary>
-    Public MustInherit Class GraveNumberField
-
-        Protected ReadOnly gtc As New GraveTextConvert
-        Public Property DisplayForField As String
-        Public Property CodeField As String
-
-        Public Overrides Function Equals(obj As Object) As Boolean
-            Return FieldTryCast(obj, Me)
-        End Function
-
-        Public Function FieldTryCast(ByRef obj As Object, ByVal _gravenumberfield As GraveNumberField) As Boolean
-            Dim reasion As GraveNumberField = TryCast(obj, GraveNumberField)
-            If reasion Is Nothing Then Return False
-            If Not reasion.DisplayForField.Equals(_gravenumberfield.DisplayForField) Then Return False
-            Return Not reasion.CodeField.Equals(_gravenumberfield.CodeField)
-        End Function
-
     End Class
 
     ''' <summary>
@@ -271,120 +238,10 @@ Public Class GraveNumberEntity
     Public Class Ku
         Inherits GraveNumberField
 
-        Sub New(ByVal _value As String)
+        Public Sub New(ByVal _value As String)
             CodeField = _value
             DisplayForField = gtc.ConvertNumber_Ku(CodeField)
         End Sub
 
     End Class
-
-    ''' <summary>
-    ''' 区域クラス
-    ''' </summary>
-    Public Class Kuiki
-        Inherits GraveNumberField
-
-        Sub New(ByVal _value As String)
-            CodeField = _value
-            If gtc.ConvertNumber_0Delete(_value) = String.Empty Then
-                DisplayForField = "0"
-            Else
-                DisplayForField = gtc.ConvertNumber_0Delete(_value)
-            End If
-        End Sub
-
-    End Class
-
-    ''' <summary>
-    ''' 側クラス
-    ''' </summary>
-    Public Class Gawa
-        Inherits GraveNumberField
-
-        Sub New(ByVal _value As String)
-            CodeField = _value
-            If gtc.ConvertNumber_0Delete(_value) = String.Empty Then
-                DisplayForField = "0"
-            Else
-                DisplayForField = gtc.ConvertNumber_0Delete(_value)
-            End If
-        End Sub
-
-    End Class
-
-    ''' <summary>
-    ''' 番クラス
-    ''' </summary>
-    Public Class Ban
-        Inherits GraveNumberField
-
-        Sub New(ByVal _value As String)
-            CodeField = _value
-            DisplayForField = gtc.ConvertNumber_0Delete(_value)
-        End Sub
-
-    End Class
-
-    ''' <summary>
-    ''' 枝番クラス
-    ''' </summary>
-    Public Class Edaban
-        Inherits GraveNumberField
-
-        Sub New(ByVal _value As String)
-            CodeField = _value
-            DisplayForField = gtc.ConvertNumber_0Delete(_value)
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 枝番リストクラス
-    ''' </summary>
-    Public Class EdabanList
-
-        Public Property List As ObservableCollection(Of Edaban)
-
-        Sub New(ByVal _list As ObservableCollection(Of Edaban))
-            List = _list
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 番リストクラス
-    ''' </summary>
-    Public Class BanList
-
-        Public Property List As ObservableCollection(Of Ban)
-
-        Sub New(ByVal _list As ObservableCollection(Of Ban))
-            List = _list
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 側リストクラス
-    ''' </summary>
-    Public Class GawaList
-
-        Public Property List As ObservableCollection(Of Gawa)
-
-        Sub New(ByVal _list As ObservableCollection(Of Gawa))
-            List = _list
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 区域リストクラス
-    ''' </summary>
-    Public Class KuikiList
-
-        Public Property List As ObservableCollection(Of Kuiki)
-
-        Sub New(ByVal _list As ObservableCollection(Of Kuiki))
-            List = _list
-        End Sub
-
-    End Class
 End Class
-
-

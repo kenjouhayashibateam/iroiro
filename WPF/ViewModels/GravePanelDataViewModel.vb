@@ -47,7 +47,7 @@ Namespace ViewModels
         ''' 契約内容のリスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property ContractContents As New GravePanelDataEntity.ContractContents
+        Public Property ContractContents As New ContractContents
 
         ''' <summary>
         ''' 申込者名
@@ -341,7 +341,7 @@ Namespace ViewModels
             If MyGravePanel Is Nothing Then Exit Sub
             If CreateIsDeleteDataInfo_ReturnAnswer() = MsgBoxResult.Cancel Then Exit Sub
             DataBaseConecter.GravePanelDeletion(MyGravePanel)
-            GravePanelList.List.Remove(MyGravePanel)
+            If Not GravePanelList.List.Remove(MyGravePanel) Then Exit Sub
             CreateDeletedItemInfo()
 
         End Sub
@@ -398,8 +398,9 @@ Namespace ViewModels
         ''' <returns></returns>
         Private Function MyGravePanelDataDetailString() As String
             If MyGravePanel Is Nothing Then Return String.Empty
-            Return My.Resources.FieldPropertyMessage_CustomerID & MyGravePanel.GetCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName &
-                MyGravePanel.GetFamilyName & My.Resources.AddHomeString & vbNewLine & My.Resources.FieldPropertyMessage_GraveNumber & MyGravePanel.GetGraveNumber
+            Return $"管理番号 : {MyGravePanel.GetCustomerID}{vbNewLine}
+                          苗字 : {MyGravePanel.GetFamilyName} 家{vbNewLine}
+                          墓地番号 : {MyGravePanel.GetGraveNumber}"
         End Function
 
         ''' <summary>
@@ -436,6 +437,9 @@ Namespace ViewModels
                     Else
                         RemoveError(propertyName)
                     End If
+
+                Case Else
+                    Exit Select
             End Select
 
         End Sub

@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BanString" xml:space="preserve">
-    <value>番</value>
-  </data>
   <data name="CenterString" xml:space="preserve">
     <value>中</value>
   </data>
@@ -137,9 +134,6 @@
   </data>
   <data name="EastString" xml:space="preserve">
     <value>東</value>
-  </data>
-  <data name="GawaString" xml:space="preserve">
-    <value>側</value>
   </data>
   <data name="KuString" xml:space="preserve">
     <value>区</value>

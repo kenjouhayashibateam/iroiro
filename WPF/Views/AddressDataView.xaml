@@ -10,7 +10,7 @@
         xmlns:interactions="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:b="clr-namespace:WPF.Behaviors"
         mc:Ignorable="d"
-        Title="住所を選択して下さい" Height="221.935" Width="332.834" >
+        Title="住所を選択して下さい" Height="221.935" Width="332.834" WindowStartupLocation="CenterOwner">
     
     <Window.DataContext >
         <vm:AddressDataViewModel/>

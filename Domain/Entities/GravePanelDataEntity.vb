@@ -4,8 +4,6 @@
 ''' 墓地札データクラス
 ''' </summary>
 Public Class GravePanelDataEntity
-
-    Private _MyIsPrintout As IsPrintout
     Private _MyPrintOutTime As PrintoutTime
 
     ''' <summary>
@@ -45,13 +43,6 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyIsPrintout As IsPrintout
-        Get
-            Return _MyIsPrintout
-        End Get
-        Set
-            _MyIsPrintout = Value
-        End Set
-    End Property
 
     ''' <summary>
     ''' プリントアウト日時
@@ -90,7 +81,7 @@ Public Class GravePanelDataEntity
     ''' <returns></returns>
     Public Property MyFullName As FullName
 
-    Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumber As String, ByVal _area As Double, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
+    Public Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumber As String, ByVal _area As Double, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
         MyOrderID = New OrderID(_id)
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
@@ -103,13 +94,13 @@ Public Class GravePanelDataEntity
         MyIsPrintout = New IsPrintout(_printouttime)
     End Sub
 
-    Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumberKu As String, ByVal _gravenumberKuiki As String, ByVal _gravenumberGawa As String, ByVal _gravenumberBan As String, ByVal _gravenumberEdaban As String, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
+    Public Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumberKu As String, ByVal _gravenumberKuiki As String, ByVal _gravenumberGawa As String, ByVal _gravenumberBan As String, ByVal _gravenumberEdaban As String, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
         MyOrderID = New OrderID(_id)
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
         MyFullName = New FullName(_fullname)
-        MyGraveNumber = New GraveNumber(_gravenumberKu & _gravenumberKuiki & My.Resources.KuString & _gravenumberGawa & My.Resources.GawaString & _gravenumberBan &
-                                        _gravenumberEdaban & My.Resources.BanString)
+        MyGraveNumber = New GraveNumber($"{_gravenumberKu}{_gravenumberKuiki}区{_gravenumberGawa}側{_gravenumberBan}
+                                                                       {_gravenumberEdaban}番")
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)
         MyPrintOutTime = New PrintoutTime(_printouttime)
@@ -168,8 +159,8 @@ Public Class GravePanelDataEntity
     ''' 管理番号を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetCustomerID() As String
-        Return MyCustomerID.GetID
+    Public Function GetCustomerID() As CustomerID
+        Return MyCustomerID
     End Function
     ''' <summary>
     ''' 苗字を返します
@@ -185,150 +176,5 @@ Public Class GravePanelDataEntity
     Public Function GetContractContents() As ObservableCollection(Of String)
         Return MyContractContents.List
     End Function
-    ''' <summary>
-    ''' 申込者名クラス
-    ''' </summary>
-    Public Class FullName
-        Public Property Name As String
 
-        Sub New(ByVal _name As String)
-            Name = _name
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' データベースIDクラス
-    ''' </summary>
-    Public Class OrderID
-
-        Public Property ID As Integer
-
-        Sub New(ByVal _orderid As Integer)
-            ID = _orderid
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' プリントアウトするかの確認クラス
-    ''' </summary>
-    Public Class IsPrintout
-        Public Property Value As Boolean
-
-        Sub New(ByVal _printouttime As Date)
-            ComparisonCheck(_printouttime)
-        End Sub
-
-        Public Sub ComparisonCheck(ByVal _printouttime As Date)
-            Value = _printouttime = My.Resources.DeraultDate
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' プリントアウト日時クラス
-    ''' </summary>
-    Public Class PrintoutTime
-        Public Property MyDate As Date
-
-        Sub New(ByVal _purintouttime As Date)
-            MyDate = _purintouttime
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 墓地番号クラス
-    ''' </summary>
-    Public Class GraveNumber
-        Public Property Number As String
-
-        Sub New(ByVal _gravenumber As String)
-            Number = _gravenumber
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 登録日時クラス
-    ''' </summary>
-    Public Class RegistrationTime
-        Public Property MyDate As Date
-
-        Sub New(ByVal _registrationtime As Date)
-            MyDate = _registrationtime.ToShortDateString
-        End Sub
-    End Class
-
-    ''' <summary>
-    ''' 契約内容クラス
-    ''' </summary>
-    Public Class ContractContent
-        Public Property Content As String
-
-        Sub New(ByVal _contractdetail As String)
-            Content = _contractdetail
-        End Sub
-
-        Public Function GetContent() As String
-            Return Content
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 苗字クラス
-    ''' </summary>
-    Public Class FamilyName
-        Public Property Name As String
-
-        Sub New(ByVal _name As String)
-            Name = _name
-        End Sub
-
-        Public Function GetName() As String
-            Return Name
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 管理番号クラス
-    ''' </summary>
-    Public Class CustomerID
-        Public Property ID As String
-
-        Sub New(ByVal _customerid As String)
-            If String.IsNullOrEmpty(_customerid) Then
-                ID = "未登録"
-            Else
-                ID = _customerid
-            End If
-        End Sub
-
-        Public Function GetID() As String
-            Return ID
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 面積クラス
-    ''' </summary>
-    Public Class Area
-        Public Property AreaValue As Double
-
-        Sub New(ByVal _myarea As Double)
-            AreaValue = _myarea
-        End Sub
-
-        Public Function GetArea() As String
-            Return AreaValue.ToString("0.0")
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 契約内容リスト
-    ''' </summary>
-    Public Class ContractContents
-        Public Property List As New ObservableCollection(Of String)
-
-        Sub New()
-            List.Add(My.Resources.Contract_Ueki)
-            List.Add(My.Resources.Contract_Kusatori)
-        End Sub
-    End Class
 End Class

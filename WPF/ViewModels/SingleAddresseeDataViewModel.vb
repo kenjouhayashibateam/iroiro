@@ -680,13 +680,9 @@ Namespace ViewModels
         End Sub
 
         Private Sub NoteInput()
-            Note1 = My.Resources.FieldPropertyMessage_CustomerID & MyLessee.GetCustomerID
+            Note1 = MyLessee.GetCustomerID.ShowDisplay
             Note2 = MyLessee.GetGraveNumber.GetNumber
-            If MyLessee.GetArea > 0 Then
-                Note3 = My.Resources.FieldPropertyMessage_Area & MyLessee.GetArea & My.Resources.SquareFootageText
-            Else
-                Note3 = String.Empty
-            End If
+            Note3 = If(MyLessee.GetArea.AreaValue > 0, $"{MyLessee.GetArea} ㎡", String.Empty)
         End Sub
 
         ''' <summary>
@@ -888,6 +884,8 @@ Namespace ViewModels
                     InputTransferData()
                 Case OutputContents.WesternEnbelope
                     InputWesternEnvelope()
+                Case Else
+                    Exit Select
             End Select
 
         End Sub
@@ -979,6 +977,9 @@ Namespace ViewModels
                     Else
                         RemoveError(NameOf(Address2))
                     End If
+
+                Case Else
+                    Exit Select
             End Select
             InputErrorString = GetErrors(propertyName)
         End Sub

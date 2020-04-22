@@ -183,24 +183,6 @@
   <data name="ErrorRegisterTitle" xml:space="preserve">
     <value>登録エラー</value>
   </data>
-  <data name="FieldPropertyMessage.Area" xml:space="preserve">
-    <value>面積 : </value>
-  </data>
-  <data name="FieldPropertyMessage.ContractContent" xml:space="preserve">
-    <value>契約内容 : </value>
-  </data>
-  <data name="FieldPropertyMessage.CustomerID" xml:space="preserve">
-    <value>管理番号 : </value>
-  </data>
-  <data name="FieldPropertyMessage.FirstName" xml:space="preserve">
-    <value>苗字 : </value>
-  </data>
-  <data name="FieldPropertyMessage.GraveNumber" xml:space="preserve">
-    <value>墓地番号 : </value>
-  </data>
-  <data name="FieldPropertyMessage.RegistrationDate" xml:space="preserve">
-    <value>登録日時 : </value>
-  </data>
   <data name="FieldPropertyMessage_Lessee" xml:space="preserve">
     <value>名義人 : </value>
   </data>

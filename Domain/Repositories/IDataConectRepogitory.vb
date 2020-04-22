@@ -35,7 +35,7 @@ Public Interface IDataConectRepogitory
     ''' </summary>
     ''' <param name="_gravekunumber">基になる区</param>
     ''' <returns></returns>
-    Function GetKuikiList(ByVal _gravekunumber As String) As GraveNumberEntity.KuikiList
+    Function GetKuikiList(ByVal _gravekunumber As String) As KuikiList
 
     ''' <summary>
     ''' 側リストを返します
@@ -43,7 +43,7 @@ Public Interface IDataConectRepogitory
     ''' <param name="_gravekunumber">基になる区</param>
     ''' <param name="_gravekuikinumber">基になる区域</param>
     ''' <returns></returns>
-    Function GetGawaList(ByVal _gravekunumber As String, ByVal _gravekuikinumber As String) As GraveNumberEntity.GawaList
+    Function GetGawaList(ByVal _gravekunumber As String, ByVal _gravekuikinumber As String) As GawaList
 
     ''' <summary>
     ''' 番リストを返します
@@ -52,7 +52,7 @@ Public Interface IDataConectRepogitory
     ''' <param name="_gravekuikinumber">基になる区域</param>
     ''' <param name="_gravegawanumber">基になる側</param>
     ''' <returns></returns>
-    Function GetBanList(ByVal _gravekunumber As String, ByVal _gravekuikinumber As String, ByVal _gravegawanumber As String) As GraveNumberEntity.BanList
+    Function GetBanList(ByVal _gravekunumber As String, ByVal _gravekuikinumber As String, ByVal _gravegawanumber As String) As BanList
 
     ''' <summary>
     ''' 枝番リストを返します
@@ -62,7 +62,7 @@ Public Interface IDataConectRepogitory
     ''' <param name="_gravegawanumber">基になる側</param>
     ''' <param name="_gravebannumber">基になる番</param>
     ''' <returns></returns>
-    Function GetEdabanList(ByVal _gravekunumber As String, ByVal _gravekuikinumber As String, ByVal _gravegawanumber As String, ByVal _gravebannumber As String) As GraveNumberEntity.EdabanList
+    Function GetEdabanList(ByVal _gravekunumber As String, ByVal _gravekuikinumber As String, ByVal _gravegawanumber As String, ByVal _gravebannumber As String) As EdabanList
 
     ''' <summary>
     ''' 墓地番号を基に名義人クラスを検索して返します

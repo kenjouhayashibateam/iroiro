@@ -31,15 +31,15 @@ Namespace ViewModels
         Private _SelectedGawa As String
         Private _SelectedBan As String
         Private _SelectedEdaban As String
-        Private _GraveNumberKuikiList As GraveNumberEntity.KuikiList
+        Private _GraveNumberKuikiList As KuikiList
         Private _KuikiText As String
-        Private _GraveNumberGawaList As GraveNumberEntity.GawaList
+        Private _GraveNumberGawaList As GawaList
         Private _GawaText As String
         Private _GraveNumberKuList As ObservableCollection(Of GraveNumberEntity.Ku)
         Private _BanText As String
-        Private _GraveNumberBanList As GraveNumberEntity.BanList
+        Private _GraveNumberBanList As BanList
         Private _EdabanText As String
-        Private _GraveNumberEdabanList As GraveNumberEntity.EdabanList
+        Private _GraveNumberEdabanList As EdabanList
         Private _CustomerID As String
         Private _FamilyName As String
         Private _Area As String
@@ -48,7 +48,7 @@ Namespace ViewModels
         Private _ReferenceGraveNumberCommand As ICommand
         Private _DisplayForGraveNumber As String
         Private _KuText As String
-        Private _ContractContents As GravePanelDataEntity.ContractContents
+        Private _ContractContents As ContractContents
         Private _ContractContent As String = String.Empty
         Private _GravePanelRegistration As ICommand
         Private _IsConfirmationRegister As Boolean
@@ -229,7 +229,7 @@ Namespace ViewModels
         ''' 契約内容リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property ContractContents As GravePanelDataEntity.ContractContents
+        Public Property ContractContents As ContractContents
             Get
                 Return _ContractContents
             End Get
@@ -367,8 +367,8 @@ Namespace ViewModels
         ''' </summary>
         Private Sub InputLesseeData()
             SetLesseeName()
-            RegistraterCustomerID = MyLessee.GetCustomerID
-            Area = MyLessee.GetArea
+            RegistraterCustomerID = MyLessee.GetCustomerID.ID
+            Area = MyLessee.GetArea.AreaValue
         End Sub
 
         ''' <summary>
@@ -439,7 +439,7 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(BanText))
                 ValidateProperty(NameOf(BanText), Value)
                 If GraveNumberBanList Is Nothing Then Exit Property
-                If Not Enumerable.Contains(GraveNumberBanList.List, New GraveNumberEntity.Ban(Value)) Then
+                If Not Enumerable.Contains(GraveNumberBanList.List, New Ban(Value)) Then
                     RegistraterCustomerID = My.Resources.UndefinedCustomerID
                     FullName = String.Empty
                     FamilyName = String.Empty
@@ -462,7 +462,7 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(GawaText))
                 ValidateProperty(NameOf(GawaText), Value)
                 If GraveNumberGawaList Is Nothing Then Exit Property
-                If Not Enumerable.Contains(GraveNumberGawaList.List, New GraveNumberEntity.Gawa(Value)) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
+                If Not Enumerable.Contains(GraveNumberGawaList.List, New Gawa(Value)) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -486,7 +486,7 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(KuikiText))
                 ValidateProperty(NameOf(KuikiText), Value)
                 If GraveNumberKuikiList Is Nothing Then Exit Property
-                If Not Enumerable.Contains(GraveNumberKuikiList.List, New GraveNumberEntity.Kuiki(Value)) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
+                If Not Enumerable.Contains(GraveNumberKuikiList.List, New Kuiki(Value)) Then RegistraterCustomerID = My.Resources.UndefinedCustomerID
             End Set
         End Property
 
@@ -520,7 +520,7 @@ Namespace ViewModels
         ''' 墓地番号　番リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property GraveNumberBanList As GraveNumberEntity.BanList
+        Public Property GraveNumberBanList As BanList
             Get
                 Return _GraveNumberBanList
             End Get
@@ -534,7 +534,7 @@ Namespace ViewModels
         ''' 墓地番号　側リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property GraveNumberGawaList As GraveNumberEntity.GawaList
+        Public Property GraveNumberGawaList As GawaList
             Get
                 Return _GraveNumberGawaList
             End Get
@@ -548,7 +548,7 @@ Namespace ViewModels
         ''' 墓地番号　区域リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property GraveNumberKuikiList As GraveNumberEntity.KuikiList
+        Public Property GraveNumberKuikiList As KuikiList
             Get
                 Return _GraveNumberKuikiList
             End Get
@@ -562,7 +562,7 @@ Namespace ViewModels
         ''' 墓地番号　枝番リスト
         ''' </summary>
         ''' <returns></returns>
-        Public Property GraveNumberEdabanList As GraveNumberEntity.EdabanList
+        Public Property GraveNumberEdabanList As EdabanList
             Get
                 Return _GraveNumberEdabanList
             End Get
@@ -592,7 +592,7 @@ Namespace ViewModels
             AddGraveKu("12")
             AddGraveKu("20")
 
-            ContractContents = New GravePanelDataEntity.ContractContents
+            ContractContents = New ContractContents
 
         End Sub
 
@@ -699,6 +699,8 @@ Namespace ViewModels
         Private Sub SetNextGraveNumberField(ByVal nextganre As GravenumberGanre, ByVal numbervalue As String)
 
             Select Case nextganre
+                Case GravenumberGanre.KU
+                    Exit Select
                 Case GravenumberGanre.KUIKI
                     GraveNumberKuikiList = DataConect.GetKuikiList(numbervalue)
                     IsEnabledKuiki = True
@@ -811,7 +813,7 @@ Namespace ViewModels
                 BanText = .BanField.DisplayForField
                 EdabanText = .EdabanField.DisplayForField
             End With
-            RegistraterCustomerID = MyLessee.GetCustomerID
+            RegistraterCustomerID = MyLessee.GetCustomerID.ID
             InputLesseeData()   '最後にInputLesseeDataを書かないと、空欄になってしまう場合がある。必要なら検証する
         End Sub
 
@@ -925,7 +927,6 @@ Namespace ViewModels
             Area = 0
 
         End Sub
-
         ''' <summary>
         ''' 登録確認メッセージを生成します
         ''' </summary>
@@ -935,12 +936,15 @@ Namespace ViewModels
                 Sub()
                     MessageInfo = New MessageBoxInfo With
                     {
-                    .Message = My.Resources.FieldPropertyMessage_CustomerID & RegistraterCustomerID & vbNewLine & My.Resources.FieldPropertyMessage_FirstName & FamilyName &
-                    vbNewLine & My.Resources.FieldPropertyMessage_GraveNumber & DisplayForGraveNumber & vbNewLine & My.Resources.FieldPropertyMessage_ContractContent &
-                    ContractContent & vbNewLine & My.Resources.FieldPropertyMessage_RegistrationDate & Today.ToString("yyyy年MM月dd日") & vbNewLine & vbNewLine &
-                    My.Resources.ConfirmationRegisterInfo,
-                    .Button = MessageBoxButton.YesNo,
-                    .Title = My.Resources.ConfirmationRegisterInfoTitle, .Image = MessageBoxImage.Question
+                        .Title = "登録確認",
+                        .Message = $"管理番号 : {RegistraterCustomerID}{vbNewLine}
+                    　　　　　　    苗字 : {FamilyName}{vbNewLine}
+                          　　　       墓地番号 : {DisplayForGraveNumber}{vbNewLine}
+                                      契約内容 :{ContractContent}{vbNewLine}
+                                      登録日 : {Today:yyyy年MM月dd日}{vbNewLine}{vbNewLine}
+                                      登録しますか？",
+                        .Button = MessageBoxButton.YesNo,
+                        .Image = MessageBoxImage.Question
                     }
                     CallPropertyChanged(NameOf(ConfirmationRegistraterInfo))
                     MsgResult = MessageInfo.Result
@@ -962,6 +966,9 @@ Namespace ViewModels
                     Else
                         RemoveError(propertyName)
                     End If
+
+                Case Else
+                    Exit Select
             End Select
         End Sub
 
@@ -980,4 +987,3 @@ Namespace ViewModels
 
     End Class
 End Namespace
-

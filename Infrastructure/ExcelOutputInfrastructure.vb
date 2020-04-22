@@ -858,7 +858,7 @@ Public Class ExcelOutputInfrastructure
     End Sub
 
     Public Sub AddOverLengthAddressListener(_listener As IOverLengthAddress2Count) Implements IOutputDataRepogitory.AddOverLengthAddressListener
-        Throw New NotImplementedException()
+        OverLengthAddressCountListener = _listener
     End Sub
 
     ''' <summary>

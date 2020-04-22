@@ -11,6 +11,7 @@ Public Class SQLConnectInfrastructure
     ''' データを取得するためのルートを確立するコマンドクラス
     ''' </summary>
     Private Property Cmd As ADODB.Command
+
     ''' <summary>
     ''' ログファイルを生成します
     ''' </summary>
@@ -29,6 +30,7 @@ Public Class SQLConnectInfrastructure
     ''' コマンドから取得したデータを格納するクラス
     ''' </summary>
     Private Property Rs As ADODB.Recordset
+
     ''' <summary>
     ''' VB.NETとSQLServerを接続するクラス
     ''' </summary>
@@ -43,10 +45,10 @@ Public Class SQLConnectInfrastructure
     End Sub
 
     ''' <summary>
-    ''' Rsにデータを格納し、Rs.EOFの結果を返します
+    ''' Rsにデータを格納します
     ''' </summary>
     ''' <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-    Private Function ExecuteStoredProcSetRecord(ByRef exeCmd As ADODB.Command) As Boolean
+    Private Sub ExecuteStoredProcSetRecord(ByRef exeCmd As ADODB.Command)
 
         exeCmd = GetCompleteCmd(exeCmd)
         Try
@@ -55,9 +57,8 @@ Public Class SQLConnectInfrastructure
             LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
         End Try
 
-        Return Rs.EOF
+    End Sub
 
-    End Function
     ''' <summary>
     ''' Cmdのプロパティを完成させて返します
     ''' </summary>
@@ -77,22 +78,22 @@ Public Class SQLConnectInfrastructure
 
     End Function
 
-    ''' <summary>
-    ''' 戻り値のないストアドプロシージャを実行します
-    ''' </summary>
-    ''' <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-    Private Function ExecuteStoredProc(ByRef execmd As ADODB.Command) As Boolean
+    '''' <summary>
+    '''' 戻り値のないストアドプロシージャを実行します
+    '''' </summary>
+    '''' <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
+    'Private Function ExecuteStoredProc(ByRef execmd As ADODB.Command) As Boolean
 
-        execmd = GetCompleteCmd(execmd)
-        Try
-            execmd.Execute()
-        Catch ex As Exception
-            LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
-            Return False
-        End Try
-        Return True
+    '    execmd = GetCompleteCmd(execmd)
+    '    Try
+    '        execmd.Execute()
+    '    Catch ex As Exception
+    '        LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
+    '        Return False
+    '    End Try
+    '    Return True
 
-    End Function
+    'End Function
 
     ''' <summary>
     ''' ADODBのインスタンスを削除します
@@ -104,12 +105,11 @@ Public Class SQLConnectInfrastructure
         Rs = Nothing
     End Sub
 
-
     ''' <summary>
-    ''' 名義人データを検索し、Rs.EOFの答えを返します
+    ''' 名義人データを検索します
     ''' </summary>
     ''' <param name="strManagementNumber">検索する管理番号</param>
-    Private Function SetLesseeRecord(ByVal strManagementNumber As String) As Boolean
+    Private Sub SetLesseeRecord(ByVal strManagementNumber As String)
 
         Cmd = New ADODB.Command
 
@@ -119,9 +119,7 @@ Public Class SQLConnectInfrastructure
             .Parameters.Append(.CreateParameter("lesseename", ADODB.DataTypeEnum.adVarChar,, 100, My.Resources.WildCard_Percent))
         End With
 
-        Return ExecuteStoredProcSetRecord(Cmd)
-
-    End Function
+    End Sub
 
     ''' <summary>
     ''' レコードセットのフィールドのValueを文字列形式で返します
@@ -143,7 +141,8 @@ Public Class SQLConnectInfrastructure
         Dim Area As Double
 
         If customerid = String.Empty Then Return Nothing
-        If SetLesseeRecord(customerid) Then Return Nothing
+
+        SetLesseeRecord(customerid)
 
         '御廟は面積がない上にDouble型なので、0にして対応する
         If String.IsNullOrEmpty(RsFields(My.Resources.AreaOfGrave)) Then
@@ -164,6 +163,7 @@ Public Class SQLConnectInfrastructure
         ADONothing()
 
     End Function
+
     ''' <summary>
     ''' 住所を検索します
     ''' </summary>
@@ -187,11 +187,12 @@ Public Class SQLConnectInfrastructure
             .Parameters.Append(.CreateParameter("postalcode", ADODB.DataTypeEnum.adChar,, 7, ReferenceCode))
         End With
 
-        If ExecuteStoredProcSetRecord(Cmd) Then Return Nothing
+        ExecuteStoredProcSetRecord(Cmd)
 
         Return New AddressDataEntity(RsFields("Address"), postalcode)
 
     End Function
+
     ''' <summary>
     ''' 住所欄の文字列を使って住所検索し、該当する住所をリストにして返します
     ''' </summary>
@@ -267,23 +268,23 @@ Public Class SQLConnectInfrastructure
     ''' </summary>
     ''' <param name="_gravekunumber">区</param>
     ''' <returns></returns>
-    Public Function GetKuikiList(_gravekunumber As String) As GraveNumberEntity.KuikiList Implements IDataConectRepogitory.GetKuikiList
+    Public Function GetKuikiList(_gravekunumber As String) As KuikiList Implements IDataConectRepogitory.GetKuikiList
 
         SetGraveData(_gravekunumber)
-        Dim kf As GraveNumberEntity.Kuiki
+        Dim kf As Kuiki
         Dim datastring As String = String.Empty
-        Dim kl As New ObservableCollection(Of GraveNumberEntity.Kuiki)
+        Dim kl As New ObservableCollection(Of Kuiki)
 
         Do Until Rs.EOF
             If InStr(datastring, RsFields(My.Resources.Kuiki)) = 0 Then
                 datastring &= RsFields(My.Resources.Kuiki) & Space(1)
-                kf = New GraveNumberEntity.Kuiki(RsFields(My.Resources.Kuiki))
+                kf = New Kuiki(RsFields(My.Resources.Kuiki))
                 kl.Add(kf)
             End If
             Rs.MoveNext()
         Loop
 
-        Return New GraveNumberEntity.KuikiList(kl)
+        Return New KuikiList(kl)
 
     End Function
     ''' <summary>
@@ -292,29 +293,29 @@ Public Class SQLConnectInfrastructure
     ''' <param name="_gravekunumber">区</param>
     ''' <param name="_gravekuikinumber">区域</param>
     ''' <returns></returns>
-    Public Function GetGawaList(_gravekunumber As String, _gravekuikinumber As String) As GraveNumberEntity.GawaList Implements IDataConectRepogitory.GetGawaList
+    Public Function GetGawaList(_gravekunumber As String, _gravekuikinumber As String) As GawaList Implements IDataConectRepogitory.GetGawaList
 
         SetGraveData(_gravekunumber, _gravekuikinumber)
 
-        Dim gf As GraveNumberEntity.Gawa
+        Dim gf As Gawa
         Dim datastring As String = String.Empty
-        Dim gl As New ObservableCollection(Of GraveNumberEntity.Gawa)
+        Dim gl As New ObservableCollection(Of Gawa)
 
         Do Until Rs.EOF
             If InStr(datastring, RsFields(My.Resources.Gawa)) <> 0 Then
                 Rs.MoveNext()
                 Continue Do
             End If
-            If CStr(RsFields(My.Resources.Gawa)) = "0" Then
+            If RsFields(My.Resources.Gawa) = "0" Then
                 Rs.MoveNext()
                 Continue Do
             End If
             datastring &= RsFields(My.Resources.Gawa) & Space(1)
-            gf = New GraveNumberEntity.Gawa(RsFields(My.Resources.Gawa))
+            gf = New Gawa(RsFields(My.Resources.Gawa))
             gl.Add(gf)
             Rs.MoveNext()
         Loop
-        Return New GraveNumberEntity.GawaList(gl)
+        Return New GawaList(gl)
 
     End Function
 
@@ -325,24 +326,24 @@ Public Class SQLConnectInfrastructure
     ''' <param name="_gravekuikinumber">区域</param>
     ''' <param name="_gravegawanumber">側</param>
     ''' <returns></returns>
-    Public Function GetBanList(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String) As GraveNumberEntity.BanList Implements IDataConectRepogitory.GetBanList
+    Public Function GetBanList(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String) As BanList Implements IDataConectRepogitory.GetBanList
 
         SetGraveData(_gravekunumber, _gravekuikinumber, _gravegawanumber)
 
-        Dim bf As GraveNumberEntity.Ban
+        Dim bf As Ban
         Dim datastring As String = String.Empty
-        Dim bl As New ObservableCollection(Of GraveNumberEntity.Ban)
+        Dim bl As New ObservableCollection(Of Ban)
 
         Do Until Rs.EOF
             If InStr(datastring, RsFields(My.Resources.Ban)) = 0 Then
                 datastring &= RsFields(My.Resources.Ban) & Space(1)
-                bf = New GraveNumberEntity.Ban(RsFields(My.Resources.Ban))
+                bf = New Ban(RsFields(My.Resources.Ban))
                 bl.Add(bf)
             End If
             Rs.MoveNext()
         Loop
 
-        Return New GraveNumberEntity.BanList(bl)
+        Return New BanList(bl)
 
     End Function
 
@@ -354,13 +355,13 @@ Public Class SQLConnectInfrastructure
     ''' <param name="_gravegawanumber">側</param>
     ''' <param name="_gravebannumber">番</param>
     ''' <returns></returns>
-    Public Function GetEdabanList(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String, _gravebannumber As String) As GraveNumberEntity.EdabanList Implements IDataConectRepogitory.GetEdabanList
+    Public Function GetEdabanList(_gravekunumber As String, _gravekuikinumber As String, _gravegawanumber As String, _gravebannumber As String) As EdabanList Implements IDataConectRepogitory.GetEdabanList
 
         SetGraveData(_gravekunumber, _gravekuikinumber, _gravegawanumber, _gravebannumber)
 
-        Dim ef As GraveNumberEntity.Edaban
+        Dim ef As Edaban
         Dim datastring As String = String.Empty
-        Dim el As New ObservableCollection(Of GraveNumberEntity.Edaban)
+        Dim el As New ObservableCollection(Of Edaban)
 
         Do Until Rs.EOF
             If InStr(RsFields(My.Resources.Edaban), My.Resources.DiscardString) > 0 Then
@@ -370,7 +371,7 @@ Public Class SQLConnectInfrastructure
 
             If InStr(datastring, RsFields(My.Resources.Edaban)) = 0 Then
                 datastring &= RsFields(My.Resources.Edaban) & Space(1)
-                ef = New GraveNumberEntity.Edaban(RsFields(My.Resources.Edaban))
+                ef = New Edaban(RsFields(My.Resources.Edaban))
                 el.Add(ef)
             End If
             Rs.MoveNext()
@@ -379,7 +380,7 @@ Public Class SQLConnectInfrastructure
         If Trim(datastring) = String.Empty Then Return Nothing
         If Trim(datastring) = "00" Then Return Nothing
 
-        Return New GraveNumberEntity.EdabanList(el)
+        Return New EdabanList(el)
 
     End Function
 
@@ -423,7 +424,7 @@ Public Class SQLConnectInfrastructure
             .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetPrintoutTime))
         End With
 
-        ExecuteStoredProc(Cmd)
+        ExecuteStoredProcSetRecord(Cmd)
 
     End Sub
 
@@ -487,7 +488,7 @@ Public Class SQLConnectInfrastructure
             .Parameters.Append(.CreateParameter("orderid", ADODB.DataTypeEnum.adChar,, 6, _gravepaneldata.GetID))
         End With
 
-        ExecuteStoredProc(Cmd)
+        ExecuteStoredProcSetRecord(Cmd)
 
     End Sub
 
@@ -512,7 +513,7 @@ Public Class SQLConnectInfrastructure
             .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetPrintoutTime))
         End With
 
-        ExecuteStoredProc(Cmd)
+        ExecuteStoredProcSetRecord(Cmd)
 
     End Sub
 End Class

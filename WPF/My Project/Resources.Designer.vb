@@ -257,52 +257,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("ErrorRegisterTitle", resourceCulture)
             End Get
         End Property
-        
-        '''<summary>
-        '''  面積 :  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FieldPropertyMessage_Area() As String
-            Get
-                Return ResourceManager.GetString("FieldPropertyMessage.Area", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  契約内容 :  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FieldPropertyMessage_ContractContent() As String
-            Get
-                Return ResourceManager.GetString("FieldPropertyMessage.ContractContent", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  管理番号 :  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FieldPropertyMessage_CustomerID() As String
-            Get
-                Return ResourceManager.GetString("FieldPropertyMessage.CustomerID", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  苗字 :  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FieldPropertyMessage_FirstName() As String
-            Get
-                Return ResourceManager.GetString("FieldPropertyMessage.FirstName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  墓地番号 :  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FieldPropertyMessage_GraveNumber() As String
-            Get
-                Return ResourceManager.GetString("FieldPropertyMessage.GraveNumber", resourceCulture)
-            End Get
-        End Property
-        
+
         '''<summary>
         '''  名義人 :  に類似しているローカライズされた文字列を検索します。
         '''</summary>
@@ -311,7 +266,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("FieldPropertyMessage_Lessee", resourceCulture)
             End Get
         End Property
-        
+
         '''<summary>
         '''  送付先 :  に類似しているローカライズされた文字列を検索します。
         '''</summary>
@@ -320,16 +275,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("FieldPropertyMessage_Receiver", resourceCulture)
             End Get
         End Property
-        
-        '''<summary>
-        '''  登録日時 :  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FieldPropertyMessage_RegistrationDate() As String
-            Get
-                Return ResourceManager.GetString("FieldPropertyMessage.RegistrationDate", resourceCulture)
-            End Get
-        End Property
-        
+
         '''<summary>
         '''  形式エラー に類似しているローカライズされた文字列を検索します。
         '''</summary>
