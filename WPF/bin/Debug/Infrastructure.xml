@@ -461,6 +461,18 @@ Infrastructure
  </summary>
  <returns></returns>
 </member>
+<member name="M:Infrastructure.IVerticalOutputListBehavior.GetAddressMaxLength">
+ <summary>
+ 宛名印刷の住所の長さの限界値を返します。0は検証しません
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:Infrastructure.IVerticalOutputListBehavior.GetLengthVerificationString(Domain.DestinationDataEntity)">
+ <summary>
+ 長さを検証する文字列
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Infrastructure.IGravePanelListBehavior">
  <summary>
  墓地札データを出力
@@ -560,13 +572,18 @@ Infrastructure
  エクセルへの処理を行います
  </summary>
 </member>
-<member name="F:Infrastructure.ExcelOutputInfrastructure.Listener">
+<member name="F:Infrastructure.ExcelOutputInfrastructure.ProcessedCountListener">
  <summary>
  進捗を受け取るリスナー
  </summary>
 </member>
-<member name="P:Infrastructure.ExcelOutputInfrastructure.OutputDataGanre">
+<member name="F:Infrastructure.ExcelOutputInfrastructure.OverLengthAddressCountListener">
  <summary>
+ 住所の長いデータの数を受け取るリスナー
+ </summary>
+</member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.OutputDataGanre">
+ <summary> 
  出力するデータの種類を保持する
  </summary>
  <returns></returns>
@@ -798,7 +815,7 @@ Infrastructure
 </member>
 <member name="M:Infrastructure.SQLConectInfrastructure.SetLesseeRecord(System.String)">
  <summary>
- 名義人データを検索し、Rs.EOFを返します
+ 名義人データを検索し、Rs.EOFの答えを返します
  </summary>
  <param name="strManagementNumber">検索する管理番号</param>
 </member>

@@ -13,7 +13,7 @@
    
      xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              Title="墓地札一覧" Height="500" Width="700" WindowStartupLocation="CenterScreen"  >
-    
+
     <Window.DataContext>
         <vm:GravePanelDataViewModel/>
     </Window.DataContext>
@@ -41,7 +41,7 @@
             <ib:InvokeCommandAction Command="{Binding OutputInfoCommand}"/>
         </ib:DataTrigger>
     </ib:Interaction.Triggers>
-    
+
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -59,9 +59,9 @@
                 </Grid.ColumnDefinitions>
                 <extk:WatermarkTextBox x:Name="ReferenceCustomerTextBox" Grid.Column="1" Watermark="管理番号(完全一致）" MaxLength="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Text="{Binding CustomerID}" Margin="30,5,10,5"/>
                 <extk:WatermarkTextBox x:Name="ReferenceLesseeNameTextBox" Grid.Column="2" Watermark="名義人名(あいまい検索）" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  VerticalContentAlignment="Center" Text="{Binding FullName}" Margin="20,5,10,5"/>
-             <CheckBox x:Name="IsNewRecordOnlyCheckBox" Grid.Column="3" Grid.Row="0" VerticalContentAlignment="Center"  Content="未印刷のみ" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsChecked="{Binding IsNewRecordOnly}" />
+                <CheckBox x:Name="IsNewRecordOnlyCheckBox" Grid.Column="3" Grid.Row="0" VerticalContentAlignment="Center"  Content="未印刷のみ" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsChecked="{Binding IsNewRecordOnly}" />
                 <CheckBox x:Name="IsPast3MonthsPartCheckBox" Grid.Row="0" Grid.Column="4" VerticalAlignment="Stretch" Content="過去3か月分を表示" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsChecked="{Binding IsPast3MonthsPart}"/>
-            </Grid>            
+            </Grid>
         </GroupBox>
         <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  ItemsSource="{Binding GravePanelList.List}"  SelectedItem="{Binding MyGravePanel}" >
             <DataGrid.Columns >
@@ -74,7 +74,7 @@
                         <DataTemplate>
                             <ComboBox IsEditable="True" ItemsSource="{Binding MyContractContents.List}" Text="{Binding MyContractContent}"/>
                         </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="登録日" Width="2*" Binding="{Binding MyRegistrationTime.MyDate,StringFormat=yyyy/MM/dd}"/>
                 <DataGridTemplateColumn Header="印刷フラグ" Width="1*"  >
@@ -103,7 +103,7 @@
                     </ib:EventTrigger>
                 </ib:Interaction.Triggers>
             </Button>
-                <Button x:Name="AddItemButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
+            <Button x:Name="AddItemButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
                 追加
                 <ib:Interaction.Triggers>
                     <ib:EventTrigger EventName="Click">
@@ -118,8 +118,8 @@
                 </Grid.RowDefinitions>
                 <Label Content="出力ポジション（1〜3）" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <TextBox x:Name="StartPositionTextBox" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding OutputPosition}" Margin="50,5,50,5"/>
-          </Grid>
-             <Button x:Name="PrintoutButton" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
+            </Grid>
+            <Button x:Name="PrintoutButton" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10" FontSize="14">
                 印刷
                 <ib:Interaction.Triggers>
                     <ib:EventTrigger EventName="Click">

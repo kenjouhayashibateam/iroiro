@@ -106,6 +106,33 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  セルを黄色で表示していますので、検索し、修正して下さい。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property AddressLengthOverInfo_CellYellow() As String
+            Get
+                Return ResourceManager.GetString("AddressLengthOverInfo_CellYellow", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  住所の長いデータが  に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property AddressLengthOverInfo_Multi1() As String
+            Get
+                Return ResourceManager.GetString("AddressLengthOverInfo_Multi1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''   件あります。 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property AddressLengthOverInfo_Multi2() As String
+            Get
+                Return ResourceManager.GetString("AddressLengthOverInfo_Multi2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  面積が正しく入力されていません に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property AreaFieldError() As String

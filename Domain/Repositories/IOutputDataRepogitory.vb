@@ -4,7 +4,14 @@
 ''' リストの処理の進捗を知らせます
 ''' </summary>
 Public Interface IProcessedCountObserver
-    Sub Notify(ByVal _count As Integer)
+    Sub ProcessedCountNotify(ByVal _count As Integer)
+End Interface
+
+''' <summary>
+''' 住所の長いデータの数を知らせます
+''' </summary>
+Public Interface IOverLengthAddress2Count
+    Sub OverLengthCountNotify(ByVal _count As Integer)
 End Interface
 
 ''' <summary>
@@ -67,6 +74,12 @@ Public Interface IOutputDataRepogitory
     ''' 進捗カウントを受け取るリスナーを登録します
     ''' </summary>
     ''' <param name="_listener"></param>
-    Sub AddListener(ByVal _listener As IProcessedCountObserver)
+    Sub AddProcessedCountListener(ByVal _listener As IProcessedCountObserver)
+
+    ''' <summary>
+    ''' 住所の長いデータの数を受け取るリスナーを登録します
+    ''' </summary>
+    ''' <param name="_listener"></param>
+    Sub AddOverLengthAddressListener(ByVal _listener As IOverLengthAddress2Count)
 
 End Interface

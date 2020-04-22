@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\WPF",
+    "\\WPF\\Data",
+    "\\WPF\\obj"
   ],
+  "SelectedNode": "\\Iroiro.sln",
   "PreviewInSolutionExplorer": false
 }

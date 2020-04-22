@@ -861,6 +861,11 @@ Domain
  リストの処理の進捗を知らせます
  </summary>
 </member>
+<member name="T:Domain.IOverLengthAddress2Count">
+ <summary>
+ 住所の長いデータの数を知らせます
+ </summary>
+</member>
 <member name="T:Domain.IOutputDataRepogitory">
  <summary>
  出力するデータの処理を行うリポジトリ
@@ -911,9 +916,15 @@ Domain
  墓地札
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.AddListener(Domain.IProcessedCountObserver)">
+<member name="M:Domain.IOutputDataRepogitory.AddProcessedCountListener(Domain.IProcessedCountObserver)">
  <summary>
  進捗カウントを受け取るリスナーを登録します
+ </summary>
+ <param name="_listener"></param>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.AddOverLengthAddressListener(Domain.IOverLengthAddress2Count)">
+ <summary>
+ 住所の長いデータの数を受け取るリスナーを登録します
  </summary>
  <param name="_listener"></param>
 </member>

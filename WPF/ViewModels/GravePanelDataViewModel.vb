@@ -214,7 +214,7 @@ Namespace ViewModels
         End Property
 
         Sub New()
-            Me.New(New SQLConectInfrastructure, New ExcelOutputInfrastructure)
+            Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
         Sub New(ByVal _databaseconecter As IDataConectRepogitory, ByVal _outputdataconecter As IOutputDataRepogitory)

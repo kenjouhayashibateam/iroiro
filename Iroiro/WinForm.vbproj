@@ -136,12 +136,8 @@
     <Compile Include="view\AddressDataView.Designer.vb">
       <DependentUpon>AddressDataView.vb</DependentUpon>
     </Compile>
-    <Compile Include="view\AddressDataView.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="view\MultiAddresseeDataView.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="view\AddressDataView.vb" />
+    <Compile Include="view\MultiAddresseeDataView.vb" />
     <Compile Include="view\MultiAddresseeDataView.Designer.vb">
       <DependentUpon>MultiAddresseeDataView.vb</DependentUpon>
       <SubType>Form</SubType>
@@ -164,9 +160,7 @@
     <Compile Include="view\SingleAddresseeDataView.Designer.vb">
       <DependentUpon>SingleAddresseeDataView.vb</DependentUpon>
     </Compile>
-    <Compile Include="view\SingleAddresseeDataView.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="view\SingleAddresseeDataView.vb" />
     <Compile Include="viewmodel\WinFormSingleAddresseeDataViewModel.vb" />
     <Compile Include="view\TestUserControl.xaml.vb">
       <DependentUpon>TestUserControl.xaml</DependentUpon>

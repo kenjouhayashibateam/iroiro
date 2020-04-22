@@ -79,6 +79,21 @@
   住所がセルからはみ出てますので、書き直して下さい に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:WPF.My.Resources.Resources.AddressLengthOverInfo_CellYellow">
+<summary>
+  セルを黄色で表示していますので、検索し、修正して下さい。 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.AddressLengthOverInfo_Multi1">
+<summary>
+  住所の長いデータが  に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
+<member name="P:WPF.My.Resources.Resources.AddressLengthOverInfo_Multi2">
+<summary>
+   件あります。 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:WPF.My.Resources.Resources.AreaFieldError">
 <summary>
   面積が正しく入力されていません に類似しているローカライズされた文字列を検索します。
@@ -912,6 +927,12 @@
  <summary>
  複数印刷画面ビューモデル
  </summary>
+</member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.OverLengthAddressCount">
+ <summary>
+ 住所の長いデータの件数
+ </summary>
+ <returns></returns>
 </member>
 <member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.Addressee">
  <summary>

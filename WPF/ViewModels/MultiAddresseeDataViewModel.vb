@@ -13,7 +13,14 @@ Namespace ViewModels
     ''' </summary>
     Public Class MultiAddresseeDataViewModel
         Inherits BaseViewModel
-        Implements INotifyPropertyChanged, INotifyCollectionChanged, IProcessedCountObserver, IAddressDataViewCloseListener
+        Implements INotifyPropertyChanged, INotifyCollectionChanged, IProcessedCountObserver, IAddressDataViewCloseListener,
+            IOverLengthAddress2Count
+
+        ''' <summary>
+        ''' 住所の長いデータの件数
+        ''' </summary>
+        ''' <returns></returns>
+        Private Property OverLengthAddressCount As Integer
 
         Private ReadOnly DataBaseConecter As IDataConectRepogitory
         Private ReadOnly DataOutputConecter As IOutputDataRepogitory
@@ -44,6 +51,7 @@ Namespace ViewModels
         Private _CallSelectAddresseeInfo As Boolean
         Private _MsgResult As MessageBoxResult
         Private _ReferenceLesseeCommand As DelegateCommand
+        Private _CallAddressLengthOverInfo As Boolean
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
 
         ''' <summary>
@@ -506,7 +514,7 @@ Namespace ViewModels
         End Property
 
         Sub New()
-            Me.New(New SQLConectInfrastructure, New ExcelOutputInfrastructure)
+            Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
         ''' <summary>
@@ -748,9 +756,7 @@ Namespace ViewModels
         ''' 長3封筒印刷
         ''' </summary>
         Public Sub OutputList_Cho3Envelope()
-
             DataOutputConecter.Cho3EnvelopeOutput(AddresseeList)
-
         End Sub
 
         ''' <summary>
@@ -822,7 +828,8 @@ Namespace ViewModels
 
             If AddresseeList.Count = 0 Then Exit Sub
 
-            DataOutputConecter.AddListener(Me)
+            DataOutputConecter.AddProcessedCountListener(Me)
+            DataOutputConecter.AddOverLengthAddressListener(Me)
             DataOutputConecter.DataClear()
             ProgressListCount = AddresseeList.Count
             Await Task.Run(Sub()
@@ -847,6 +854,40 @@ Namespace ViewModels
                            End Sub
                            )
 
+            If OverLengthAddressCount > 0 Then CallAddressLengthOverInfo = True
+
+        End Sub
+
+        Public Property CallAddressLengthOverInfo As Boolean
+            Get
+                Return _CallAddressLengthOverInfo
+            End Get
+            Set
+                _CallAddressLengthOverInfo = Value
+                CallPropertyChanged(NameOf(CallAddressLengthOverInfo))
+                _CallAddressLengthOverInfo = False
+            End Set
+        End Property
+
+        Public Property AddressLengthOverInfoCommad As DelegateCommand
+
+        Public Sub CreateAddressLengthOverInfo()
+
+            AddressLengthOverInfoCommad = New DelegateCommand(
+                Sub()
+                    MessageInfo = New MessageBoxInfo With {
+                        .Message = My.Resources.AddressLengthOverInfo_Multi1 & OverLengthAddressCount & My.Resources.AddressLengthOverInfo_Multi2 &
+                                            vbNewLine & My.Resources.AddressLengthOverInfo_CellYellow,
+                        .Button = MessageBoxButton.OK,
+                        .Title = "データ修正",
+                        .Image = MessageBoxImage.Information
+                        }
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+
         End Sub
 
         Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
@@ -859,7 +900,7 @@ Namespace ViewModels
 
         End Sub
 
-        Public Sub Notify(_count As Integer) Implements IProcessedCountObserver.Notify
+        Public Sub ProcessedCountNotify(_count As Integer) Implements IProcessedCountObserver.ProcessedCountNotify
             ProcessedCount = _count
             ProgressText = ProcessedCount & My.Resources.SlashClipSpace & ProgressListCount
         End Sub
@@ -867,6 +908,10 @@ Namespace ViewModels
         Public Sub AddressDataNotify(_postalcode As String, _address As String) Implements IAddressDataViewCloseListener.AddressDataNotify
             Postalcode = _postalcode
             Address1 = _address
+        End Sub
+
+        Public Sub OverLengthCountNotify(_count As Integer) Implements IOverLengthAddress2Count.OverLengthCountNotify
+            OverLengthAddressCount = _count
         End Sub
     End Class
 End Namespace

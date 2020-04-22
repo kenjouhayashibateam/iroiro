@@ -112,7 +112,7 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="管理番号" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
                         <Label Content="墓地番号" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                        
+
                     </Grid>
                     <Grid x:Name="GraveNumberGrid" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
                         <Grid.ColumnDefinitions>
@@ -169,7 +169,6 @@
                         <extk:WatermarkTextBox x:Name="AreaTextBox" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Watermark="面積" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5,5,15" Text="{Binding Area}" FontSize="16"/>
                         <Label Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" Content="㎡" FontSize="16" Margin="0,11"/>
                     </Grid>
-
                 </Grid>
             </Grid>
 

@@ -95,6 +95,19 @@ Interface IVerticalOutputListBehavior
     ''' </summary>
     ''' <returns></returns>
     Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity)
+
+    ''' <summary>
+    ''' 宛名印刷の住所の長さの限界値を返します。0は検証しません
+    ''' </summary>
+    ''' <returns></returns>
+    Function GetAddressMaxLength() As Integer
+
+    ''' <summary>
+    ''' 長さを検証する文字列
+    ''' </summary>
+    ''' <returns></returns>
+    Function GetLengthVerificationString(ByVal destinationData As DestinationDataEntity) As String
+
 End Interface
 
 ''' <summary>
@@ -376,9 +389,14 @@ Public Class ExcelOutputInfrastructure
     ''' <summary>
     ''' 進捗を受け取るリスナー
     ''' </summary>
-    Private Shared Listener As IProcessedCountObserver
+    Private Shared ProcessedCountListener As IProcessedCountObserver
 
     ''' <summary>
+    ''' 住所の長いデータの数を受け取るリスナー
+    ''' </summary>
+    Private Shared OverLengthAddressCountListener As IOverLengthAddress2Count
+
+    ''' <summary> 
     ''' 出力するデータの種類を保持する
     ''' </summary>
     ''' <returns></returns>
@@ -616,7 +634,7 @@ Public Class ExcelOutputInfrastructure
                 Hob.CellProperty(sheetindex)
                 Hob.SetData(dde)
                 ProcessedCount += 1
-                If Listener IsNot Nothing Then Listener.Notify(ProcessedCount)
+                If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
         End With
 
@@ -626,8 +644,6 @@ Public Class ExcelOutputInfrastructure
 
     End Sub
 
-
-
     ''' <summary>
     ''' 縦向けにリストのデータを入力する処理
     ''' </summary>
@@ -635,8 +651,9 @@ Public Class ExcelOutputInfrastructure
     ''' <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
     Private Sub ListOutputVerticalProcessing(ByVal _vob As IVerticalOutputListBehavior, ByVal ismulti As Boolean)
 
-        Volb = _vob
+        Dim overLengthCount As Integer = 0
 
+        Volb = _vob
         SheetSetting()
 
         With ExlWorkSheet
@@ -661,16 +678,23 @@ Public Class ExcelOutputInfrastructure
 
                 Volb.CellsJoin(StartRowPosition)
                 Volb.SetData(StartRowPosition, dde)
+
                 ProcessedCount += 1
-                If Listener IsNot Nothing Then Listener.Notify(ProcessedCount)
+                If Volb.GetLengthVerificationString(dde).Length > Volb.GetAddressMaxLength Then overLengthCount += 1
+                If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
             .Style.Font.FontName = Volb.SetCellFont
         End With
 
+        If overLengthCount > 0 Then NotificationOverLengthCount(overLengthCount)
         If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
         ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
         ExcelOpen()
 
+    End Sub
+
+    Private Sub NotificationOverLengthCount(ByVal count As Integer)
+        OverLengthAddressCountListener.OverLengthCountNotify(count)
     End Sub
 
     Private Sub GravePanelListOutputProcessing(ByVal _vob As IGravePanelListBehavior, ByVal outputPositon As Integer)
@@ -823,14 +847,18 @@ Public Class ExcelOutputInfrastructure
         ListOutputVerticalProcessing(pc, True)
     End Sub
 
-    Private Sub AddListener(_listener As IProcessedCountObserver) Implements IOutputDataRepogitory.AddListener
-        Listener = _listener
+    Private Sub AddProcessedCountListener(_listener As IProcessedCountObserver) Implements IOutputDataRepogitory.AddProcessedCountListener
+        ProcessedCountListener = _listener
     End Sub
 
     Public Sub DataClear() Implements IOutputDataRepogitory.DataClear
         If ExlWorkSheet Is Nothing Then Exit Sub
         ExlWorkSheet.Cells.Clear()
         StartIndex = 0
+    End Sub
+
+    Public Sub AddOverLengthAddressListener(_listener As IOverLengthAddress2Count) Implements IOutputDataRepogitory.AddOverLengthAddressListener
+        Throw New NotImplementedException()
     End Sub
 
     ''' <summary>
@@ -936,6 +964,7 @@ Public Class ExcelOutputInfrastructure
         Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
             Return "a:b"
         End Function
+
     End Class
 
     ''' <summary>
@@ -1074,6 +1103,14 @@ Public Class ExcelOutputInfrastructure
 
         Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
             Return AddresseeList
+        End Function
+
+        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+            Return 15
+        End Function
+
+        Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+            Return destinationData.MyAddress2.Address
         End Function
     End Class
 
@@ -1289,6 +1326,14 @@ Public Class ExcelOutputInfrastructure
         Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
             Return AddresseeList
         End Function
+
+        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+            Return 36
+        End Function
+
+        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+            Return destinationData.MyAddress1.Address & destinationData.MyAddress2.Address
+        End Function
     End Class
 
     ''' <summary>
@@ -1413,12 +1458,20 @@ Public Class ExcelOutputInfrastructure
             Return AddresseeList
         End Function
 
+        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+            Return 36
+        End Function
+
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
             Return {17.88, 6, 2.75, 2.75, 2.75, 2.38, 2.38, 2.38, 2.38, 0.85}
         End Function
 
         Private Function IExcelOutputBehavior_SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
             Return {22.5, 18.75, 27.75, 372}
+        End Function
+
+        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+            Return destinationData.MyAddress2.Address
         End Function
     End Class
 
@@ -1532,6 +1585,15 @@ Public Class ExcelOutputInfrastructure
         Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
             Return AddresseeList
         End Function
+
+        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+            Return 0
+        End Function
+
+        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+            Return String.Empty
+        End Function
+
     End Class
 
     ''' <summary>
@@ -1644,6 +1706,14 @@ Public Class ExcelOutputInfrastructure
         Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
             Return AddresseeList
         End Function
+
+        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+            Return 0
+        End Function
+
+        Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+            Return String.Empty
+        End Function
     End Class
 
     ''' <summary>
@@ -1725,24 +1795,24 @@ Public Class ExcelOutputInfrastructure
                     addressText1 = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
                     addressText2 = String.Empty
                 Else
-                    addresstext1 = ac.GetConvertAddress1
-                    addresstext2 = ac.GetConvertAddress2
+                    addressText1 = ac.GetConvertAddress1
+                    addressText2 = ac.GetConvertAddress2
                 End If
                 If ac.GetConvertAddress2.Length > 14 Then
                     .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.NoColor
                 End If
-                .Cell(startrowposition + 4, 8).Value = addresstext1
-                .Cell(startrowposition + 4, 6).Value = addresstext2
+                .Cell(startrowposition + 4, 8).Value = addressText1
+                .Cell(startrowposition + 4, 6).Value = addressText2
 
                 '宛名
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
+                    addresseeName = destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
                 Else
-                    addresseename = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
+                    addresseeName = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
                 End If
-                .Cell(startrowposition + 4, 2).Value = addresseename
+                .Cell(startrowposition + 4, 2).Value = addresseeName
             End With
 
         End Sub
@@ -1771,6 +1841,10 @@ Public Class ExcelOutputInfrastructure
             Return AddresseeList
         End Function
 
+        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+            Return 14
+        End Function
+
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
             Return {15.57, 3.57, 2.71, 2.71, 2.71, 2.71, 2.71, 2.71, 2.71}
         End Function
@@ -1779,6 +1853,9 @@ Public Class ExcelOutputInfrastructure
             Return {30, 22.5, 22.5, 326.25}
         End Function
 
+        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+            Return destinationData.MyAddress2.Address
+        End Function
     End Class
 
     ''' <summary>
@@ -1880,6 +1957,7 @@ Public Class ExcelOutputInfrastructure
         Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
             Return "a:c"
         End Function
+
     End Class
 
 End Class

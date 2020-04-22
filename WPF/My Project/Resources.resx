@@ -132,6 +132,15 @@
   <data name="AddressLengthOverInfo" xml:space="preserve">
     <value>住所がセルからはみ出てますので、書き直して下さい</value>
   </data>
+  <data name="AddressLengthOverInfo_CellYellow" xml:space="preserve">
+    <value>セルを黄色で表示していますので、検索し、修正して下さい。</value>
+  </data>
+  <data name="AddressLengthOverInfo_Multi1" xml:space="preserve">
+    <value>住所の長いデータが </value>
+  </data>
+  <data name="AddressLengthOverInfo_Multi2" xml:space="preserve">
+    <value> 件あります。</value>
+  </data>
   <data name="AreaFieldError" xml:space="preserve">
     <value>面積が正しく入力されていません</value>
   </data>

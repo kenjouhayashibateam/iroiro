@@ -573,7 +573,7 @@ Namespace ViewModels
         End Property
 
         Sub New()
-            Me.New(New SQLConectInfrastructure)
+            Me.New(New SQLConnectInfrastructure)
         End Sub
 
         Sub New(ByVal _datarepository As IDataConectRepogitory)

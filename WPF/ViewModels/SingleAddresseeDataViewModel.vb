@@ -17,8 +17,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Public Property AddressOverLengthInfo As DelegateCommand
-
-        Public Sub CreateAddressOverLengthInfo()
+        Private Sub CreateAddressOverLengthInfo()
             AddressOverLengthInfo = New DelegateCommand(
                 Sub() '無名関数（匿名関数）
                     MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
@@ -590,7 +589,7 @@ Namespace ViewModels
         ''' 各種リポジトリを設定します
         ''' </summary>
         Sub New()
-            Me.New(New SQLConectInfrastructure, New ExcelOutputInfrastructure)
+            Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
         '<System.Runtime.InteropServices.DllImport("winmm.dll", CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
@@ -882,8 +881,10 @@ Namespace ViewModels
                 Case OutputContents.LabelSheet
                     InputLabel()
                 Case OutputContents.Postcard
+                    If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
                     InputPostcard()
                 Case OutputContents.TransferPaper
+                    If (Address1 & Address2).Length > 36 Then CreateAddressOverLengthInfo()
                     InputTransferData()
                 Case OutputContents.WesternEnbelope
                     InputWesternEnvelope()
@@ -979,7 +980,6 @@ Namespace ViewModels
                         RemoveError(NameOf(Address2))
                     End If
             End Select
-
             InputErrorString = GetErrors(propertyName)
         End Sub
 
