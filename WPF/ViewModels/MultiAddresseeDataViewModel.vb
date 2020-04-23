@@ -229,7 +229,7 @@ Namespace ViewModels
                 myAddress = AddressList.GetItem(0)
                 Address1 = myAddress.MyAddress.Address
                 Dim mycode As String = myAddress.MyPostalcode.Code
-                Postalcode = mycode.Substring(0, 3) & "-" & mycode.Substring(3, 4)
+                Postalcode = $"{mycode.Substring(0, 3)}-{mycode.Substring(3, 4)}"
                 Exit Sub
             End If
 
@@ -570,12 +570,12 @@ Namespace ViewModels
 
             If lse Is Nothing Then Exit Sub
 
-            If lse.GetReceiverName = String.Empty Then
+            If lse.GetReceiverName.GetName = String.Empty Then
                 SetLesseeProperty(lse)
                 Exit Sub
             End If
 
-            If lse.GetLesseeName = lse.GetReceiverName Then
+            If lse.GetLesseeName.GetName = lse.GetReceiverName.GetName Then
                 SetReceiverProperty(lse)
                 Exit Sub
             Else
@@ -632,10 +632,10 @@ Namespace ViewModels
             Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-               .Message = My.Resources.FieldPropertyMessage_Lessee & lse.GetLesseeName & vbNewLine & lse.GetAddress1 & lse.GetAddress2 & vbNewLine &
-                                vbNewLine & My.Resources.FieldPropertyMessage_Receiver & lse.GetReceiverName & vbNewLine & lse.GetReceiverAddress1 &
-                                lse.GetReceiverAddress2 & vbNewLine & vbNewLine & My.Resources.DataSelectInfo & vbNewLine & vbNewLine &
-                                 My.Resources.LesseeDataSelect,
+               .Message = $"{lse.GetLesseeName.ShowDisplay}{vbNewLine}{lse.GetAddress1.GetAddress}{lse.GetAddress2.ShowDisplay}{vbNewLine}
+                                    {vbNewLine}{lse.GetReceiverName.ShowDisplay}{vbNewLine}{lse.GetReceiverAddress1.ShowDisplay}
+                                    {lse.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}
+                                    {My.Resources.LesseeDataSelect}",
                                  .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
                 MsgResult = MessageInfo.Result
@@ -653,10 +653,12 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="mylessee">名義人データ</param>
         Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
-            Addressee = mylessee.GetReceiverName
-            Postalcode = mylessee.GetReceiverPostalcode
-            Address1 = mylessee.GetReceiverAddress1
-            Address2 = mylessee.GetReceiverAddress2
+            With mylessee
+                Addressee = .GetReceiverName.GetName
+                Postalcode = .GetReceiverPostalcode.GetCode
+                Address1 = .GetReceiverAddress1.GetAddress
+                Address2 = .GetReceiverAddress2.GetAddress
+            End With
         End Sub
 
         ''' <summary>
@@ -664,10 +666,12 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="mylessee">名義人データ</param>
         Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
-            Addressee = mylessee.GetLesseeName
-            Postalcode = mylessee.GetPostalCode
-            Address1 = mylessee.GetAddress1
-            Address2 = mylessee.GetAddress2
+            With mylessee
+                Addressee = .GetLesseeName.GetName
+                Postalcode = .GetPostalCode.GetCode
+                Address1 = .GetAddress1.GetAddress
+                Address2 = .GetAddress2.GetAddress
+            End With
         End Sub
 
         ''' <summary>
@@ -721,8 +725,10 @@ Namespace ViewModels
             Sub()
                 MessageInfo = New MessageBoxInfo With
                 {
-                .Message = My.Resources.ClipBoardDataErrorInfo & vbNewLine & My.Resources.PassAddresseeRecordInfo,
-                .Title = My.Resources.FormatErrorTitle, .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Error
+                .Message = $"{My.Resources.ClipBoardDataErrorInfo}{vbNewLine}{My.Resources.PassAddresseeRecordInfo}",
+                .Title = My.Resources.FormatErrorTitle,
+                .Button = MessageBoxButton.OK,
+                .Image = MessageBoxImage.Error
                 }
                 CallPropertyChanged(NameOf(ErrorMessageInfo))
             End Sub,
@@ -876,8 +882,8 @@ Namespace ViewModels
             AddressLengthOverInfoCommad = New DelegateCommand(
                 Sub()
                     MessageInfo = New MessageBoxInfo With {
-                        .Message = My.Resources.AddressLengthOverInfo_Multi1 & OverLengthAddressCount & My.Resources.AddressLengthOverInfo_Multi2 &
-                                            vbNewLine & My.Resources.AddressLengthOverInfo_CellYellow,
+                        .Message = $"{My.Resources.AddressLengthOverInfo_Multi1}{OverLengthAddressCount}{My.Resources.AddressLengthOverInfo_Multi2}
+                                              {vbNewLine}{My.Resources.AddressLengthOverInfo_CellYellow}",
                         .Button = MessageBoxButton.OK,
                         .Title = "データ修正",
                         .Image = MessageBoxImage.Information
@@ -902,7 +908,7 @@ Namespace ViewModels
 
         Public Sub ProcessedCountNotify(_count As Integer) Implements IProcessedCountObserver.ProcessedCountNotify
             ProcessedCount = _count
-            ProgressText = ProcessedCount & My.Resources.SlashClipSpace & ProgressListCount
+            ProgressText = $"{ProcessedCount}{My.Resources.SlashClipSpace}{ProgressListCount}"
         End Sub
 
         Public Sub AddressDataNotify(_postalcode As String, _address As String) Implements IAddressDataViewCloseListener.AddressDataNotify

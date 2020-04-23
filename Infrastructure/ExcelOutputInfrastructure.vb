@@ -226,28 +226,28 @@ Public Class AddressConvert
         '7-1-7東栗谷マンション202の場合
 
         'Address2の数字以外の文字列を*に変換する ⇒  ７*１*７********２０２
-        basestring = Regex.Replace(StrConv(Address2, vbWide), "[^０-９]", My.Resources.SingleAsterisk)
+        basestring = Regex.Replace(StrConv(Address2, vbWide), "[^０-９]", "*")
         '*を基準に配列を生成する⇒７,１,７,,,,,,,,２０２
-        Dim numberarray() As String = Split(basestring, My.Resources.SingleAsterisk)
+        Dim numberarray() As String = Split(basestring, "*")
         '数字を漢字に変換する。⇒七,一,七,,,,,,,,二〇二
         For i As Integer = 0 To UBound(numberarray)
             numberarray(i) = BranchConvertNumber(Trim(numberarray(i)))
         Next
 
         'Address2の数字を*に置換⇒*－*－*東栗谷マンション***
-        basestring = Regex.Replace(StrConv(Address2, vbWide), "[０-９]", My.Resources.SingleAsterisk)
+        basestring = Regex.Replace(StrConv(Address2, vbWide), "[０-９]", "*")
 
         '**と二つ以上連続することのないように置換する⇒*－*－*東栗谷マンション*
-        Do Until InStr(basestring, My.Resources.DoubleAsterisk) = 0
-            basestring = Replace(basestring, My.Resources.DoubleAsterisk, My.Resources.SingleAsterisk)
+        Do Until InStr(basestring, "**") = 0
+            basestring = Replace(basestring, "**", "*")
         Loop
 
         'numberarrayの空文字以外の要素を最初から順に取り出し、basestringの最初の*に要素を置換する⇒七－一－七東栗谷マンション二〇二
         For j As Integer = 0 To UBound(numberarray)
-            If Not String.IsNullOrEmpty(numberarray(j)) Then basestring = Replace(basestring, My.Resources.SingleAsterisk, numberarray(j), 1, 1)
+            If Not String.IsNullOrEmpty(numberarray(j)) Then basestring = Replace(basestring, "*", numberarray(j), 1, 1)
         Next
         'ハイフンを置換する
-        basestring = Replace(basestring, "－", "ー") 'Resourceに登録したいが、名前がつけづらい。なので、直打ちにしています
+        basestring = Replace(basestring, "－", "ー")
         '*を空欄に置換して値を返す
         Return Replace(basestring, "*", String.Empty)
 
@@ -331,23 +331,23 @@ Public Class AddressConvert
 
         Select Case myNumber
             Case 11
-                Return My.Resources.TenString & My.Resources.OneString
+                Return $"{My.Resources.TenString}{My.Resources.OneString}"
             Case 12
-                Return My.Resources.TenString & My.Resources.TowString
+                Return $"{My.Resources.TenString}{My.Resources.TowString}"
             Case 13
-                Return My.Resources.TenString & My.Resources.ThreeString
+                Return $"{My.Resources.TenString}{My.Resources.ThreeString}"
             Case 14
-                Return My.Resources.TenString & My.Resources.FourString
+                Return $"{My.Resources.TenString}{My.Resources.FourString}"
             Case 15
-                Return My.Resources.TenString & My.Resources.FiveString
+                Return $"{My.Resources.TenString}{My.Resources.FiveString}"
             Case 16
-                Return My.Resources.TenString & My.Resources.SixString
+                Return $"{My.Resources.TenString}{My.Resources.SixString}"
             Case 17
-                Return My.Resources.TenString & My.Resources.SevenString
+                Return $"{My.Resources.TenString}{My.Resources.SevenString}"
             Case 18
-                Return My.Resources.TenString & My.Resources.EightString
+                Return $"{My.Resources.TenString}{My.Resources.EightString}"
             Case 19
-                Return My.Resources.TenString & My.Resources.NineString
+                Return $"{My.Resources.TenString}{My.Resources.NineString}"
             Case Else
                 Return String.Empty
         End Select
@@ -372,7 +372,7 @@ Public Class AddressConvert
         If myValue.ToString.Length <> 2 Then Return myValue
 
         '20、30などの数字を〇から十に変える
-        If myValue.Substring(1, 1) = My.Resources.ZeroString Then myValue = myValue.Substring(0, 1) & My.Resources.TenString
+        If myValue.Substring(1, 1) = My.Resources.ZeroString Then myValue = $"{myValue.Substring(0, 1)}{My.Resources.TenString}"
 
         Return myValue
 
@@ -869,8 +869,8 @@ Public Class ExcelOutputInfrastructure
 
         Public Sub SetData(startrowposition As Integer, gravepanel As GravePanelDataEntity) Implements IGravePanelListBehavior.SetData
             With ExlWorkSheet
-                If Not String.IsNullOrEmpty(gravepanel.GetFamilyName) Then .Cell(startrowposition + 1, 1).Value = NameConvert(gravepanel.GetFamilyName) & My.Resources.AddHomeString
-                .Cell(startrowposition + 2, 1).Value = gravepanel.GetGraveNumber & Space(1) & gravepanel.GetArea & My.Resources.SquareFootageText
+                If Not String.IsNullOrEmpty(gravepanel.GetFamilyName) Then .Cell(startrowposition + 1, 1).Value = $"{NameConvert(gravepanel.GetFamilyName)}家"
+                .Cell(startrowposition + 2, 1).Value = $"{gravepanel.GetGraveNumber}{Space(1)}{gravepanel.GetArea}{My.Resources.SquareFootageText}"
                 .Cell(startrowposition + 3, 1).Value = My.Resources.CleaningContract
                 .Cell(startrowposition + 3, 2).Value = gravepanel.GetContractContent
             End With
@@ -892,11 +892,11 @@ Public Class ExcelOutputInfrastructure
             Select Case strName.Trim.Length
                 Case 1, 2
                     For I = 0 To UBound(nameArray) Step 1
-                        If nameArray(I).Trim.Length <> 0 Then nameValue &= nameArray(I) & StrConv(Space(1), VbStrConv.Wide)
+                        If nameArray(I).Trim.Length <> 0 Then nameValue &= $"{nameArray(I)}{StrConv(Space(1), VbStrConv.Wide)}"
                     Next
                 Case > 2
                     For I = 0 To UBound(nameArray) Step 1
-                        If nameArray(I).Trim.Length <> 0 Then nameValue &= nameArray(I) & Space(1)
+                        If nameArray(I).Trim.Length <> 0 Then nameValue &= $"{nameArray(I)}{Space(1)}"
                     Next
 
             End Select
@@ -1000,7 +1000,7 @@ Public Class ExcelOutputInfrastructure
                 addresstext1 = ac.GetConvertAddress1
                 addresstext2 = ac.GetConvertAddress2
                 If addresstext1.Length + addresstext2.Length < 15 Then
-                    .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
+                    .Cell(startrowposition + 4, 8).Value = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
                     .Cell(startrowposition + 4, 6).Value = String.Empty
                 Else
                     .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
@@ -1015,9 +1015,9 @@ Public Class ExcelOutputInfrastructure
 
                 '宛名
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
+                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
                 Else
-                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
+                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
                 End If
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
@@ -1110,7 +1110,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
+            Return destinationData.MyAddress2.GetAddress
         End Function
     End Class
 
@@ -1141,7 +1141,7 @@ Public Class ExcelOutputInfrastructure
             Dim line1, line2, line3, joinaddress As String
 
             '住所をつなげる
-            joinaddress = address1 & address2
+            joinaddress = $"{address1}{address2}"
 
             'つなげた住所の文字列が長ければ関数を呼び出し値を返す
             If joinaddress.Length > 24 Then Return ReturnLongAddressArray(joinaddress)
@@ -1269,7 +1269,7 @@ Public Class ExcelOutputInfrastructure
             With ExlWorkSheet
                 '振込金額入力
                 Dim ColumnIndex As Integer = 0
-                Dim moneystring As String = "\" & destinationdata.MoneyData.GetMoney
+                Dim moneystring As String = $"\{destinationdata.MoneyData.GetMoney}"
                 Do Until ColumnIndex = moneystring.Length
                     .Cell(startrowposition + 3, 11 - ColumnIndex).Value = moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1)
                     .Cell(startrowposition + 9, 20 - ColumnIndex).Value = moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1)    'お客様控え
@@ -1281,7 +1281,7 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 8, 4).Value = destinationdata.Note3Data.GetNote   '備考3
                 .Cell(startrowposition + 9, 4).Value = destinationdata.Note4Data.GetNote  '備考4
                 .Cell(startrowposition + 10, 4).Value = destinationdata.Note5Data.GetNote  '備考5
-                .Cell(startrowposition + 7, 2).Value = "〒 " & destinationdata.MyPostalCode.GetCode      '宛先郵便番号
+                .Cell(startrowposition + 7, 2).Value = $"〒{destinationdata.MyPostalCode.GetCode}"      '宛先郵便番号
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 .Cell(startrowposition + 8, 2).Value = ac.GetConvertAddress1         '宛先住所1
 
@@ -1295,14 +1295,14 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(0, stringlength)
                 If destinationdata.MyAddress2.GetAddress.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(stringlength)
 
-                .Cell(startrowposition + 12, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle  '宛先の宛名
-                .Cell(startrowposition + 13, 13).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle 'お客様控えの名前
+                .Cell(startrowposition + 12, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"  '宛先の宛名
+                .Cell(startrowposition + 13, 13).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}" 'お客様控えの名前
 
                 'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
                 Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, destinationdata.MyAddress2.GetAddress)
-                .Cell(startrowposition + 10, 13).Value = " " & strings(0)
-                .Cell(startrowposition + 11, 13).Value = " " & strings(1)
-                .Cell(startrowposition + 12, 13).Value = " " & strings(2)
+                .Cell(startrowposition + 10, 13).Value = $"{Space(1)}{strings(0)}"
+                .Cell(startrowposition + 11, 13).Value = $"{Space(1)}{ strings(1)}"
+                .Cell(startrowposition + 12, 13).Value = $"{Space(1)}{ strings(2)}"
             End With
 
         End Sub
@@ -1332,7 +1332,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress1.Address & destinationData.MyAddress2.Address
+            Return $"{destinationData.MyAddress1.GetAddress}{destinationData.MyAddress2.GetAddress}"
         End Function
     End Class
 
@@ -1408,7 +1408,7 @@ Public Class ExcelOutputInfrastructure
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 '住所
                 If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
-                    addresstext1 = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
+                    addresstext1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
                 Else
                     addresstext1 = ac.GetConvertAddress1
                     addresstext2 = ac.GetConvertAddress2
@@ -1425,9 +1425,9 @@ Public Class ExcelOutputInfrastructure
 
                 '宛名
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
+                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
                 Else
-                    addresseename = Space(1) & destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
+                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
                 End If
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
@@ -1471,7 +1471,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
+            Return destinationData.MyAddress2.GetAddress
         End Function
     End Class
 
@@ -1543,13 +1543,14 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 '郵便番号
-                .Cell(startrowposition + 2, 3).Value = My.Resources.PostalMarkClipSpace & destinationdata.MyPostalCode.GetCode
+                .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
                 '住所
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
                 '宛名
-                .Cell(startrowposition + 4, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
+                .Cell(startrowposition + 4, 2).Value = $"{destinationdata.AddresseeName.GetName}
+                                                                            {Space(1)}{destinationdata.MyTitle.GetTitle}"
             End With
 
         End Sub
@@ -1664,13 +1665,13 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 '郵便番号
-                .Cell(startrowposition + 2, 3).Value = My.Resources.PostalMarkClipSpace & destinationdata.MyPostalCode.GetCode
+                .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
                 '住所
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
                 '宛名
-                .Cell(startrowposition + 4, 2).Value = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
+                .Cell(startrowposition + 4, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
             End With
 
         End Sub
@@ -1792,7 +1793,7 @@ Public Class ExcelOutputInfrastructure
                 '住所
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
                 If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
-                    addressText1 = ac.GetConvertAddress1 & Space(1) & ac.GetConvertAddress2
+                    addressText1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
                     addressText2 = String.Empty
                 Else
                     addressText1 = ac.GetConvertAddress1
@@ -1808,9 +1809,9 @@ Public Class ExcelOutputInfrastructure
 
                 '宛名
                 If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseeName = destinationdata.AddresseeName.GetName & destinationdata.MyTitle.GetTitle
+                    addresseeName = $"{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
                 Else
-                    addresseeName = destinationdata.AddresseeName.GetName & Space(1) & destinationdata.MyTitle.GetTitle
+                    addresseeName = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
                 End If
                 .Cell(startrowposition + 4, 2).Value = addresseeName
             End With
@@ -1854,7 +1855,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
+            Return destinationData.MyAddress2.GetAddress
         End Function
     End Class
 
@@ -1879,28 +1880,28 @@ Public Class ExcelOutputInfrastructure
         Private Function ReturnLabelString(ByVal lineindex As Integer, ByVal addressee As DestinationDataEntity) As String
 
             'セルに入力する宛先を格納する文字列　初期値に郵便番号
-            Dim ReturnString As String = Space(10) & My.Resources.PostalMarkClipSpace & addressee.MyPostalCode.GetCode & vbNewLine & vbNewLine
+            Dim ReturnString As String = $"{Space(10)}〒 {addressee.MyPostalCode.GetCode}{vbNewLine}{vbNewLine}"
             Dim ac As New AddressConvert(addressee.MyAddress1.GetAddress, addressee.MyAddress2.GetAddress)
-            ReturnString &= Space(10) & ac.GetConvertAddress1 & vbCrLf  '住所1
+            ReturnString &= $"{Space(10)}{ac.GetConvertAddress1}{vbCrLf}"  '住所1
 
             Try
-                ReturnString &= Space(10) & addressee.MyAddress2.GetAddress.Substring(0, 16) & vbNewLine   '住所2
-                ReturnString &= Space(10) & addressee.MyAddress2.GetAddress.Substring(16) & vbNewLine & vbNewLine '住所2（2行目）
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.GetAddress.Substring(0, 16)}{vbNewLine}"   '住所2
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.GetAddress.Substring(16)}{vbNewLine}{vbNewLine}" '住所2（2行目）
             Catch ex As ArgumentOutOfRangeException
                 '住所2の文字列が短い場合のエラー対応（16文字以下ならエラー）
-                ReturnString &= Space(10) & addressee.MyAddress2.GetAddress & vbNewLine & vbNewLine & vbNewLine
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.GetAddress}{vbNewLine}{vbNewLine}{vbNewLine}"
             End Try
 
             '宛名
-            ReturnString &= Space(10) & addressee.AddresseeName.GetName & Space(1) & addressee.MyTitle.GetTitle & vbNewLine
+            ReturnString &= $"{Space(10)}{addressee.AddresseeName.GetName}{Space(1)}{addressee.MyTitle.GetTitle}{vbNewLine}"
 
             'ラベルの行数によって、行を挿入する
             If lineindex Mod 6 = 0 Then
-                ReturnString = vbNewLine & vbNewLine & ReturnString
+                ReturnString = $"{vbNewLine}{vbNewLine}{ReturnString}"
                 Return ReturnString
             End If
 
-            If lineindex Mod 7 = 0 Then ReturnString = vbNewLine & vbNewLine & vbNewLine & ReturnString
+            If lineindex Mod 7 = 0 Then ReturnString = $"{vbNewLine}{vbNewLine}{vbNewLine}{ReturnString}"
 
             Return ReturnString
 

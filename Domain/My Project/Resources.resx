@@ -153,9 +153,6 @@
   <data name="SouthString" xml:space="preserve">
     <value>南</value>
   </data>
-  <data name="StringHalfHyphen" xml:space="preserve">
-    <value>-</value>
-  </data>
   <data name="WestString" xml:space="preserve">
     <value>西</value>
   </data>

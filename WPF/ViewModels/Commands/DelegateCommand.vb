@@ -21,13 +21,13 @@ Namespace Command
             If Not IsNothing(execute) Then
                 _Execute = execute
             Else
-                Throw New ArgumentException(NameOf(DelegateCommand(Of T)) & ":" & NameOf(execute))
+                Throw New ArgumentException($"{NameOf(DelegateCommand(Of T))}:{NameOf(execute)}")
             End If
 
             If Not IsNothing(canExecute) Then
                 _CanExecute = canExecute
             Else
-                Throw New ArgumentException(NameOf(DelegateCommand(Of T)) & ":" & NameOf(canExecute))
+                Throw New ArgumentException($"{NameOf(DelegateCommand(Of T))}:{NameOf(canExecute)}")
             End If
 
         End Sub
@@ -71,13 +71,13 @@ Namespace Command
             If Not IsNothing(execute) Then
                 _Execute = execute
             Else
-                Throw New ArgumentException(NameOf(DelegateCommand) & ":" & NameOf(execute))
+                Throw New ArgumentException($"{NameOf(DelegateCommand)}:{NameOf(execute)}")
             End If
 
             If Not IsNothing(canExecute) Then
                 _CanExecute = canExecute
             Else
-                Throw New ArgumentException(NameOf(DelegateCommand) & ":" & NameOf(canExecute))
+                Throw New ArgumentException($"{NameOf(DelegateCommand)}:{NameOf(canExecute)}")
             End If
 
         End Sub

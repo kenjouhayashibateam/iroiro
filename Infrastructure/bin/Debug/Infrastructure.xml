@@ -22,69 +22,14 @@ Infrastructure
   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>
-<member name="P:Infrastructure.My.Resources.Resources.AddHomeString">
-<summary>
-  家 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Address">
-<summary>
-  Address に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Address1">
-<summary>
-  Address1 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Address2">
-<summary>
-  Address2 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Area">
-<summary>
-  Area に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.AreaOfGrave">
-<summary>
-  AreaOfGrave に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Ban">
-<summary>
-  Ban に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Infrastructure.My.Resources.Resources.CleaningContract">
 <summary>
   清掃契約 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:Infrastructure.My.Resources.Resources.ContractDetail">
-<summary>
-  ContractDetail に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.CustomerID">
-<summary>
-  CustomerID に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Infrastructure.My.Resources.Resources.DiscardString">
 <summary>
   放棄 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.DoubleAsterisk">
-<summary>
-  ** に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Edaban">
-<summary>
-  Edaban に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.EightString">
@@ -95,11 +40,6 @@ Infrastructure
 <member name="P:Infrastructure.My.Resources.Resources.ExcelApp">
 <summary>
   Excel.Application に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.FamilyName">
-<summary>
-  FamilyName に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.FILENAME">
@@ -130,11 +70,6 @@ Infrastructure
 <member name="P:Infrastructure.My.Resources.Resources.FourString">
 <summary>
   四 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.FullName">
-<summary>
-  FullName に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.FullwidthClosingParenthesis">
@@ -177,16 +112,6 @@ Infrastructure
   県 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:Infrastructure.My.Resources.Resources.Ku">
-<summary>
-  Ku に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.Kuiki">
-<summary>
-  Kuiki に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Infrastructure.My.Resources.Resources.LastSaveDate">
 <summary>
   LastSaveDate に類似しているローカライズされた文字列を検索します。
@@ -217,51 +142,6 @@ Infrastructure
   一 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:Infrastructure.My.Resources.Resources.OrderID">
-<summary>
-  OrderID に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.OutputTime">
-<summary>
-  OutputTime に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.PostalCode">
-<summary>
-  PostalCode に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.PostalMarkClipSpace">
-<summary>
-  〒  に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.ReceiverAddress1">
-<summary>
-  ReceiverAddress1 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.ReceiverAddress2">
-<summary>
-  ReceiverAddress2 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.ReceiverName">
-<summary>
-  ReceiverName に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.ReceiverPostalCode">
-<summary>
-  ReceiverPostalCode に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.RegistrationTime">
-<summary>
-  RegistrationTime に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Infrastructure.My.Resources.Resources.SAVEPATH">
 <summary>
   .\files\IroiroFile.xlsx に類似しているローカライズされた文字列を検索します。
@@ -275,11 +155,6 @@ Infrastructure
 <member name="P:Infrastructure.My.Resources.Resources.ShiString">
 <summary>
   市 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Infrastructure.My.Resources.Resources.SingleAsterisk">
-<summary>
-  * に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Infrastructure.My.Resources.Resources.SixString">

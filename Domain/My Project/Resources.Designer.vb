@@ -169,15 +169,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  - に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property StringHalfHyphen() As String
-            Get
-                Return ResourceManager.GetString("StringHalfHyphen", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  西 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property WestString() As String

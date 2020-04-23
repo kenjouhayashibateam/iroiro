@@ -117,53 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddHomeString" xml:space="preserve">
-    <value>家</value>
-  </data>
-  <data name="Address" xml:space="preserve">
-    <value>Address</value>
-  </data>
-  <data name="Address1" xml:space="preserve">
-    <value>Address1</value>
-  </data>
-  <data name="Address2" xml:space="preserve">
-    <value>Address2</value>
-  </data>
-  <data name="Area" xml:space="preserve">
-    <value>Area</value>
-  </data>
-  <data name="AreaOfGrave" xml:space="preserve">
-    <value>AreaOfGrave</value>
-  </data>
-  <data name="Ban" xml:space="preserve">
-    <value>Ban</value>
-  </data>
   <data name="CleaningContract" xml:space="preserve">
     <value>清掃契約</value>
   </data>
-  <data name="ContractDetail" xml:space="preserve">
-    <value>ContractDetail</value>
-  </data>
-  <data name="CustomerID" xml:space="preserve">
-    <value>CustomerID</value>
-  </data>
   <data name="DiscardString" xml:space="preserve">
     <value>放棄</value>
-  </data>
-  <data name="DoubleAsterisk" xml:space="preserve">
-    <value>**</value>
-  </data>
-  <data name="Edaban" xml:space="preserve">
-    <value>Edaban</value>
   </data>
   <data name="EightString" xml:space="preserve">
     <value>八</value>
   </data>
   <data name="ExcelApp" xml:space="preserve">
     <value>Excel.Application</value>
-  </data>
-  <data name="FamilyName" xml:space="preserve">
-    <value>FamilyName</value>
   </data>
   <data name="FILENAME" xml:space="preserve">
     <value>Iroiro</value>
@@ -182,9 +146,6 @@
   </data>
   <data name="FourString" xml:space="preserve">
     <value>四</value>
-  </data>
-  <data name="FullName" xml:space="preserve">
-    <value>FullName</value>
   </data>
   <data name="FullwidthClosingParenthesis" xml:space="preserve">
     <value>（</value>
@@ -210,12 +171,6 @@
   <data name="KenString" xml:space="preserve">
     <value>県</value>
   </data>
-  <data name="Ku" xml:space="preserve">
-    <value>Ku</value>
-  </data>
-  <data name="Kuiki" xml:space="preserve">
-    <value>Kuiki</value>
-  </data>
   <data name="LastSaveDate" xml:space="preserve">
     <value>LastSaveDate</value>
   </data>
@@ -234,33 +189,6 @@
   <data name="OneString" xml:space="preserve">
     <value>一</value>
   </data>
-  <data name="OrderID" xml:space="preserve">
-    <value>OrderID</value>
-  </data>
-  <data name="OutputTime" xml:space="preserve">
-    <value>OutputTime</value>
-  </data>
-  <data name="PostalCode" xml:space="preserve">
-    <value>PostalCode</value>
-  </data>
-  <data name="PostalMarkClipSpace" xml:space="preserve">
-    <value>〒 </value>
-  </data>
-  <data name="ReceiverAddress1" xml:space="preserve">
-    <value>ReceiverAddress1</value>
-  </data>
-  <data name="ReceiverAddress2" xml:space="preserve">
-    <value>ReceiverAddress2</value>
-  </data>
-  <data name="ReceiverName" xml:space="preserve">
-    <value>ReceiverName</value>
-  </data>
-  <data name="ReceiverPostalCode" xml:space="preserve">
-    <value>ReceiverPostalCode</value>
-  </data>
-  <data name="RegistrationTime" xml:space="preserve">
-    <value>RegistrationTime</value>
-  </data>
   <data name="SAVEPATH" xml:space="preserve">
     <value>.\files\IroiroFile.xlsx</value>
   </data>
@@ -269,9 +197,6 @@
   </data>
   <data name="ShiString" xml:space="preserve">
     <value>市</value>
-  </data>
-  <data name="SingleAsterisk" xml:space="preserve">
-    <value>*</value>
   </data>
   <data name="SixString" xml:space="preserve">
     <value>六</value>

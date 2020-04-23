@@ -99,4 +99,10 @@ Public Interface IDataConectRepogitory
     ''' <param name="_gravepaneldata"></param>
     Sub GravePanelUpdate(ByVal _gravepaneldata As GravePanelDataEntity)
 
+    ''' <summary>
+    ''' データベースの規定の日付を返します
+    ''' </summary>
+    ''' <returns></returns>
+    Function GetDefaultDate() As Date
+
 End Interface

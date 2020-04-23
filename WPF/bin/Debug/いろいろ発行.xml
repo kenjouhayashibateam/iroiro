@@ -540,7 +540,7 @@
 </member>
 <member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.SetLesseeName">
  <summary>
- 苗字のみをセットします
+ 名義人名、名義人名の苗字のみをセットします
  </summary>
 </member>
 <member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.CreateSelectAddresseeInfo">

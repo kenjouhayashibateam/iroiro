@@ -140,6 +140,7 @@
     <Compile Include="Entities\ValueObjects\Gawa.vb" />
     <Compile Include="Entities\ValueObjects\GawaList.vb" />
     <Compile Include="Entities\ValueObjects\GraveNumberField.vb" />
+    <Compile Include="Entities\ValueObjects\LesseeName.vb" />
     <Compile Include="Entities\ValueObjects\Money.vb" />
     <Compile Include="Entities\ValueObjects\Note1.vb" />
     <Compile Include="Entities\ValueObjects\Note2.vb" />
@@ -149,6 +150,10 @@
     <Compile Include="Entities\ValueObjects\OrderID.vb" />
     <Compile Include="Entities\ValueObjects\Postalcode.vb" />
     <Compile Include="Entities\ValueObjects\PrintoutTime.vb" />
+    <Compile Include="Entities\ValueObjects\ReceiverAddress1.vb" />
+    <Compile Include="Entities\ValueObjects\ReceiverAddress2.vb" />
+    <Compile Include="Entities\ValueObjects\ReceiverName.vb" />
+    <Compile Include="Entities\ValueObjects\ReceiverPostalcode.vb" />
     <Compile Include="Entities\ValueObjects\RegistrationTime.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

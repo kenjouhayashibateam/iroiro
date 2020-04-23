@@ -82,11 +82,6 @@ Domain
   南 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:Domain.My.Resources.Resources.StringHalfHyphen">
-<summary>
-  - に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Domain.My.Resources.Resources.WestString">
 <summary>
   西 に類似しているローカライズされた文字列を検索します。
@@ -666,41 +661,6 @@ Domain
  </summary>
  <returns></returns>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.LesseeName">
- <summary>
- 宛名
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.Address1">
- <summary>
- 住所1
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.Address2">
- <summary>
- 住所2
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverName">
- <summary>
- 送付先名
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverAddress1">
- <summary>
- 送付先住所1
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverAddress2">
- <summary>
- 送付先住所2
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverPostalcode">
- <summary>
- 送付先郵便番号
- </summary>
-</member>
 <member name="T:Domain.Title">
  <summary>
  敬称
@@ -766,6 +726,11 @@ Domain
  墓地番号のFieldクラスのスーパークラス
  </summary>
 </member>
+<member name="T:Domain.LesseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
 <member name="T:Domain.Money">
  <summary>
  金額
@@ -809,6 +774,26 @@ Domain
 <member name="T:Domain.PrintoutTime">
  <summary>
  プリントアウト日時クラス
+ </summary>
+</member>
+<member name="T:Domain.ReceiverAddress1">
+ <summary>
+ 送付先住所1
+ </summary>
+</member>
+<member name="T:Domain.ReceiverAddress2">
+ <summary>
+ 送付先住所2
+ </summary>
+</member>
+<member name="T:Domain.ReceiverName">
+ <summary>
+ 送付先名
+ </summary>
+</member>
+<member name="T:Domain.ReceiverPostalcode">
+ <summary>
+ 送付先郵便番号
  </summary>
 </member>
 <member name="T:Domain.RegistrationTime">
@@ -991,6 +976,12 @@ Domain
  墓地札データを更新します
  </summary>
  <param name="_gravepaneldata"></param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetDefaultDate">
+ <summary>
+ データベースの規定の日付を返します
+ </summary>
+ <returns></returns>
 </member>
 </members>
 </doc>

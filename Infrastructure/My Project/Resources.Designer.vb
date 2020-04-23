@@ -61,69 +61,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  家 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property AddHomeString() As String
-            Get
-                Return ResourceManager.GetString("AddHomeString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Address に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Address() As String
-            Get
-                Return ResourceManager.GetString("Address", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Address1 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Address1() As String
-            Get
-                Return ResourceManager.GetString("Address1", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Address2 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Address2() As String
-            Get
-                Return ResourceManager.GetString("Address2", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Area に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Area() As String
-            Get
-                Return ResourceManager.GetString("Area", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  AreaOfGrave に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property AreaOfGrave() As String
-            Get
-                Return ResourceManager.GetString("AreaOfGrave", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Ban に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Ban() As String
-            Get
-                Return ResourceManager.GetString("Ban", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  清掃契約 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property CleaningContract() As String
@@ -133,47 +70,11 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  ContractDetail に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property ContractDetail() As String
-            Get
-                Return ResourceManager.GetString("ContractDetail", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  CustomerID に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property CustomerID() As String
-            Get
-                Return ResourceManager.GetString("CustomerID", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  放棄 に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property DiscardString() As String
             Get
                 Return ResourceManager.GetString("DiscardString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ** に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property DoubleAsterisk() As String
-            Get
-                Return ResourceManager.GetString("DoubleAsterisk", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Edaban に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Edaban() As String
-            Get
-                Return ResourceManager.GetString("Edaban", resourceCulture)
             End Get
         End Property
         
@@ -192,15 +93,6 @@ Namespace My.Resources
         Friend ReadOnly Property ExcelApp() As String
             Get
                 Return ResourceManager.GetString("ExcelApp", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  FamilyName に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FamilyName() As String
-            Get
-                Return ResourceManager.GetString("FamilyName", resourceCulture)
             End Get
         End Property
         
@@ -255,15 +147,6 @@ Namespace My.Resources
         Friend ReadOnly Property FourString() As String
             Get
                 Return ResourceManager.GetString("FourString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  FullName に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property FullName() As String
-            Get
-                Return ResourceManager.GetString("FullName", resourceCulture)
             End Get
         End Property
         
@@ -340,24 +223,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Ku に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Ku() As String
-            Get
-                Return ResourceManager.GetString("Ku", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Kuiki に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property Kuiki() As String
-            Get
-                Return ResourceManager.GetString("Kuiki", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  LastSaveDate に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property LastSaveDate() As String
@@ -412,87 +277,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  OrderID に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property OrderID() As String
-            Get
-                Return ResourceManager.GetString("OrderID", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  OutputTime に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property OutputTime() As String
-            Get
-                Return ResourceManager.GetString("OutputTime", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  PostalCode に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property PostalCode() As String
-            Get
-                Return ResourceManager.GetString("PostalCode", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  〒  に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property PostalMarkClipSpace() As String
-            Get
-                Return ResourceManager.GetString("PostalMarkClipSpace", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ReceiverAddress1 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property ReceiverAddress1() As String
-            Get
-                Return ResourceManager.GetString("ReceiverAddress1", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ReceiverAddress2 に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property ReceiverAddress2() As String
-            Get
-                Return ResourceManager.GetString("ReceiverAddress2", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ReceiverName に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property ReceiverName() As String
-            Get
-                Return ResourceManager.GetString("ReceiverName", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  ReceiverPostalCode に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property ReceiverPostalCode() As String
-            Get
-                Return ResourceManager.GetString("ReceiverPostalCode", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  RegistrationTime に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property RegistrationTime() As String
-            Get
-                Return ResourceManager.GetString("RegistrationTime", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  .\files\IroiroFile.xlsx に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property SAVEPATH() As String
@@ -516,15 +300,6 @@ Namespace My.Resources
         Friend ReadOnly Property ShiString() As String
             Get
                 Return ResourceManager.GetString("ShiString", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  * に類似しているローカライズされた文字列を検索します。
-        '''</summary>
-        Friend ReadOnly Property SingleAsterisk() As String
-            Get
-                Return ResourceManager.GetString("SingleAsterisk", resourceCulture)
             End Get
         End Property
         

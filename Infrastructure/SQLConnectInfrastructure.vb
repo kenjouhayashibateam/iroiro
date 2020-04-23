@@ -18,6 +18,8 @@ Public Class SQLConnectInfrastructure
     ''' <returns></returns>
     Private Property LogFileConecter As ILoggerRepogitory
 
+    Private Const DEFAULTDATE As Date = #1900/01/01#
+
     ''' <summary>
     ''' SQLServerに接続するための接続文字列
     ''' </summary>
@@ -116,7 +118,7 @@ Public Class SQLConnectInfrastructure
         With Cmd
             .CommandText = My.Resources.StoredProc_Call_ShunjyuenData
             .Parameters.Append(.CreateParameter("managementnumber", ADODB.DataTypeEnum.adChar,, 6, strManagementNumber))
-            .Parameters.Append(.CreateParameter("lesseename", ADODB.DataTypeEnum.adVarChar,, 100, My.Resources.WildCard_Percent))
+            .Parameters.Append(.CreateParameter("lesseename", ADODB.DataTypeEnum.adVarChar,, 100, "%"))
         End With
 
     End Sub
@@ -145,18 +147,19 @@ Public Class SQLConnectInfrastructure
         SetLesseeRecord(customerid)
 
         '御廟は面積がない上にDouble型なので、0にして対応する
-        If String.IsNullOrEmpty(RsFields(My.Resources.AreaOfGrave)) Then
+        Dim areaString As String = RsFields("AreaOfGrave")
+        If String.IsNullOrEmpty(areaString) Then
             Area = 0
         Else
-            Area = RsFields("AreaOfGrave")
+            Area = areaString
         End If
 
-        myLessee = New LesseeCustomerInfoEntity(RsFields(My.Resources.ManagementNumber), RsFields(My.Resources.LesseeName), RsFields(My.Resources.PostalCode),
-                                                RsFields(My.Resources.Address1), RsFields(My.Resources.Address2), RsFields(My.Resources.GraveNumber & My.Resources.Ku),
-                                                RsFields(My.Resources.GraveNumber & My.Resources.Kuiki), RsFields(My.Resources.GraveNumber & My.Resources.Gawa),
-                                                RsFields(My.Resources.GraveNumber & My.Resources.Ban), RsFields(My.Resources.GraveNumber & My.Resources.Edaban), Area,
-                                                RsFields(My.Resources.ReceiverName), RsFields(My.Resources.ReceiverPostalCode), RsFields(My.Resources.ReceiverAddress1),
-                                                RsFields(My.Resources.ReceiverAddress2))
+        myLessee = New LesseeCustomerInfoEntity(RsFields(My.Resources.ManagementNumber), RsFields(My.Resources.LesseeName), RsFields("PostalCode"),
+                                                RsFields("Address1"), RsFields("Address2"), RsFields($"{My.Resources.GraveNumber}Ku"),
+                                                RsFields($"{My.Resources.GraveNumber}Kuiki"), RsFields($"{My.Resources.GraveNumber}Gawa"),
+                                                RsFields($"{My.Resources.GraveNumber}Ban"), RsFields($"{My.Resources.GraveNumber}Edaban"), Area,
+                                                RsFields("ReceiverName"), RsFields("ReceiverPostalCode"), RsFields("ReceiverAddress1"),
+                                                RsFields("ReceiverAddress2"))
 
         Return myLessee
 
@@ -215,7 +218,7 @@ Public Class SQLConnectInfrastructure
         Dim myAddress As AddressDataEntity
 
         Do Until Rs.EOF
-            myAddress = New AddressDataEntity(RsFields(My.Resources.Address), RsFields(My.Resources.PostalCode))
+            myAddress = New AddressDataEntity(RsFields("Address1"), RsFields("PostalCode"))
             AddressList.AddItem(myAddress)
             Rs.MoveNext()
         Loop
@@ -274,11 +277,12 @@ Public Class SQLConnectInfrastructure
         Dim kf As Kuiki
         Dim datastring As String = String.Empty
         Dim kl As New ObservableCollection(Of Kuiki)
-
+        Dim kuikiString As String
         Do Until Rs.EOF
-            If InStr(datastring, RsFields(My.Resources.Kuiki)) = 0 Then
-                datastring &= RsFields(My.Resources.Kuiki) & Space(1)
-                kf = New Kuiki(RsFields(My.Resources.Kuiki))
+            kuikiString = RsFields("Kuiki")
+            If InStr(datastring, kuikiString) = 0 Then
+                datastring &= $"{kuikiString}{Space(1)}"
+                kf = New Kuiki(kuikiString)
                 kl.Add(kf)
             End If
             Rs.MoveNext()
@@ -310,7 +314,7 @@ Public Class SQLConnectInfrastructure
                 Rs.MoveNext()
                 Continue Do
             End If
-            datastring &= RsFields(My.Resources.Gawa) & Space(1)
+            datastring &= $"{RsFields(My.Resources.Gawa)}{Space(1)}"
             gf = New Gawa(RsFields(My.Resources.Gawa))
             gl.Add(gf)
             Rs.MoveNext()
@@ -333,11 +337,13 @@ Public Class SQLConnectInfrastructure
         Dim bf As Ban
         Dim datastring As String = String.Empty
         Dim bl As New ObservableCollection(Of Ban)
+        Dim BanString As String
 
         Do Until Rs.EOF
-            If InStr(datastring, RsFields(My.Resources.Ban)) = 0 Then
-                datastring &= RsFields(My.Resources.Ban) & Space(1)
-                bf = New Ban(RsFields(My.Resources.Ban))
+            BanString = RsFields("Ban")
+            If InStr(datastring, BanString) = 0 Then
+                datastring &= $"{BanString}{Space(1)}"
+                bf = New Ban(BanString)
                 bl.Add(bf)
             End If
             Rs.MoveNext()
@@ -362,16 +368,18 @@ Public Class SQLConnectInfrastructure
         Dim ef As Edaban
         Dim datastring As String = String.Empty
         Dim el As New ObservableCollection(Of Edaban)
+        Dim edabanString As String
 
         Do Until Rs.EOF
-            If InStr(RsFields(My.Resources.Edaban), My.Resources.DiscardString) > 0 Then
+            edabanString = RsFields("Edaban")
+            If InStr(edabanString, My.Resources.DiscardString) > 0 Then
                 Rs.MoveNext()
                 Continue Do
             End If
 
-            If InStr(datastring, RsFields(My.Resources.Edaban)) = 0 Then
-                datastring &= RsFields(My.Resources.Edaban) & Space(1)
-                ef = New Edaban(RsFields(My.Resources.Edaban))
+            If InStr(datastring, edabanString) = 0 Then
+                datastring &= $"{edabanString}{Space(1)}"
+                ef = New Edaban(edabanString)
                 el.Add(ef)
             End If
             Rs.MoveNext()
@@ -464,9 +472,9 @@ Public Class SQLConnectInfrastructure
         Dim gpd As GravePanelDataEntity
         Dim gpdlist As New GravePanelDataListEntity
         Do Until Rs.EOF
-            gpd = New GravePanelDataEntity(RsFields(My.Resources.OrderID), RsFields(My.Resources.CustomerID), RsFields(My.Resources.FamilyName), RsFields(My.Resources.FullName),
-                                           RsFields(My.Resources.GraveNumber), RsFields(My.Resources.Area), RsFields(My.Resources.ContractDetail), RsFields(My.Resources.RegistrationTime),
-                                           RsFields(My.Resources.OutputTime))
+            gpd = New GravePanelDataEntity(RsFields("OrderID"), RsFields("CustomerID"), RsFields("FamilyName"), RsFields("FullName"),
+                                           RsFields(My.Resources.GraveNumber), RsFields("Area"), RsFields("ContractDetail"), RsFields("RegistrationTime"),
+                                           RsFields("OutputTime"))
             gpdlist.AddItem(gpd)
             Rs.MoveNext()
         Loop
@@ -516,4 +524,8 @@ Public Class SQLConnectInfrastructure
         ExecuteStoredProcSetRecord(Cmd)
 
     End Sub
+
+    Public Function GetDefaultDate() As Date Implements IDataConectRepogitory.GetDefaultDate
+        Return DEFAULTDATE
+    End Function
 End Class

@@ -640,13 +640,13 @@ Namespace ViewModels
 
             If MyLessee Is Nothing Then Exit Sub
 
-            If MyLessee.GetReceiverName = String.Empty Then
+            If MyLessee.GetReceiverName.GetName = String.Empty Then
                 SetLesseeProperty(MyLessee)
                 NoteInput()
                 Exit Sub
             End If
 
-            If MyLessee.GetLesseeName = MyLessee.GetReceiverName Then
+            If MyLessee.GetLesseeName.GetName = MyLessee.GetReceiverName.GetName Then
                 SetReceiverProperty(MyLessee)
                 NoteInput()
                 Exit Sub
@@ -666,23 +666,29 @@ Namespace ViewModels
         End Sub
 
         Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
-            AddresseeName = mylessee.GetReceiverName
-            PostalCode = mylessee.GetReceiverPostalcode
-            Address1 = mylessee.GetReceiverAddress1
-            Address2 = mylessee.GetReceiverAddress2
+            With mylessee
+                AddresseeName = .GetReceiverName.GetName
+                PostalCode = .GetReceiverPostalcode.GetCode
+                Address1 = .GetReceiverAddress1.GetAddress
+                Address2 = .GetReceiverAddress2.GetAddress
+            End With
         End Sub
 
         Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
-            AddresseeName = mylessee.GetLesseeName
-            PostalCode = mylessee.GetPostalCode
-            Address1 = mylessee.GetAddress1
-            Address2 = mylessee.GetAddress2
+            With mylessee
+                AddresseeName = .GetLesseeName.GetName
+                PostalCode = .GetPostalCode.GetCode
+                Address1 = .GetAddress1.GetAddress
+                Address2 = .GetAddress2.GetAddress
+            End With
         End Sub
 
         Private Sub NoteInput()
-            Note1 = MyLessee.GetCustomerID.ShowDisplay
-            Note2 = MyLessee.GetGraveNumber.GetNumber
-            Note3 = If(MyLessee.GetArea.AreaValue > 0, $"{MyLessee.GetArea} ㎡", String.Empty)
+            With MyLessee
+                Note1 = .GetCustomerID.ShowDisplay
+                Note2 = .GetGraveNumber.GetNumber
+                Note3 = If(.GetArea.AreaValue > 0, $"{ .GetArea} ㎡", String.Empty)
+            End With
         End Sub
 
         ''' <summary>
@@ -777,7 +783,7 @@ Namespace ViewModels
                 myAddress = AddressList.GetItem(0)
                 Address1 = myAddress.MyAddress.Address
                 Dim mycode As String = myAddress.MyPostalcode.Code
-                PostalCode = mycode.Substring(0, 3) & "-" & mycode.Substring(3, 4)
+                PostalCode = $"{mycode.Substring(0, 3)}-{mycode.Substring(3, 4)}"
                 Exit Sub
             End If
 
@@ -880,7 +886,7 @@ Namespace ViewModels
                     If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
                     InputPostcard()
                 Case OutputContents.TransferPaper
-                    If (Address1 & Address2).Length > 36 Then CreateAddressOverLengthInfo()
+                    If ($"{Address1}{Address2}").Length > 36 Then CreateAddressOverLengthInfo()
                     InputTransferData()
                 Case OutputContents.WesternEnbelope
                     InputWesternEnvelope()
@@ -920,10 +926,10 @@ Namespace ViewModels
             Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-               .Message = My.Resources.FieldPropertyMessage_Lessee & MyLessee.GetLesseeName & vbNewLine & MyLessee.GetAddress1 & MyLessee.GetAddress2 & vbNewLine &
-                                vbNewLine & My.Resources.FieldPropertyMessage_Receiver & MyLessee.GetReceiverName & vbNewLine & MyLessee.GetReceiverAddress1 &
-                                MyLessee.GetReceiverAddress2 & vbNewLine & vbNewLine & My.Resources.DataSelectInfo & vbNewLine & vbNewLine &
-                                 My.Resources.LesseeDataSelect,
+               .Message = $"{MyLessee.GetLesseeName.ShowDisplay}{vbNewLine}{MyLessee.GetAddress1.ShowDisplay}{MyLessee.GetAddress2.ShowDisplay}{vbNewLine}
+                                    {vbNewLine}{MyLessee.GetReceiverName.ShowDisplay}{vbNewLine}{MyLessee.GetReceiverAddress1.ShowDisplay}
+                                    {MyLessee.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}
+                                    {My.Resources.LesseeDataSelect}",
                                  .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
                 MsgResult = MessageInfo.Result

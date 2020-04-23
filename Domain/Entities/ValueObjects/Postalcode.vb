@@ -3,11 +3,16 @@
 ''' 郵便番号
 ''' </summary>
 Public Class PostalCode
+    Private ReadOnly _Code As String
 
-    Private Property Code As String
+    Public ReadOnly Property Code As String
+        Get
+            Return _Code
+        End Get
+    End Property
 
     Sub New(ByVal myPostalCode As String)
-        Code = myPostalCode
+        _Code = myPostalCode
     End Sub
 
     Public Function GetCode() As String

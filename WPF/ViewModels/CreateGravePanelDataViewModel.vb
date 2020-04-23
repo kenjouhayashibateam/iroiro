@@ -372,11 +372,13 @@ Namespace ViewModels
         End Sub
 
         ''' <summary>
-        ''' 苗字のみをセットします
+        ''' 名義人名、名義人名の苗字のみをセットします
         ''' </summary>
         Private Sub SetLesseeName()
-            FamilyName = MyLessee.GetLesseeName.Substring(0, InStr(MyLessee.GetLesseeName, "　")).Trim
-            FullName = MyLessee.GetLesseeName
+            With MyLessee.GetLesseeName
+                FamilyName = .GetName.Substring(0, InStr(.GetName, "　")).Trim
+            End With
+            FullName = MyLessee.GetLesseeName.GetName
         End Sub
 
         ''' <summary>
@@ -388,8 +390,8 @@ Namespace ViewModels
             Sub()
                 MessageInfo = New MessageBoxInfo With
                 {
-                .Message = My.Resources.FieldPropertyMessage_Lessee & MyLessee.GetLesseeName & vbNewLine & My.Resources.FieldPropertyMessage_Receiver & MyLessee.GetReceiverName & vbNewLine & vbNewLine &
-                                My.Resources.DataSelectInfo & vbNewLine & vbNewLine & My.Resources.LesseeDataSelect,
+                .Message = $"{MyLessee.GetLesseeName.ShowDisplay}{vbNewLine}{MyLessee.GetReceiverName.ShowDisplay}{vbNewLine}{vbNewLine}
+                                      {My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}{My.Resources.LesseeDataSelect}",
                                 .Button = MessageBoxButton.YesNo,
                                .Image = MessageBoxImage.Question,
                                .Title = My.Resources.DataSelectInfoTitle
@@ -409,7 +411,9 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Private Function ReturnDisplayForGraveNumber() As String
-            Return KuText & IIf(KuikiText = 0, String.Empty, KuikiText) & My.Resources.GraveKuString & GawaText & My.Resources.GraveGawaString & BanText & EdabanText & My.Resources.GraveBanString
+            Return $"{KuText}{IIf(KuikiText = 0, String.Empty, KuikiText)}{My.Resources.GraveKuString}
+                          {GawaText}{My.Resources.GraveGawaString}{BanText}{EdabanText}
+                          { My.Resources.GraveBanString}"
         End Function
 
         ''' <summary>

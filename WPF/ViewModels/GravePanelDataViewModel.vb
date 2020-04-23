@@ -377,7 +377,7 @@ Namespace ViewModels
                     {
                     .Button = MessageBoxButton.OKCancel,
                     .Image = MessageBoxImage.Question,
-                    .Message = MyGravePanelDataDetailString() & vbNewLine & vbNewLine & My.Resources.DeleteInfo,
+                    .Message = $"{MyGravePanelDataDetailString()}{vbNewLine}{vbNewLine}{My.Resources.DeleteInfo}",
                     .Title = My.Resources.DeleteInfoTitle
                     }
                     CallPropertyChanged(NameOf(IsDeleteDataInfoCommand))
@@ -412,7 +412,7 @@ Namespace ViewModels
                        Sub()
                            MessageInfo = New MessageBoxInfo With
                            {
-                           .Message = MyGravePanelDataDetailString() & vbNewLine & vbNewLine & My.Resources.CompleteDeleteInfo,
+                           .Message = $"{MyGravePanelDataDetailString()}{vbNewLine}{vbNewLine}{My.Resources.CompleteDeleteInfo}",
                             .Button = MessageBoxButton.OK,
                             .Title = My.Resources.CompleteDeleteInfoTitle,
                             .Image = MessageBoxImage.Information

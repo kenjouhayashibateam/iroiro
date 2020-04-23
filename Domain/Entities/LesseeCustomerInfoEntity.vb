@@ -98,29 +98,29 @@ Public Class LesseeCustomerInfoEntity
     ''' <summary>
     ''' 宛名を返します
     ''' </summary>
-    Public Function GetLesseeName() As String
-        Return myLesseName.GetName
+    Public Function GetLesseeName() As LesseeName
+        Return myLesseName
     End Function
 
     ''' <summary>
     ''' 郵便番号を返します
     ''' </summary>
-    Public Function GetPostalCode() As String
-        Return myPostalCode.GetCode
+    Public Function GetPostalCode() As PostalCode
+        Return myPostalCode
     End Function
 
     ''' <summary>
     ''' 住所1を返します
     ''' </summary>
-    Public Function GetAddress1() As String
-        Return myAddress1.GetAddress
+    Public Function GetAddress1() As Address1
+        Return myAddress1
     End Function
 
     ''' <summary>
     ''' 住所2を返します
     ''' </summary>
-    Public Function GetAddress2() As String
-        Return myAddress2.GetAddress
+    Public Function GetAddress2() As Address2
+        Return myAddress2
     End Function
 
     ''' <summary>
@@ -148,144 +148,32 @@ Public Class LesseeCustomerInfoEntity
     ''' 送付先名を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetReceiverName() As String
-        Return myReceiverName.GetName
+    Public Function GetReceiverName() As ReceiverName
+        Return myReceiverName
     End Function
 
     ''' <summary>
     ''' 送付先郵便番号を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetReceiverPostalcode() As String
-        Return myReceiverPostalcode.GetCode
+    Public Function GetReceiverPostalcode() As ReceiverPostalcode
+        Return myReceiverPostalcode
     End Function
 
     ''' <summary>
     ''' 送付先住所1を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetReceiverAddress1() As String
-        Return myReceiverAddress1.GetAddress
+    Public Function GetReceiverAddress1() As ReceiverAddress1
+        Return myReceiverAddress1
     End Function
 
     ''' <summary>
     ''' 送付先住所2を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetReceiverAddress2() As String
-        Return myReceiverAddress2.GetAddress
+    Public Function GetReceiverAddress2() As ReceiverAddress2
+        Return myReceiverAddress2
     End Function
-
-    ''' <summary>
-    ''' 宛名
-    ''' </summary>
-    Private Class LesseeName
-
-        Private Property Name As String
-
-        Sub New(ByVal name_ As String)
-            Name = name_
-        End Sub
-
-        Friend Function GetName() As String
-            Return Name
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 住所1
-    ''' </summary>
-    Private Class Address1
-
-        Private Property Address As String
-
-        Sub New(ByVal myAddress1 As String)
-            Address = myAddress1
-        End Sub
-
-        Friend Function GetAddress() As String
-            Return Address
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 住所2
-    ''' </summary>
-    Private Class Address2
-
-        Private Property Address As String
-
-        Sub New(ByVal myAddress2 As String)
-            Address = myAddress2
-        End Sub
-
-        Friend Function GetAddress() As String
-            Return Address
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 送付先名
-    ''' </summary>
-    Private Class ReceiverName
-        Private Property Name As String
-
-        Sub New(ByVal _name As String)
-            Name = _name
-        End Sub
-
-        Friend Function GetName() As String
-            Return Name
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 送付先住所1
-    ''' </summary>
-    Private Class ReceiverAddress1
-        Private Property Address As String
-
-        Sub New(ByVal _address1 As String)
-            Address = _address1
-        End Sub
-
-        Friend Function GetAddress() As String
-            Return Address
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 送付先住所2
-    ''' </summary>
-    Private Class ReceiverAddress2
-        Private Property Address As String
-
-        Sub New(ByVal _address2 As String)
-            Address = _address2
-        End Sub
-
-        Friend Function GetAddress() As String
-            Return Address
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 送付先郵便番号
-    ''' </summary>
-    Private Class ReceiverPostalcode
-        Private Property Code As String
-
-        Sub New(ByVal _postalcode As String)
-            Code = _postalcode
-        End Sub
-
-        Friend Function GetCode() As String
-            Return Code
-        End Function
-    End Class
 
 End Class
