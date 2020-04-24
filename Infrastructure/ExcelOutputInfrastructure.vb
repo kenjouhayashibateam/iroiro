@@ -870,9 +870,9 @@ Public Class ExcelOutputInfrastructure
         Public Sub SetData(startrowposition As Integer, gravepanel As GravePanelDataEntity) Implements IGravePanelListBehavior.SetData
             With ExlWorkSheet
                 If Not String.IsNullOrEmpty(gravepanel.GetFamilyName.Name) Then .Cell(startrowposition + 1, 1).Value = $"{NameConvert(gravepanel.GetFamilyName.Name)}家"
-                .Cell(startrowposition + 2, 1).Value = $"{gravepanel.GetGraveNumber}{Space(1)}{gravepanel.GetArea}{My.Resources.SquareFootageText}"
+                .Cell(startrowposition + 2, 1).Value = $"{gravepanel.GetGraveNumber.Number}{Space(1)}{gravepanel.GetArea.AreaValue}{My.Resources.SquareFootageText}"
                 .Cell(startrowposition + 3, 1).Value = My.Resources.CleaningContract
-                .Cell(startrowposition + 3, 2).Value = gravepanel.GetContractContent
+                .Cell(startrowposition + 3, 2).Value = gravepanel.GetContractContent.Content
             End With
         End Sub
 

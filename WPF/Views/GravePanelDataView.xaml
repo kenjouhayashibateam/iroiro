@@ -72,7 +72,7 @@
                 <DataGridTemplateColumn Header="契約内容" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox IsEditable="True" ItemsSource="{Binding MyContractContents.List}" Text="{Binding MyContractContent}"/>
+                            <ComboBox IsEditable="True" ItemsSource="{Binding MyContractContents.List}" Text="{Binding MyContractContent.Content}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
