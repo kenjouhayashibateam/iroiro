@@ -8,4 +8,5 @@ Public Class GraveNumber
     Sub New(ByVal _gravenumber As String)
         Number = _gravenumber
     End Sub
+
 End Class

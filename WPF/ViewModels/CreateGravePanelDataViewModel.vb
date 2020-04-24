@@ -411,9 +411,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Private Function ReturnDisplayForGraveNumber() As String
-            Return $"{KuText}{IIf(KuikiText = 0, String.Empty, KuikiText)}{My.Resources.GraveKuString}
-                          {GawaText}{My.Resources.GraveGawaString}{BanText}{EdabanText}
-                          { My.Resources.GraveBanString}"
+            Return $"{KuText}{IIf(KuikiText = 0, String.Empty, KuikiText)}{My.Resources.GraveKuString}{GawaText}{My.Resources.GraveGawaString}{BanText}{EdabanText}{ My.Resources.GraveBanString}"
         End Function
 
         ''' <summary>
@@ -941,12 +939,7 @@ Namespace ViewModels
                     MessageInfo = New MessageBoxInfo With
                     {
                         .Title = "登録確認",
-                        .Message = $"管理番号 : {RegistraterCustomerID}{vbNewLine}
-                    　　　　　　    苗字 : {FamilyName}{vbNewLine}
-                          　　　       墓地番号 : {DisplayForGraveNumber}{vbNewLine}
-                                      契約内容 :{ContractContent}{vbNewLine}
-                                      登録日 : {Today:yyyy年MM月dd日}{vbNewLine}{vbNewLine}
-                                      登録しますか？",
+                        .Message = $"管理番号 : {RegistraterCustomerID}{vbNewLine}苗字 : {FamilyName}{vbNewLine}墓地番号 : {DisplayForGraveNumber}{vbNewLine}契約内容 :{ContractContent}{vbNewLine}登録日 : {Today:yyyy年MM月dd日}{vbNewLine}{vbNewLine}登録しますか？",
                         .Button = MessageBoxButton.YesNo,
                         .Image = MessageBoxImage.Question
                     }

@@ -72,7 +72,7 @@ Infrastructure
   四 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:Infrastructure.My.Resources.Resources.FullwidthClosingParenthesis">
+<member name="P:Infrastructure.My.Resources.Resources.FullWidthClosingParenthesis">
 <summary>
   （ に類似しているローカライズされた文字列を検索します。
 </summary>

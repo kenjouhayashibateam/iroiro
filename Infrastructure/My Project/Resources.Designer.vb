@@ -153,9 +153,9 @@ Namespace My.Resources
         '''<summary>
         '''  （ に類似しているローカライズされた文字列を検索します。
         '''</summary>
-        Friend ReadOnly Property FullwidthClosingParenthesis() As String
+        Friend ReadOnly Property FullWidthClosingParenthesis() As String
             Get
-                Return ResourceManager.GetString("FullwidthClosingParenthesis", resourceCulture)
+                Return ResourceManager.GetString("FullWidthClosingParenthesis", resourceCulture)
             End Get
         End Property
         

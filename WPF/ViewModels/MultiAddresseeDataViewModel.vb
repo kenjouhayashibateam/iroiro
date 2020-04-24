@@ -632,10 +632,7 @@ Namespace ViewModels
             Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-               .Message = $"{lse.GetLesseeName.ShowDisplay}{vbNewLine}{lse.GetAddress1.GetAddress}{lse.GetAddress2.ShowDisplay}{vbNewLine}
-                                    {vbNewLine}{lse.GetReceiverName.ShowDisplay}{vbNewLine}{lse.GetReceiverAddress1.ShowDisplay}
-                                    {lse.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}
-                                    {My.Resources.LesseeDataSelect}",
+               .Message = $"{lse.GetLesseeName.ShowDisplay}{vbNewLine}{lse.GetAddress1.GetAddress}{lse.GetAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{lse.GetReceiverName.ShowDisplay}{vbNewLine}{lse.GetReceiverAddress1.ShowDisplay}{lse.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}{My.Resources.LesseeDataSelect}",
                                  .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
                 MsgResult = MessageInfo.Result
@@ -882,8 +879,7 @@ Namespace ViewModels
             AddressLengthOverInfoCommad = New DelegateCommand(
                 Sub()
                     MessageInfo = New MessageBoxInfo With {
-                        .Message = $"{My.Resources.AddressLengthOverInfo_Multi1}{OverLengthAddressCount}{My.Resources.AddressLengthOverInfo_Multi2}
-                                              {vbNewLine}{My.Resources.AddressLengthOverInfo_CellYellow}",
+                        .Message = $"{My.Resources.AddressLengthOverInfo_Multi1}{OverLengthAddressCount}{My.Resources.AddressLengthOverInfo_Multi2}{vbNewLine}{My.Resources.AddressLengthOverInfo_CellYellow}",
                         .Button = MessageBoxButton.OK,
                         .Title = "データ修正",
                         .Image = MessageBoxImage.Information

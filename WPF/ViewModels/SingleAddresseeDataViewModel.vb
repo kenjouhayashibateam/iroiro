@@ -687,7 +687,7 @@ Namespace ViewModels
             With MyLessee
                 Note1 = .GetCustomerID.ShowDisplay
                 Note2 = .GetGraveNumber.GetNumber
-                Note3 = If(.GetArea.AreaValue > 0, $"{ .GetArea} ㎡", String.Empty)
+                Note3 = If(.GetArea.AreaValue > 0, $"{ .GetArea.AreaValue} ㎡", String.Empty)
             End With
         End Sub
 
@@ -803,6 +803,7 @@ Namespace ViewModels
             Dim address As AddressDataEntity = DataBaseConecter.GetAddress(PostalCode)
             If address Is Nothing Then Exit Sub
             Address1 = address.GetAddress
+            If InStr(PostalCode, "-") = 0 Then PostalCode = $"{PostalCode.Substring(0, 3)}-{PostalCode.Substring(3, 4)}"
 
         End Sub
 
@@ -926,10 +927,7 @@ Namespace ViewModels
             Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-               .Message = $"{MyLessee.GetLesseeName.ShowDisplay}{vbNewLine}{MyLessee.GetAddress1.ShowDisplay}{MyLessee.GetAddress2.ShowDisplay}{vbNewLine}
-                                    {vbNewLine}{MyLessee.GetReceiverName.ShowDisplay}{vbNewLine}{MyLessee.GetReceiverAddress1.ShowDisplay}
-                                    {MyLessee.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}
-                                    {My.Resources.LesseeDataSelect}",
+               .Message = $"{MyLessee.GetLesseeName.ShowDisplay}{vbNewLine}{MyLessee.GetAddress1.ShowDisplay}{MyLessee.GetAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{MyLessee.GetReceiverName.ShowDisplay}{vbNewLine}{MyLessee.GetReceiverAddress1.ShowDisplay}{MyLessee.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}{My.Resources.LesseeDataSelect}",
                                  .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
                 MsgResult = MessageInfo.Result

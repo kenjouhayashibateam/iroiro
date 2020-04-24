@@ -173,9 +173,7 @@ Public Class GraveNumberEntity
     ''' <returns></returns>
     Public Function GetNumber() As String
         With gtc
-            Return $"{ .ConvertNumber_Ku(KuField.CodeField)}{ .ConvertNumber_0Delete(KuikiField.CodeField)}区
-                          { .ConvertNumber_0Delete(GawaField.CodeField)}側{RTrim(gtc.ConvertNumber_0Delete(BanField.CodeField))}{Space(1)}
-                          { .ConvertNumber_0Delete(EdabanField.CodeField)}番"
+            Return $"{ .ConvertNumber_Ku(KuField.CodeField)}{ .ConvertNumber_0Delete(KuikiField.CodeField)}区{ .ConvertNumber_0Delete(GawaField.CodeField)}側{RTrim(gtc.ConvertNumber_0Delete(BanField.CodeField))}{Space(1)}{ .ConvertNumber_0Delete(EdabanField.CodeField)}番"
         End With
     End Function
 
@@ -227,8 +225,7 @@ Public Class GraveNumberEntity
         Public Property Number As String
 
         Public Sub New(ByVal _ku As Ku, ByVal _kuiki As Kuiki, ByVal _gawa As Gawa, ByVal _ban As Ban, ByVal _edaban As Edaban)
-            Number = $"{_ku.DisplayForField}{_kuiki.DisplayForField}区{_gawa.DisplayForField}側{_ban.DisplayForField}
-                                {_edaban.DisplayForField}番"
+            Number = $"{_ku.DisplayForField}{_kuiki.DisplayForField}区{_gawa.DisplayForField}側{_ban.DisplayForField}{_edaban.DisplayForField}番"
         End Sub
     End Class
 

@@ -869,7 +869,7 @@ Public Class ExcelOutputInfrastructure
 
         Public Sub SetData(startrowposition As Integer, gravepanel As GravePanelDataEntity) Implements IGravePanelListBehavior.SetData
             With ExlWorkSheet
-                If Not String.IsNullOrEmpty(gravepanel.GetFamilyName) Then .Cell(startrowposition + 1, 1).Value = $"{NameConvert(gravepanel.GetFamilyName)}家"
+                If Not String.IsNullOrEmpty(gravepanel.GetFamilyName.Name) Then .Cell(startrowposition + 1, 1).Value = $"{NameConvert(gravepanel.GetFamilyName.Name)}家"
                 .Cell(startrowposition + 2, 1).Value = $"{gravepanel.GetGraveNumber}{Space(1)}{gravepanel.GetArea}{My.Resources.SquareFootageText}"
                 .Cell(startrowposition + 3, 1).Value = My.Resources.CleaningContract
                 .Cell(startrowposition + 3, 2).Value = gravepanel.GetContractContent
@@ -1516,8 +1516,8 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
 
                 '宛名
-                With .Cell(startrowposition + 4, 2).Style
-                    .Font.FontSize = 85
+                With .Cell(startrowposition + 5, 2).Style
+                    .Font.FontSize = 74
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1532,9 +1532,9 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
-                .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 2)).Merge()
-                .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 4)).Merge()
-                .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 5, 5)).Merge()
+                .Range(.Cell(startrowposition + 5, 2), .Cell(startrowposition + 6, 2)).Merge()
+                .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 6, 4)).Merge()
+                .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 6, 5)).Merge()
             End With
 
         End Sub
@@ -1546,11 +1546,15 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
                 '住所
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
-                .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
-                .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
+                If $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}".Length < 16 Then
+                    .Cell(startrowposition + 4, 5).Value = $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}"
+                    .Cell(startrowposition + 4, 4).Value = String.Empty
+                Else
+                    .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
+                    .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
+                End If
                 '宛名
-                .Cell(startrowposition + 4, 2).Value = $"{destinationdata.AddresseeName.GetName}
-                                                                            {Space(1)}{destinationdata.MyTitle.GetTitle}"
+                .Cell(startrowposition + 5, 2).Value = $"{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
             End With
 
         End Sub
@@ -1572,7 +1576,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {120, 50.25, 61.5, 409.5, 407.25}
+            Return {120, 50.25, 61.5, 61.5, 409.5, 279, 67.5}
         End Function
 
         Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName

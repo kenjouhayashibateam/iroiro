@@ -13,7 +13,8 @@
         mc:Ignorable="d"
         Title="単票印刷" Height="620" Width="410" 
         WindowStartupLocation="CenterScreen"  
-        FocusManager.FocusedElement="{Binding ElementName=cu}">
+        FocusManager.FocusedElement="{Binding ElementName=cu}"
+        PreviewGotKeyboardFocus="Window_PreviewGotKeyboardFocus">
 
     <Window.DataContext >
         <vm:SingleAddresseeDataViewModel/>

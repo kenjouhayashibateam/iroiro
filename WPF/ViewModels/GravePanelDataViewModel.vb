@@ -398,9 +398,7 @@ Namespace ViewModels
         ''' <returns></returns>
         Private Function MyGravePanelDataDetailString() As String
             If MyGravePanel Is Nothing Then Return String.Empty
-            Return $"管理番号 : {MyGravePanel.GetCustomerID}{vbNewLine}
-                          苗字 : {MyGravePanel.GetFamilyName} 家{vbNewLine}
-                          墓地番号 : {MyGravePanel.GetGraveNumber}"
+            Return $"{MyGravePanel.GetCustomerID.ShowDisplay}{vbNewLine}{MyGravePanel.GetFamilyName.ShowDisplay}{vbNewLine}{MyGravePanel.GetGraveNumber.Number}"
         End Function
 
         ''' <summary>

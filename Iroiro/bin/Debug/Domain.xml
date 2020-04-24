@@ -22,11 +22,6 @@ Domain
   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
 </summary>
 </member>
-<member name="P:Domain.My.Resources.Resources.BanString">
-<summary>
-  番 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Domain.My.Resources.Resources.CenterString">
 <summary>
   中 に類似しているローカライズされた文字列を検索します。
@@ -57,11 +52,6 @@ Domain
   東 に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
-<member name="P:Domain.My.Resources.Resources.GawaString">
-<summary>
-  側 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
 <member name="P:Domain.My.Resources.Resources.KuString">
 <summary>
   区 に類似しているローカライズされた文字列を検索します。
@@ -90,11 +80,6 @@ Domain
 <member name="P:Domain.My.Resources.Resources.SouthString">
 <summary>
   南 に類似しているローカライズされた文字列を検索します。
-</summary>
-</member>
-<member name="P:Domain.My.Resources.Resources.StringHalfHyphen">
-<summary>
-  - に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:Domain.My.Resources.Resources.WestString">
@@ -240,64 +225,9 @@ Domain
  <param name="_address1">住所1</param>
  <param name="_address2">住所2</param>
 </member>
-<member name="T:Domain.DestinationDataEntity.CustomerID">
- <summary>
- 管理番号
- </summary>
-</member>
 <member name="T:Domain.DestinationDataEntity.Name">
  <summary>
  名前
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Title">
- <summary>
- 敬称
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.PostalCode">
- <summary>
- 郵便番号
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Address1">
- <summary>
- 住所1
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Address2">
- <summary>
- 住所2
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Note1">
- <summary>
- 備考1
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Note2">
- <summary>
- 備考2
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Note3">
- <summary>
- 備考3
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Note4">
- <summary>
- 備考4
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Note5">
- <summary>
- 備考5
- </summary>
-</member>
-<member name="T:Domain.DestinationDataEntity.Money">
- <summary>
- 金額
  </summary>
 </member>
 <member name="T:Domain.ITextConvert">
@@ -406,59 +336,9 @@ Domain
  墓地番号
  </summary>
 </member>
-<member name="T:Domain.GraveNumberEntity.CustomerID">
- <summary>
- 管理番号
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.GraveNumberField">
- <summary>
- 墓地番号のFieldクラスのスーパークラス
- </summary>
-</member>
 <member name="T:Domain.GraveNumberEntity.Ku">
  <summary>
  区クラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.Kuiki">
- <summary>
- 区域クラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.Gawa">
- <summary>
- 側クラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.Ban">
- <summary>
- 番クラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.Edaban">
- <summary>
- 枝番クラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.EdabanList">
- <summary>
- 枝番リストクラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.BanList">
- <summary>
- 番リストクラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.GawaList">
- <summary>
- 側リストクラス
- </summary>
-</member>
-<member name="T:Domain.GraveNumberEntity.KuikiList">
- <summary>
- 区域リストクラス
  </summary>
 </member>
 <member name="T:Domain.GravePanelDataEntity">
@@ -592,64 +472,44 @@ Domain
  </summary>
  <returns></returns>
 </member>
-<member name="T:Domain.GravePanelDataEntity.FullName">
+<member name="T:Domain.GravePanelDataListEntity">
  <summary>
- 申込者名クラス
+ 墓地札リストクラス(シングルトン)
  </summary>
 </member>
-<member name="T:Domain.GravePanelDataEntity.OrderID">
- <summary>
- データベースIDクラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.IsPrintout">
- <summary>
- プリントアウトするかの確認クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.PrintoutTime">
- <summary>
- プリントアウト日時クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.GraveNumber">
- <summary>
- 墓地番号クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.RegistrationTime">
- <summary>
- 登録日時クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.ContractContent">
+<member name="T:Domain.ContractContent">
  <summary>
  契約内容クラス
  </summary>
 </member>
-<member name="T:Domain.GravePanelDataEntity.FamilyName">
- <summary>
- 苗字クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.CustomerID">
- <summary>
- 管理番号クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.Area">
- <summary>
- 面積クラス
- </summary>
-</member>
-<member name="T:Domain.GravePanelDataEntity.ContractContents">
+<member name="T:Domain.ContractContents">
  <summary>
  契約内容リスト
  </summary>
 </member>
-<member name="T:Domain.GravePanelDataListEntity">
+<member name="T:Domain.FullName">
  <summary>
- 墓地札リストクラス(シングルトン)
+ 申込者名クラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumber">
+ <summary>
+ 墓地番号クラス
+ </summary>
+</member>
+<member name="T:Domain.IsPrintout">
+ <summary>
+ プリントアウトするかの確認クラス
+ </summary>
+</member>
+<member name="T:Domain.Kuiki">
+ <summary>
+ 区域クラス
+ </summary>
+</member>
+<member name="T:Domain.KuikiList">
+ <summary>
+ 区域リストクラス
  </summary>
 </member>
 <member name="T:Domain.LastSaveDateEntity">
@@ -801,54 +661,144 @@ Domain
  </summary>
  <returns></returns>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.LesseeName">
+<member name="T:Domain.Title">
  <summary>
- 宛名
+ 敬称
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.Address1">
+<member name="T:Domain.Address1">
  <summary>
  住所1
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.Address2">
+<member name="T:Domain.Address2">
  <summary>
  住所2
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.PostalCode">
+<member name="T:Domain.Area">
+ <summary>
+ 面積クラス
+ </summary>
+</member>
+<member name="T:Domain.Ban">
+ <summary>
+ 番クラス
+ </summary>
+</member>
+<member name="T:Domain.BanList">
+ <summary>
+ 番リストクラス
+ </summary>
+</member>
+<member name="T:Domain.CustomerID">
+ <summary>
+ 管理番号クラス
+ </summary>
+</member>
+<member name="T:Domain.Edaban">
+ <summary>
+ 枝番クラス
+ </summary>
+</member>
+<member name="T:Domain.EdabanList">
+ <summary>
+ 枝番リストクラス
+ </summary>
+</member>
+<member name="T:Domain.FamilyName">
+ <summary>
+ 苗字クラス
+ </summary>
+</member>
+<member name="T:Domain.Gawa">
+ <summary>
+ 側クラス
+ </summary>
+</member>
+<member name="T:Domain.GawaList">
+ <summary>
+ 側リストクラス
+ </summary>
+</member>
+<member name="T:Domain.GraveNumberField">
+ <summary>
+ 墓地番号のFieldクラスのスーパークラス
+ </summary>
+</member>
+<member name="T:Domain.LesseeName">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="T:Domain.Money">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="T:Domain.Note1">
+ <summary>
+ 備考1
+ </summary>
+</member>
+<member name="T:Domain.Note2">
+ <summary>
+ 備考2
+ </summary>
+</member>
+<member name="T:Domain.Note3">
+ <summary>
+ 備考3
+ </summary>
+</member>
+<member name="T:Domain.Note4">
+ <summary>
+ 備考4
+ </summary>
+</member>
+<member name="T:Domain.Note5">
+ <summary>
+ 備考5
+ </summary>
+</member>
+<member name="T:Domain.OrderID">
+ <summary>
+ データベースIDクラス
+ </summary>
+</member>
+<member name="T:Domain.PostalCode">
  <summary>
  郵便番号
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.CustomerID">
+<member name="T:Domain.PrintoutTime">
  <summary>
- 管理番号
+ プリントアウト日時クラス
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.GraveArea">
- <summary>
- 面積
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverName">
- <summary>
- 送付先名
- </summary>
-</member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverAddress1">
+<member name="T:Domain.ReceiverAddress1">
  <summary>
  送付先住所1
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverAddress2">
+<member name="T:Domain.ReceiverAddress2">
  <summary>
  送付先住所2
  </summary>
 </member>
-<member name="T:Domain.LesseeCustomerInfoEntity.ReceiverPostalcode">
+<member name="T:Domain.ReceiverName">
+ <summary>
+ 送付先名
+ </summary>
+</member>
+<member name="T:Domain.ReceiverPostalcode">
  <summary>
  送付先郵便番号
+ </summary>
+</member>
+<member name="T:Domain.RegistrationTime">
+ <summary>
+ 登録日時クラス
  </summary>
 </member>
 <member name="T:Domain.ILoggerRepogitory">
@@ -859,6 +809,11 @@ Domain
 <member name="T:Domain.IProcessedCountObserver">
  <summary>
  リストの処理の進捗を知らせます
+ </summary>
+</member>
+<member name="T:Domain.IOverLengthAddress2Count">
+ <summary>
+ 住所の長いデータの数を知らせます
  </summary>
 </member>
 <member name="T:Domain.IOutputDataRepogitory">
@@ -911,9 +866,15 @@ Domain
  墓地札
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.AddListener(Domain.IProcessedCountObserver)">
+<member name="M:Domain.IOutputDataRepogitory.AddProcessedCountListener(Domain.IProcessedCountObserver)">
  <summary>
  進捗カウントを受け取るリスナーを登録します
+ </summary>
+ <param name="_listener"></param>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.AddOverLengthAddressListener(Domain.IOverLengthAddress2Count)">
+ <summary>
+ 住所の長いデータの数を受け取るリスナーを登録します
  </summary>
  <param name="_listener"></param>
 </member>
@@ -1015,6 +976,12 @@ Domain
  墓地札データを更新します
  </summary>
  <param name="_gravepaneldata"></param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.GetDefaultDate">
+ <summary>
+ データベースの規定の日付を返します
+ </summary>
+ <returns></returns>
 </member>
 </members>
 </doc>

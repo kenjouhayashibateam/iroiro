@@ -99,8 +99,7 @@ Public Class GravePanelDataEntity
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
         MyFullName = New FullName(_fullname)
-        MyGraveNumber = New GraveNumber($"{_gravenumberKu}{_gravenumberKuiki}区{_gravenumberGawa}側{_gravenumberBan}
-                                                                       {_gravenumberEdaban}番")
+        MyGraveNumber = New GraveNumber($"{_gravenumberKu}{_gravenumberKuiki}区{_gravenumberGawa}側{_gravenumberBan}{_gravenumberEdaban}番")
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)
         MyPrintOutTime = New PrintoutTime(_printouttime)
@@ -110,50 +109,50 @@ Public Class GravePanelDataEntity
     ''' OrderIDを返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetID() As Integer
-        Return MyOrderID.ID
+    Public Function GetID() As OrderID
+        Return MyOrderID
     End Function
     ''' <summary>
     ''' 申込者名を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetFullName() As String
-        Return MyFullName.Name
+    Public Function GetFullName() As FullName
+        Return MyFullName
     End Function
     ''' <summary>
     ''' 面積を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetArea() As String
-        Return MyArea.AreaValue.ToString("n1")
+    Public Function GetArea() As Area
+        Return MyArea
     End Function
     ''' <summary>
     ''' プリントアウト日時を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetPrintoutTime() As Date
-        Return MyPrintOutTime.MyDate
+    Public Function GetPrintoutTime() As PrintoutTime
+        Return MyPrintOutTime
     End Function
     ''' <summary>
     ''' 登録日時を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetRegistrationTime() As Date
-        Return MyRegistrationTime.MyDate
+    Public Function GetRegistrationTime() As RegistrationTime
+        Return MyRegistrationTime
     End Function
     ''' <summary>
     ''' 契約内容を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetContractContent() As String
-        Return MyContractContent.GetContent
+    Public Function GetContractContent() As ContractContent
+        Return MyContractContent
     End Function
     ''' <summary>
     ''' 墓地番号を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetGraveNumber() As String
-        Return MyGraveNumber.Number
+    Public Function GetGraveNumber() As GraveNumber
+        Return MyGraveNumber
     End Function
     ''' <summary>
     ''' 管理番号を返します
@@ -166,8 +165,8 @@ Public Class GravePanelDataEntity
     ''' 苗字を返します
     ''' </summary>
     ''' <returns></returns>
-    Public Function GetFamilyName() As String
-        Return MyFamilyName.GetName
+    Public Function GetFamilyName() As FamilyName
+        Return MyFamilyName
     End Function
     ''' <summary>
     ''' 契約内容を返します

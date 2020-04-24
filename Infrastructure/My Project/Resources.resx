@@ -147,7 +147,7 @@
   <data name="FourString" xml:space="preserve">
     <value>四</value>
   </data>
-  <data name="FullwidthClosingParenthesis" xml:space="preserve">
+  <data name="FullWidthClosingParenthesis" xml:space="preserve">
     <value>（</value>
   </data>
   <data name="FuString" xml:space="preserve">
