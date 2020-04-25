@@ -5,6 +5,10 @@
 ''' </summary>
 Public Class GravePanelDataEntity
     Private _MyPrintOutTime As PrintoutTime
+    Private _MyIsPrintout As IsPrintout
+    Private _MyFamilyName As FamilyName
+    Private _MyContractContent As ContractContent
+    Private _MyRegistrationTime As RegistrationTime
 
     ''' <summary>
     ''' 管理番号クラス
@@ -16,6 +20,14 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyFamilyName As FamilyName
+        Get
+            Return _MyFamilyName
+        End Get
+        Set
+            _MyFamilyName = Value
+        End Set
+    End Property
+
     ''' <summary>
     ''' 墓地番号クラス
     ''' </summary>
@@ -26,11 +38,26 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyContractContent As ContractContent
+        Get
+            Return _MyContractContent
+        End Get
+        Set
+            _MyContractContent = Value
+        End Set
+    End Property
+
     ''' <summary>
     ''' 登録日時クラス
     ''' </summary>
     ''' <returns></returns>
     Public Property MyRegistrationTime As RegistrationTime
+        Get
+            Return _MyRegistrationTime
+        End Get
+        Set
+            _MyRegistrationTime = Value
+        End Set
+    End Property
 
     ''' <summary>
     ''' 契約内容リストクラス
@@ -43,6 +70,13 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyIsPrintout As IsPrintout
+        Get
+            Return _MyIsPrintout
+        End Get
+        Set
+            _MyIsPrintout = Value
+        End Set
+    End Property
 
     ''' <summary>
     ''' プリントアウト日時
@@ -99,7 +133,11 @@ Public Class GravePanelDataEntity
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
         MyFullName = New FullName(_fullname)
-        MyGraveNumber = New GraveNumber($"{_gravenumberKu}{_gravenumberKuiki}区{_gravenumberGawa}側{_gravenumberBan}{_gravenumberEdaban}番")
+        Dim edabanString As String = String.Empty
+        If Not String.IsNullOrEmpty(_gravenumberEdaban) Then
+            edabanString = $"の{_gravenumberEdaban}"
+        End If
+        MyGraveNumber = New GraveNumber($"{_gravenumberKu}{_gravenumberKuiki}区{_gravenumberGawa}側{_gravenumberBan}{edabanString}番")
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)
         MyPrintOutTime = New PrintoutTime(_printouttime)

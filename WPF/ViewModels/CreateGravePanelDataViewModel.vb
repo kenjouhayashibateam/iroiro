@@ -411,7 +411,9 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Private Function ReturnDisplayForGraveNumber() As String
-            Return $"{KuText}{IIf(KuikiText = 0, String.Empty, KuikiText)}{My.Resources.GraveKuString}{GawaText}{My.Resources.GraveGawaString}{BanText}{EdabanText}{ My.Resources.GraveBanString}"
+            Dim edabanString As String = String.Empty
+            If Not String.IsNullOrEmpty(EdabanText) Then edabanString = $"の{EdabanText}"
+            Return $"{KuText}{IIf(KuikiText = 0, String.Empty, KuikiText)}{My.Resources.GraveKuString}{GawaText}{My.Resources.GraveGawaString}{BanText}{edabanString}{ My.Resources.GraveBanString}"
         End Function
 
         ''' <summary>
@@ -837,7 +839,8 @@ Namespace ViewModels
             If MsgResult = MessageBoxResult.No Then Exit Sub
 
             Dim gpd As New GravePanelDataEntity(0, RegistraterCustomerID, FamilyName, FullName, DisplayForGraveNumber, Area, ContractContent, NowDate, DefaultDate)
-            DataConect.GravePanelRegistration(gpd)
+            Dim id As Integer = DataConect.GravePanelRegistration(gpd)
+            gpd.MyOrderID.ID = id
 
             Dim godl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
             godl.AddItem(gpd)

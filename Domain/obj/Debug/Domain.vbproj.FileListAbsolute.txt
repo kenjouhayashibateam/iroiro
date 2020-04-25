@@ -41,3 +41,16 @@ F:\Application\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.vbproj.CopyCom
 F:\Application\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.dll
 F:\Application\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.xml
 F:\Application\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.pdb
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\Domain.dll
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\Domain.pdb
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\Domain.xml
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\Microsoft.Expression.Interactions.dll
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\Microsoft.Expression.Interactions.xml
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.Resources.resources
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.vbproj.GenerateResource.cache
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.vbproj.CopyComplete
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.dll
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.xml
+C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.pdb

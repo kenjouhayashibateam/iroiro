@@ -13,7 +13,7 @@
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
      
         mc:Ignorable="d"
-        Title="墓地札新規登録" Height="400" Width="600" WindowStartupLocation="CenterScreen"  >
+        Title="墓地札新規登録" Height="400" Width="600" WindowStartupLocation="CenterScreen"  FocusManager.FocusedElement="{Binding ElementName=CustomerIDTextBox}">
     <Window.DataContext>
         <vm:CreateGravePanelDataViewModel/>
     </Window.DataContext>
@@ -82,7 +82,7 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <extk:WatermarkTextBox x:Name="CustomerIDTextBox" Grid.Column="0" MaxLength="6" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Watermark="管理番号" Margin="15,10,5,10" Text="{Binding CustomerID,UpdateSourceTrigger=PropertyChanged}"/>
+                    <extk:WatermarkTextBox x:Name="CustomerIDTextBox" Grid.Column="0" MaxLength="6" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Watermark="管理番号" Margin="15,10,5,10" Text="{Binding CustomerID,UpdateSourceTrigger=PropertyChanged}" InputMethod.PreferredImeState="Off"/>
                     <Button x:Name="ReferenceButton" Grid.Column="1" Width="80" Height="30" Margin="3,5,10,5" IsDefault="True" Content="管理番号検索">
                         <ib:Interaction.Triggers>
                             <ib:EventTrigger EventName="Click">
@@ -162,10 +162,10 @@
                             <ColumnDefinition Width="45*"/>
                             <ColumnDefinition Width="25*"/>
                         </Grid.ColumnDefinitions>
-                        <extk:WatermarkTextBox x:Name="FamilyNameTextBox" Grid.Column="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Watermark="苗字" Margin="10,5,5,15" Text="{Binding FamilyName}" FontSize="16"/>
+                        <extk:WatermarkTextBox x:Name="FamilyNameTextBox" Grid.Column="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Watermark="苗字" Margin="10,5,5,15" Text="{Binding FamilyName}" FontSize="16" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
                         <Label Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="家" FontSize="16" Margin="0,11"/>
-                        <extk:WatermarkTextBox x:Name="FullNameTextBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Watermark="申込者名" Margin="10,5,10,15" Text="{Binding FullName}" FontSize="16"/>
-                        <ComboBox x:Name="ContractDetailComboBox" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" ItemsSource="{Binding ContractContents.List}" Text="{Binding ContractContent}" FontSize="16" Margin="10,5,10,15"/>
+                        <extk:WatermarkTextBox x:Name="FullNameTextBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Watermark="申込者名" Margin="10,5,10,15" Text="{Binding FullName}" FontSize="16" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
+                        <ComboBox x:Name="ContractDetailComboBox" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEditable="True" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" ItemsSource="{Binding ContractContents.List}" Text="{Binding ContractContent}" FontSize="16" Margin="10,5,10,15" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native"/>
                         <extk:WatermarkTextBox x:Name="AreaTextBox" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Watermark="面積" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="5,5,5,15" Text="{Binding Area}" FontSize="16"/>
                         <Label Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" Content="㎡" FontSize="16" Margin="0,11"/>
                     </Grid>

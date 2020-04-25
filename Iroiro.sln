@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinForm", "Iroiro\WinForm.vbproj", "{70C38507-FC0B-462E-B20E-876598499B10}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Test", "Test\Test.vbproj", "{32EF1DB2-0B50-4111-9310-9E01B1397241}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Domain", "Domain\Domain.vbproj", "{7C74B6AE-8F84-4F25-AAE9-058CB491EFAE}"
@@ -23,18 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{70C38507-FC0B-462E-B20E-876598499B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70C38507-FC0B-462E-B20E-876598499B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70C38507-FC0B-462E-B20E-876598499B10}.Debug|x64.ActiveCfg = Debug|x64
-		{70C38507-FC0B-462E-B20E-876598499B10}.Debug|x64.Build.0 = Debug|x64
-		{70C38507-FC0B-462E-B20E-876598499B10}.Debug|x86.ActiveCfg = Debug|x86
-		{70C38507-FC0B-462E-B20E-876598499B10}.Debug|x86.Build.0 = Debug|x86
-		{70C38507-FC0B-462E-B20E-876598499B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70C38507-FC0B-462E-B20E-876598499B10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70C38507-FC0B-462E-B20E-876598499B10}.Release|x64.ActiveCfg = Release|x64
-		{70C38507-FC0B-462E-B20E-876598499B10}.Release|x64.Build.0 = Release|x64
-		{70C38507-FC0B-462E-B20E-876598499B10}.Release|x86.ActiveCfg = Release|x86
-		{70C38507-FC0B-462E-B20E-876598499B10}.Release|x86.Build.0 = Release|x86
 		{32EF1DB2-0B50-4111-9310-9E01B1397241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32EF1DB2-0B50-4111-9310-9E01B1397241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32EF1DB2-0B50-4111-9310-9E01B1397241}.Debug|x64.ActiveCfg = Debug|x64

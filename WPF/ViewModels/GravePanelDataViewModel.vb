@@ -435,7 +435,6 @@ Namespace ViewModels
                     Else
                         RemoveError(propertyName)
                     End If
-
                 Case Else
                     Exit Select
             End Select
@@ -463,6 +462,7 @@ Namespace ViewModels
             For Each gpd As GravePanelDataEntity In GravePanelList.List
                 If gpd.MyIsPrintout.Value = False Then Continue For
                 gpd.MyPrintOutTime.MyDate = Now
+                gpd.MyIsPrintout.Value = False
                 DataBaseConecter.GravePanelUpdate(gpd)
                 CallPropertyChanged(NameOf(GravePanelList))
                 i += 1
@@ -473,6 +473,8 @@ Namespace ViewModels
             Else
                 OutputInfo(My.Resources.OutputInfo, My.Resources.OutputInfoTitle, MessageBoxImage.Information)
             End If
+
+            GetList()
 
         End Sub
 

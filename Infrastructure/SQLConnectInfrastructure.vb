@@ -418,7 +418,7 @@ Public Class SQLConnectInfrastructure
     ''' 墓地札データ登録
     ''' </summary>
     ''' <param name="_gravepaneldata">登録墓地札データ</param>
-    Public Sub GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelRegistration
+    Public Function GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) As Integer Implements IDataConectRepogitory.GravePanelRegistration
 
         Cmd = New ADODB.Command
 
@@ -436,7 +436,11 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-    End Sub
+        Dim aa As String = RsFields("ID")
+
+        Return RsFields("ID")
+
+    End Function
 
     ''' <summary>
     ''' 墓地札データの一覧を取得し、リストで返します
@@ -520,7 +524,7 @@ Public Class SQLConnectInfrastructure
             .Parameters.Append(.CreateParameter("area", ADODB.DataTypeEnum.adDouble,,, _gravepaneldata.GetArea.AreaValue))
             .Parameters.Append(.CreateParameter("contractdetail", ADODB.DataTypeEnum.adVarChar,, 50, _gravepaneldata.GetContractContent.Content))
             .Parameters.Append(.CreateParameter("registrationtime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetRegistrationTime.MyDate))
-            .Parameters.Append(.CreateParameter("purintouttime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetPrintoutTime.MyDate))
+            .Parameters.Append(.CreateParameter("outputtime", ADODB.DataTypeEnum.adDate,,, _gravepaneldata.GetPrintoutTime.MyDate))
         End With
 
         ExecuteStoredProcSetRecord(Cmd)

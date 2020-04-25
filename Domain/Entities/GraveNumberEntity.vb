@@ -225,7 +225,9 @@ Public Class GraveNumberEntity
         Public Property Number As String
 
         Public Sub New(ByVal _ku As Ku, ByVal _kuiki As Kuiki, ByVal _gawa As Gawa, ByVal _ban As Ban, ByVal _edaban As Edaban)
-            Number = $"{_ku.DisplayForField}{_kuiki.DisplayForField}区{_gawa.DisplayForField}側{_ban.DisplayForField}{_edaban.DisplayForField}番"
+            Dim edabanString As String = String.Empty
+            If Not String.IsNullOrEmpty(_edaban.DisplayForField) Then edabanString = $"の{_edaban.DisplayForField}"
+            Number = $"{_ku.DisplayForField}{_kuiki.DisplayForField}区{_gawa.DisplayForField}側{_ban.DisplayForField}{edabanString}番"
         End Sub
     End Class
 
