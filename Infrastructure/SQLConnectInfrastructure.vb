@@ -436,8 +436,6 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Dim aa As String = RsFields("ID")
-
         Return RsFields("ID")
 
     End Function

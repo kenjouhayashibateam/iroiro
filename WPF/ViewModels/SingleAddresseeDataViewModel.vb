@@ -10,7 +10,7 @@ Namespace ViewModels
     ''' </summary>
     Public Class SingleAddresseeDataViewModel
         Inherits BaseViewModel
-        Implements IAddressDataViewCloseListener
+        Implements IAddressDataViewCloseListener, IOverLengthAddress2Count
 
         ''' <summary>
         ''' 住所が長い方に注意を促すメッセージコマンド
@@ -615,6 +615,7 @@ Namespace ViewModels
             'PlaySound()
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
+            DataOutputConecter.AddOverLengthAddressListener(Me)
             Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
             With OutputContentsDictionary
@@ -686,8 +687,8 @@ Namespace ViewModels
         Private Sub NoteInput()
             With MyLessee
                 Note1 = .GetCustomerID.ShowDisplay
-                Note2 = .GetGraveNumber.GetNumber
-                Note3 = If(.GetArea.AreaValue > 0, $"{ .GetArea.AreaValue} ㎡", String.Empty)
+                Note2 = .GetGraveNumber.MyFormalNumber.Number
+                Note3 = If(.GetArea.AreaValue > 0, $"{ .GetArea.ShowDisplay}", String.Empty)
             End With
         End Sub
 
@@ -988,6 +989,9 @@ Namespace ViewModels
             InputErrorString = GetErrors(propertyName)
         End Sub
 
+        Public Sub OverLengthCountNotify(_count As Integer) Implements IOverLengthAddress2Count.OverLengthCountNotify
+            CallAddressOverLengthMessage = True
+        End Sub
     End Class
 
 End Namespace

@@ -929,7 +929,7 @@ Public Class ExcelOutputInfrastructure
                 With .Range(.Cell(startrowposition + 2, 1), .Cell(startrowposition + 3, 2)).Style
                     .Font.FontSize = 48
                     .Font.Bold = True
-                    .Alignment.ShrinkToFit = True
+                    .Alignment.ShrinkToFit=True
                     .Alignment.Vertical = XLAlignmentVerticalValues.Center
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                 End With
