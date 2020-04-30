@@ -134,9 +134,7 @@ Public Class GravePanelDataEntity
         MyFamilyName = New FamilyName(_familyname)
         MyFullName = New FullName(_fullname)
         Dim edabanString As String = String.Empty
-        If Not String.IsNullOrEmpty(_gravenumberEdaban) Then
-            edabanString = $"の{_gravenumberEdaban}"
-        End If
+        If Not String.IsNullOrEmpty(_gravenumberEdaban) Then edabanString = $"の{_gravenumberEdaban}"
         MyGraveNumber = New GraveNumber($"{_gravenumberKu}{_gravenumberKuiki}区{_gravenumberGawa}側{_gravenumberBan}{edabanString}番")
         MyContractContent = New ContractContent(_contractdetail)
         MyRegistrationTime = New RegistrationTime(_registrationtime)

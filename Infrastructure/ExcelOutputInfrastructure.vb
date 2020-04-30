@@ -693,10 +693,19 @@ Public Class ExcelOutputInfrastructure
 
     End Sub
 
+    ''' <summary>
+    ''' 住所の文字列が長いデータの件数を知らせます
+    ''' </summary>
+    ''' <param name="count">件数</param>
     Private Sub NotificationOverLengthCount(ByVal count As Integer)
         OverLengthAddressCountListener.OverLengthCountNotify(count)
     End Sub
 
+    ''' <summary>
+    ''' 墓地札データリスト出力
+    ''' </summary>
+    ''' <param name="_vob"></param>
+    ''' <param name="outputPositon"></param>
     Private Sub GravePanelListOutputProcessing(ByVal _vob As IGravePanelListBehavior, ByVal outputPositon As Integer)
 
         Dim gpl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
@@ -706,6 +715,7 @@ Public Class ExcelOutputInfrastructure
 
         With ExlWorkSheet
             SettingNewSheet_Vertical(gpb)
+            .PageSetup.Margins.Bottom = 2
             StartIndex = 0
             .Cells.Clear()
 
@@ -876,6 +886,11 @@ Public Class ExcelOutputInfrastructure
             End With
         End Sub
 
+        ''' <summary>
+        ''' 名前の文字列の必要箇所にスペースを挿入します
+        ''' </summary>
+        ''' <param name="strName"></param>
+        ''' <returns></returns>
         Private Function NameConvert(ByVal strName As String) As String
 
             Dim I As Integer = 0 'ループで使う添え字
@@ -955,7 +970,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
-            Return {82.5, 67.5, 73.5, 15}
+            Return {82.5, 67.5, 73.5, 10.5}
         End Function
 
         Public Function GetDataName() As String Implements IExcelOutputBehavior.GetDataName

@@ -34,33 +34,48 @@ Public Interface IOutputDataRepogitory
     ''' </summary>
     Sub Cho3EnvelopeOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
                            ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' 長3封筒
+    ''' </summary>
     Sub Cho3EnvelopeOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
     ''' <summary>
     ''' 洋封筒
     ''' </summary>
     Sub WesternEnvelopeOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
                               ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' 洋封筒
+    ''' </summary>
     Sub WesternEnvelopeOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
     ''' <summary>
-    ''' 角2
+    ''' 角2封筒
     ''' </summary>
     Sub Kaku2EnvelopeOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
                             ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' 角2封筒
+    ''' </summary>
     Sub Kaku2EnvelopeOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
     ''' <summary>
-    ''' 墓地パンフ
+    ''' 墓地パンフ封筒
     ''' </summary>
     Sub GravePamphletOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String,
                             ByVal address1 As String, ByVal address2 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' 墓地パンフ封筒
+    ''' </summary>
     Sub GravePamphletOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
     ''' <summary>
     ''' はがき
     ''' </summary>
     Sub PostcardOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String, ByVal address1 As String,
                        ByVal address2 As String, ByVal multioutput As Boolean)
+    ''' <summary>
+    ''' はがき
+    ''' </summary>
     Sub PostcardOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
     ''' <summary>
-    ''' ラベル
+    ''' ラベル用紙
     ''' </summary>
     Sub LabelOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String, ByVal address1 As String,
                     ByVal address2 As String)
