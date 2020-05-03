@@ -1206,11 +1206,11 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {3.71, 25.14, 7.57, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 7.29, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 0.31}
+            Return {3.71, 25.14, 7.57, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 7.29, 1.71, 1.71, 1.71, 1.71, 2.14, 1.71, 1.71, 1.71, 0.31}
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {279, 172.5, 19.5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 101.25}
+            Return {283.5, 172.5, 19.5, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 101.25}
         End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty

@@ -127,7 +127,7 @@
     <Compile Include="Entities\ValueObjects\KuikiList.vb" />
     <Compile Include="Entities\LastSaveDateEntity.vb" />
     <Compile Include="Entities\LesseeCustomerInfoEntity.vb" />
-    <Compile Include="Entities\Title.vb" />
+    <Compile Include="Entities\ValueObjects\Title.vb" />
     <Compile Include="Entities\ValueObjects\Address1.vb" />
     <Compile Include="Entities\ValueObjects\Address2.vb" />
     <Compile Include="Entities\ValueObjects\Area.vb" />
