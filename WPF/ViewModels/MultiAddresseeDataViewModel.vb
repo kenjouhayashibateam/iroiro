@@ -881,7 +881,7 @@ Namespace ViewModels
                     MessageInfo = New MessageBoxInfo With {
                         .Message = $"{My.Resources.AddressLengthOverInfo_Multi1}{OverLengthAddressCount}{My.Resources.AddressLengthOverInfo_Multi2}{vbNewLine}{My.Resources.AddressLengthOverInfo_CellYellow}",
                         .Button = MessageBoxButton.OK,
-                        .Title = "データ修正",
+                        .Title = "データ修正して下さい",
                         .Image = MessageBoxImage.Information
                         }
                 End Sub,
@@ -913,7 +913,7 @@ Namespace ViewModels
         End Sub
 
         Public Sub OverLengthCountNotify(_count As Integer) Implements IOverLengthAddress2Count.OverLengthCountNotify
-            OverLengthAddressCount = _count
+            CallAddressLengthOverInfo = True
         End Sub
     End Class
 End Namespace
