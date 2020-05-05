@@ -669,18 +669,18 @@ Namespace ViewModels
         Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 AddresseeName = .GetReceiverName.GetName
-                PostalCode = .GetReceiverPostalcode.GetCode
-                Address1 = .GetReceiverAddress1.GetAddress
-                Address2 = .GetReceiverAddress2.GetAddress
+                PostalCode = .GetReceiverPostalcode.Code
+                Address1 = .GetReceiverAddress1.Address
+                Address2 = .GetReceiverAddress2.Address
             End With
         End Sub
 
         Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 AddresseeName = .GetLesseeName.GetName
-                PostalCode = .GetPostalCode.GetCode
-                Address1 = .GetAddress1.GetAddress
-                Address2 = .GetAddress2.GetAddress
+                PostalCode = .GetPostalCode.Code
+                Address1 = .GetAddress1.Address
+                Address2 = .GetAddress2.Address
             End With
         End Sub
 

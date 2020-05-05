@@ -836,19 +836,39 @@ Domain
  長3封筒
  </summary>
 </member>
+<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+ <summary>
+ 長3封筒
+ </summary>
+</member>
 <member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+ <summary>
+ 洋封筒
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
  <summary>
  洋封筒
  </summary>
 </member>
 <member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
- 角2
+ 角2封筒
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+ <summary>
+ 角2封筒
  </summary>
 </member>
 <member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
  <summary>
- 墓地パンフ
+ 墓地パンフ封筒
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+ <summary>
+ 墓地パンフ封筒
  </summary>
 </member>
 <member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
@@ -856,9 +876,14 @@ Domain
  はがき
  </summary>
 </member>
+<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+ <summary>
+ はがき
+ </summary>
+</member>
 <member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.String,System.String,System.String,System.String,System.String,System.String)">
  <summary>
- ラベル
+ ラベル用紙
  </summary>
 </member>
 <member name="M:Domain.IOutputDataRepogitory.GravePanelOutput(System.Int32)">

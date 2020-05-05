@@ -632,7 +632,7 @@ Namespace ViewModels
             Sub() 'テンプレート構文調べる
                 MessageInfo = New MessageBoxInfo With
                 {
-               .Message = $"{lse.GetLesseeName.ShowDisplay}{vbNewLine}{lse.GetAddress1.GetAddress}{lse.GetAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{lse.GetReceiverName.ShowDisplay}{vbNewLine}{lse.GetReceiverAddress1.ShowDisplay}{lse.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}{My.Resources.LesseeDataSelect}",
+               .Message = $"{lse.GetLesseeName.ShowDisplay}{vbNewLine}{lse.GetAddress1.Address}{lse.GetAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{lse.GetReceiverName.ShowDisplay}{vbNewLine}{lse.GetReceiverAddress1.ShowDisplay}{lse.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}{My.Resources.LesseeDataSelect}",
                                  .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
                 MsgResult = MessageInfo.Result
@@ -652,9 +652,9 @@ Namespace ViewModels
         Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 Addressee = .GetReceiverName.GetName
-                Postalcode = .GetReceiverPostalcode.GetCode
-                Address1 = .GetReceiverAddress1.GetAddress
-                Address2 = .GetReceiverAddress2.GetAddress
+                Postalcode = .GetReceiverPostalcode.Code
+                Address1 = .GetReceiverAddress1.Address
+                Address2 = .GetReceiverAddress2.Address
             End With
         End Sub
 
@@ -665,9 +665,9 @@ Namespace ViewModels
         Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 Addressee = .GetLesseeName.GetName
-                Postalcode = .GetPostalCode.GetCode
-                Address1 = .GetAddress1.GetAddress
-                Address2 = .GetAddress2.GetAddress
+                Postalcode = .GetPostalCode.Code
+                Address1 = .GetAddress1.Address
+                Address2 = .GetAddress2.Address
             End With
         End Sub
 
@@ -804,7 +804,7 @@ Namespace ViewModels
         Public Sub OutputList_LabelSheet()
 
             For Each ali As DestinationDataEntity In AddresseeList
-                DataOutputConecter.LabelOutput(ali.MyCustomerID.GetID, ali.AddresseeName.GetName, Title, ali.MyPostalCode.GetCode, ali.MyAddress1.GetAddress, ali.MyAddress2.GetAddress)
+                DataOutputConecter.LabelOutput(ali.MyCustomerID.GetID, ali.AddresseeName.GetName, Title, ali.MyPostalCode.GetCode, ali.MyAddress1.Address, ali.MyAddress2.Address)
             Next
 
         End Sub

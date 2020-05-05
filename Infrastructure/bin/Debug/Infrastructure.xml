@@ -560,6 +560,19 @@ Infrastructure
  <param name="_vob"></param>
  <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
 </member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.NotificationOverLengthCount(System.Int32)">
+ <summary>
+ 住所の文字列が長いデータの件数を知らせます
+ </summary>
+ <param name="count">件数</param>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.GravePanelListOutputProcessing(Infrastructure.IGravePanelListBehavior,System.Int32)">
+ <summary>
+ 墓地札データリスト出力
+ </summary>
+ <param name="_vob"></param>
+ <param name="outputPositon"></param>
+</member>
 <member name="M:Infrastructure.ExcelOutputInfrastructure.SetMargin">
  <summary>
  エクセルシートの余白を0に設定する
@@ -569,6 +582,13 @@ Infrastructure
  <summary>
  墓地札クラス
  </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.GravePanel.NameConvert(System.String)">
+ <summary>
+ 名前の文字列の必要箇所にスペースを挿入します
+ </summary>
+ <param name="strName"></param>
+ <returns></returns>
 </member>
 <member name="T:Infrastructure.ExcelOutputInfrastructure.Cho3Envelope">
  <summary>

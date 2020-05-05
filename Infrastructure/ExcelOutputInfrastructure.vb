@@ -1012,7 +1012,7 @@ Public Class ExcelOutputInfrastructure
                 '住所
                 Dim addresstext1 As String = String.Empty
                 Dim addresstext2 As String = String.Empty
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
+                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 addresstext1 = ac.GetConvertAddress1
                 addresstext2 = ac.GetConvertAddress2
                 If addresstext1.Length + addresstext2.Length < 15 Then
@@ -1126,7 +1126,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.GetAddress
+            Return destinationData.MyAddress2.Address
         End Function
     End Class
 
@@ -1298,24 +1298,24 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 9, 4).Value = destinationdata.Note4Data.GetNote  '備考4
                 .Cell(startrowposition + 10, 4).Value = destinationdata.Note5Data.GetNote  '備考5
                 .Cell(startrowposition + 7, 2).Value = $"〒{destinationdata.MyPostalCode.GetCode}"      '宛先郵便番号
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
+                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 .Cell(startrowposition + 8, 2).Value = ac.GetConvertAddress1         '宛先住所1
 
                 Dim stringlength As Integer
-                If destinationdata.MyAddress2.GetAddress.Length < 20 Then
-                    stringlength = destinationdata.MyAddress2.GetAddress.Length
+                If destinationdata.MyAddress2.Address.Length < 20 Then
+                    stringlength = destinationdata.MyAddress2.Address.Length
                 Else
                     stringlength = 18
                 End If
                 '宛先住所2　長い場合は2行で入力
-                .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(0, stringlength)
-                If destinationdata.MyAddress2.GetAddress.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = destinationdata.MyAddress2.GetAddress.Substring(stringlength)
+                .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.Address.Substring(0, stringlength)
+                If destinationdata.MyAddress2.Address.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = destinationdata.MyAddress2.Address.Substring(stringlength)
 
                 .Cell(startrowposition + 12, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"  '宛先の宛名
                 .Cell(startrowposition + 13, 13).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}" 'お客様控えの名前
 
                 'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
-                Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, destinationdata.MyAddress2.GetAddress)
+                Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, destinationdata.MyAddress2.Address)
                 .Cell(startrowposition + 10, 13).Value = $"{Space(1)}{strings(0)}"
                 .Cell(startrowposition + 11, 13).Value = $"{Space(1)}{ strings(1)}"
                 .Cell(startrowposition + 12, 13).Value = $"{Space(1)}{ strings(2)}"
@@ -1348,7 +1348,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return $"{destinationData.MyAddress1.GetAddress}{destinationData.MyAddress2.GetAddress}"
+            Return $"{destinationData.MyAddress1.Address}{destinationData.MyAddress2.Address}"
         End Function
     End Class
 
@@ -1421,7 +1421,7 @@ Public Class ExcelOutputInfrastructure
                     .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty).Substring(I - 1, 1)
                 Next
 
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
+                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 '住所
                 If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
                     addresstext1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
@@ -1487,7 +1487,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.GetAddress
+            Return destinationData.MyAddress2.Address
         End Function
     End Class
 
@@ -1561,7 +1561,7 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
                 '住所
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
+                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 If $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}".Length < 16 Then
                     .Cell(startrowposition + 4, 5).Value = $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}"
                     .Cell(startrowposition + 4, 4).Value = String.Empty
@@ -1687,7 +1687,7 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
                 '住所
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
+                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
                 '宛名
@@ -1811,7 +1811,7 @@ Public Class ExcelOutputInfrastructure
                 Next
 
                 '住所
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.GetAddress, destinationdata.MyAddress2.GetAddress)
+                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
                     addressText1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
                     addressText2 = String.Empty
@@ -1875,7 +1875,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.GetAddress
+            Return destinationData.MyAddress2.Address
         End Function
     End Class
 
@@ -1901,15 +1901,15 @@ Public Class ExcelOutputInfrastructure
 
             'セルに入力する宛先を格納する文字列　初期値に郵便番号
             Dim ReturnString As String = $"{Space(10)}〒 {addressee.MyPostalCode.GetCode}{vbNewLine}{vbNewLine}"
-            Dim ac As New AddressConvert(addressee.MyAddress1.GetAddress, addressee.MyAddress2.GetAddress)
+            Dim ac As New AddressConvert(addressee.MyAddress1.Address, addressee.MyAddress2.Address)
             ReturnString &= $"{Space(10)}{ac.GetConvertAddress1}{vbCrLf}"  '住所1
 
             Try
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.GetAddress.Substring(0, 16)}{vbNewLine}"   '住所2
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.GetAddress.Substring(16)}{vbNewLine}{vbNewLine}" '住所2（2行目）
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(0, 16)}{vbNewLine}"   '住所2
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(16)}{vbNewLine}{vbNewLine}" '住所2（2行目）
             Catch ex As ArgumentOutOfRangeException
                 '住所2の文字列が短い場合のエラー対応（16文字以下ならエラー）
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.GetAddress}{vbNewLine}{vbNewLine}{vbNewLine}"
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address}{vbNewLine}{vbNewLine}{vbNewLine}"
             End Try
 
             '宛名
