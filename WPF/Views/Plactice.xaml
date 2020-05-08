@@ -9,18 +9,21 @@
         Title="Plactice" Height="450" Width="800">
     <Window.Resources>
         <Storyboard x:Key="Storyboard1">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0.926"/>
-            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(ColumnDefinition.Width)" Storyboard.TargetName="Column">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <GridLength>1*</GridLength>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="grid">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="14.25"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="14.25">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BounceEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="button">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="-68.035"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="button">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="19.5"/>
-            </DoubleAnimationUsingKeyFrames>
+         
         </Storyboard>
     </Window.Resources>
     <Window.Triggers>
@@ -29,8 +32,7 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid>
-        <Grid x:Name="grid" Margin="226.101,90.884,181.642,113.884" RenderTransformOrigin="0.5,0.5">
+           <Grid x:Name="grid" Grid.Column="0" Margin="0" RenderTransformOrigin="0.5,0.5">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <ei:ChangePropertyAction/>
@@ -46,14 +48,14 @@
                 </TransformGroup>
             </Grid.RenderTransform>
             <i:Interaction.Behaviors>
-                <ei:DataStateBehavior/>    
-                  </i:Interaction.Behaviors>
-       
-  <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="121*"/>
-                <ColumnDefinition Width="263*"/>
+                <ei:DataStateBehavior/>
+            </i:Interaction.Behaviors>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" x:Name="Column"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-        
+
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -61,18 +63,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <Button x:Name="button" Content="Button" Margin="0,105.416,4.243,48.741" HorizontalAlignment="Right" Width="0" RenderTransformOrigin="0.5,0.5" >
-                <Button.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Button.RenderTransform>
-            </Button>
-            <Grid HorizontalAlignment="Stretch" Height="100" VerticalAlignment="Top" Width="Auto" Margin="0,0,34.09,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+                        <Grid HorizontalAlignment="Stretch" Height="auto" VerticalAlignment="Top" Width="Auto" Margin="0,0,34.09,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
         </Grid>
 
-    </Grid>
 </Window>

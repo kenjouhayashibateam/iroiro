@@ -867,6 +867,7 @@ Namespace ViewModels
             End Get
             Set
                 _CallAddressLengthOverInfo = Value
+                CreateAddressLengthOverInfo()
                 CallPropertyChanged(NameOf(CallAddressLengthOverInfo))
                 _CallAddressLengthOverInfo = False
             End Set
@@ -885,9 +886,9 @@ Namespace ViewModels
                         .Image = MessageBoxImage.Information
                         }
                 End Sub,
-                Function()
-                    Return True
-                End Function
+                 Function()
+                     Return True
+                 End Function
                 )
 
         End Sub
@@ -913,6 +914,7 @@ Namespace ViewModels
         End Sub
 
         Public Sub OverLengthCountNotify(_count As Integer) Implements IOverLengthAddress2Count.OverLengthCountNotify
+            OverLengthAddressCount = _count
             CallAddressLengthOverInfo = True
         End Sub
     End Class

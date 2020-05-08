@@ -1238,6 +1238,7 @@ Public Class ExcelOutputInfrastructure
                     .Font.FontSize = 9
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
                     .Alignment.TopToBottom = False
+                    .Alignment.ShrinkToFit = True
                 End With
                 '住所欄
                 With .Range(.Cell(startrowposition + 7, 2), .Cell(startrowposition + 10, 2)).Style

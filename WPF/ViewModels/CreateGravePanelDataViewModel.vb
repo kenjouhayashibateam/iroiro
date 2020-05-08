@@ -413,7 +413,7 @@ Namespace ViewModels
         Private Function ReturnDisplayForGraveNumber() As String
             Dim edabanString As String = String.Empty
             If Not String.IsNullOrEmpty(EdabanText) Then edabanString = $"の{EdabanText}"
-            Return $"{KuText}{IIf(KuikiText = 0, String.Empty, KuikiText)}{My.Resources.GraveKuString}{GawaText}{My.Resources.GraveGawaString}{BanText}{edabanString}{ My.Resources.GraveBanString}"
+            Return $"{KuText}{IIf(KuikiText = "0", String.Empty, KuikiText)}{My.Resources.GraveKuString}{GawaText}{My.Resources.GraveGawaString}{BanText}{edabanString}{ My.Resources.GraveBanString}"
         End Function
 
         ''' <summary>
