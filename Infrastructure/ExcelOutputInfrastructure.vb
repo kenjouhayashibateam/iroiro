@@ -1609,11 +1609,11 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 0
+            Return 15
         End Function
 
         Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return String.Empty
+            Return destinationData.MyAddress2.Address
         End Function
 
     End Class
@@ -1691,6 +1691,11 @@ Public Class ExcelOutputInfrastructure
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
+                If ac.GetConvertAddress2.Length > 16 Then
+                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
+                Else
+                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
+                End If
                 '宛名
                 .Cell(startrowposition + 4, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
             End With
@@ -1714,7 +1719,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {45.75, 132.75, 51.75, 409.5, 409.5, 9}
+            Return {45.75, 132.75, 51.75, 409.5, 375, 34.5}
         End Function
 
         Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
@@ -1730,11 +1735,11 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 0
+            Return 15
         End Function
 
         Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return String.Empty
+            Return destinationData.MyAddress2.Address
         End Function
     End Class
 
