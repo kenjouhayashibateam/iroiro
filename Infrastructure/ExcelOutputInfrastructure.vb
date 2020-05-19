@@ -1005,8 +1005,9 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 '郵便番号
-                For I As Integer = 1 To 7
-                    .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty).Substring(I - 1, 1)
+                For I As Integer = 1 To 8
+                    If I = 4 Then Continue For
+                    .Cell(startrowposition + 2, I + 2).Value = destinationdata.MyPostalCode.GetCode.Substring(I - 1, 1)
                 Next
 
                 '住所
@@ -1016,17 +1017,17 @@ Public Class ExcelOutputInfrastructure
                 addresstext1 = ac.GetConvertAddress1
                 addresstext2 = ac.GetConvertAddress2
                 If addresstext1.Length + addresstext2.Length < 15 Then
-                    .Cell(startrowposition + 4, 8).Value = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
-                    .Cell(startrowposition + 4, 6).Value = String.Empty
+                    .Cell(startrowposition + 4, 9).Value = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
+                    .Cell(startrowposition + 4, 7).Value = String.Empty
                 Else
-                    .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
-                    .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress2
+                    .Cell(startrowposition + 4, 9).Value = ac.GetConvertAddress1
+                    .Cell(startrowposition + 4, 7).Value = ac.GetConvertAddress2
                 End If
 
                 If ac.GetConvertAddress2.Length > 15 Then
-                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.Yellow
+                    .Cell(startrowposition + 4, 9).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
-                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.NoColor
+                    .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.NoColor
                 End If
 
                 '宛名
@@ -1044,9 +1045,9 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 '住所欄1行目
-                .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 5, 9)).Merge()
+                .Range(.Cell(startrowposition + 4, 9), .Cell(startrowposition + 5, 10)).Merge()
                 '住所欄2行目
-                .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 5, 7)).Merge()
+                .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 5, 8)).Merge()
                 '宛名欄
                 .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 3)).Merge()
             End With
@@ -1058,7 +1059,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Private Function ColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {21.43, 7.43, 2.71, 2.71, 2.71, 2.86, 2.86, 2.86, 2.86, 1.43}
+            Return {21.43, 7.43, 2.71, 2.71, 2.71, 0.33, 2.71, 2.71, 2.71, 2.71}
         End Function
 
         Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
@@ -1078,7 +1079,7 @@ Public Class ExcelOutputInfrastructure
                     End With
                 End With
                 '郵便番号
-                With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
+                With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 10)).Style
                     .Font.FontSize = 16
                     With .Alignment
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1088,7 +1089,7 @@ Public Class ExcelOutputInfrastructure
                 End With
 
                 '住所
-                With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 9)).Style
+                With .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 4, 10)).Style
                     .Font.FontSize = 30
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
@@ -1096,8 +1097,8 @@ Public Class ExcelOutputInfrastructure
                         .TopToBottom = True
                     End With
                 End With
-                .Cell(startrowposition + 4, 7).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
-                .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
+                .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
+                .Cell(startrowposition + 4, 9).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
             End With
         End Sub
 
