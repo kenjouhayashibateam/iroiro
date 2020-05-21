@@ -970,7 +970,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
-            Return {82.5, 67.5, 73.5, 10.5}
+            Return {75, 67.5, 63.75, 25.5}
         End Function
 
         Public Function GetDataName() As String Implements IExcelOutputBehavior.GetDataName
