@@ -7,4 +7,5 @@
         Dim textBox As TextBox = TryCast(e.NewFocus, TextBox)
         If textBox IsNot Nothing Then textBox.SelectAll()
     End Sub
+
 End Class

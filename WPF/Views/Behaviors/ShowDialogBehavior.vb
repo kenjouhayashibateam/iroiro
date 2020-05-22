@@ -11,9 +11,12 @@ Namespace Behaviors
 
             Dim e As DependencyPropertyChangedEventArgs = parameter
             Dim form As ShowFormData = DirectCast(e.NewValue, ShowFormData)
+            Dim parent As Window = Application.Current.Windows.OfType(Of Window).SingleOrDefault(Function(w) w.IsActive)
 
+            parent.ShowInTaskbar = False
+            form.FormData.Owner = parent
             form.FormData.ShowDialog()
-
+            parent.ShowInTaskbar = True
         End Sub
 
     End Class

@@ -1571,8 +1571,17 @@ Public Class ExcelOutputInfrastructure
                     .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
                     .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
                 End If
+
+                If ac.GetConvertAddress2.Length > 16 Then
+                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
+                Else
+                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
+                End If
+
                 '宛名
-                .Cell(startrowposition + 5, 2).Value = $"{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
+                Dim name As String = destinationdata.AddresseeName.GetName
+                If name.Length <= 5 Then name &= Space(1)
+                .Cell(startrowposition + 5, 2).Value = $"{name}{destinationdata.MyTitle.GetTitle}"
             End With
 
         End Sub
@@ -1690,15 +1699,26 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
                 '住所
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
-                .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
+                Dim ad1 As String = ac.GetConvertAddress1
+                Dim ad2 As String = ac.GetConvertAddress2
+
+                If ad1.Length + ad2.Length < 16 Then
+                    .Cell(startrowposition + 4, 5).Value = $"{ad1}{ad2}"
+                    .Cell(startrowposition + 4, 4).Value = String.Empty
+                Else
+                    .Cell(startrowposition + 4, 5).Value = ad1
+                    .Cell(startrowposition + 4, 4).Value = ad2
+                End If
+
                 If ac.GetConvertAddress2.Length > 16 Then
                     .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
                 End If
                 '宛名
-                .Cell(startrowposition + 4, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
+                Dim name As String = destinationdata.AddresseeName.GetName
+                If name.Length <= 5 Then name &= Space(1)
+                .Cell(startrowposition + 4, 2).Value = $"{name}{destinationdata.MyTitle.GetTitle}"
             End With
 
         End Sub

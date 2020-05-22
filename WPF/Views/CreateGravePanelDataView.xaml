@@ -13,7 +13,7 @@
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
      
         mc:Ignorable="d"
-        Title="墓地札新規登録" Height="400" Width="600" WindowStartupLocation="CenterScreen"  FocusManager.FocusedElement="{Binding ElementName=CustomerIDTextBox}">
+        Title="墓地札新規登録" Height="400" Width="600" WindowStartupLocation="CenterOwner"  FocusManager.FocusedElement="{Binding ElementName=CustomerIDTextBox}">
     <Window.DataContext>
         <vm:CreateGravePanelDataViewModel/>
     </Window.DataContext>

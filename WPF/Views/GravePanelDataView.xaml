@@ -12,7 +12,7 @@
 	xmlns:b="clr-namespace:WPF.Behaviors"
    
      xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
-             Title="墓地札一覧" Height="500" Width="720" WindowStartupLocation="CenterScreen"  >
+             Title="墓地札一覧" Height="500" Width="720" WindowStartupLocation="CenterOwner"  >
 
     <Window.DataContext>
         <vm:GravePanelDataViewModel/>
