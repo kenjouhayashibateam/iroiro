@@ -638,6 +638,7 @@ Namespace ViewModels
         Public Sub ReferenceLessee()
 
             MyLessee = DataBaseConecter.GetCustomerInfo(CustomerID)
+            CustomerID = String.Empty
 
             If MyLessee Is Nothing Then Exit Sub
 
