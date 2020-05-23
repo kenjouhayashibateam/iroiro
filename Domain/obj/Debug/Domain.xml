@@ -881,7 +881,7 @@ Domain
  はがき
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.String,System.String,System.String,System.String,System.String,System.String)">
+<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
  <summary>
  ラベル用紙
  </summary>

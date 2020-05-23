@@ -77,8 +77,7 @@ Public Interface IOutputDataRepogitory
     ''' <summary>
     ''' ラベル用紙
     ''' </summary>
-    Sub LabelOutput(ByVal customerid As String, ByVal addressee As String, ByVal title As String, ByVal postalcode As String, ByVal address1 As String,
-                    ByVal address2 As String)
+    Sub LabelOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
 
     ''' <summary>
     ''' 墓地札

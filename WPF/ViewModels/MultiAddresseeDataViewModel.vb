@@ -803,9 +803,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_LabelSheet()
 
-            For Each ali As DestinationDataEntity In AddresseeList
-                DataOutputConecter.LabelOutput(ali.MyCustomerID.GetID, ali.AddresseeName.GetName, Title, ali.MyPostalCode.GetCode, ali.MyAddress1.Address, ali.MyAddress2.Address)
-            Next
+            DataOutputConecter.LabelOutput(AddresseeList)
 
         End Sub
 

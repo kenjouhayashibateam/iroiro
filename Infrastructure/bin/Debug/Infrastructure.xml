@@ -319,6 +319,12 @@ Infrastructure
  出力するデータをセットします
  </summary>
 </member>
+<member name="M:Infrastructure.IHorizontalOutputBehavior.GetDestinationDataList">
+ <summary>
+ 宛名クラスを保持するリスト
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:Infrastructure.IVerticalOutputListBehavior">
  <summary>
  データのリストを縦向けに出力
@@ -547,7 +553,7 @@ Infrastructure
  </summary>
  <param name="eob"></param>
 </member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.OutputHorizontalProcessing(Infrastructure.IHorizontalOutputBehavior)">
+<member name="M:Infrastructure.ExcelOutputInfrastructure.OutputLabelProcessing(Infrastructure.IHorizontalOutputBehavior)">
  <summary>
  横向けにデータを入力する処理。ラベル用紙用
  </summary>

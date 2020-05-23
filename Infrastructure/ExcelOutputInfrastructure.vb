@@ -76,6 +76,13 @@ Interface IHorizontalOutputBehavior
     ''' </summary>
     Sub SetData(ByVal destinationdata As DestinationDataEntity)
 
+
+    ''' <summary>
+    ''' 宛名クラスを保持するリスト
+    ''' </summary>
+    ''' <returns></returns>
+    Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity)
+
 End Interface
 
 ''' <summary>
@@ -554,7 +561,7 @@ Public Class ExcelOutputInfrastructure
         RowSizes = eob.SetRowSizes
 
         DataClear()
-        eob.SetCellFont()
+        SetMargin()
 
         With ExlWorkSheet
             .PageSetup.PrintAreas.Clear()
@@ -591,7 +598,7 @@ Public Class ExcelOutputInfrastructure
     ''' 横向けにデータを入力する処理。ラベル用紙用
     ''' </summary>
     ''' <param name="_hob"></param>
-    Private Sub OutputHorizontalProcessing(ByVal _hob As IHorizontalOutputBehavior)
+    Private Sub OutputLabelProcessing(ByVal _hob As IHorizontalOutputBehavior)
 
         Hob = _hob
         SheetSetting()
@@ -604,7 +611,12 @@ Public Class ExcelOutputInfrastructure
             '出力するデータの種類が違えばセルをクリアする
             SettingNewSheet_Horizontal(Hob)
             ProcessedCount = 0
-            For Each dde As DestinationDataEntity In AddresseeList
+            'カラムの幅を設定する
+            For i As Integer = 0 To UBound(ColumnSizes)
+                .Column(i + 1).Width = ColumnSizes(i)
+            Next
+
+            For Each dde As DestinationDataEntity In Hob.GetDestinationDataList
                 'ラベルのマスに値がない初めの位置と、ラベル件数からページ数を割り出し設定する
                 Dim linecount As Integer = 1
                 Do Until .Cell(row, column).Value = String.Empty
@@ -622,10 +634,6 @@ Public Class ExcelOutputInfrastructure
                     End If
                 Loop
 
-                'カラムの幅を設定する
-                For i As Integer = 0 To UBound(ColumnSizes)
-                    .Column(i + 1).Width = ColumnSizes(i)
-                Next
                 'ロウの高さを設定する
                 For j As Integer = 0 To UBound(RowSizes)
                     .Row((j + 1) + sheetindex * UBound(RowSizes)).Height = RowSizes(j)
@@ -636,8 +644,10 @@ Public Class ExcelOutputInfrastructure
                 ProcessedCount += 1
                 If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
+            .Style.Font.FontName = Hob.SetCellFont
         End With
 
+        If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
         ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
 
         ExcelOpen()
@@ -776,14 +786,6 @@ Public Class ExcelOutputInfrastructure
 
     End Sub
 
-    Public Sub LabelOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String) Implements IOutputDataRepogitory.LabelOutput
-
-        MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
-        Dim ls As IHorizontalOutputBehavior = New LabelSheet(MyAddressee)
-        OutputHorizontalProcessing(ls)
-
-    End Sub
-
     Public Sub Cho3EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String,
                                   multioutput As Boolean) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
 
@@ -869,6 +871,11 @@ Public Class ExcelOutputInfrastructure
 
     Public Sub AddOverLengthAddressListener(_listener As IOverLengthAddress2Count) Implements IOutputDataRepogitory.AddOverLengthAddressListener
         OverLengthAddressCountListener = _listener
+    End Sub
+
+    Public Sub LabelOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.LabelOutput
+        Dim ls As IHorizontalOutputBehavior = New LabelSheet(list)
+        OutputLabelProcessing(ls)
     End Sub
 
     ''' <summary>
@@ -1912,10 +1919,10 @@ Public Class ExcelOutputInfrastructure
     Private Class LabelSheet
         Implements IHorizontalOutputBehavior
 
-        Private ReadOnly myAddressee As DestinationDataEntity
+        Private ReadOnly MyList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal addressee As DestinationDataEntity)
-            myAddressee = addressee
+        Sub New(ByVal list As ObservableCollection(Of DestinationDataEntity))
+            MyList = list
         End Sub
 
         ''' <summary>
@@ -1932,8 +1939,8 @@ Public Class ExcelOutputInfrastructure
             ReturnString &= $"{Space(10)}{ac.GetConvertAddress1}{vbCrLf}"  '住所1
 
             Try
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(0, 16)}{vbNewLine}"   '住所2
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(16)}{vbNewLine}{vbNewLine}" '住所2（2行目）
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(0, 15)}{vbNewLine}"   '住所2
+                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(15)}{vbNewLine}{vbNewLine}" '住所2（2行目）
             Catch ex As ArgumentOutOfRangeException
                 '住所2の文字列が短い場合のエラー対応（16文字以下ならエラー）
                 ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address}{vbNewLine}{vbNewLine}{vbNewLine}"
@@ -1943,12 +1950,12 @@ Public Class ExcelOutputInfrastructure
             ReturnString &= $"{Space(10)}{addressee.AddresseeName.GetName}{Space(1)}{addressee.MyTitle.GetTitle}{vbNewLine}"
 
             'ラベルの行数によって、行を挿入する
-            If lineindex Mod 6 = 0 Then
+            If lineindex > 4 Then
                 ReturnString = $"{vbNewLine}{vbNewLine}{ReturnString}"
                 Return ReturnString
             End If
 
-            If lineindex Mod 7 = 0 Then ReturnString = $"{vbNewLine}{vbNewLine}{vbNewLine}{ReturnString}"
+            'If lineindex Mod 7 = 0 Then ReturnString = $"{vbNewLine}{vbNewLine}{vbNewLine}{ReturnString}"
 
             Return ReturnString
 
@@ -1972,11 +1979,11 @@ Public Class ExcelOutputInfrastructure
         End Sub
 
         Private Function SetColumnSizes() As Double() Implements IHorizontalOutputBehavior.SetColumnSizes
-            Return {30.5, 30.5, 30.25}
+            Return {34, 34, 30.86}
         End Function
 
         Private Function SetRowSizes() As Double() Implements IHorizontalOutputBehavior.SetRowSizes
-            Return {118.5, 118.5, 118.5, 118.5, 118.5, 118.5, 118.5}
+            Return {120, 120, 120, 120, 120, 120, 120}
         End Function
 
         Public Function GetDataName() As String Implements IHorizontalOutputBehavior.GetDataName
@@ -2006,6 +2013,9 @@ Public Class ExcelOutputInfrastructure
             Return "a:c"
         End Function
 
+        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IHorizontalOutputBehavior.GetDestinationDataList
+            Return MyList
+        End Function
     End Class
 
 End Class

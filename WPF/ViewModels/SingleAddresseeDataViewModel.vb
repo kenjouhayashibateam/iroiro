@@ -143,7 +143,6 @@ Namespace ViewModels
             Cho3Envelope
             Kaku2Envelope
             GravePamphletEnvelope
-            LabelSheet
             Postcard
             WesternEnbelope
         End Enum
@@ -624,7 +623,6 @@ Namespace ViewModels
                 .Add(OutputContents.GravePamphletEnvelope, My.Resources.GravePamphletEnvelopeText)
                 .Add(OutputContents.Kaku2Envelope, My.Resources.Kaku2EnvelopeText)
                 .Add(OutputContents.WesternEnbelope, My.Resources.WesternEnvelopeText）
-                .Add(OutputContents.LabelSheet, My.Resources.LabelPaperText)
                 .Add(OutputContents.Postcard, My.Resources.PostcardText）
             End With
 
@@ -742,14 +740,6 @@ Namespace ViewModels
         ''' </summary>
         Public Sub InputPostcard()
             DataOutputConecter.PostcardOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
-        End Sub
-
-        ''' <summary>
-        ''' ラベル
-        ''' </summary>
-        Public Sub InputLabel()
-            DataOutputConecter.LabelOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2)
-            SetDefaultValue()
         End Sub
 
         Private AddressList As AddressDataListEntity
@@ -883,8 +873,6 @@ Namespace ViewModels
                     InputGravePamphletEnvelope()
                 Case OutputContents.Kaku2Envelope
                     InputKaku2Envelope()
-                Case OutputContents.LabelSheet
-                    InputLabel()
                 Case OutputContents.Postcard
                     If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
                     InputPostcard()
