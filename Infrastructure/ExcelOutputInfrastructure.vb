@@ -1032,7 +1032,7 @@ Public Class ExcelOutputInfrastructure
                 End If
 
                 If ac.GetConvertAddress2.Length > 15 Then
-                    .Cell(startrowposition + 4, 9).Style.Fill.BackgroundColor = XLColor.Yellow
+                    .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.NoColor
                 End If
