@@ -479,7 +479,7 @@ Public Class ExcelOutputInfrastructure
 
         ExlWorkbook = New XLWorkbook
         If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
-        ExlWorkSheet.Cells.Style.NumberFormat.SetNumberFormatId(49)
+        ExlWorkSheet.Cells.Style.NumberFormat.NumberFormatId = 49
 
     End Sub
 
@@ -1293,13 +1293,19 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 '振込金額入力
-                Dim ColumnIndex As Integer = 0
+                Dim ColumnIndex As Integer
                 Dim moneystring As String = $"\{destinationdata.MoneyData.GetMoney}"
-                Do Until ColumnIndex = moneystring.Length
-                    .Cell(startrowposition + 3, 11 - ColumnIndex).Value = moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1)
-                    .Cell(startrowposition + 9, 20 - ColumnIndex).Value = moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1)    'お客様控え
-                    ColumnIndex += 1
-                Loop
+                Dim moneyField As String
+
+                For ColumnIndex = 0 To 8
+                    If moneystring.Length - 1 < ColumnIndex Then
+                        moneyField = String.Empty
+                    Else
+                        moneyField = moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1)
+                    End If
+                    .Cell(startrowposition + 3, 11 - ColumnIndex).Value = moneyField
+                    .Cell(startrowposition + 9, 20 - ColumnIndex).Value = moneyField    'お客様控え
+                Next
 
                 .Cell(startrowposition + 6, 4).Value = destinationdata.Note1Data.GetNote   '備考1
                 .Cell(startrowposition + 7, 4).Value = destinationdata.Note2Data.GetNote   '備考2
@@ -1317,14 +1323,16 @@ Public Class ExcelOutputInfrastructure
                     stringlength = 18
                 End If
                 '宛先住所2　長い場合は2行で入力
-                .Cell(startrowposition + 9, 2).Value = destinationdata.MyAddress2.Address.Substring(0, stringlength)
-                If destinationdata.MyAddress2.Address.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = destinationdata.MyAddress2.Address.Substring(stringlength)
+                Dim sad2 As String = StrConv(destinationdata.MyAddress2.Address, vbWide)
+
+                .Cell(startrowposition + 9, 2).Value = sad2.Substring(0, stringlength)
+                If sad2.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = sad2.Substring(stringlength)
 
                 .Cell(startrowposition + 12, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"  '宛先の宛名
                 .Cell(startrowposition + 13, 13).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}" 'お客様控えの名前
 
                 'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
-                Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, destinationdata.MyAddress2.Address)
+                Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, sad2)
                 .Cell(startrowposition + 10, 13).Value = $"{Space(1)}{strings(0)}"
                 .Cell(startrowposition + 11, 13).Value = $"{Space(1)}{ strings(1)}"
                 .Cell(startrowposition + 12, 13).Value = $"{Space(1)}{ strings(2)}"

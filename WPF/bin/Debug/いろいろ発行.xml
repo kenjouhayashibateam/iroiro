@@ -548,12 +548,6 @@
  名義人データと送付先のどちらを使用するかの確認メッセージボックスを生成します
  </summary>
 </member>
-<member name="M:WPF.ViewModels.CreateGravePanelDataViewModel.ReturnDisplayForGraveNumber">
- <summary>
- 表示用墓地番号を返します
- </summary>
- <returns></returns>
-</member>
 <member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.EdabanText">
  <summary>
  枝番　

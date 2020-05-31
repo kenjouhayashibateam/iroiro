@@ -295,6 +295,12 @@ Domain
  <param name="_ban">番</param>
  <param name="_edaban">枝番</param>
 </member>
+<member name="M:Domain.GraveNumberEntity.ReturnDisplayForGraveNumber">
+ <summary>
+ 表示用墓地番号を返します
+ </summary>
+ <returns></returns>
+</member>
 <member name="M:Domain.GraveNumberEntity.GetNumber">
  <summary>
  表示用墓地番号を返します
@@ -330,11 +336,6 @@ Domain
  表示用文字列「枝番」
  </summary>
  <returns></returns>
-</member>
-<member name="T:Domain.GraveNumberEntity.FormalNumber">
- <summary>
- 墓地番号
- </summary>
 </member>
 <member name="T:Domain.GraveNumberEntity.Ku">
  <summary>

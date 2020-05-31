@@ -686,7 +686,7 @@ Namespace ViewModels
         Private Sub NoteInput()
             With MyLessee
                 Note1 = .GetCustomerID.ShowDisplay
-                Note2 = .GetGraveNumber.MyFormalNumber.Number
+                Note2 = .GetGraveNumber.ReturnDisplayForGraveNumber
                 Note3 = If(.GetArea.AreaValue > 0, $"{ .GetArea.ShowDisplay}", String.Empty)
             End With
         End Sub

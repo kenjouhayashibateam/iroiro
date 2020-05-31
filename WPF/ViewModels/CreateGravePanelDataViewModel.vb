@@ -406,15 +406,7 @@ Namespace ViewModels
 
         End Sub
 
-        ''' <summary>
-        ''' 表示用墓地番号を返します
-        ''' </summary>
-        ''' <returns></returns>
-        Private Function ReturnDisplayForGraveNumber() As String
-            Dim edabanString As String = String.Empty
-            If Not String.IsNullOrEmpty(EdabanText) Then edabanString = $"の{EdabanText}"
-            Return $"{KuText}{IIf(KuikiText = "0", String.Empty, KuikiText)}{My.Resources.GraveKuString}{GawaText}{My.Resources.GraveGawaString}{BanText}{edabanString}{ My.Resources.GraveBanString}"
-        End Function
+
 
         ''' <summary>
         ''' 枝番　
@@ -809,7 +801,7 @@ Namespace ViewModels
         Public Sub ReferenceLesseeData()
             MyLessee = DataConect.GetCustomerInfo(CustomerID)
             If MyLessee Is Nothing Then Exit Sub
-            DisplayForGraveNumber = MyLessee.GetGraveNumber.GetNumber
+            DisplayForGraveNumber = MyLessee.GetGraveNumber.ReturnDisplayForGraveNumber
             With MyLessee.GetGraveNumber
                 KuText = .KuField.DisplayForField
                 KuikiText = .KuikiField.DisplayForField
@@ -831,7 +823,6 @@ Namespace ViewModels
                 Exit Sub
             End If
 
-            DisplayForGraveNumber = ReturnDisplayForGraveNumber()
             CreateConfirmationRegisterInfo()
             IsConfirmationRegister = True
             Dim NowDate As Date = Now

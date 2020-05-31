@@ -112,7 +112,6 @@ Public Class GraveNumberEntity
     Public Property BanField As Ban
     Public Property EdabanField As Edaban
     Public Property CustomerIDField As CustomerID
-    Public Property MyFormalNumber As FormalNumber
 
     ''' <param name="_ku">区</param>
     Public Sub New(ByVal _ku As String)
@@ -163,9 +162,17 @@ Public Class GraveNumberEntity
             EdabanField = New Edaban(_edaban)
         End If
 
-        MyFormalNumber = New FormalNumber(KuField, KuikiField, GawaField, BanField, EdabanField)
-
     End Sub
+
+    ''' <summary>
+    ''' 表示用墓地番号を返します
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function ReturnDisplayForGraveNumber() As String
+        Dim edabanString As String
+        If Not String.IsNullOrEmpty(EdabanField.DisplayForField) Then edabanString = $"の{EdabanField.DisplayForField}"
+        Return $"{KuField.DisplayForField}{IIf(KuikiField.DisplayForField = "0", String.Empty, KuikiField.DisplayForField)}区{GawaField.DisplayForField}側{BanField.DisplayForField}{EdabanField.DisplayForField}番"
+    End Function
 
     ''' <summary>
     ''' 表示用墓地番号を返します
@@ -216,20 +223,6 @@ Public Class GraveNumberEntity
     Public Function ConvertEdabanString() As String
         Return gtc.ConvertNumber_0Delete(EdabanField.CodeField)
     End Function
-
-    ''' <summary>
-    ''' 墓地番号
-    ''' </summary>
-    Public Class FormalNumber
-
-        Public Property Number As String
-
-        Public Sub New(ByVal _ku As Ku, ByVal _kuiki As Kuiki, ByVal _gawa As Gawa, ByVal _ban As Ban, ByVal _edaban As Edaban)
-            Dim edabanString As String = String.Empty
-            If Not String.IsNullOrEmpty(_edaban.DisplayForField) Then edabanString = $"の{_edaban.DisplayForField}"
-            Number = $"{_ku.DisplayForField}{_kuiki.DisplayForField}区{_gawa.DisplayForField}側{_ban.DisplayForField}{edabanString}番"
-        End Sub
-    End Class
 
     ''' <summary>
     ''' 区クラス
