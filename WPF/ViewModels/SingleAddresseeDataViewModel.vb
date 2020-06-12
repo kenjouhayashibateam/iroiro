@@ -591,22 +591,32 @@ Namespace ViewModels
             Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
-        '<System.Runtime.InteropServices.DllImport("winmm.dll", CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
-        'Private Shared Function mciSendString(ByVal command As String, ByVal buffer As System.Text.StringBuilder, ByVal bufferSize As Integer, ByVal hwndCallback As IntPtr) As Integer
-        'End Function
+        <System.Runtime.InteropServices.DllImport("winmm.dll", CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
+        Private Shared Function mciSendString(ByVal command As String, ByVal buffer As System.Text.StringBuilder, ByVal bufferSize As Integer, ByVal hwndCallback As IntPtr) As Integer
+        End Function
 
-        'Private Sub PlaySound()
-        '    Dim fileName As String = ".\sounds\Cry.mp3"
-        '    Dim aliasName As String = "MediaFile"
-        '    Dim audio As String
-        '    'ファイルを開く
-        '    audio = "open """ + fileName + """ type mpegvideo alias " + aliasName
-        '    If mciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
-        '        Return
-        '    End If '再生する
-        '    audio = "play " + aliasName
-        '    mciSendString(audio, Nothing, 0, IntPtr.Zero)
-        'End Sub
+        Private Sub PlaySound()
+            Dim fileName As String = ".\sounds\Cry.mp3"
+            Dim aliasName As String = "MediaFile"
+            Dim audio As String
+            'ファイルを開く
+            audio = "open """ + fileName + """ type mpegvideo alias " + aliasName
+            If mciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
+                Return
+            End If '再生する
+            audio = "play " + aliasName
+            mciSendString(audio, Nothing, 0, IntPtr.Zero)
+        End Sub
+
+        Public Property ViewTitle As String
+            Get
+                Return _ViewTitle
+            End Get
+            Set
+                _ViewTitle = Value
+                CallPropertyChanged(NameOf(ViewTitle))
+            End Set
+        End Property
 
         ''' <param name="lesseerepository">名義人データ</param>
         ''' <param name="excelrepository">エクセルデータ</param>
@@ -617,6 +627,8 @@ Namespace ViewModels
             DataOutputConecter.AddOverLengthAddressListener(Me)
             Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
+            Dim ver As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location)
+            ViewTitle = "いろいろ発行" & ver.FileVersion
             With OutputContentsDictionary
                 .Add(OutputContents.TransferPaper, My.Resources.TransferPaperText)
                 .Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)
@@ -744,6 +756,7 @@ Namespace ViewModels
 
         Private AddressList As AddressDataListEntity
         Private _CallShowAddressDataView As Boolean
+        Private _ViewTitle As String
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します

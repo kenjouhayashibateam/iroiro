@@ -11,7 +11,7 @@
         xmlns:vm="clr-namespace:WPF.ViewModels"
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="単票印刷" Height="620" Width="410" 
+        Title="{Binding ViewTitle}" Height="620" Width="410" 
         WindowStartupLocation="CenterScreen"  
         FocusManager.FocusedElement="{Binding ElementName=CustomerIDWatermarkTextBox}"
         PreviewGotKeyboardFocus="Window_PreviewGotKeyboardFocus">

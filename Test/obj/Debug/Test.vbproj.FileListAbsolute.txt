@@ -55,3 +55,4 @@ C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Test\obj\Debug\Test.vbproj.
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Test\obj\Debug\Test.dll
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Test\obj\Debug\Test.xml
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Test\obj\Debug\Test.pdb
+C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Test\obj\Debug\Test.vbproj.CoreCompileInputs.cache

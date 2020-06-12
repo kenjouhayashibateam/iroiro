@@ -1055,6 +1055,8 @@ Public Class ExcelOutputInfrastructure
                 .Range(.Cell(startrowposition + 4, 9), .Cell(startrowposition + 5, 10)).Merge()
                 '住所欄2行目
                 .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 5, 8)).Merge()
+                '宛名肩書
+                .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 5)).Merge()
                 '宛名欄
                 .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 3)).Merge()
             End With
@@ -1096,7 +1098,7 @@ Public Class ExcelOutputInfrastructure
                 End With
 
                 '住所
-                With .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 4, 10)).Style
+                With .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 4, 10)).Style
                     .Font.FontSize = 30
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
@@ -1106,6 +1108,7 @@ Public Class ExcelOutputInfrastructure
                 End With
                 .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
                 .Cell(startrowposition + 4, 9).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
+                .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
             End With
         End Sub
 

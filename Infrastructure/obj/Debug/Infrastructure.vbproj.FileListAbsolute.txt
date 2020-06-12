@@ -112,3 +112,4 @@ C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\In
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.dll
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.pdb
+C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.CoreCompileInputs.cache
