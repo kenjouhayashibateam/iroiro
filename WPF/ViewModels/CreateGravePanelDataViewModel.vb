@@ -406,8 +406,6 @@ Namespace ViewModels
 
         End Sub
 
-
-
         ''' <summary>
         ''' 枝番　
         ''' </summary>
@@ -500,17 +498,17 @@ Namespace ViewModels
             End Set
         End Property
 
-        ''' <summary>
-        ''' 墓地番号クラス
-        ''' </summary>
-        Public Class GraveNumberField
+        '''' <summary>
+        '''' 墓地番号クラス
+        '''' </summary>
+        'Public Class GraveNumberField
 
-            Public Property Value As String
+        '    Public Property Value As String
 
-            Sub New(ByVal _value As String)
-                Value = _value
-            End Sub
-        End Class
+        '    Sub New(ByVal _value As String)
+        '        Value = _value
+        '    End Sub
+        'End Class
 
         ''' <summary>
         ''' 墓地番号　番リスト
@@ -823,15 +821,19 @@ Namespace ViewModels
                 Exit Sub
             End If
 
+            If String.IsNullOrEmpty(DisplayForGraveNumber) Then
+                DisplayForGraveNumber = $"{KuText}{KuikiText}区{GawaText}側{BanText}{EdabanText}番"
+            End If
+
             CreateConfirmationRegisterInfo()
             IsConfirmationRegister = True
+
             Dim NowDate As Date = Now
             Dim DefaultDate As Date = My.Resources.DefaultDate
             If MsgResult = MessageBoxResult.No Then Exit Sub
 
             Dim gpd As New GravePanelDataEntity(0, RegistraterCustomerID, FamilyName, FullName, DisplayForGraveNumber, Area, ContractContent, NowDate, DefaultDate)
-            Dim id As Integer = DataConect.GravePanelRegistration(gpd)
-            gpd.MyOrderID.ID = id
+            DataConect.GravePanelRegistration(gpd)
 
             Dim godl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
             godl.AddItem(gpd)

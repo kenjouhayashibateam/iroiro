@@ -24,3 +24,17 @@ ERR	2020/04/22 14:27:58	   場所 ADODB._Command.Execute(Object& RecordsAffected
    場所 Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 F:\Application\Infrastructure\SQLConectInfrastructure.vb:行 53
 ERR	2020/04/22 14:30:38	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
    場所 Infrastructure.SQLConectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 F:\Application\Infrastructure\SQLConectInfrastructure.vb:行 53
+ERR	2020/06/28 10:49:29	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57
+ERR	2020/06/28 11:16:06	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57
+ERR	2020/06/28 11:17:14	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57
+ERR	2020/06/28 11:17:57	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57
+ERR	2020/06/28 11:19:08	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57
+ERR	2020/06/28 11:24:39	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57
+ERR	2020/06/28 11:33:31	   場所 ADODB._Command.Execute(Object& RecordsAffected, Object& Parameters, Int32 Options)
+   場所 Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(Command& exeCmd) 場所 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\SQLConnectInfrastructure.vb:行 57

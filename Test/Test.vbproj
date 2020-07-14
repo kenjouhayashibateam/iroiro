@@ -162,10 +162,6 @@
       <Project>{7c74b6ae-8f84-4f25-aae9-058cb491efae}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iroiro\WinForm.vbproj">
-      <Project>{70c38507-fc0b-462e-b20e-876598499b10}</Project>
-      <Name>WinForm</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

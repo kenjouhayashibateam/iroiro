@@ -479,6 +479,7 @@ Public Class ExcelOutputInfrastructure
 
         ExlWorkbook = New XLWorkbook
         If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
+        ExlWorkSheet.Cells.Clear()
         ExlWorkSheet.Cells.Style.NumberFormat.NumberFormatId = 49
 
     End Sub
@@ -524,8 +525,15 @@ Public Class ExcelOutputInfrastructure
         If bolSheetCheck = False Then
             exlapp.Visible = True
             Dim openpath As String = System.IO.Path.GetFullPath(My.Resources.SAVEPATH)
-            Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)
-            executebook.Activate()
+            Try
+                Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)
+                executebook.Activate()
+            Catch ex As Exception
+                MsgBox("開いているエクセルが編集モードの為、出力できません。モードを解除してから出力して下さい。" & vbNewLine & vbNewLine &
+                       "もし、編集モードが原因でない場合は、林飛を呼んでください。", MsgBoxStyle.Critical, "出力が弱い")
+                Exit Sub
+            End Try
+
         End If
 
     End Sub

@@ -627,8 +627,8 @@ Namespace ViewModels
             DataOutputConecter.AddOverLengthAddressListener(Me)
             Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
-            Dim ver As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location)
-            ViewTitle = "いろいろ発行" & ver.FileVersion
+            'Dim ver As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location)
+            ViewTitle = "いろいろ発行" '& ver.FileVersion
             With OutputContentsDictionary
                 .Add(OutputContents.TransferPaper, My.Resources.TransferPaperText)
                 .Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)

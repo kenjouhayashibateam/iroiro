@@ -418,7 +418,7 @@ Public Class SQLConnectInfrastructure
     ''' 墓地札データ登録
     ''' </summary>
     ''' <param name="_gravepaneldata">登録墓地札データ</param>
-    Public Function GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) As Integer Implements IDataConectRepogitory.GravePanelRegistration
+    Public Sub GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelRegistration
 
         Cmd = New ADODB.Command
 
@@ -436,9 +436,7 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Return RsFields("ID")
-
-    End Function
+    End Sub
 
     ''' <summary>
     ''' 墓地札データの一覧を取得し、リストで返します

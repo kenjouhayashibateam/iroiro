@@ -578,11 +578,6 @@
  </summary>
  <returns></returns>
 </member>
-<member name="T:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberField">
- <summary>
- 墓地番号クラス
- </summary>
-</member>
 <member name="P:WPF.ViewModels.CreateGravePanelDataViewModel.GraveNumberBanList">
  <summary>
  墓地番号　番リスト
