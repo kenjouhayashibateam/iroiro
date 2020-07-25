@@ -148,6 +148,8 @@ Public Class SQLConnectInfrastructure
 
         SetLesseeRecord(customerid)
 
+        If RsFields("LesseeName") = String.Empty Then Return Nothing
+
         '御廟は面積がない上にDouble型なので、0にして対応する
         Dim areaString As String = RsFields("AreaOfGrave")
         If String.IsNullOrEmpty(areaString) Then
@@ -418,7 +420,7 @@ Public Class SQLConnectInfrastructure
     ''' 墓地札データ登録
     ''' </summary>
     ''' <param name="_gravepaneldata">登録墓地札データ</param>
-    Public Sub GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) Implements IDataConectRepogitory.GravePanelRegistration
+    Public Function GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) As Integer Implements IDataConectRepogitory.GravePanelRegistration
 
         Cmd = New ADODB.Command
 
@@ -436,7 +438,8 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-    End Sub
+        Return RsFields("ID")
+    End Function
 
     ''' <summary>
     ''' 墓地札データの一覧を取得し、リストで返します

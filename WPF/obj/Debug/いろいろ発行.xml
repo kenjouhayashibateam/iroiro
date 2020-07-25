@@ -1071,7 +1071,7 @@
  </summary>
  <returns></returns>
 </member>
-<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.ReferenceLessee">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.ReferenceLessee(System.String)">
  <summary>
  名義人検索
  </summary>

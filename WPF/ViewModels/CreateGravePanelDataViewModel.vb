@@ -41,7 +41,7 @@ Namespace ViewModels
         Private _EdabanText As String
         Private _GraveNumberEdabanList As EdabanList
         Private _CustomerID As String
-        Private _FamilyName As String
+        Private _FamilyName As String = ""
         Private _Area As String
         Private _MessageInfo As MessageBoxInfo
         Private _CallSelectAddresseeInfo As Boolean = False
@@ -54,7 +54,7 @@ Namespace ViewModels
         Private _IsConfirmationRegister As Boolean
         Private _CallCompleteRegistration As Boolean
         Private _RegistraterCustomerID As String
-        Private _FullName As String
+        Private _FullName As String = ""
         Private _CallRegistrationErrorMessageInfo As Boolean
         Private _RegistrationErrorMessageInfo As ICommand
 
@@ -821,9 +821,7 @@ Namespace ViewModels
                 Exit Sub
             End If
 
-            If String.IsNullOrEmpty(DisplayForGraveNumber) Then
-                DisplayForGraveNumber = $"{KuText}{KuikiText}区{GawaText}側{BanText}{EdabanText}番"
-            End If
+            DisplayForGraveNumber = $"{KuText}{KuikiText}区{GawaText}側{BanText}{EdabanText}番"
 
             CreateConfirmationRegisterInfo()
             IsConfirmationRegister = True
@@ -833,8 +831,9 @@ Namespace ViewModels
             If MsgResult = MessageBoxResult.No Then Exit Sub
 
             Dim gpd As New GravePanelDataEntity(0, RegistraterCustomerID, FamilyName, FullName, DisplayForGraveNumber, Area, ContractContent, NowDate, DefaultDate)
-            DataConect.GravePanelRegistration(gpd)
-
+            Dim i As Integer
+            i = DataConect.GravePanelRegistration(gpd)
+            gpd.MyOrderID.ID = i
             Dim godl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
             godl.AddItem(gpd)
 

@@ -592,7 +592,7 @@ Namespace ViewModels
         End Sub
 
         <System.Runtime.InteropServices.DllImport("winmm.dll", CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
-        Private Shared Function mciSendString(ByVal command As String, ByVal buffer As System.Text.StringBuilder, ByVal bufferSize As Integer, ByVal hwndCallback As IntPtr) As Integer
+        Private Shared Function MciSendString(ByVal command As String, ByVal buffer As System.Text.StringBuilder, ByVal bufferSize As Integer, ByVal hwndCallback As IntPtr) As Integer
         End Function
 
         Private Sub PlaySound()
@@ -601,11 +601,11 @@ Namespace ViewModels
             Dim audio As String
             'ファイルを開く
             audio = "open """ + fileName + """ type mpegvideo alias " + aliasName
-            If mciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
+            If MciSendString(audio, Nothing, 0, IntPtr.Zero) <> 0 Then
                 Return
             End If '再生する
             audio = "play " + aliasName
-            mciSendString(audio, Nothing, 0, IntPtr.Zero)
+            MciSendString(audio, Nothing, 0, IntPtr.Zero)
         End Sub
 
         Public Property ViewTitle As String

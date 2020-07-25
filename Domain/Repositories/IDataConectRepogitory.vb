@@ -79,7 +79,7 @@ Public Interface IDataConectRepogitory
     ''' 墓地札を登録します
     ''' </summary>
     ''' <param name="_gravepaneldata"></param>
-    Sub GravePanelRegistration(ByVal _gravepaneldata As GravePanelDataEntity)
+    Function GravePanelRegistration(ByVal _gravepaneldata As GravePanelDataEntity) As Integer
 
     ''' <summary>
     ''' 墓地札リストを返します

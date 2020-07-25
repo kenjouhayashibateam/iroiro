@@ -398,7 +398,7 @@ Namespace ViewModels
             Get
                 _ReturnList_CustomerIDCommand = New DelegateCommand(
                     Sub()
-                        ReturnList_CustomerID()
+                        AddresseeList = ReturnList_CustomerID()
                         CallPropertyChanged(NameOf(ReturnList_CustomerIDCommand))
                     End Sub,
                     Function()
@@ -546,7 +546,7 @@ Namespace ViewModels
             Get
                 _ReferenceLesseeCommand = New DelegateCommand(
                 Sub()
-                    ReferenceLessee()
+                    ReferenceLessee(CustomerID)
                     CallPropertyChanged(NameOf(ReferenceLesseeCommand))
                 End Sub,
                 Function()
@@ -562,34 +562,34 @@ Namespace ViewModels
         ''' <summary>
         ''' 名義人検索
         ''' </summary>
-        Public Sub ReferenceLessee()
+        Private Function ReferenceLessee(ByVal managementNumber As String) As LesseeCustomerInfoEntity
 
-            Dim lse As LesseeCustomerInfoEntity
+            Dim lce As LesseeCustomerInfoEntity
 
-            lse = DataBaseConecter.GetCustomerInfo(CustomerID)
+            lce = DataBaseConecter.GetCustomerInfo(managementNumber)
 
-            If lse Is Nothing Then Exit Sub
+            If lce Is Nothing Then Return Nothing
 
-            If lse.GetReceiverName.GetName = String.Empty Then
-                SetLesseeProperty(lse)
-                Exit Sub
+            If lce.GetReceiverName.GetName = String.Empty Then
+                SetLesseeProperty(lce)
+                Return lce
             End If
 
-            If lse.GetLesseeName.GetName = lse.GetReceiverName.GetName Then
-                SetReceiverProperty(lse)
-                Exit Sub
+            If lce.GetLesseeName.GetName = lce.GetReceiverName.GetName Then
+                SetReceiverProperty(lce)
+                Return lce
             Else
-                CreateSelectAddresseeInfo(lse)
+                CreateSelectAddresseeInfo(lce)
                 CallSelectAddresseeInfo = True
             End If
 
             If MsgResult = MessageBoxResult.Yes Then
-                SetLesseeProperty(lse)
+                SetLesseeProperty(lce)
             Else
-                SetReceiverProperty(lse)
+                SetReceiverProperty(lce)
             End If
-
-        End Sub
+            Return lce
+        End Function
 
         Public Property MsgResult As MessageBoxResult
             Get
@@ -682,6 +682,10 @@ Namespace ViewModels
 
             AddresseeList.Add(myaddressee)
             IsOutputEnabled = True
+            ClearProperty()
+        End Sub
+
+        Private Sub ClearProperty()
             CustomerID = String.Empty
             Addressee = String.Empty
             Address1 = String.Empty
@@ -739,18 +743,25 @@ Namespace ViewModels
         ''' 管理番号の列を格納したクリップボードを使用してリスト表示するアイテムを格納したリストを返します
         ''' </summary>
         ''' <returns></returns>
-        Public Function ReturnList_CustomerID() As ObservableCollection(Of String)
+        Public Function ReturnList_CustomerID() As ObservableCollection(Of DestinationDataEntity)
 
-            Dim customeridarray() As String = Split(Clipboard.GetText, vbCrLf)
-            Dim mylist As New ObservableCollection(Of String)
+            Dim customeridArray() As String = Split(Clipboard.GetText, vbCrLf)
+            Dim mylist As New ObservableCollection(Of DestinationDataEntity)
+            Dim dde As DestinationDataEntity
+            Dim lce As LesseeCustomerInfoEntity
             Dim StringVerification As New Regex("^[0-9]{6}")
             Dim test As String = Clipboard.GetText
 
-            For i As Integer = 0 To UBound(customeridarray) - 1
-                If Not StringVerification.IsMatch(customeridarray(i)) Then Continue For
-                mylist.Add(customeridarray(i))
+            For i As Integer = 0 To UBound(customeridArray) - 1
+                CustomerID = customeridArray(i)
+                If Not StringVerification.IsMatch(CustomerID) Then Continue For
+                lce = ReferenceLessee(CustomerID)
+                If lce Is Nothing Then Continue For
+                dde = New DestinationDataEntity(CustomerID, Addressee, Title, Postalcode, Address1, Address2)
+                mylist.Add(dde)
             Next
             If mylist.Count > 0 Then IsOutputEnabled = True
+            ClearProperty()
             Return mylist
 
         End Function
@@ -811,6 +822,8 @@ Namespace ViewModels
         ''' リストの行を削除します
         ''' </summary>
         Public Sub DeleteItem()
+
+            If MyAddressee Is Nothing Then Exit Sub
 
             For Each ali As DestinationDataEntity In AddresseeList
                 If Not MyAddressee.Equals(ali) Then Continue For
