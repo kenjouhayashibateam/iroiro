@@ -1156,6 +1156,7 @@ Public Class ExcelOutputInfrastructure
         Implements IVerticalOutputListBehavior
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+        Private Const YourCopyAddressMaxLengh As Integer = 11
 
         Sub New(ByVal _addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
@@ -1179,24 +1180,25 @@ Public Class ExcelOutputInfrastructure
             joinaddress = $"{address1}{address2}"
 
             'つなげた住所の文字列が長ければ関数を呼び出し値を返す
-            If joinaddress.Length > 24 Then Return ReturnLongAddressArray(joinaddress)
+            If joinaddress.Length > YourCopyAddressMaxLengh * 2 Then Return ReturnLongAddressArray(joinaddress)
 
             '住所1が長ければ2行に分ける
-            If address1.Length < 12 Then
+            If address1.Length < YourCopyAddressMaxLengh Then
                 line1 = address1
                 line2 = String.Empty
             Else
-                line1 = address1.Substring(0, 12)
-                line2 = address1.Substring(12)
+                line1 = address1.Substring(0, YourCopyAddressMaxLengh)
+                line2 = address1.Substring(YourCopyAddressMaxLengh)
             End If
 
-            '住所2が長ければ2行に分ける
-            If address2.Length + line2.Length < 12 Then
+            '住所１の２行目と住所2を合わせたものが長ければ2行に分ける
+            joinaddress = line2 & address2
+            If joinaddress.Length < YourCopyAddressMaxLengh Then
                 line2 &= address2
                 line3 = String.Empty
             Else
-                line2 &= address2.Substring(0, 12)
-                line3 = address2.Substring(12)
+                line2 = joinaddress.Substring(0, YourCopyAddressMaxLengh)
+                line3 = joinaddress.Substring(YourCopyAddressMaxLengh)
             End If
 
             Return {line1, line2, line3}
@@ -1212,9 +1214,9 @@ Public Class ExcelOutputInfrastructure
 
             Dim line1, line2, line3 As String
 
-            line1 = absolutenessaddress.Substring(0, 12)
-            line2 = absolutenessaddress.Substring(12, 12)
-            line3 = absolutenessaddress.Substring(24)
+            line1 = absolutenessaddress.Substring(0, 11)
+            line2 = absolutenessaddress.Substring(11, 11)
+            line3 = absolutenessaddress.Substring(22)
 
             Return {line1, line2, line3}
 
