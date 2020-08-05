@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YWDJh2PpDkIgMmVjRxugJUJdITrjYbmpHyKAOW8+QpA=</dsig:DigestValue>
+        <dsig:DigestValue>HInpRzv4qPFFZjZlKWvqnQJI1ku3sZxT4Hcv5xqYgKg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -343,14 +343,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="いろいろ発行.exe" size="298400">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="いろいろ発行.exe" size="298912">
       <assemblyIdentity name="いろいろ発行" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>SWZngnBS6rCH2rzNR2508PKgWU2/C5/JHwoNxByHcwk=</dsig:DigestValue>
+        <dsig:DigestValue>GjktJOmm1cJJQwdfsBdwYUI9IuYnWOLQKCep6kghkwY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

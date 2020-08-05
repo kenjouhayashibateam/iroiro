@@ -394,6 +394,12 @@ Public Class ExcelOutputInfrastructure
     Implements IOutputDataRepogitory
 
     ''' <summary>
+    ''' ログファイルを生成します
+    ''' </summary>
+    ''' <returns></returns>
+    Private Property LogFileConecter As ILoggerRepogitory
+
+    ''' <summary>
     ''' 進捗を受け取るリスナー
     ''' </summary>
     Private Shared ProcessedCountListener As IProcessedCountObserver
@@ -531,7 +537,8 @@ Public Class ExcelOutputInfrastructure
             Catch ex As Exception
                 MsgBox("開いているエクセルが編集モードの為、出力できません。モードを解除してから出力して下さい。" & vbNewLine & vbNewLine &
                        "もし、編集モードが原因でない場合は、林飛を呼んでください。", MsgBoxStyle.Critical, "出力が弱い")
-                Exit Sub
+                LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
+                Exit Sub()
             End Try
 
         End If
@@ -1214,9 +1221,9 @@ Public Class ExcelOutputInfrastructure
 
             Dim line1, line2, line3 As String
 
-            line1 = absolutenessaddress.Substring(0, 11)
-            line2 = absolutenessaddress.Substring(11, 11)
-            line3 = absolutenessaddress.Substring(22)
+            line1 = absolutenessaddress.Substring(0, YourCopyAddressMaxLengh)
+            line2 = absolutenessaddress.Substring(YourCopyAddressMaxLengh, YourCopyAddressMaxLengh)
+            line3 = absolutenessaddress.Substring(YourCopyAddressMaxLengh * 2)
 
             Return {line1, line2, line3}
 
