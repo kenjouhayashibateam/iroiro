@@ -453,6 +453,12 @@ Infrastructure
  エクセルへの処理を行います
  </summary>
 </member>
+<member name="P:Infrastructure.ExcelOutputInfrastructure.LogFileConecter">
+ <summary>
+ ログファイルを生成します
+ </summary>
+ <returns></returns>
+</member>
 <member name="F:Infrastructure.ExcelOutputInfrastructure.ProcessedCountListener">
  <summary>
  進捗を受け取るリスナー

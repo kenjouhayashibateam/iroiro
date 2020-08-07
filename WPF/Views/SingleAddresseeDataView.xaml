@@ -176,11 +176,10 @@
         <GroupBox x:Name="OutputMenuGroupBox" Header="データ出力" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,0,5,0" Grid.ColumnSpan="2">
             <Grid x:Name="OutputMenu" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="6*"/>
                     <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <!--<CheckBox x:Name="MultiOutputCheckBox" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding MultiOutputCheck}" Content="複数データ出力" Margin="0,0,20,0"/>-->
-                <Button x:Name="OutputButton" Content="出力" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                  </Grid.ColumnDefinitions>
+                 <Button x:Name="OutputButton" Content="{Binding ButtonText}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,2" IsEnabled="{Binding OutputButtonIsEnabled}">
                     <ib:Interaction.Triggers>
                         <ib:DataTrigger Binding="{Binding CallAddressOverLengthMessage}" Value="True">
                             <ib:InvokeCommandAction Command="{Binding AddressOverLengthInfo}"/>
@@ -190,7 +189,7 @@
                         </ib:EventTrigger>
                     </ib:Interaction.Triggers>
                 </Button>
-            </Grid>
+              </Grid>
         </GroupBox>
         <Grid x:Name="ScreenTransitionGrid" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>

@@ -36,6 +36,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Public Property SelectAddresseeInfo As DelegateCommand
+
         ''' <summary>
         ''' エラーメッセージを表示するコマンド
         ''' </summary>
@@ -96,6 +97,20 @@ Namespace ViewModels
             Set
                 _MessageInfo = Value
                 CallPropertyChanged(NameOf(MessageInfo))
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 出力中メッセージ
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property OutputInfo As String
+            Get
+                Return _OutputInfo
+            End Get
+            Set
+                _OutputInfo = Value
+                CallPropertyChanged(NameOf(OutputInfo))
             End Set
         End Property
 
@@ -757,6 +772,9 @@ Namespace ViewModels
         Private AddressList As AddressDataListEntity
         Private _CallShowAddressDataView As Boolean
         Private _ViewTitle As String
+        Private _OutputInfo As String
+        Private _ButtonText As String = "出力"
+        Private _OutputButtonIsEnabled As Boolean = True
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します
@@ -873,32 +891,57 @@ Namespace ViewModels
         ''' <summary>
         ''' 宛名データを出力します
         ''' </summary>
-        Public Sub Output()
+        Public Async Sub Output()
 
             If HasErrors Then Exit Sub
             Dim ac As New AddressConvert(Address1, Address2)
-
-            Select Case SelectedOutputContentsValue
-                Case OutputContents.Cho3Envelope
-                    InputCho3Envelope()
-                    If ac.GetConvertAddress2.Length > 15 Then CreateAddressOverLengthInfo()
-                Case OutputContents.GravePamphletEnvelope
-                    InputGravePamphletEnvelope()
-                Case OutputContents.Kaku2Envelope
-                    InputKaku2Envelope()
-                Case OutputContents.Postcard
-                    If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
-                    InputPostcard()
-                Case OutputContents.TransferPaper
-                    If ($"{Address1}{Address2}").Length > 36 Then CreateAddressOverLengthInfo()
-                    InputTransferData()
-                Case OutputContents.WesternEnbelope
-                    InputWesternEnvelope()
-                Case Else
-                    Exit Select
-            End Select
-
+            Await Task.Run(Sub()
+                               OutputButtonIsEnabled = False
+                               ButtonText = "出力中"
+                               Select Case SelectedOutputContentsValue
+                                   Case OutputContents.Cho3Envelope
+                                       InputCho3Envelope()
+                                       If ac.GetConvertAddress2.Length > 15 Then CreateAddressOverLengthInfo()
+                                   Case OutputContents.GravePamphletEnvelope
+                                       InputGravePamphletEnvelope()
+                                   Case OutputContents.Kaku2Envelope
+                                       InputKaku2Envelope()
+                                   Case OutputContents.Postcard
+                                       If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
+                                       InputPostcard()
+                                   Case OutputContents.TransferPaper
+                                       If ($"{Address1}{Address2}").Length > 36 Then CreateAddressOverLengthInfo()
+                                       InputTransferData()
+                                   Case OutputContents.WesternEnbelope
+                                       InputWesternEnvelope()
+                                   Case Else
+                                       Exit Select
+                               End Select
+                               OutputButtonIsEnabled = True
+                               ButtonText = "出力"
+                           End Sub
+                           )
         End Sub
+
+        Public Property OutputButtonIsEnabled As Boolean
+            Get
+                Return _OutputButtonIsEnabled
+            End Get
+            Set
+                _OutputButtonIsEnabled = Value
+                CallPropertyChanged(NameOf(OutputButtonIsEnabled))
+            End Set
+        End Property
+
+        Public Property ButtonText As String
+            Get
+                Return _ButtonText
+            End Get
+            Set
+                _ButtonText = Value
+                CallPropertyChanged(NameOf(ButtonText))
+            End Set
+        End Property
 
         ''' <summary>
         ''' 振込用紙の独自の欄のEnableを変えます

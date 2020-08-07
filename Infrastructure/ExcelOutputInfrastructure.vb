@@ -270,6 +270,7 @@ Public Class AddressConvert
         Dim rx As New Regex("^[\d]+$")
 
         If rx.IsMatch(addressString) Then
+
             Return ConvertNumber(addressString)
         Else
             Return addressString
@@ -538,7 +539,7 @@ Public Class ExcelOutputInfrastructure
                 MsgBox("開いているエクセルが編集モードの為、出力できません。モードを解除してから出力して下さい。" & vbNewLine & vbNewLine &
                        "もし、編集モードが原因でない場合は、林飛を呼んでください。", MsgBoxStyle.Critical, "出力が弱い")
                 LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
-                Exit Sub()
+                Exit Sub
             End Try
 
         End If
