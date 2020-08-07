@@ -821,7 +821,8 @@ Namespace ViewModels
                 Exit Sub
             End If
 
-            DisplayForGraveNumber = $"{KuText}{KuikiText}区{GawaText}側{BanText}{EdabanText}番"
+            Dim gne As New GraveNumberEntity(KuText, KuikiText, GawaText, BanText, EdabanText)
+            DisplayForGraveNumber = gne.ReturnDisplayForGraveNumber
 
             CreateConfirmationRegisterInfo()
             IsConfirmationRegister = True

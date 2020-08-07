@@ -231,8 +231,15 @@ Public Class GraveNumberEntity
         Inherits GraveNumberField
 
         Public Sub New(ByVal _value As String)
-            CodeField = _value
+
+            If IsNumeric(_value) Then
+                CodeField = _value
+            Else
+                CodeField = gtc.ConvertNumber_Ku(_value)
+            End If
+
             DisplayForField = gtc.ConvertNumber_Ku(CodeField)
+
         End Sub
 
     End Class
