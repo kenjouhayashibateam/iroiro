@@ -42,6 +42,8 @@ Namespace ViewModels
         Private _FullName As String
         Private _CallIsDeleteDataInfo As Boolean
         Private _CallOutputInfo As Boolean
+        Private _OutputButtonText As String = "出力"
+        Private _OutputButtonIsEnabled As Boolean = True
 
         ''' <summary>
         ''' 契約内容のリスト
@@ -454,29 +456,55 @@ Namespace ViewModels
         ''' <summary>
         ''' リストの墓地札データを出力します
         ''' </summary>
-        Public Sub Output()
+        Public Async Sub Output()
 
             OutputDataConecter.GravePanelOutput(OutputPosition)
 
-            Dim i As Integer = 0
-            For Each gpd As GravePanelDataEntity In GravePanelList.List
-                If gpd.MyIsPrintout.Value = False Then Continue For
-                gpd.MyPrintOutTime.MyDate = Now
-                gpd.MyIsPrintout.Value = False
-                DataBaseConecter.GravePanelUpdate(gpd)
-                CallPropertyChanged(NameOf(GravePanelList))
-                i += 1
-            Next
+            Await Task.Run(Sub()
+                               Dim i As Integer = 0
+                               OutputButtonIsEnabled = False
+                               OutputButtonText = "出力中"
+                               For Each gpd As GravePanelDataEntity In GravePanelList.List
+                                   If gpd.MyIsPrintout.Value = False Then Continue For
+                                   gpd.MyPrintOutTime.MyDate = Now
+                                   gpd.MyIsPrintout.Value = False
+                                   DataBaseConecter.GravePanelUpdate(gpd)
+                                   CallPropertyChanged(NameOf(GravePanelList))
+                                   i += 1
+                               Next
 
-            If i = 0 Then
-                OutputInfo(My.Resources.OutputInfo_Count0, My.Resources.OutputInfoTitle, MessageBoxImage.Warning)
-            Else
-                OutputInfo(My.Resources.OutputInfo, My.Resources.OutputInfoTitle, MessageBoxImage.Information)
-            End If
+                               If i = 0 Then
+                                   OutputInfo(My.Resources.OutputInfo_Count0, My.Resources.OutputInfoTitle, MessageBoxImage.Warning)
+                               Else
+                                   OutputInfo(My.Resources.OutputInfo, My.Resources.OutputInfoTitle, MessageBoxImage.Information)
+                               End If
+                               OutputButtonText = "出力"
+                               OutputButtonIsEnabled = True
+                               GetList()
+                           End Sub)
 
-            GetList()
 
         End Sub
+
+        Public Property OutputButtonIsEnabled As Boolean
+            Get
+                Return _OutputButtonIsEnabled
+            End Get
+            Set
+                _OutputButtonIsEnabled = Value
+                CallPropertyChanged(NameOf(OutputButtonIsEnabled))
+            End Set
+        End Property
+
+        Public Property OutputButtonText As String
+            Get
+                Return _OutputButtonText
+            End Get
+            Set
+                _OutputButtonText = Value
+                CallPropertyChanged(NameOf(OutputButtonText))
+            End Set
+        End Property
 
         ''' <summary>
         ''' 出力確認メッセージボックスを呼び出すタイミングを管理します

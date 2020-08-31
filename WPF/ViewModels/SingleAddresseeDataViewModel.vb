@@ -181,6 +181,8 @@ Namespace ViewModels
         ''' </summary>
         Private ReadOnly DataOutputConecter As IOutputDataRepogitory
 
+        Private myLogger As ILoggerRepogitory
+
         ''' <summary>
         ''' 墓地札画面に移動するコマンド
         ''' </summary>
@@ -640,6 +642,7 @@ Namespace ViewModels
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
             DataOutputConecter.AddOverLengthAddressListener(Me)
+
             Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
             'Dim ver As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location)

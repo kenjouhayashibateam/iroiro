@@ -477,6 +477,13 @@ Public Class ExcelOutputInfrastructure
     ''' <returns></returns>
     Private Property ProcessedCount As Integer
 
+    Public Sub New()
+        Me.New(New LogFileInfrastructure)
+    End Sub
+    Public Sub New(ByVal _logger As ILoggerRepogitory)
+        LogFileConecter = _logger
+    End Sub
+
     ''' <summary>
     ''' いろいろ発行エクセルファイルを閉じて、メモリ上にClosedXMLのSheetを生成します。
     ''' </summary>
