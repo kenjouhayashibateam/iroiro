@@ -639,9 +639,9 @@ Public Class ExcelOutputInfrastructure
                 .Column(i + 1).Width = ColumnSizes(i)
             Next
 
+            Dim linecount As Integer = 1
             For Each dde As DestinationDataEntity In Hob.GetDestinationDataList
                 'ラベルのマスに値がない初めの位置と、ラベル件数からページ数を割り出し設定する
-                Dim linecount As Integer = 1
                 Do Until .Cell(row, column).Value = String.Empty
                     column += 1
                     linecount += 1
@@ -1988,10 +1988,7 @@ Public Class ExcelOutputInfrastructure
             'ラベルの行数によって、行を挿入する
             If lineindex > 4 Then
                 ReturnString = $"{vbNewLine}{vbNewLine}{ReturnString}"
-                Return ReturnString
             End If
-
-            'If lineindex Mod 7 = 0 Then ReturnString = $"{vbNewLine}{vbNewLine}{vbNewLine}{ReturnString}"
 
             Return ReturnString
 
@@ -2030,6 +2027,7 @@ Public Class ExcelOutputInfrastructure
 
             Dim column As Integer = 1
             Dim row As Integer = 1
+            Dim rowCount As Integer = 1
 
             With ExlWorkSheet
                 Do Until .Cell(row, column).Value.Trim.Length = 0
@@ -2037,10 +2035,14 @@ Public Class ExcelOutputInfrastructure
                     If column > 3 Then
                         column = 1
                         row += 1
+                        rowCount += 1
+                    End If
+                    If rowCount > 7 Then
+                        rowCount = 1
                     End If
                 Loop
 
-                .Cell(row, column).Value = ReturnLabelString(row, destinationdata)
+                .Cell(row, column).Value = ReturnLabelString(rowCount, destinationdata)
             End With
 
         End Sub
