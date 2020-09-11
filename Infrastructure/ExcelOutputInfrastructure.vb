@@ -1933,7 +1933,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 14
+            Return 15
         End Function
 
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
