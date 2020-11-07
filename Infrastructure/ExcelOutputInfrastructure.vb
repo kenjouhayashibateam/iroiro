@@ -255,6 +255,7 @@ Public Class AddressConvert
         Next
         'ハイフンを置換する
         basestring = Replace(basestring, "－", "ー")
+        If basestring Is Nothing Then Return String.Empty
         '*を空欄に置換して値を返す
         Return Replace(basestring, "*", String.Empty)
 

@@ -88,10 +88,10 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="2*"/>
                         <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1.5*"/>
                     </Grid.RowDefinitions>
                     <Label Content="宛名" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="0" />
                     <Label Content="郵便番号" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2"/>
@@ -115,13 +115,13 @@
                             </ib:EventTrigger>
                         </ib:Interaction.Triggers>
                     </TextBox>
-                    <TextBox x:Name="Address1TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Text="{Binding Address1,UpdateSourceTrigger=PropertyChanged}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3">
+                    <extk:WatermarkTextBox  x:Name="Address1TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Text="{Binding Address1,UpdateSourceTrigger=PropertyChanged}" Watermark="「（」以降の文字は出力時は&#xa;削除して表示されます。" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="-2,0,5,3">
                         <ib:Interaction.Triggers>
                             <ib:EventTrigger EventName="LostFocus">
                                 <ib:InvokeCommandAction Command="{Binding AddressReference}" />
                             </ib:EventTrigger>
                         </ib:Interaction.Triggers>
-                    </TextBox>
+                    </extk:WatermarkTextBox>
                     <TextBox x:Name="Address2TextBox" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="7" Text="{Binding Address2}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3"/>
                 </Grid>
             </GroupBox>

@@ -290,7 +290,7 @@ Namespace ViewModels
             Set
                 _GravePanelList = GravePanelDataListEntity.GetInstance
                 CallPropertyChanged(NameOf(GravePanelList))
-                RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
+                'RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
             End Set
         End Property
 
@@ -330,7 +330,7 @@ Namespace ViewModels
 
             CallPropertyChanged(NameOf(GravePanelList))
 
-            RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
+            'RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
 
         End Sub
 

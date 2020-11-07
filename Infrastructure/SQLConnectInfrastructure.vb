@@ -165,9 +165,10 @@ Public Class SQLConnectInfrastructure
                                                 RsFields("ReceiverName"), RsFields("ReceiverPostalCode"), RsFields("ReceiverAddress1"),
                                                 RsFields("ReceiverAddress2"))
 
+        ADONothing()
+
         Return myLessee
 
-        ADONothing()
 
     End Function
 
@@ -196,7 +197,11 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Return New AddressDataEntity(RsFields("Address"), postalcode)
+        Dim myAddress As AddressDataEntity = New AddressDataEntity(RsFields("Address"), postalcode)
+
+        ADONothing()
+
+        Return myAddress
 
     End Function
 
@@ -227,6 +232,8 @@ Public Class SQLConnectInfrastructure
             Rs.MoveNext()
         Loop
 
+        ADONothing()
+
         Return AddressList
 
     End Function
@@ -241,7 +248,11 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Return New LastSaveDateEntity(RsFields(My.Resources.LastSaveDate))
+        Dim lsd As LastSaveDateEntity = New LastSaveDateEntity(RsFields(My.Resources.LastSaveDate))
+
+        ADONothing()
+
+        Return lsd
 
     End Function
 
@@ -268,6 +279,8 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
+        ADONothing()
+
     End Sub
 
     ''' <summary>
@@ -292,6 +305,8 @@ Public Class SQLConnectInfrastructure
             Rs.MoveNext()
         Loop
 
+        ADONothing()
+
         Return New KuikiList(kl)
 
     End Function
@@ -306,7 +321,7 @@ Public Class SQLConnectInfrastructure
         SetGraveData(_gravekunumber, _gravekuikinumber)
 
         Dim gf As Gawa
-        Dim datastring As String = String.Empty
+        Dim dataString As String = String.Empty
         Dim gl As New ObservableCollection(Of Gawa)
 
         Do Until Rs.EOF
@@ -323,6 +338,9 @@ Public Class SQLConnectInfrastructure
             gl.Add(gf)
             Rs.MoveNext()
         Loop
+
+        ADONothing()
+
         Return New GawaList(gl)
 
     End Function
@@ -352,6 +370,8 @@ Public Class SQLConnectInfrastructure
             End If
             Rs.MoveNext()
         Loop
+
+        ADONothing()
 
         Return New BanList(bl)
 
@@ -392,6 +412,8 @@ Public Class SQLConnectInfrastructure
         If Trim(datastring) = String.Empty Then Return Nothing
         If Trim(datastring) = "00" Then Return Nothing
 
+        ADONothing()
+
         Return New EdabanList(el)
 
     End Function
@@ -411,6 +433,8 @@ Public Class SQLConnectInfrastructure
 
         Dim customerid As String = RsFields(My.Resources.ManagementNumber)
         Dim lessee As LesseeCustomerInfoEntity = GetCustomerInfo(customerid)
+
+        ADONothing()
 
         Return lessee
 
@@ -438,7 +462,10 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Return RsFields("ID")
+        Dim ID As Integer = RsFields("ID")
+
+        Return ID
+
     End Function
 
     ''' <summary>
@@ -484,6 +511,8 @@ Public Class SQLConnectInfrastructure
             Rs.MoveNext()
         Loop
 
+        ADONothing()
+
         Return gpdlist
 
     End Function
@@ -502,6 +531,8 @@ Public Class SQLConnectInfrastructure
         End With
 
         ExecuteStoredProcSetRecord(Cmd)
+
+        ADONothing()
 
     End Sub
 
@@ -527,6 +558,8 @@ Public Class SQLConnectInfrastructure
         End With
 
         ExecuteStoredProcSetRecord(Cmd)
+
+        ADONothing()
 
     End Sub
 

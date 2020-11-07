@@ -47,7 +47,7 @@ Namespace ViewModels
         Private _Postalcode As String
         Private _Address1 As String
         Private _ReferenceAddressListCommand As ICommand
-        Private _Address2 As String
+        Private _Address2 As String = String.Empty
         Private _CallSelectAddresseeInfo As Boolean
         Private _MsgResult As MessageBoxResult
         Private _ReferenceLesseeCommand As DelegateCommand
@@ -479,6 +479,7 @@ Namespace ViewModels
                 Return _CustomerID
             End Get
             Set
+                If Value.Length > 6 Then Value = String.Empty
                 _CustomerID = Value
                 CallPropertyChanged(NameOf(CustomerID))
             End Set
@@ -494,6 +495,9 @@ Namespace ViewModels
             End Get
             Set
                 _Title = Value
+                For Each dde As DestinationDataEntity In AddresseeList
+                    dde.MyTitle.TitleString = Value
+                Next
                 CallPropertyChanged(NameOf(Title))
             End Set
         End Property

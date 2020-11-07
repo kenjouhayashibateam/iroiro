@@ -63,7 +63,7 @@
                 <CheckBox x:Name="IsPast3MonthsPartCheckBox" Grid.Row="0" Grid.Column="4" VerticalAlignment="Stretch" Content="過去3か月分を表示" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsChecked="{Binding IsPast3MonthsPart}"/>
             </Grid>
         </GroupBox>
-        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  ItemsSource="{Binding GravePanelList.List}"  SelectedItem="{Binding MyGravePanel}" Margin="5">
+        <DataGrid x:Name="LesseeListDataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  ItemsSource="{Binding GravePanelList.List}"  SelectedItem="{Binding MyGravePanel}" Margin="5">
             <DataGrid.Columns >
                 <DataGridTextColumn Header="管理番号" Width="1*"  IsReadOnly="True" Binding="{Binding MyCustomerID.ID}" />
                 <DataGridTextColumn Header="家" Width="1*" Binding="{Binding MyFamilyName.Name,UpdateSourceTrigger=PropertyChanged}"/>
