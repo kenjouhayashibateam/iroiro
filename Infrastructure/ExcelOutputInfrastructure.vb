@@ -1345,14 +1345,14 @@ Public Class ExcelOutputInfrastructure
                 Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                 .Cell(startrowposition + 8, 2).Value = ac.GetConvertAddress1         '宛先住所1
 
+                Dim sad2 As String = StrConv(destinationdata.MyAddress2.Address, vbWide)
                 Dim stringlength As Integer
-                If destinationdata.MyAddress2.Address.Length < 20 Then
-                    stringlength = destinationdata.MyAddress2.Address.Length
+                If sad2.Length < 20 Then
+                    stringlength = sad2.Length
                 Else
                     stringlength = 18
                 End If
                 '宛先住所2　長い場合は2行で入力
-                Dim sad2 As String = StrConv(destinationdata.MyAddress2.Address, vbWide)
 
                 .Cell(startrowposition + 9, 2).Value = sad2.Substring(0, stringlength)
                 If sad2.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = sad2.Substring(stringlength)
