@@ -578,12 +578,11 @@ Public Class ExcelOutputInfrastructure
     ''' <param name="eob"></param>
     Private Sub SettingNewSheet_Horizontal(ByVal eob As IExcelOutputBehavior)
 
-        If OutputDataGanre = eob.GetDataName Then Exit Sub
-
-        OutputDataGanre = eob.GetDataName
         ColumnSizes = eob.SetColumnSizes
         RowSizes = eob.SetRowSizes
 
+        If OutputDataGanre = eob.GetDataName Then Exit Sub
+        OutputDataGanre = eob.GetDataName
         DataClear()
         SetMargin()
 
