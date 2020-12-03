@@ -9,6 +9,6 @@ Public Class Area
     End Sub
 
     Public Function ShowDisplay() As String
-        Return $"面積 : {AreaValue:n1} ㎡"
+        Return $"面積 : {AreaValue:0.0#} ㎡"
     End Function
 End Class
