@@ -189,11 +189,13 @@ Public Class AddressConvert
         '郡が入っている住所はそのまま返す
         If InStr(AddressText, My.Resources.GunString) <> 0 Then Return AddressText
 
-        '県と市を比べる
-        AddressText = VerifyAddressString(AddressText, My.Resources.KenString)
-
-        '府と市を比べる
-        AddressText = VerifyAddressString(AddressText, My.Resources.FuString)
+        If InStr(AddressText, My.Resources.KenString) <> 0 Then
+            '県と市を比べる
+            AddressText = VerifyAddressString(AddressText, My.Resources.KenString)
+        Else
+            '府と市を比べる
+            AddressText = VerifyAddressString(AddressText, My.Resources.FuString)
+        End If
 
         '”("から先を削除する
         Dim addressarray() As String = Split(AddressText, My.Resources.FullwidthClosingParenthesis)
