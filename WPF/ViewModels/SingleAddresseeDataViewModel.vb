@@ -582,7 +582,12 @@ Namespace ViewModels
             End Get
             Set
                 If Value = Money Then Return
-                _Money = Value
+                Dim i As Integer
+                If Integer.TryParse(Value, i) Then
+                    _Money = i
+                Else
+                    _Money = String.Empty
+                End If
                 CallPropertyChanged(NameOf(Money))
             End Set
         End Property

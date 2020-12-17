@@ -845,18 +845,14 @@ Public Class ExcelOutputInfrastructure
     End Sub
 
     Public Sub PostcardOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean) Implements IOutputDataRepogitory.PostcardOutput
-
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
         Dim pc As IVerticalOutputListBehavior = New Postcard(MyAddressee)
         ListOutputVerticalProcessing(pc, multioutput)
-
     End Sub
 
     Public Sub GravePanelOutput(outputPosition As Integer) Implements IOutputDataRepogitory.GravePanelOutput
-
         Dim gp As IGravePanelListBehavior = New GravePanel()
         GravePanelListOutputProcessing(gp, outputPosition)
-
     End Sub
 
     Public Sub Cho3EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
