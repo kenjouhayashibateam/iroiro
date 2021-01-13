@@ -1217,12 +1217,6 @@
  メインフォームに情報を渡すビューモデルクラス
  </summary>
 </member>
-<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.AddressOverLengthInfo">
- <summary>
- 住所が長い方に注意を促すメッセージコマンド
- </summary>
- <returns></returns>
-</member>
 <member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.SelectAddresseeInfo">
  <summary>
  名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド

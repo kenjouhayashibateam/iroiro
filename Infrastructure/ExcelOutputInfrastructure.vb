@@ -1052,7 +1052,7 @@ Public Class ExcelOutputInfrastructure
                     .Cell(startrowposition + 4, 7).Value = ac.GetConvertAddress2
                 End If
 
-                If ac.GetConvertAddress2.Length > 15 Then
+                If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
                     .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.NoColor
@@ -1751,11 +1751,12 @@ Public Class ExcelOutputInfrastructure
                     .Cell(startrowposition + 4, 4).Value = ad2
                 End If
 
-                If ac.GetConvertAddress2.Length > 16 Then
+                If ac.GetConvertAddress2.Length > GetAddressMaxLength Then
                     .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
                 End If
+
                 '宛名
                 Dim name As String = destinationdata.AddresseeName.GetName
                 If name.Length <= 5 Then name &= Space(1)
@@ -1887,7 +1888,7 @@ Public Class ExcelOutputInfrastructure
                     addressText1 = ac.GetConvertAddress1
                     addressText2 = ac.GetConvertAddress2
                 End If
-                If ac.GetConvertAddress2.Length > 14 Then
+                If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
                     .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.NoColor

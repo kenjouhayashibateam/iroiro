@@ -12,24 +12,24 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements IAddressDataViewCloseListener, IOverLengthAddress2Count
 
-        ''' <summary>
-        ''' 住所が長い方に注意を促すメッセージコマンド
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property AddressOverLengthInfo As DelegateCommand
-        Private Sub CreateAddressOverLengthInfo()
-            AddressOverLengthInfo = New DelegateCommand(
-                Sub() '無名関数（匿名関数）
-                    MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
-                    .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Information, .Title = My.Resources.ToBeAdjusted}
-                    CallPropertyChanged(NameOf(AddressOverLengthInfo))
-                End Sub,
-                Function()
-                    Return True
-                End Function
-                )
-            CallAddressOverLengthMessage = True
-        End Sub
+        '''' <summary>
+        '''' 住所が長い方に注意を促すメッセージコマンド
+        '''' </summary>
+        '''' <returns></returns>
+        'Public Property AddressOverLengthInfo As DelegateCommand
+        'Private Sub CreateAddressOverLengthInfo()
+        '    AddressOverLengthInfo = New DelegateCommand(
+        '        Sub() '無名関数（匿名関数）
+        '            MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
+        '            .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Information, .Title = My.Resources.ToBeAdjusted}
+        '            CallPropertyChanged(NameOf(AddressOverLengthInfo))
+        '        End Sub,
+        '        Function()
+        '            Return True
+        '        End Function
+        '        )
+        '    CallAddressOverLengthMessage = True
+        'End Sub
 
         ''' <summary>
         ''' 名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド
@@ -181,7 +181,7 @@ Namespace ViewModels
         ''' </summary>
         Private ReadOnly DataOutputConecter As IOutputDataRepogitory
 
-        Private myLogger As ILoggerRepogitory
+        Private ReadOnly myLogger As ILoggerRepogitory
 
         ''' <summary>
         ''' 墓地札画面に移動するコマンド
@@ -909,16 +909,16 @@ Namespace ViewModels
                                Select Case SelectedOutputContentsValue
                                    Case OutputContents.Cho3Envelope
                                        InputCho3Envelope()
-                                       If ac.GetConvertAddress2.Length > 15 Then CreateAddressOverLengthInfo()
+                                       'If ac.GetConvertAddress2.Length > 15 Then CreateAddressOverLengthInfo()
                                    Case OutputContents.GravePamphletEnvelope
                                        InputGravePamphletEnvelope()
                                    Case OutputContents.Kaku2Envelope
                                        InputKaku2Envelope()
                                    Case OutputContents.Postcard
-                                       If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
+                                       'If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
                                        InputPostcard()
                                    Case OutputContents.TransferPaper
-                                       If ($"{Address1}{Address2}").Length > 36 Then CreateAddressOverLengthInfo()
+                                       'If ($"{Address1}{Address2}").Length > 36 Then CreateAddressOverLengthInfo()
                                        InputTransferData()
                                    Case OutputContents.WesternEnbelope
                                        InputWesternEnvelope()

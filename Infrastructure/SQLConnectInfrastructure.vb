@@ -23,7 +23,7 @@ Public Class SQLConnectInfrastructure
     ''' <summary>
     ''' SQLServerに接続するための接続文字列
     ''' </summary>
-    Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.163\SQLEXPRESS2014;DATABASE=COMMON;user id=sa;password=sqlserver"
+    Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.163\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
     Private Const HAYASHIBACONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=DESKTOP-MUJVB5O\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
 
     Private ReadOnly MyConnectionString As String = SHUNJUENCONSTRING
