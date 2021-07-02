@@ -68,10 +68,10 @@
     <ApplicationIcon>ゴマ.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>9211BFD3B80E2026192722AC86BC60F94B6A2ACD</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>221B57BD6F844D32D695FB86C7497594581225B3</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WPF_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>WPF_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -237,6 +237,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="WPF_1_TemporaryKey.pfx" />
     <None Include="WPF_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

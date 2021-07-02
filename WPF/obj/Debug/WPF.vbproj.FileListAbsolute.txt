@@ -236,7 +236,6 @@ C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\bin\Debug\ro\Xceed.Wpf.
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
-C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\WPF.vbprojAssemblyReference.cache
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\Views\AddressDataView.g.vb
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\Views\CreateGravePanelDataView.g.vb
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\Views\GravePanelDataView.g.vb
@@ -266,3 +265,4 @@ C:\Users\001\source\repos\kenjouhayashibateam\iroiro\WPF\bin\Debug\いろいろ�
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\いろいろ発行.TrustInfo.xml
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\いろいろ発行.exe.manifest
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\いろいろ発行.application
+C:\Users\001\source\repos\kenjouhayashibateam\iroiro\WPF\obj\Debug\WPF.vbproj.AssemblyReference.cache

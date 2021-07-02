@@ -103,7 +103,6 @@ C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\bin\Debug\Do
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\bin\Debug\ExcelNumberFormat.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\bin\Debug\Microsoft.Expression.Interactions.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbprojAssemblyReference.cache
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Interop.ADODB.dll
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.ResolveComReference.cache
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.Resources.resources
@@ -113,3 +112,4 @@ C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\In
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.pdb
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.CoreCompileInputs.cache
+C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.AssemblyReference.cache

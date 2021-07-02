@@ -178,6 +178,7 @@ Public Class AddressConvert
     Public Function GetConvertAddress1() As String Implements IAddressConvert.GetConvertAddress1
 
         Dim AddressText As String
+        Dim isReturn As Boolean
 
         AddressText = Address1
         '東京、神奈川、徳島は略す
@@ -185,6 +186,14 @@ Public Class AddressConvert
         AddressText = Replace(AddressText, My.Resources.KanagawaString, String.Empty)
         AddressText = Replace(AddressText, My.Resources.TokushimaString, String.Empty)
         If AddressText Is Nothing Then Return String.Empty
+
+        isReturn = Address1.Length <> AddressText.Length
+
+        '”("から先を削除する
+        Dim addressarray() As String = Split(AddressText, My.Resources.FullWidthClosingParenthesis)
+        AddressText = addressarray(0)
+
+        If isReturn Then Return AddressText
 
         '郡が入っている住所はそのまま返す
         If InStr(AddressText, My.Resources.GunString) <> 0 Then Return AddressText
@@ -197,9 +206,6 @@ Public Class AddressConvert
             AddressText = VerifyAddressString(AddressText, My.Resources.FuString)
         End If
 
-        '”("から先を削除する
-        Dim addressarray() As String = Split(AddressText, My.Resources.FullwidthClosingParenthesis)
-        AddressText = addressarray(0)
 
         Return AddressText
 
@@ -492,12 +498,16 @@ Public Class ExcelOutputInfrastructure
     ''' </summary>
     Private Sub SheetSetting()
 
-        ExcelClose()
+        Try
+            ExcelClose()
 
-        ExlWorkbook = New XLWorkbook
-        If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
-        ExlWorkSheet.Cells.Clear()
-        ExlWorkSheet.Cells.Style.NumberFormat.NumberFormatId = 49
+            ExlWorkbook = New XLWorkbook
+            If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
+            ExlWorkSheet.Cells.Clear()
+            ExlWorkSheet.Cells.Style.NumberFormat.NumberFormatId = 49
+        Catch ex As Exception
+            LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+        End Try
 
     End Sub
 
@@ -511,18 +521,23 @@ Public Class ExcelOutputInfrastructure
             exlapp = CreateObject(My.Resources.ExcelApp)
         End Try
 
-        exlworkbooks = exlapp.Workbooks
+        Try
+            exlworkbooks = exlapp.Workbooks
 
-        Dim bolSheetCheck As Boolean = False
-        Dim myWorkbook As Excel.Workbook = Nothing
-        For Each myWorkbook In exlworkbooks
-            If myWorkbook.Name <> buf Then Continue For
-            bolSheetCheck = True
-            Exit For
-        Next
+            Dim bolSheetCheck As Boolean = False
+            Dim myWorkbook As Excel.Workbook = Nothing
+            For Each myWorkbook In exlworkbooks
+                If myWorkbook.Name <> buf Then Continue For
+                bolSheetCheck = True
+                Exit For
+            Next
 
-        If bolSheetCheck Then myWorkbook.Close(False)
-        If exlworkbooks.Count = 0 Then exlapp.Quit()
+            If bolSheetCheck Then myWorkbook.Close(False)
+            If exlworkbooks.Count = 0 Then exlapp.Quit()
+        Catch ex As Exception
+            LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+        End Try
+
     End Sub
 
     ''' <summary>
@@ -661,7 +676,7 @@ Public Class ExcelOutputInfrastructure
 
                 'ロウの高さを設定する
                 For j As Integer = 0 To UBound(RowSizes)
-                    .Row((j + 1) + sheetindex * UBound(RowSizes)).Height = RowSizes(j)
+                    .Row((j + 1) + (sheetindex * UBound(RowSizes))).Height = RowSizes(j)
                 Next
 
                 Hob.CellProperty(sheetindex)
