@@ -189,13 +189,9 @@ Namespace ViewModels
                 tre = New Regex("[1-3]")
                 Dim Ismatch As Boolean = False
                 Ismatch = tre.IsMatch(Value)
-                If Ismatch Then Ismatch = (Value.Length = 1)
+                If Ismatch Then Ismatch = Value.Length = 1
 
-                If Ismatch Then
-                    _OutputPosition = Value
-                Else
-                    _OutputPosition = 1
-                End If
+                _OutputPosition = If(Ismatch, Value, "1")
                 CallPropertyChanged(NameOf(OutputPosition))
             End Set
         End Property
@@ -215,11 +211,11 @@ Namespace ViewModels
             End Set
         End Property
 
-        Sub New()
+        Public Sub New()
             Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
-        Sub New(ByVal _databaseconecter As IDataConectRepogitory, ByVal _outputdataconecter As IOutputDataRepogitory)
+        Public Sub New(_databaseconecter As IDataConectRepogitory, _outputdataconecter As IOutputDataRepogitory)
             DataBaseConecter = _databaseconecter
             OutputDataConecter = _outputdataconecter
             OutputPosition = 1
@@ -290,7 +286,6 @@ Namespace ViewModels
             Set
                 _GravePanelList = GravePanelDataListEntity.GetInstance
                 CallPropertyChanged(NameOf(GravePanelList))
-                'RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
             End Set
         End Property
 
@@ -329,8 +324,6 @@ Namespace ViewModels
             GravePanelList.List = DataBaseConecter.GetGravePanelDataList(CustomerID, FullName, refRetistrationDate_st, Now, #1900/01/01#, refOutputDate_en).List
 
             CallPropertyChanged(NameOf(GravePanelList))
-
-            'RaiseEvent CollectionChanged(Me, New NotifyCollectionChangedEventArgs(NameOf(GravePanelList.List)))
 
         End Sub
 
@@ -482,8 +475,6 @@ Namespace ViewModels
                                OutputButtonIsEnabled = True
                                GetList()
                            End Sub)
-
-
         End Sub
 
         Public Property OutputButtonIsEnabled As Boolean
@@ -527,7 +518,7 @@ Namespace ViewModels
         ''' <param name="msg">メッセージ</param>
         ''' <param name="title">タイトル</param>
         ''' <param name="image">メッセージボックスの種類</param>
-        Private Sub OutputInfo(ByVal msg As String, ByVal title As String, ByVal image As MessageBoxImage)
+        Private Sub OutputInfo(msg As String, title As String, image As MessageBoxImage)
 
             OutputInfoCommand = New DelegateCommand(
                 Sub()

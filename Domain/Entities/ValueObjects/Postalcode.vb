@@ -1,11 +1,10 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 郵便番号
 ''' </summary>
 Public Class PostalCode
     Public Property Code As String
 
-    Sub New(ByVal myPostalCode As String)
+    Public Sub New(myPostalCode As String)
         Code = myPostalCode
     End Sub
 

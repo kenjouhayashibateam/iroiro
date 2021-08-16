@@ -1,5 +1,4 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 番クラス
 ''' </summary>
 Public Class Ban

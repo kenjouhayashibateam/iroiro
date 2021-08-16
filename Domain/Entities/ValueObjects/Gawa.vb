@@ -5,13 +5,10 @@
 Public Class Gawa
     Inherits GraveNumberField
 
-    Public Sub New(ByVal _value As String)
+    Public Sub New(_value As String)
         CodeField = _value
-        If gtc.ConvertNumber_0Delete(_value) = String.Empty Then
-            DisplayForField = "0"
-        Else
-            DisplayForField = gtc.ConvertNumber_0Delete(_value)
-        End If
+        DisplayForField =
+            If(gtc.ConvertNumber_0Delete(_value) = String.Empty, "0", gtc.ConvertNumber_0Delete(_value))
     End Sub
 
 End Class

@@ -4,7 +4,7 @@
 Public Class Title
     Public Property TitleString As String
 
-    Sub New(ByVal _title As String)
+    Public Sub New(_title As String)
         TitleString = _title
     End Sub
 

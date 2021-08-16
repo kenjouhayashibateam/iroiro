@@ -6,7 +6,7 @@
 Public Class LogFileInfrastructure
     Implements ILoggerRepogitory
 
-    Sub Log(ByVal _loginfo As ILoggerRepogitory.LogInfo, ByVal message As String) Implements ILoggerRepogitory.Log
+    Public Sub Log(_loginfo As ILoggerRepogitory.LogInfo, message As String) Implements ILoggerRepogitory.Log
 
         Using writer = New IO.StreamWriter(My.Resources.LogFilePath, True)
             writer.WriteLine($"{_loginfo}{vbTab}{Now}{vbTab}{message}")

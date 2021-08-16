@@ -1,11 +1,10 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 送付先名
 ''' </summary>
 Public Class ReceiverName
     Private Property Name As String
 
-    Sub New(ByVal _name As String)
+    Public Sub New(_name As String)
         Name = _name
     End Sub
 

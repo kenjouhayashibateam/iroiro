@@ -12,25 +12,6 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements IAddressDataViewCloseListener, IOverLengthAddress2Count
 
-        '''' <summary>
-        '''' 住所が長い方に注意を促すメッセージコマンド
-        '''' </summary>
-        '''' <returns></returns>
-        'Public Property AddressOverLengthInfo As DelegateCommand
-        'Private Sub CreateAddressOverLengthInfo()
-        '    AddressOverLengthInfo = New DelegateCommand(
-        '        Sub() '無名関数（匿名関数）
-        '            MessageInfo = New MessageBoxInfo With {.Message = My.Resources.AddressLengthOverInfo,
-        '            .Button = MessageBoxButton.OK, .Image = MessageBoxImage.Information, .Title = My.Resources.ToBeAdjusted}
-        '            CallPropertyChanged(NameOf(AddressOverLengthInfo))
-        '        End Sub,
-        '        Function()
-        '            Return True
-        '        End Function
-        '        )
-        '    CallAddressOverLengthMessage = True
-        'End Sub
-
         ''' <summary>
         ''' 名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド
         ''' </summary>
@@ -583,11 +564,7 @@ Namespace ViewModels
             Set
                 If Value = Money Then Return
                 Dim i As Integer
-                If Integer.TryParse(Value, i) Then
-                    _Money = i
-                Else
-                    _Money = String.Empty
-                End If
+                _Money = If(Integer.TryParse(Value, i), i.ToString, String.Empty)
                 CallPropertyChanged(NameOf(Money))
             End Set
         End Property
@@ -609,12 +586,12 @@ Namespace ViewModels
         ''' <summary>
         ''' 各種リポジトリを設定します
         ''' </summary>
-        Sub New()
+        Public Sub New()
             Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
-        <System.Runtime.InteropServices.DllImport("winmm.dll", CharSet:=System.Runtime.InteropServices.CharSet.Auto)>
-        Private Shared Function MciSendString(ByVal command As String, ByVal buffer As System.Text.StringBuilder, ByVal bufferSize As Integer, ByVal hwndCallback As IntPtr) As Integer
+        <Runtime.InteropServices.DllImport("winmm.dll", CharSet:=Runtime.InteropServices.CharSet.Auto)>
+        Private Shared Function MciSendString(command As String, buffer As Text.StringBuilder, bufferSize As Integer, hwndCallback As IntPtr) As Integer
         End Function
 
         Private Sub PlaySound()
@@ -627,7 +604,7 @@ Namespace ViewModels
                 Return
             End If '再生する
             audio = "play " + aliasName
-            MciSendString(audio, Nothing, 0, IntPtr.Zero)
+            Dim unused = MciSendString(audio, Nothing, 0, IntPtr.Zero)
         End Sub
 
         Public Property ViewTitle As String
@@ -642,7 +619,7 @@ Namespace ViewModels
 
         ''' <param name="lesseerepository">名義人データ</param>
         ''' <param name="excelrepository">エクセルデータ</param>
-        Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IOutputDataRepogitory)
+        Public Sub New(lesseerepository As IDataConectRepogitory, excelrepository As IOutputDataRepogitory)
             'PlaySound()
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
@@ -700,7 +677,7 @@ Namespace ViewModels
 
         End Sub
 
-        Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+        Private Sub SetReceiverProperty(mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 AddresseeName = .GetReceiverName.GetName
                 PostalCode = .GetReceiverPostalcode.Code
@@ -709,7 +686,7 @@ Namespace ViewModels
             End With
         End Sub
 
-        Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+        Private Sub SetLesseeProperty(mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 AddresseeName = .GetLesseeName.GetName
                 PostalCode = .GetPostalCode.Code
@@ -909,16 +886,13 @@ Namespace ViewModels
                                Select Case SelectedOutputContentsValue
                                    Case OutputContents.Cho3Envelope
                                        InputCho3Envelope()
-                                       'If ac.GetConvertAddress2.Length > 15 Then CreateAddressOverLengthInfo()
                                    Case OutputContents.GravePamphletEnvelope
                                        InputGravePamphletEnvelope()
                                    Case OutputContents.Kaku2Envelope
                                        InputKaku2Envelope()
                                    Case OutputContents.Postcard
-                                       'If ac.GetConvertAddress2.Length > 14 Then CreateAddressOverLengthInfo()
                                        InputPostcard()
                                    Case OutputContents.TransferPaper
-                                       'If ($"{Address1}{Address2}").Length > 36 Then CreateAddressOverLengthInfo()
                                        InputTransferData()
                                    Case OutputContents.WesternEnbelope
                                        InputWesternEnvelope()

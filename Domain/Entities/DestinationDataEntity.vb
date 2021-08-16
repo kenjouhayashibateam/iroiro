@@ -65,8 +65,9 @@ Public Class DestinationDataEntity
     ''' <param name="_note3">備考3</param>
     ''' <param name="_note4">備考4</param>
     ''' <param name="_note5">備考5</param>
-    Public Sub New(ByVal _customerid As String, ByVal _addresseename As String, ByVal _title As String, ByVal _postalcode As String, ByVal _address1 As String, _address2 As String,
-                            ByVal _money As String, ByVal _note1 As String, ByVal _note2 As String, ByVal _note3 As String, ByVal _note4 As String, ByVal _note5 As String)
+    Public Sub New(_customerid As String, _addresseename As String, _title As String, _postalcode As String,
+                   _address1 As String, _address2 As String, _money As String, _note1 As String, _note2 As String,
+                   _note3 As String, _note4 As String, _note5 As String)
 
         MyCustomerID = New CustomerID(_customerid)
         AddresseeName = New Name(_addresseename)
@@ -88,7 +89,7 @@ Public Class DestinationDataEntity
     ''' <param name="_postalcode">郵便番号</param>
     ''' <param name="_address1">住所1</param>
     ''' <param name="_address2">住所2</param>
-    Public Sub New(ByVal _customerid As String, ByVal _addresseename As String, ByVal _title As String, ByVal _postalcode As String, ByVal _address1 As String, _address2 As String)
+    Public Sub New(_customerid As String, _addresseename As String, _title As String, _postalcode As String, _address1 As String, _address2 As String)
 
         MyCustomerID = New CustomerID(_customerid)
         AddresseeName = New Name(_addresseename)
@@ -104,7 +105,7 @@ Public Class DestinationDataEntity
     Public Class Name
         Public Property MyName As String
 
-        Public Sub New(ByVal _name As String)
+        Public Sub New(_name As String)
             MyName = _name
         End Sub
 

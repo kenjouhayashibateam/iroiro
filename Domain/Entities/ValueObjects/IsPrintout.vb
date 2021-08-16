@@ -1,11 +1,10 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' プリントアウトするかの確認クラス
 ''' </summary>
 Public Class IsPrintout
     Public Property Value As Boolean
 
-    Sub New(ByVal _printouttime As Date)
+    Public Sub New(_printouttime As Date)
         ComparisonCheck(_printouttime)
     End Sub
 

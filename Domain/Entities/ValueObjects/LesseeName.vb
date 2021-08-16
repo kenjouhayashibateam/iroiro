@@ -1,12 +1,11 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 宛名
 ''' </summary>
 Public Class LesseeName
 
     Private Property Name As String
 
-    Public Sub New(ByVal name_ As String)
+    Public Sub New(name_ As String)
         Name = name_
     End Sub
 

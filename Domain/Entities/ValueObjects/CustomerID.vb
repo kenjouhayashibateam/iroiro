@@ -4,12 +4,8 @@
 Public Class CustomerID
     Public Property ID As String
 
-    Sub New(ByVal _customerid As String)
-        If String.IsNullOrEmpty(_customerid) Then
-            ID = "未登録"
-        Else
-            ID = _customerid
-        End If
+    Public Sub New(_customerid As String)
+        ID = If(String.IsNullOrEmpty(_customerid), "未登録", _customerid)
     End Sub
 
     Public Function GetID() As String

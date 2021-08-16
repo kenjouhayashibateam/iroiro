@@ -687,7 +687,7 @@ Infrastructure
  </summary>
 </member>
 <member name="P:Infrastructure.SQLConnectInfrastructure.Rs">
- <summary>
+ <summary> 
  コマンドから取得したデータを格納するクラス
  </summary>
 </member>

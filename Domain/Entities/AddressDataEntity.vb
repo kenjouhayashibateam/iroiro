@@ -1,5 +1,4 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 住所クラス
 ''' </summary>
 Public Class AddressDataEntity
@@ -22,7 +21,7 @@ Public Class AddressDataEntity
     ''' <returns></returns>
     Public Property MyAddresses As AddressDataListEntity
 
-    Sub New(ByVal _address As String, ByVal _postalcode As String)
+    Public Sub New(_address As String, _postalcode As String)
 
         MyAddress = New Address(_address)
         MyPostalcode = New PostalCode(_postalcode)
@@ -50,18 +49,9 @@ Public Class AddressDataEntity
     ''' </summary>
     Public Class Address
 
-        Private _Address As String
-
         Public Property Address As String
-            Get
-                Return _Address
-            End Get
-            Set
-                _Address = Value
-            End Set
-        End Property
 
-        Sub New(ByVal myAddress1 As String)
+        Public Sub New(myAddress1 As String)
             Address = myAddress1
         End Sub
 
@@ -75,19 +65,10 @@ Public Class AddressDataEntity
     ''' </summary>
     Public Class PostalCode
 
-        Private _Code As String
-
         Public Property Code As String
-            Get
-                Return _Code
-            End Get
-            Set
-                _Code = Value
-            End Set
-        End Property
 
-        Sub New(ByVal myPostalCode As String)
-            _Code = myPostalCode
+        Public Sub New(myPostalCode As String)
+            Code = myPostalCode
         End Sub
 
         Friend Function GetCode() As String

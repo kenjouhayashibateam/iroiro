@@ -4,7 +4,7 @@
 Public Class Note5
     Public Property Value As String
 
-    Public Sub New(ByVal _note5 As String)
+    Public Sub New(_note5 As String)
         Value = _note5
     End Sub
 

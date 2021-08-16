@@ -517,7 +517,7 @@ Namespace ViewModels
             End Set
         End Property
 
-        Sub New()
+        Public Sub New()
             Me.New(New SQLConnectInfrastructure, New ExcelOutputInfrastructure)
         End Sub
 
@@ -526,7 +526,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="lesseerepository">名義人データ</param>
         ''' <param name="excelrepository">エクセルデータ</param>
-        Sub New(ByVal lesseerepository As IDataConectRepogitory, ByVal excelrepository As IOutputDataRepogitory)
+        Public Sub New(lesseerepository As IDataConectRepogitory, excelrepository As IOutputDataRepogitory)
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
             Title = My.Resources.HonorificsText
@@ -550,7 +550,7 @@ Namespace ViewModels
             Get
                 _ReferenceLesseeCommand = New DelegateCommand(
                 Sub()
-                    ReferenceLessee(CustomerID)
+                    Dim unused = ReferenceLessee(CustomerID)
                     CallPropertyChanged(NameOf(ReferenceLesseeCommand))
                 End Sub,
                 Function()
@@ -566,7 +566,7 @@ Namespace ViewModels
         ''' <summary>
         ''' 名義人検索
         ''' </summary>
-        Private Function ReferenceLessee(ByVal managementNumber As String) As LesseeCustomerInfoEntity
+        Private Function ReferenceLessee(managementNumber As String) As LesseeCustomerInfoEntity
 
             Dim lce As LesseeCustomerInfoEntity
 
@@ -630,7 +630,7 @@ Namespace ViewModels
         ''' 名義人と送付先のどちらを使用するかのメッセージを表示するコマンドを生成します
         ''' </summary>
         ''' <param name="lse">名義人データ</param>
-        Public Sub CreateSelectAddresseeInfo(ByVal lse As LesseeCustomerInfoEntity)
+        Public Sub CreateSelectAddresseeInfo(lse As LesseeCustomerInfoEntity)
 
             SelectAddresseeInfo = New DelegateCommand(
             Sub() 'テンプレート構文調べる
@@ -653,7 +653,7 @@ Namespace ViewModels
         ''' 送付先情報をプロパティにセットします
         ''' </summary>
         ''' <param name="mylessee">名義人データ</param>
-        Private Sub SetReceiverProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+        Private Sub SetReceiverProperty(mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 Addressee = .GetReceiverName.GetName
                 Postalcode = .GetReceiverPostalcode.Code
@@ -666,7 +666,7 @@ Namespace ViewModels
         ''' 名義人情報をプロパティにセットします
         ''' </summary>
         ''' <param name="mylessee">名義人データ</param>
-        Private Sub SetLesseeProperty(ByVal mylessee As LesseeCustomerInfoEntity)
+        Private Sub SetLesseeProperty(mylessee As LesseeCustomerInfoEntity)
             With mylessee
                 Addressee = .GetLesseeName.GetName
                 Postalcode = .GetPostalCode.Code
@@ -866,6 +866,8 @@ Namespace ViewModels
                                        OutputList_Postcard()
                                    Case OutputContents.WesternEnvelope
                                        OutputList_WesternEnvelope()
+                                   Case Else
+                                       Exit Select
                                End Select
                                ProgressVisiblity = Visibility.Hidden
                                IsOutputEnabled = True

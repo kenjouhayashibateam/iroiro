@@ -1,5 +1,4 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 墓地番号のFieldクラスのスーパークラス
 ''' </summary>
 Public MustInherit Class GraveNumberField
@@ -12,7 +11,7 @@ Public MustInherit Class GraveNumberField
         Return FieldTryCast(obj, Me)
     End Function
 
-    Public Function FieldTryCast(ByRef obj As Object, ByVal _gravenumberfield As GraveNumberField) As Boolean
+    Public Function FieldTryCast(ByRef obj As Object, _gravenumberfield As GraveNumberField) As Boolean
         Dim reasion As GraveNumberField = TryCast(obj, GraveNumberField)
         If reasion Is Nothing Then Return False
         If Not reasion.DisplayForField.Equals(_gravenumberfield.DisplayForField) Then Return False

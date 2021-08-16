@@ -23,12 +23,12 @@ Public Class SQLConnectInfrastructure
     ''' <summary>
     ''' SQLServerに接続するための接続文字列
     ''' </summary>
-    Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.163\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
+    Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.151\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
     Private Const HAYASHIBACONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=DESKTOP-MUJVB5O\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
 
     Private ReadOnly MyConnectionString As String = SHUNJUENCONSTRING
 
-    ''' <summary>
+    ''' <summary> 
     ''' コマンドから取得したデータを格納するクラス
     ''' </summary>
     Private Property Rs As ADODB.Recordset
@@ -38,11 +38,11 @@ Public Class SQLConnectInfrastructure
     ''' </summary>
     Private Property Cn As ADODB.Connection
 
-    Sub New()
+    Public Sub New()
         Me.New(New LogFileInfrastructure)
     End Sub
 
-    Sub New(ByVal _logfile As ILoggerRepogitory)
+    Public Sub New(_logfile As ILoggerRepogitory)
         LogFileConecter = _logfile
     End Sub
 
@@ -66,7 +66,7 @@ Public Class SQLConnectInfrastructure
     ''' </summary>
     ''' <param name="execmd"></param>
     ''' <returns></returns>
-    Private Function GetCompleteCmd(ByVal execmd As ADODB.Command) As ADODB.Command
+    Private Function GetCompleteCmd(execmd As ADODB.Command) As ADODB.Command
 
         Cn = New ADODB.Connection With {.ConnectionString = MyConnectionString}
         Cn.Open()
@@ -79,23 +79,6 @@ Public Class SQLConnectInfrastructure
         Return execmd
 
     End Function
-
-    '''' <summary>
-    '''' 戻り値のないストアドプロシージャを実行します
-    '''' </summary>
-    '''' <param name="execmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-    'Private Function ExecuteStoredProc(ByRef execmd As ADODB.Command) As Boolean
-
-    '    execmd = GetCompleteCmd(execmd)
-    '    Try
-    '        execmd.Execute()
-    '    Catch ex As Exception
-    '        LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
-    '        Return False
-    '    End Try
-    '    Return True
-
-    'End Function
 
     ''' <summary>
     ''' ADODBのインスタンスを削除します
@@ -111,7 +94,7 @@ Public Class SQLConnectInfrastructure
     ''' 名義人データを検索します
     ''' </summary>
     ''' <param name="strManagementNumber">検索する管理番号</param>
-    Private Sub SetLesseeRecord(ByVal strManagementNumber As String)
+    Private Sub SetLesseeRecord(strManagementNumber As String)
 
         Cmd = New ADODB.Command
 
@@ -129,7 +112,7 @@ Public Class SQLConnectInfrastructure
     ''' レコードセットのフィールドのValueを文字列形式で返します
     ''' </summary>
     ''' <param name="FieldName">データベース（ストアドプロシージャ）から取得するフィールドの名前</param>
-    Private Function RsFields(ByVal FieldName As String) As String
+    Private Function RsFields(FieldName As String) As String
         If Rs.EOF Then Return String.Empty
         Return IIf(IsDBNull(Rs.Fields(FieldName).Value), String.Empty, Rs.Fields(FieldName).Value)
     End Function
@@ -197,7 +180,7 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Dim myAddress As AddressDataEntity = New AddressDataEntity(RsFields("Address"), postalcode)
+        Dim myAddress As New AddressDataEntity(RsFields("Address"), postalcode)
 
         ADONothing()
 
@@ -248,7 +231,7 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Dim lsd As LastSaveDateEntity = New LastSaveDateEntity(RsFields(My.Resources.LastSaveDate))
+        Dim lsd As New LastSaveDateEntity(RsFields(My.Resources.LastSaveDate))
 
         ADONothing()
 
@@ -264,7 +247,7 @@ Public Class SQLConnectInfrastructure
     ''' <param name="Gawa">側</param>
     ''' <param name="Ban">番</param>
     ''' <param name="Edaban">枝番</param>
-    Private Sub SetGraveData(ByVal Ku As String, Optional Kuiki As String = "%", Optional Gawa As String = "%", Optional Ban As String = "%", Optional Edaban As String = "%")
+    Private Sub SetGraveData(Ku As String, Optional Kuiki As String = "%", Optional Gawa As String = "%", Optional Ban As String = "%", Optional Edaban As String = "%")
 
         Cmd = New ADODB.Command
 

@@ -4,7 +4,7 @@
 Public Class FullName
     Public Property Name As String
 
-    Public Sub New(ByVal _name As String)
+    Public Sub New(_name As String)
         Name = _name
     End Sub
 End Class

@@ -1,7 +1,5 @@
 ﻿Imports System.ComponentModel
-Imports System.Globalization
 Imports WPF.Command
-Imports WPF.Data
 
 Namespace ViewModels
     ''' <summary>
@@ -65,7 +63,7 @@ Namespace ViewModels
         ''' プロパティの値が変わったことを知らせるイベントを発生させます
         ''' </summary>
         Protected Overridable Overloads Sub CallPropertyChanged()
-            Dim caller As StackFrame = New StackFrame(1)
+            Dim caller As New StackFrame(1)
             Dim methodNames As String() = caller.GetMethod.Name.Split("_")
             Dim propertyName As String = methodNames(methodNames.Length - 1)
 
@@ -75,7 +73,7 @@ Namespace ViewModels
         ''' <summary>
         ''' プロパティの値が変わったことを知らせるイベントを発生させます
         ''' </summary>
-        Protected Overloads Sub CallPropertyChanged(ByVal propertyname As String)
+        Protected Overloads Sub CallPropertyChanged(propertyname As String)
             RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(propertyname))
         End Sub
 
@@ -98,19 +96,19 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="propertyName">プロパティ名</param>
         ''' <param name="value">プロパティの値</param>
-        Protected MustOverride Sub ValidateProperty(ByVal propertyName As String, ByVal value As Object)
+        Protected MustOverride Sub ValidateProperty(propertyName As String, value As Object)
 
         ''' <summary>
         ''' エラーメッセージを保持するディクショナリ
         ''' </summary>
-        Private ReadOnly _currentErrors As Dictionary(Of String, String) = New Dictionary(Of String, String)()
+        Private ReadOnly _currentErrors As New Dictionary(Of String, String)()
 
         ''' <summary>
         ''' エラーメッセージをディクショナリに追加します
         ''' </summary>
         ''' <param name="propertyName">プロパティ名</param>
         ''' <param name="_error">エラーメッセージ</param>
-        Protected Sub AddError(ByVal propertyName As String, ByVal _error As String)
+        Protected Sub AddError(propertyName As String, _error As String)
             If Not _currentErrors.ContainsKey(propertyName) Then
                 _currentErrors(propertyName) = _error
                 OnErrorsChanged(propertyName)
@@ -121,9 +119,9 @@ Namespace ViewModels
         ''' エラーを削除します
         ''' </summary>
         ''' <param name="propertyName">プロパティ名</param>
-        Protected Sub RemoveError(ByVal propertyName As String)
+        Protected Sub RemoveError(propertyName As String)
             If _currentErrors.ContainsKey(propertyName) Then
-                _currentErrors.Remove(propertyName)
+                Dim unused = _currentErrors.Remove(propertyName)
                 OnErrorsChanged(propertyName)
             End If
         End Sub
@@ -132,7 +130,7 @@ Namespace ViewModels
         ''' エラーが発生、または解消されたことを知らせるイベントを発生させます
         ''' </summary>
         ''' <param name="propertyName"></param>
-        Private Sub OnErrorsChanged(ByVal propertyName As String)
+        Private Sub OnErrorsChanged(propertyName As String)
             RaiseEvent ErrorsChanged(Me, New DataErrorsChangedEventArgs(propertyName))
         End Sub
 

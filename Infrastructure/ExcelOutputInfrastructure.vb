@@ -7,7 +7,7 @@ Imports System.Collections.ObjectModel
 ''' <summary>
 ''' 住所を宛先用に変換します
 ''' </summary>
-Interface IAddressConvert
+Friend Interface IAddressConvert
 
     ''' <summary>
     ''' 宛先用住所1を返します
@@ -26,7 +26,7 @@ End Interface
 ''' <summary>
 ''' エクセルに出力する際の共通動作
 ''' </summary>
-Interface IExcelOutputBehavior
+Friend Interface IExcelOutputBehavior
 
     ''' <summary>
     ''' シート全体のフォントを設定します
@@ -37,7 +37,7 @@ Interface IExcelOutputBehavior
     ''' セルのフォントサイズ、フォントポジション等を設定します
     ''' </summary>
     ''' <param name="startrowposition"></param>
-    Sub CellProperty(ByVal startrowposition As Integer)
+    Sub CellProperty(startrowposition As Integer)
 
     ''' <summary>
     ''' カラムのサイズを格納した配列を返します
@@ -68,13 +68,13 @@ End Interface
 ''' <summary>
 ''' データを横向けに出力
 ''' </summary>
-Interface IHorizontalOutputBehavior
+Friend Interface IHorizontalOutputBehavior
     Inherits IExcelOutputBehavior
 
     ''' <summary>
     ''' 出力するデータをセットします
     ''' </summary>
-    Sub SetData(ByVal destinationdata As DestinationDataEntity)
+    Sub SetData(destinationdata As DestinationDataEntity)
 
 
     ''' <summary>
@@ -88,14 +88,14 @@ End Interface
 ''' <summary>
 ''' データのリストを縦向けに出力
 ''' </summary>
-Interface IVerticalOutputListBehavior
+Friend Interface IVerticalOutputListBehavior
     Inherits IVerticalOutputBehavior
 
     ''' <summary>
     ''' 出力するデータをセットします
     ''' </summary>
     ''' <param name="startrowposition"></param>
-    Sub SetData(ByVal startrowposition As Integer, ByVal destinationdata As DestinationDataEntity)
+    Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity)
 
     ''' <summary>
     ''' 宛名クラスを保持するリスト
@@ -113,35 +113,35 @@ Interface IVerticalOutputListBehavior
     ''' 長さを検証する文字列
     ''' </summary>
     ''' <returns></returns>
-    Function GetLengthVerificationString(ByVal destinationData As DestinationDataEntity) As String
+    Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String
 
 End Interface
 
 ''' <summary>
 ''' 墓地札データを出力
 ''' </summary>
-Interface IGravePanelListBehavior
+Friend Interface IGravePanelListBehavior
     Inherits IVerticalOutputBehavior
 
     ''' <summary>
     ''' 出力するデータをセットします
     ''' </summary>
     ''' <param name="startrowposition"></param>
-    Sub SetData(ByVal startrowposition As Integer, ByVal gravepanel As GravePanelDataEntity)
+    Sub SetData(startrowposition As Integer, gravepanel As GravePanelDataEntity)
 
 End Interface
 
 ''' <summary>
 ''' エクセルデータを縦向けに出力
 ''' </summary>
-Interface IVerticalOutputBehavior
+Friend Interface IVerticalOutputBehavior
     Inherits IExcelOutputBehavior
 
     ''' <summary>
     ''' 結合するセルを設定します
     ''' </summary>
     ''' <param name="startrowposition"></param>
-    Sub CellsJoin(ByVal startrowposition As Integer)
+    Sub CellsJoin(startrowposition As Integer)
 
     ''' <summary>
     ''' 必ず入力されるデータ（宛名）のセル位置を設定するための行番号
@@ -166,7 +166,7 @@ Public Class AddressConvert
     Private Property Address1 As String
     Private Property Address2 As String
 
-    Sub New(ByVal _address1 As String, ByVal _address2 As String)
+    Public Sub New(_address1 As String, _address2 As String)
         Address1 = _address1
         Address2 = _address2
     End Sub
@@ -206,7 +206,6 @@ Public Class AddressConvert
             AddressText = VerifyAddressString(AddressText, My.Resources.FuString)
         End If
 
-
         Return AddressText
 
     End Function
@@ -217,16 +216,14 @@ Public Class AddressConvert
     ''' <param name="address">住所</param>
     ''' <param name="verifystring">検証する文字列</param>
     ''' <returns></returns>
-    Private Function VerifyAddressString(ByVal address As String, ByVal verifystring As String) As String
+    Private Function VerifyAddressString(address As String, verifystring As String) As String
 
         If InStr(address, verifystring) = 0 Then Return address
 
         '検証する文字列の名称、京都府や広島県等と市の名称、京都市、広島市などが同じなら省略する
-        If address.Substring(0, InStr(1, address, verifystring) - 1) = address.Substring(InStr(1, address, verifystring), InStr(1, address, My.Resources.ShiString) - InStr(1, address, verifystring) - 1) Then
-            Return address.Substring(InStr(1, address, verifystring))
-        End If
-
-        Return address
+        Return If(address.Substring(0, InStr(1, address, verifystring) - 1) = address.Substring(InStr(1, address, verifystring), InStr(1, address, My.Resources.ShiString) - InStr(1, address, verifystring) - 1),
+            address.Substring(InStr(1, address, verifystring)),
+            address)
 
     End Function
 
@@ -274,16 +271,11 @@ Public Class AddressConvert
     ''' </summary>
     ''' <param name="addressString">変換文字列</param>
     ''' <returns></returns>
-    Private Function BranchConvertNumber(ByVal addressString As String) As String
+    Private Function BranchConvertNumber(addressString As String) As String
 
         Dim rx As New Regex("^[\d]+$")
 
-        If rx.IsMatch(addressString) Then
-
-            Return ConvertNumber(addressString)
-        Else
-            Return addressString
-        End If
+        Return If(rx.IsMatch(addressString), ConvertNumber(addressString), addressString)
 
     End Function
 
@@ -292,7 +284,7 @@ Public Class AddressConvert
     ''' </summary>
     ''' <param name="mynumber">変換する数字</param>
     ''' <returns></returns>
-    Private Function ConvertNumber(ByVal mynumber As Integer) As String
+    Private Function ConvertNumber(mynumber As Integer) As String
         Select Case mynumber
             Case < 11   '10まで
                 Return ConvertNumber_Under10(mynumber)
@@ -308,7 +300,7 @@ Public Class AddressConvert
     ''' </summary>
     ''' <param name="myNumber">変換する数字</param>
     ''' <returns></returns>
-    Private Function ConvertNumber_Under10(ByVal myNumber As Integer) As String
+    Private Function ConvertNumber_Under10(myNumber As Integer) As String
 
         Select Case myNumber
             Case 0
@@ -344,7 +336,7 @@ Public Class AddressConvert
     ''' </summary>
     ''' <param name="myNumber">変換する数字</param>
     ''' <returns></returns>
-    Private Function ConvertNumber_Over11Under19(ByVal myNumber As Integer) As String
+    Private Function ConvertNumber_Over11Under19(myNumber As Integer) As String
 
         Select Case myNumber
             Case 11
@@ -376,7 +368,7 @@ Public Class AddressConvert
     ''' </summary>
     ''' <param name="myNumber">変換する数字</param>
     ''' <returns></returns>
-    Private Function ConvertNumber_Orver20(ByVal myNumber As Integer) As String
+    Private Function ConvertNumber_Orver20(myNumber As Integer) As String
 
         Dim myValue As String = String.Empty
 
@@ -503,7 +495,7 @@ Public Class ExcelOutputInfrastructure
 
             ExlWorkbook = New XLWorkbook
             If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
-            ExlWorkSheet.Cells.Clear()
+            Dim unused = ExlWorkSheet.Cells.Clear()
             ExlWorkSheet.Cells.Style.NumberFormat.NumberFormatId = 49
         Catch ex As Exception
             LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -556,12 +548,12 @@ Public Class ExcelOutputInfrastructure
 
         If bolSheetCheck = False Then
             exlapp.Visible = True
-            Dim openpath As String = System.IO.Path.GetFullPath(My.Resources.SAVEPATH)
+            Dim openpath As String = IO.Path.GetFullPath(My.Resources.SAVEPATH)
             Try
                 Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)
                 executebook.Activate()
             Catch ex As Exception
-                MsgBox("開いているエクセルが編集モードの為、出力できません。モードを解除してから出力して下さい。" & vbNewLine & vbNewLine &
+                Dim unused = MsgBox("開いているエクセルが編集モードの為、出力できません。モードを解除してから出力して下さい。" & vbNewLine & vbNewLine &
                        "もし、編集モードが原因でない場合は、林飛を呼んでください。", MsgBoxStyle.Critical, "出力が弱い")
                 LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
                 Exit Sub
@@ -575,7 +567,7 @@ Public Class ExcelOutputInfrastructure
     ''' 入力するでーたの印刷範囲の一番上のRowを返します
     ''' </summary>
     ''' <returns></returns>
-    Private Function SetStartRowPosition(ByVal vob As IVerticalOutputBehavior) As Integer
+    Private Function SetStartRowPosition(vob As IVerticalOutputBehavior) As Integer
 
         Dim addint As Integer = UBound(RowSizes) + 1    '一回に移動する数字。印刷データの１ページ分移動します
         Dim column As Integer = vob.CriteriaCellColumnIndex '入力時に必ず値が入っているセルのColumn
@@ -593,7 +585,7 @@ Public Class ExcelOutputInfrastructure
     ''' 横向けOutput用のシートをセッティングします
     ''' </summary>
     ''' <param name="eob"></param>
-    Private Sub SettingNewSheet_Horizontal(ByVal eob As IExcelOutputBehavior)
+    Private Sub SettingNewSheet_Horizontal(eob As IExcelOutputBehavior)
 
         ColumnSizes = eob.SetColumnSizes
         RowSizes = eob.SetRowSizes
@@ -614,7 +606,7 @@ Public Class ExcelOutputInfrastructure
     ''' 縦向けOutput用のシートをセッティングします
     ''' </summary>
     ''' <param name="eob"></param>
-    Private Sub SettingNewSheet_Vertical(ByVal eob As IExcelOutputBehavior)
+    Private Sub SettingNewSheet_Vertical(eob As IExcelOutputBehavior)
 
         ColumnSizes = eob.SetColumnSizes
         RowSizes = eob.SetRowSizes
@@ -623,7 +615,7 @@ Public Class ExcelOutputInfrastructure
         SetMargin()
 
         With ExlWorkSheet
-            .Cells.Clear()
+            Dim unused = .Cells.Clear()
             'ColumnSizesの配列の中の数字をシートのカラムの幅に設定する
             For i As Integer = 0 To UBound(ColumnSizes)
                 .Column(i + 1).Width = ColumnSizes(i)
@@ -638,7 +630,7 @@ Public Class ExcelOutputInfrastructure
     ''' 横向けにデータを入力する処理。ラベル用紙用
     ''' </summary>
     ''' <param name="_hob"></param>
-    Private Sub OutputLabelProcessing(ByVal _hob As IHorizontalOutputBehavior)
+    Private Sub OutputLabelProcessing(_hob As IHorizontalOutputBehavior)
 
         Hob = _hob
         SheetSetting()
@@ -676,7 +668,7 @@ Public Class ExcelOutputInfrastructure
 
                 'ロウの高さを設定する
                 For j As Integer = 0 To UBound(RowSizes)
-                    .Row((j + 1) + (sheetindex * UBound(RowSizes))).Height = RowSizes(j)
+                    .Row(j + 1 + (sheetindex * UBound(RowSizes))).Height = RowSizes(j)
                 Next
 
                 Hob.CellProperty(sheetindex)
@@ -699,7 +691,7 @@ Public Class ExcelOutputInfrastructure
     ''' </summary>
     ''' <param name="_vob"></param>
     ''' <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
-    Private Sub ListOutputVerticalProcessing(ByVal _vob As IVerticalOutputListBehavior, ByVal ismulti As Boolean)
+    Private Sub ListOutputVerticalProcessing(_vob As IVerticalOutputListBehavior, ismulti As Boolean)
 
         Dim overLengthCount As Integer = 0
 
@@ -716,7 +708,7 @@ Public Class ExcelOutputInfrastructure
                 If ismulti Then
                     StartRowPosition = SetStartRowPosition(Volb)
                 Else
-                    .Unmerge()
+                    Dim unused = .Unmerge()
                     StartRowPosition = 0
                 End If
                 Volb.CellProperty(StartRowPosition)
@@ -747,7 +739,7 @@ Public Class ExcelOutputInfrastructure
     ''' 住所の文字列が長いデータの件数を知らせます
     ''' </summary>
     ''' <param name="count">件数</param>
-    Private Sub NotificationOverLengthCount(ByVal count As Integer)
+    Private Sub NotificationOverLengthCount(count As Integer)
         OverLengthAddressCountListener.OverLengthCountNotify(count)
     End Sub
 
@@ -756,7 +748,7 @@ Public Class ExcelOutputInfrastructure
     ''' </summary>
     ''' <param name="_vob"></param>
     ''' <param name="outputPositon"></param>
-    Private Sub GravePanelListOutputProcessing(ByVal _vob As IGravePanelListBehavior, ByVal outputPositon As Integer)
+    Private Sub GravePanelListOutputProcessing(_vob As IGravePanelListBehavior, outputPositon As Integer)
 
         Dim gpl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
         gpb = _vob
@@ -767,12 +759,12 @@ Public Class ExcelOutputInfrastructure
             SettingNewSheet_Vertical(gpb)
             .PageSetup.Margins.Bottom = 2
             StartIndex = 0
-            .Cells.Clear()
+            Dim unused = .Cells.Clear()
 
             StartRowPosition = 0
             Do Until StartIndex = outputPositon - 1
                 For i = 0 To UBound(RowSizes)
-                    .Rows(StartRowPosition + (i + 1)).Height = RowSizes(i)
+                    .Rows(StartRowPosition + i + 1).Height = RowSizes(i)
                 Next
                 StartRowPosition += UBound(RowSizes) + 1
                 StartIndex += 1
@@ -786,7 +778,7 @@ Public Class ExcelOutputInfrastructure
 
                 'RowSizesの配列の中の数字をシートのローの幅に設定する
                 For I = 0 To UBound(RowSizes)
-                    .Rows(StartRowPosition + (I + 1)).Height = RowSizes(I)
+                    .Rows(StartRowPosition + I + 1).Height = RowSizes(I)
                 Next
 
                 gpb.CellsJoin(StartRowPosition)
@@ -934,7 +926,7 @@ Public Class ExcelOutputInfrastructure
         ''' </summary>
         ''' <param name="strName"></param>
         ''' <returns></returns>
-        Private Function NameConvert(ByVal strName As String) As String
+        Private Function NameConvert(strName As String) As String
 
             Dim I As Integer = 0 'ループで使う添え字
             Dim nameArray() As String
@@ -957,6 +949,8 @@ Public Class ExcelOutputInfrastructure
                         If nameArray(I).Trim.Length <> 0 Then nameValue &= $"{nameArray(I)}{Space(1)}"
                     Next
 
+                Case Else
+                    Exit Select
             End Select
 
             Return nameValue
@@ -965,8 +959,8 @@ Public Class ExcelOutputInfrastructure
 
         Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
             With ExlWorkSheet
-                .Range(.Cell(startrowposition + 1, 1), .Cell(startrowposition + 1, 2)).Merge()
-                .Range(.Cell(startrowposition + 2, 1), .Cell(startrowposition + 2, 2)).Merge()
+                Dim unused = .Range(.Cell(startrowposition + 1, 1), .Cell(startrowposition + 1, 2)).Merge()
+                unused = .Range(.Cell(startrowposition + 2, 1), .Cell(startrowposition + 2, 2)).Merge()
             End With
         End Sub
 
@@ -992,10 +986,10 @@ Public Class ExcelOutputInfrastructure
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                 End With
                 With .Range(.Cell(startrowposition + 1, 1), .Cell(startrowposition + 3, 2)).Style.Border
-                    .SetTopBorder(XLBorderStyleValues.Thick)
-                    .SetBottomBorder(XLBorderStyleValues.Thick)
-                    .SetLeftBorder(XLBorderStyleValues.Thick)
-                    .SetRightBorder(XLBorderStyleValues.Thick)
+                    Dim unused = .SetTopBorder(XLBorderStyleValues.Thick)
+                    unused = .SetBottomBorder(XLBorderStyleValues.Thick)
+                    unused = .SetLeftBorder(XLBorderStyleValues.Thick)
+                    unused = .SetRightBorder(XLBorderStyleValues.Thick)
                 End With
             End With
         End Sub
@@ -1034,11 +1028,11 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal _addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
-        Sub New(ByVal _addresseelist As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
             AddresseeList = _addresseelist
         End Sub
 
@@ -1074,11 +1068,9 @@ Public Class ExcelOutputInfrastructure
                 End If
 
                 '宛名
-                If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
-                Else
-                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
-                End If
+                addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
+                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
+                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
 
@@ -1088,13 +1080,13 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 '住所欄1行目
-                .Range(.Cell(startrowposition + 4, 9), .Cell(startrowposition + 5, 10)).Merge()
+                Dim unused = .Range(.Cell(startrowposition + 4, 9), .Cell(startrowposition + 5, 10)).Merge()
                 '住所欄2行目
-                .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 5, 8)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 5, 8)).Merge()
                 '宛名肩書
-                .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 5)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 5)).Merge()
                 '宛名欄
-                .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 3)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 3)).Merge()
             End With
 
         End Sub
@@ -1186,11 +1178,11 @@ Public Class ExcelOutputInfrastructure
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
         Private Const YourCopyAddressMaxLengh As Integer = 11
 
-        Sub New(ByVal _addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
-        Sub New(ByVal _addresseelist As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
             AddresseeList = _addresseelist
         End Sub
 
@@ -1200,7 +1192,7 @@ Public Class ExcelOutputInfrastructure
         ''' <param name="address1">住所1</param>
         ''' <param name="address2">住所2</param>
         ''' <returns></returns>
-        Private Function SplitYourCopyAddress(ByVal address1 As String, ByVal address2 As String) As String()
+        Private Function SplitYourCopyAddress(address1 As String, address2 As String) As String()
 
             Dim line1, line2, line3, joinaddress As String
 
@@ -1238,7 +1230,7 @@ Public Class ExcelOutputInfrastructure
         ''' </summary>
         ''' <param name="absolutenessaddress"></param>
         ''' <returns></returns>
-        Private Function ReturnLongAddressArray(ByVal absolutenessaddress As String) As String()
+        Private Function ReturnLongAddressArray(absolutenessaddress As String) As String()
 
             Dim line1, line2, line3 As String
 
@@ -1314,7 +1306,7 @@ Public Class ExcelOutputInfrastructure
             row = 6
             Do Until row = 11
                 With ExlWorkSheet
-                    .Range(.Cell(startrowposition + row, 4), .Cell(startrowposition + row, 11)).Merge()
+                    Dim unused = .Range(.Cell(startrowposition + row, 4), .Cell(startrowposition + row, 11)).Merge()
                 End With
                 row += 1
             Loop
@@ -1323,7 +1315,7 @@ Public Class ExcelOutputInfrastructure
             row = 10
             Do Until row = 14
                 With ExlWorkSheet
-                    .Range(.Cell(startrowposition + row, 13), .Cell(startrowposition + row, 20)).Merge()
+                    Dim unused = .Range(.Cell(startrowposition + row, 13), .Cell(startrowposition + row, 20)).Merge()
                 End With
                 row += 1
             Loop
@@ -1339,11 +1331,7 @@ Public Class ExcelOutputInfrastructure
                 Dim moneyField As String
 
                 For ColumnIndex = 0 To 8
-                    If moneystring.Length - 1 < ColumnIndex Then
-                        moneyField = String.Empty
-                    Else
-                        moneyField = moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1)
-                    End If
+                    moneyField = If(moneystring.Length - 1 < ColumnIndex, String.Empty, moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1))
                     .Cell(startrowposition + 3, 11 - ColumnIndex).Value = moneyField
                     .Cell(startrowposition + 9, 20 - ColumnIndex).Value = moneyField    'お客様控え
                 Next
@@ -1358,14 +1346,8 @@ Public Class ExcelOutputInfrastructure
                 .Cell(startrowposition + 8, 2).Value = ac.GetConvertAddress1         '宛先住所1
 
                 Dim sad2 As String = StrConv(destinationdata.MyAddress2.Address, vbWide)
-                Dim stringlength As Integer
-                If sad2.Length < 20 Then
-                    stringlength = sad2.Length
-                Else
-                    stringlength = 18
-                End If
+                Dim stringlength = If(sad2.Length < 20, sad2.Length, 18)
                 '宛先住所2　長い場合は2行で入力
-
                 .Cell(startrowposition + 9, 2).Value = sad2.Substring(0, stringlength)
                 If sad2.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = sad2.Substring(stringlength)
 
@@ -1418,11 +1400,11 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal _addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
-        Sub New(ByVal _addresseelist As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
             AddresseeList = _addresseelist
         End Sub
 
@@ -1460,9 +1442,9 @@ Public Class ExcelOutputInfrastructure
         Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
 
             With ExlWorkSheet
-                .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 4)).Merge()
-                .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
-                .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
+                Dim unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 4)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
             End With
 
         End Sub
@@ -1488,21 +1470,15 @@ Public Class ExcelOutputInfrastructure
                     addresstext2 = ac.GetConvertAddress2
                 End If
 
-                If ac.GetConvertAddress2.Length > 16 Then
-                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.Yellow
-                Else
-                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.NoColor
-                End If
+                .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = If(ac.GetConvertAddress2.Length > 16, XLColor.Yellow, XLColor.NoColor)
 
                 .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
                 .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress2
 
                 '宛名
-                If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
-                Else
-                    addresseename = $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
-                End If
+                addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
+                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
+                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
 
@@ -1557,11 +1533,11 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal _addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
-        Sub New(ByVal _addresseelist As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
             AddresseeList = _addresseelist
         End Sub
 
@@ -1605,10 +1581,10 @@ Public Class ExcelOutputInfrastructure
         Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
 
             With ExlWorkSheet
-                .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
-                .Range(.Cell(startrowposition + 5, 2), .Cell(startrowposition + 6, 2)).Merge()
-                .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 6, 4)).Merge()
-                .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 6, 5)).Merge()
+                Dim unused = .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
+                unused = .Range(.Cell(startrowposition + 5, 2), .Cell(startrowposition + 6, 2)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 6, 4)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 6, 5)).Merge()
             End With
 
         End Sub
@@ -1692,11 +1668,11 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal _addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
-        Sub New(ByVal _addresseelist As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
             AddresseeList = _addresseelist
         End Sub
 
@@ -1829,11 +1805,11 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal _addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity)
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
-        Sub New(ByVal _addresseelist As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
             AddresseeList = _addresseelist
         End Sub
 
@@ -1873,9 +1849,9 @@ Public Class ExcelOutputInfrastructure
         Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
 
             With ExlWorkSheet
-                .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 5)).Merge()
-                .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
-                .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
+                Dim unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 5)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
             End With
 
         End Sub
@@ -1903,11 +1879,7 @@ Public Class ExcelOutputInfrastructure
                     addressText1 = ac.GetConvertAddress1
                     addressText2 = ac.GetConvertAddress2
                 End If
-                If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
-                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.Yellow
-                Else
-                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = XLColor.NoColor
-                End If
+                .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = If(ac.GetConvertAddress2.Length > GetAddressMaxLength(), XLColor.Yellow, XLColor.NoColor)
                 .Cell(startrowposition + 4, 8).Value = addressText1
                 .Cell(startrowposition + 4, 6).Value = addressText2
 
@@ -1971,7 +1943,7 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly MyList As ObservableCollection(Of DestinationDataEntity)
 
-        Sub New(ByVal list As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(list As ObservableCollection(Of DestinationDataEntity))
             MyList = list
         End Sub
 
@@ -1981,7 +1953,7 @@ Public Class ExcelOutputInfrastructure
         ''' <param name="lineindex">行番号</param>
         ''' <param name="addressee">ラベル化する宛先</param>
         ''' <returns></returns>
-        Private Function ReturnLabelString(ByVal lineindex As Integer, ByVal addressee As DestinationDataEntity) As String
+        Private Function ReturnLabelString(lineindex As Integer, addressee As DestinationDataEntity) As String
 
             'セルに入力する宛先を格納する文字列　初期値に郵便番号
             Dim ReturnString As String = $"{Space(10)}〒 {addressee.MyPostalCode.GetCode}{vbNewLine}{vbNewLine}"

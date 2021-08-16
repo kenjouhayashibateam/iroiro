@@ -8,6 +8,6 @@ Public Interface ILoggerRepogitory
         ERR
     End Enum
 
-    Sub Log(ByVal _loginfo As LogInfo, ByVal message As String)
+    Sub Log(_loginfo As LogInfo, message As String)
 
 End Interface

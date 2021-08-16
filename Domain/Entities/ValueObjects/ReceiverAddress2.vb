@@ -1,21 +1,11 @@
-﻿
-''' <summary>
+﻿''' <summary>
 ''' 送付先住所2
 ''' </summary>
 Public Class ReceiverAddress2
-    Private _Address As String
-
     Public Property Address As String
-        Get
-            Return _Address
-        End Get
-        Set
-            _Address = Value
-        End Set
-    End Property
 
-    Sub New(ByVal _address2 As String)
-        _Address = _address2
+    Public Sub New(_address2 As String)
+        Address = _address2
     End Sub
 
     Public Function ShowDisplay() As String

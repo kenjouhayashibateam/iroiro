@@ -1,5 +1,4 @@
-﻿
-Namespace Data
+﻿Namespace Data
 
     ''' <summary>
     ''' メッセージボックスの値を保持するクラス

@@ -77,9 +77,10 @@ Public Class LesseeCustomerInfoEntity
     ''' <param name="_myReceiverPostalCode">送付先郵便番号</param>
     ''' <param name="_myReceiverAddress1">送付先住所1</param>
     ''' <param name="_myReceiverAddress2">送付先住所2</param>
-    Sub New(ByVal _myCustomerID As String, ByVal _myLesseeName As String, ByVal _myPostalCode As String, ByVal _myAddress1 As String, ByVal _myAddress2 As String, ByVal _gravekuiki As String,
-            ByVal _graveku As String, ByVal _gravegawa As String, ByVal _graveban As String, ByVal _graveedaban As String, ByVal _area As Double, ByVal _myReceiverName As String, ByVal _myReceiverPostalCode As String, ByVal _myReceiverAddress1 As String,
-             ByVal _myReceiverAddress2 As String)
+    Public Sub New(_myCustomerID As String, _myLesseeName As String, _myPostalCode As String, _myAddress1 As String,
+                   _myAddress2 As String, _gravekuiki As String, _graveku As String, _gravegawa As String, _graveban As String,
+                   _graveedaban As String, _area As Double, _myReceiverName As String, _myReceiverPostalCode As String,
+                   _myReceiverAddress1 As String, _myReceiverAddress2 As String)
 
         myGraveNumber = New GraveNumberEntity(_gravekuiki, _graveku, _gravegawa, _graveban, _graveedaban) '墓地番号を生成する。
         myArea = New Area(_area) '面積を生成する

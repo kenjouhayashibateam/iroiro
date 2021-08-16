@@ -1,6 +1,5 @@
 ﻿Imports Domain
 Imports System.ComponentModel
-Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
 Imports WPF.Command
 Imports WPF.Data
@@ -11,7 +10,7 @@ Namespace ViewModels
     ''' 住所データをリスナーに渡します
     ''' </summary>
     Public Interface IAddressDataViewCloseListener
-        Sub AddressDataNotify(ByVal _postalcode As String, ByVal _address As String)
+        Sub AddressDataNotify(_postalcode As String, _address As String)
     End Interface
 
     ''' <summary>
@@ -116,7 +115,7 @@ Namespace ViewModels
         ''' リスナー登録
         ''' </summary>
         ''' <param name="_listener"></param>
-        Public Sub AddListener(ByVal _listener As IAddressDataViewCloseListener)
+        Public Sub AddListener(_listener As IAddressDataViewCloseListener)
             Listener = _listener
         End Sub
 
@@ -150,11 +149,11 @@ Namespace ViewModels
             End Set
         End Property
 
-        Sub New()
+        Public Sub New()
             If MyAddressList Is Nothing Then MyAddressList = New AddressDataListEntity
         End Sub
 
-        Sub New(ByVal _addresslist As AddressDataListEntity)
+        Public Sub New(_addresslist As AddressDataListEntity)
             MyAddressList = _addresslist
         End Sub
 
@@ -186,6 +185,9 @@ Namespace ViewModels
                     Else
                         RemoveError(NameOf(MyAddress))
                     End If
+
+                Case Else
+                    Exit Select
             End Select
         End Sub
     End Class

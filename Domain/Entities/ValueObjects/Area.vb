@@ -4,7 +4,7 @@
 Public Class Area
     Public Property AreaValue As Double
 
-    Sub New(ByVal _myarea As Double)
+    Public Sub New(_myarea As Double)
         AreaValue = _myarea
     End Sub
 

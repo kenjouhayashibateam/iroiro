@@ -5,7 +5,7 @@
 Public Class ContractContent
     Public Property Content As String
 
-    Public Sub New(ByVal _contractdetail As String)
+    Public Sub New(_contractdetail As String)
         Content = _contractdetail
     End Sub
 

@@ -10,7 +10,7 @@ Imports WPF.Data
 ''' 墓地札データが追加されたことを通知します
 ''' </summary>
 Public Interface INotifyListAdd
-    Sub Notify(ByVal gravepanelData As GravePanelDataEntity)
+    Sub Notify(gravepanelData As GravePanelDataEntity)
 End Interface
 
 Namespace ViewModels
@@ -84,7 +84,7 @@ Namespace ViewModels
         ''' 墓地札追加通知を受け取るリスナーを設定します
         ''' </summary>
         ''' <param name="_listener"></param>
-        Public Sub AddListAddListener(ByVal _listener As INotifyListAdd)
+        Public Sub AddListAddListener(_listener As INotifyListAdd)
             Listener = _listener
         End Sub
 
@@ -498,18 +498,6 @@ Namespace ViewModels
             End Set
         End Property
 
-        '''' <summary>
-        '''' 墓地番号クラス
-        '''' </summary>
-        'Public Class GraveNumberField
-
-        '    Public Property Value As String
-
-        '    Sub New(ByVal _value As String)
-        '        Value = _value
-        '    End Sub
-        'End Class
-
         ''' <summary>
         ''' 墓地番号　番リスト
         ''' </summary>
@@ -566,11 +554,11 @@ Namespace ViewModels
             End Set
         End Property
 
-        Sub New()
+        Public Sub New()
             Me.New(New SQLConnectInfrastructure)
         End Sub
 
-        Sub New(ByVal _datarepository As IDataConectRepogitory)
+        Public Sub New(_datarepository As IDataConectRepogitory)
 
             DataConect = _datarepository
 
@@ -594,7 +582,7 @@ Namespace ViewModels
         ''' 墓地番号の区をリストに格納します
         ''' </summary>
         ''' <param name="originalvalue"></param>
-        Private Sub AddGraveKu(ByVal originalvalue As String)
+        Private Sub AddGraveKu(originalvalue As String)
             GraveNumberKuList.Add(New GraveNumberEntity.Ku(originalvalue))
         End Sub
 
@@ -970,7 +958,7 @@ Namespace ViewModels
         ''' </summary>
         ''' <param name="propertyName"></param>
         ''' <param name="value"></param>
-        Private Sub SetValiDateProperty_StringEmptyMessage(ByVal propertyName As String, value As Object)
+        Private Sub SetValiDateProperty_StringEmptyMessage(propertyName As String, value As Object)
             If String.IsNullOrEmpty(value) Then
                 AddError(propertyName, My.Resources.StringEmptyMessage)
             Else

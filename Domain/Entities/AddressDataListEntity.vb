@@ -7,11 +7,11 @@ Public Class AddressDataListEntity
 
     Public Property MyList As New ObservableCollection(Of AddressDataEntity)
 
-    Public Sub AddItem(ByVal addressdata As AddressDataEntity)
+    Public Sub AddItem(addressdata As AddressDataEntity)
         MyList.Add(addressdata)
     End Sub
 
-    Sub New()
+    Public Sub New()
         MyList = New ObservableCollection(Of AddressDataEntity)
     End Sub
 

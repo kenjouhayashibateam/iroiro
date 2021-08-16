@@ -1,5 +1,4 @@
 ﻿Imports System.Text.RegularExpressions
-Imports System.Collections.ObjectModel
 
 ''' <summary>
 ''' 文字列を変換します
@@ -11,13 +10,13 @@ Friend Interface ITextConvert
     ''' </summary>
     ''' <param name="value">区ナンバーあるいはコード</param>
     ''' <returns></returns>
-    Function ConvertNumber_Ku(ByVal value As String) As String
+    Function ConvertNumber_Ku(value As String) As String
     ''' <summary>
     ''' 墓地番号を表示用にするため、0を削除します
     ''' </summary>
     ''' <param name="number"></param>
     ''' <returns></returns>
-    Function ConvertNumber_0Delete(ByVal number As String) As String
+    Function ConvertNumber_0Delete(number As String) As String
 
 End Interface
 
@@ -114,13 +113,13 @@ Public Class GraveNumberEntity
     Public Property CustomerIDField As CustomerID
 
     ''' <param name="_ku">区</param>
-    Public Sub New(ByVal _ku As String)
+    Public Sub New(_ku As String)
         KuField = New Ku(_ku)
     End Sub
 
     ''' <param name="_ku">区</param>
     ''' <param name="_kuiki">区域</param>
-    Public Sub New(ByVal _ku As String, ByVal _kuiki As String)
+    Public Sub New(_ku As String, _kuiki As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
     End Sub
@@ -128,7 +127,7 @@ Public Class GraveNumberEntity
     ''' <param name="_ku">区</param>
     ''' <param name="_kuiki">区域</param>
     ''' <param name="_gawa">側</param>
-    Public Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String)
+    Public Sub New(_ku As String, _kuiki As String, _gawa As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
@@ -138,7 +137,7 @@ Public Class GraveNumberEntity
     ''' <param name="_kuiki">区域</param>
     ''' <param name="_gawa">側</param>
     ''' <param name="_ban">番</param>
-    Public Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String)
+    Public Sub New(_ku As String, _kuiki As String, _gawa As String, _ban As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
@@ -150,17 +149,13 @@ Public Class GraveNumberEntity
     ''' <param name="_gawa">側</param>
     ''' <param name="_ban">番</param>
     ''' <param name="_edaban">枝番</param>
-    Public Sub New(ByVal _ku As String, ByVal _kuiki As String, ByVal _gawa As String, ByVal _ban As String, ByVal _edaban As String)
+    Public Sub New(_ku As String, _kuiki As String, _gawa As String, _ban As String, _edaban As String)
         KuField = New Ku(_ku)
         KuikiField = New Kuiki(_kuiki)
         GawaField = New Gawa(_gawa)
         BanField = New Ban(_ban)
 
-        If _edaban Is Nothing Then
-            EdabanField = New Edaban(String.Empty)
-        Else
-            EdabanField = New Edaban(_edaban)
-        End If
+        EdabanField = If(_edaban Is Nothing, New Edaban(String.Empty), New Edaban(_edaban))
 
     End Sub
 
@@ -230,7 +225,7 @@ Public Class GraveNumberEntity
     Public Class Ku
         Inherits GraveNumberField
 
-        Public Sub New(ByVal _value As String)
+        Public Sub New(_value As String)
 
             If IsNumeric(_value) Then
                 CodeField = _value

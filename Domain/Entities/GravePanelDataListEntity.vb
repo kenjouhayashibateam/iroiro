@@ -8,7 +8,7 @@ Public Class GravePanelDataListEntity
     Private Shared _GravePanelDataList As GravePanelDataListEntity
     Public Property List As New ObservableCollection(Of GravePanelDataEntity)
 
-    Sub New()
+    Public Sub New()
         List = New ObservableCollection(Of GravePanelDataEntity)
     End Sub
 
@@ -17,7 +17,7 @@ Public Class GravePanelDataListEntity
         Return _GravePanelDataList
     End Function
 
-    Public Sub AddItem(ByVal gravepaneldata As GravePanelDataEntity)
+    Public Sub AddItem(gravepaneldata As GravePanelDataEntity)
         List.Add(gravepaneldata)
     End Sub
 

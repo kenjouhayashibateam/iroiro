@@ -4,7 +4,7 @@
 Public Class Money
     Public Property Price As String
 
-    Public Sub New(ByVal _money As String)
+    Public Sub New(_money As String)
         Price = _money
     End Sub
 

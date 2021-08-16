@@ -5,7 +5,7 @@ Public Class LastSaveDateEntity
 
     Private Property MySaveDate As SaveDate
 
-    Sub New(ByVal _savedate As Date)
+    Public Sub New(_savedate As Date)
         MySaveDate = New SaveDate(_savedate)
     End Sub
 
@@ -20,11 +20,11 @@ Public Class LastSaveDateEntity
 
         Private Property MyDate As Date
 
-        Sub New(ByVal _savedate As Date)
+        Public Sub New(_savedate As Date)
             MyDate = _savedate
         End Sub
 
-        Function GetDate() As Date
+        Public Function GetDate() As Date
             Return MyDate
         End Function
 

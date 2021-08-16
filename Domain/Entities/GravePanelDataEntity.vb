@@ -5,10 +5,6 @@
 ''' </summary>
 Public Class GravePanelDataEntity
     Private _MyPrintOutTime As PrintoutTime
-    Private _MyIsPrintout As IsPrintout
-    Private _MyFamilyName As FamilyName
-    Private _MyContractContent As ContractContent
-    Private _MyRegistrationTime As RegistrationTime
 
     ''' <summary>
     ''' 管理番号クラス
@@ -20,13 +16,6 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyFamilyName As FamilyName
-        Get
-            Return _MyFamilyName
-        End Get
-        Set
-            _MyFamilyName = Value
-        End Set
-    End Property
 
     ''' <summary>
     ''' 墓地番号クラス
@@ -38,26 +27,12 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyContractContent As ContractContent
-        Get
-            Return _MyContractContent
-        End Get
-        Set
-            _MyContractContent = Value
-        End Set
-    End Property
 
     ''' <summary>
     ''' 登録日時クラス
     ''' </summary>
     ''' <returns></returns>
     Public Property MyRegistrationTime As RegistrationTime
-        Get
-            Return _MyRegistrationTime
-        End Get
-        Set
-            _MyRegistrationTime = Value
-        End Set
-    End Property
 
     ''' <summary>
     ''' 契約内容リストクラス
@@ -70,13 +45,6 @@ Public Class GravePanelDataEntity
     ''' </summary>
     ''' <returns></returns>
     Public Property MyIsPrintout As IsPrintout
-        Get
-            Return _MyIsPrintout
-        End Get
-        Set
-            _MyIsPrintout = Value
-        End Set
-    End Property
 
     ''' <summary>
     ''' プリントアウト日時
@@ -115,7 +83,7 @@ Public Class GravePanelDataEntity
     ''' <returns></returns>
     Public Property MyFullName As FullName
 
-    Public Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumber As String, ByVal _area As Double, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
+    Public Sub New(_id As Integer, _customerid As String, _familyname As String, _fullname As String, _gravenumber As String, _area As Double, _contractdetail As String, _registrationtime As Date, _printouttime As Date)
         MyOrderID = New OrderID(_id)
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
@@ -128,7 +96,7 @@ Public Class GravePanelDataEntity
         MyIsPrintout = New IsPrintout(_printouttime)
     End Sub
 
-    Public Sub New(ByVal _id As Integer, ByVal _customerid As String, ByVal _familyname As String, ByVal _fullname As String, ByVal _gravenumberKu As String, ByVal _gravenumberKuiki As String, ByVal _gravenumberGawa As String, ByVal _gravenumberBan As String, ByVal _gravenumberEdaban As String, ByVal _contractdetail As String, ByVal _registrationtime As Date, ByVal _printouttime As Date)
+    Public Sub New(_id As Integer, _customerid As String, _familyname As String, _fullname As String, _gravenumberKu As String, _gravenumberKuiki As String, _gravenumberGawa As String, _gravenumberBan As String, _gravenumberEdaban As String, _contractdetail As String, _registrationtime As Date, _printouttime As Date)
         MyOrderID = New OrderID(_id)
         MyCustomerID = New CustomerID(_customerid)
         MyFamilyName = New FamilyName(_familyname)
