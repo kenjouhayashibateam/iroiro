@@ -827,67 +827,67 @@ Domain
  OutputしたデータをClearします
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  振込用紙
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  長3封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+<member name="M:Domain.IOutputDataRepogitory.Cho3EnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity},System.Boolean)">
  <summary>
  長3封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  洋封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+<member name="M:Domain.IOutputDataRepogitory.WesternEnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity},System.Boolean)">
  <summary>
  洋封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  角2封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+<member name="M:Domain.IOutputDataRepogitory.Kaku2EnvelopeOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity},System.Boolean)">
  <summary>
  角2封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  墓地パンフ封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+<member name="M:Domain.IOutputDataRepogitory.GravePamphletOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity},System.Boolean)">
  <summary>
  墓地パンフ封筒
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  はがき
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+<member name="M:Domain.IOutputDataRepogitory.PostcardOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity},System.Boolean)">
  <summary>
  はがき
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity})">
+<member name="M:Domain.IOutputDataRepogitory.LabelOutput(System.Collections.ObjectModel.ObservableCollection{Domain.DestinationDataEntity},System.Boolean)">
  <summary>
  ラベル用紙
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput(System.Int32)">
+<member name="M:Domain.IOutputDataRepogitory.GravePanelOutput(System.Int32,System.Boolean)">
  <summary>
  墓地札
  </summary>

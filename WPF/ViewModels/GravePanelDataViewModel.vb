@@ -44,6 +44,7 @@ Namespace ViewModels
         Private _CallOutputInfo As Boolean
         Private _OutputButtonText As String = "出力"
         Private _OutputButtonIsEnabled As Boolean = True
+        Private _isIPAmjMintyo As Boolean
 
         ''' <summary>
         ''' 契約内容のリスト
@@ -103,7 +104,7 @@ Namespace ViewModels
             Get
                 _OutputGravePanelCommand = New DelegateCommand(
                     Sub()
-                        Output()
+                        Output(IsIPAmjMintyo)
                         CallPropertyChanged(NameOf(OutputGravePanelCommand))
                     End Sub,
                     Function()
@@ -449,9 +450,9 @@ Namespace ViewModels
         ''' <summary>
         ''' リストの墓地札データを出力します
         ''' </summary>
-        Public Async Sub Output()
+        Public Async Sub Output(_isIPAmjMintyo As Boolean)
 
-            OutputDataConecter.GravePanelOutput(OutputPosition)
+            OutputDataConecter.GravePanelOutput(OutputPosition, _isIPAmjMintyo)
 
             Await Task.Run(Sub()
                                Dim i As Integer = 0
@@ -509,6 +510,16 @@ Namespace ViewModels
                 _CallOutputInfo = Value
                 CallPropertyChanged(NameOf(CallOutputInfo))
                 _CallOutputInfo = False
+            End Set
+        End Property
+
+        Public Property IsIPAmjMintyo As Boolean
+            Get
+                Return _isIPAmjMintyo
+            End Get
+            Set(value As Boolean)
+                _isIPAmjMintyo = value
+                CallPropertyChanged(NameOf(IsIPAmjMintyo))
             End Set
         End Property
 

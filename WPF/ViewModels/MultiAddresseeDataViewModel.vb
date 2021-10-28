@@ -53,6 +53,7 @@ Namespace ViewModels
         Private _ReferenceLesseeCommand As DelegateCommand
         Private _CallAddressLengthOverInfo As Boolean
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
+        Private _isIPAmjMintyo As Boolean
 
         ''' <summary>
         ''' 宛名
@@ -774,7 +775,7 @@ Namespace ViewModels
         ''' 長3封筒印刷
         ''' </summary>
         Public Sub OutputList_Cho3Envelope()
-            DataOutputConecter.Cho3EnvelopeOutput(AddresseeList)
+            DataOutputConecter.Cho3EnvelopeOutput(AddresseeList, IsIPAmjMintyo)
         End Sub
 
         ''' <summary>
@@ -782,7 +783,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_GravePamphletEnvelope()
 
-            DataOutputConecter.GravePamphletOutput(AddresseeList)
+            DataOutputConecter.GravePamphletOutput(AddresseeList, IsIPAmjMintyo)
 
         End Sub
 
@@ -791,7 +792,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_Kaku2Envelope()
 
-            DataOutputConecter.Kaku2EnvelopeOutput(AddresseeList)
+            DataOutputConecter.Kaku2EnvelopeOutput(AddresseeList, IsIPAmjMintyo)
 
         End Sub
 
@@ -800,7 +801,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_Postcard()
 
-            DataOutputConecter.PostcardOutput(AddresseeList)
+            DataOutputConecter.PostcardOutput(AddresseeList, IsIPAmjMintyo)
 
         End Sub
 
@@ -809,7 +810,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_WesternEnvelope()
 
-            DataOutputConecter.WesternEnvelopeOutput(AddresseeList)
+            DataOutputConecter.WesternEnvelopeOutput(AddresseeList, IsIPAmjMintyo)
 
         End Sub
 
@@ -818,7 +819,7 @@ Namespace ViewModels
         ''' </summary>
         Public Sub OutputList_LabelSheet()
 
-            DataOutputConecter.LabelOutput(AddresseeList)
+            DataOutputConecter.LabelOutput(AddresseeList, IsIPAmjMintyo)
 
         End Sub
 
@@ -891,6 +892,19 @@ Namespace ViewModels
         End Property
 
         Public Property AddressLengthOverInfoCommad As DelegateCommand
+        ''' <summary>
+        ''' IPAｍｊ明朝で出力するか
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsIPAmjMintyo As Boolean
+            Get
+                Return _isIPAmjMintyo
+            End Get
+            Set(value As Boolean)
+                _isIPAmjMintyo = value
+                CallPropertyChanged(NameOf(IsIPAmjMintyo))
+            End Set
+        End Property
 
         Public Sub CreateAddressLengthOverInfo()
 

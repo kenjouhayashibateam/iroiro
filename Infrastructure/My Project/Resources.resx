@@ -165,6 +165,9 @@
   <data name="HGRegularRegularScriptPRO" xml:space="preserve">
     <value>HG正楷書体-PRO</value>
   </data>
+  <data name="IPAmjMintyoString" xml:space="preserve">
+    <value>IPAmj明朝</value>
+  </data>
   <data name="KanagawaString" xml:space="preserve">
     <value>神奈川県</value>
   </data>

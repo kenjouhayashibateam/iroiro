@@ -157,26 +157,28 @@
         </DataGrid>
         <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <GroupBox Header="出力メニュー" x:Name="OutputMenuGroupBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,5">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="OutputMenuGrid">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <CheckBox Content="IPAmj明朝で出力" IsChecked="{Binding IsIPAmjMintyo}" VerticalAlignment="Center"/>
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.7*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="敬称" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-                        <TextBox x:Name="TitleTextBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="0,5,0,5" Text="{Binding Title}"/>
+                        <TextBox x:Name="TitleTextBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="0,5,0,5" Text="{Binding Title}"/>
                     </Grid>
-                    <ComboBox Name="OutputContentsComboBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="30,5,10,5" ItemsSource="{Binding OutputContentsDictionary}" DisplayMemberPath="Value"  SelectedValue ="{Binding SelectedOutputContentsValue}" SelectedValuePath="Key"/>
+                    <ComboBox Name="OutputContentsComboBox" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="30,5,10,5" ItemsSource="{Binding OutputContentsDictionary}" DisplayMemberPath="Value"  SelectedValue ="{Binding SelectedOutputContentsValue}" SelectedValuePath="Key"/>
                     <Button x:Name="OutputButton" IsEnabled="{Binding IsOutputEnabled}"  Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,5,10,5">
                         出力
                         <ib:Interaction.Triggers>

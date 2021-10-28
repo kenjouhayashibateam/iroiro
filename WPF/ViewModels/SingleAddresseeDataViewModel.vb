@@ -24,6 +24,19 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property ErrorMessageInfo As DelegateCommand
         Public Property MsgResult As MessageBoxResult
+        ''' <summary>
+        ''' IPAmj明朝で出力するか
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsIPAmjMintyo As Boolean
+            Get
+                Return _IsIPAmjMintyo
+            End Get
+            Set
+                _IsIPAmjMintyo = Value
+                CallPropertyChanged(NameOf(IsIPAmjMintyo))
+            End Set
+        End Property
 
         ''' <summary>
         ''' 墓地札管理画面を呼び出すタイミングを管理します
@@ -716,42 +729,73 @@ Namespace ViewModels
         ''' 振込用紙
         ''' </summary>
         Public Sub InputTransferData()
-            DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck)
+            Try
+                DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck, IsIPAmjMintyo)
+
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
         End Sub
 
         ''' <summary>
         ''' 長3封筒
         ''' </summary>
         Public Sub InputCho3Envelope()
-            DataOutputConecter.Cho3EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            Try
+                DataOutputConecter.Cho3EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
         End Sub
 
         ''' <summary>
         ''' 洋封筒
         ''' </summary>
         Public Sub InputWesternEnvelope()
-            DataOutputConecter.WesternEnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            Try
+                DataOutputConecter.WesternEnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
         End Sub
 
         ''' <summary>
         ''' 墓地パンフ
         ''' </summary>
         Public Sub InputGravePamphletEnvelope()
-            DataOutputConecter.GravePamphletOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            Try
+                DataOutputConecter.GravePamphletOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
         End Sub
 
         ''' <summary>
         ''' 角２封筒
         ''' </summary>
         Public Sub InputKaku2Envelope()
-            DataOutputConecter.Kaku2EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            Try
+                DataOutputConecter.Kaku2EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
         End Sub
 
         ''' <summary>
         ''' はがき
         ''' </summary>
         Public Sub InputPostcard()
-            DataOutputConecter.PostcardOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck)
+            Try
+                DataOutputConecter.PostcardOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
         End Sub
 
         Private AddressList As AddressDataListEntity
@@ -760,6 +804,7 @@ Namespace ViewModels
         Private _OutputInfo As String
         Private _ButtonText As String = "出力"
         Private _OutputButtonIsEnabled As Boolean = True
+        Private _IsIPAmjMintyo As Boolean
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します

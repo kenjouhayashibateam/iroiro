@@ -50,7 +50,6 @@ C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\Microsoft.
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\bin\Debug\System.Windows.Interactivity.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.Resources.resources
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.vbproj.GenerateResource.cache
-C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.vbproj.CopyComplete
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.dll
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Domain\obj\Debug\Domain.pdb

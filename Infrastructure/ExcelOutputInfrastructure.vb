@@ -31,7 +31,7 @@ Friend Interface IExcelOutputBehavior
     ''' <summary>
     ''' シート全体のフォントを設定します
     ''' </summary>
-    Function SetCellFont() As String
+    Function SetCellFont(_isIPAmjMintyo As Boolean) As String
 
     ''' <summary>
     ''' セルのフォントサイズ、フォントポジション等を設定します
@@ -476,12 +476,12 @@ Public Class ExcelOutputInfrastructure
     ''' 進捗のカウント
     ''' </summary>
     ''' <returns></returns>
-    Private Property ProcessedCount As Integer
+    Friend Property ProcessedCount As Integer
 
     Public Sub New()
         Me.New(New LogFileInfrastructure)
     End Sub
-    Public Sub New(ByVal _logger As ILoggerRepogitory)
+    Public Sub New(_logger As ILoggerRepogitory)
         LogFileConecter = _logger
     End Sub
 
@@ -630,7 +630,7 @@ Public Class ExcelOutputInfrastructure
     ''' 横向けにデータを入力する処理。ラベル用紙用
     ''' </summary>
     ''' <param name="_hob"></param>
-    Private Sub OutputLabelProcessing(_hob As IHorizontalOutputBehavior)
+    Private Sub OutputLabelProcessing(_hob As IHorizontalOutputBehavior, _isIPAmjMintyo As Boolean)
 
         Hob = _hob
         SheetSetting()
@@ -676,7 +676,7 @@ Public Class ExcelOutputInfrastructure
                 ProcessedCount += 1
                 If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
-            .Style.Font.FontName = Hob.SetCellFont
+            .Style.Font.FontName = Hob.SetCellFont(_isIPAmjMintyo)
         End With
 
         If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
@@ -691,7 +691,7 @@ Public Class ExcelOutputInfrastructure
     ''' </summary>
     ''' <param name="_vob"></param>
     ''' <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
-    Private Sub ListOutputVerticalProcessing(_vob As IVerticalOutputListBehavior, ismulti As Boolean)
+    Private Sub ListOutputVerticalProcessing(_vob As IVerticalOutputListBehavior, ismulti As Boolean, isIPAmjMintyo As Boolean)
 
         Dim overLengthCount As Integer = 0
 
@@ -725,7 +725,7 @@ Public Class ExcelOutputInfrastructure
                 If Volb.GetLengthVerificationString(dde).Length > Volb.GetAddressMaxLength Then overLengthCount += 1
                 If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
-            .Style.Font.FontName = Volb.SetCellFont
+            .Style.Font.FontName = Volb.SetCellFont(isIPAmjMintyo)
         End With
 
         If overLengthCount > 0 Then NotificationOverLengthCount(overLengthCount)
@@ -748,7 +748,7 @@ Public Class ExcelOutputInfrastructure
     ''' </summary>
     ''' <param name="_vob"></param>
     ''' <param name="outputPositon"></param>
-    Private Sub GravePanelListOutputProcessing(_vob As IGravePanelListBehavior, outputPositon As Integer)
+    Private Sub GravePanelListOutputProcessing(_vob As IGravePanelListBehavior, outputPositon As Integer, isIPAmjMintyo As Boolean)
 
         Dim gpl As GravePanelDataListEntity = GravePanelDataListEntity.GetInstance
         gpb = _vob
@@ -785,7 +785,7 @@ Public Class ExcelOutputInfrastructure
                 gpb.SetData(StartRowPosition, gp)
             Next
 
-            .Style.Font.FontName = gpb.SetCellFont
+            .Style.Font.FontName = gpb.SetCellFont(isIPAmjMintyo)
         End With
 
         If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
@@ -810,81 +810,81 @@ Public Class ExcelOutputInfrastructure
 
     Public Sub TransferPaperPrintOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String,
                                         money As String, note1 As String, note2 As String, note3 As String, note4 As String,
-                                        note5 As String, multioutput As Boolean) Implements IOutputDataRepogitory.TransferPaperPrintOutput
+                                        note5 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.TransferPaperPrintOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2, money, note1, note2, note3, note4, note5)
         Dim tp As IVerticalOutputListBehavior = New TransferPaper(MyAddressee)
-        ListOutputVerticalProcessing(tp, multioutput)
+        ListOutputVerticalProcessing(tp, multioutput, _isIPAmjMintyo)
 
     End Sub
 
     Public Sub Cho3EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String,
-                                  multioutput As Boolean) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
+                                  multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
         Dim ce As IVerticalOutputListBehavior = New Cho3Envelope(MyAddressee)
-        ListOutputVerticalProcessing(ce, multioutput)
+        ListOutputVerticalProcessing(ce, multioutput, _isIPAmjMintyo)
 
     End Sub
 
-    Public Sub WesternEnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean) Implements IOutputDataRepogitory.WesternEnvelopeOutput
+    Public Sub WesternEnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.WesternEnvelopeOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
         Dim we As IVerticalOutputListBehavior = New WesternEnvelope(MyAddressee)
-        ListOutputVerticalProcessing(we, multioutput)
+        ListOutputVerticalProcessing(we, multioutput, _isIPAmjMintyo)
 
     End Sub
 
-    Public Sub Kaku2EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean) Implements IOutputDataRepogitory.Kaku2EnvelopeOutput
+    Public Sub Kaku2EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.Kaku2EnvelopeOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
         Dim ke As IVerticalOutputListBehavior = New Kaku2Envelope(MyAddressee)
-        ListOutputVerticalProcessing(ke, multioutput)
+        ListOutputVerticalProcessing(ke, multioutput, _isIPAmjMintyo)
 
     End Sub
 
-    Public Sub GravePamphletOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean) Implements IOutputDataRepogitory.GravePamphletOutput
+    Public Sub GravePamphletOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.GravePamphletOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
         Dim gp As IVerticalOutputListBehavior = New GravePamphletEnvelope(MyAddressee)
-        ListOutputVerticalProcessing(gp, multioutput)
+        ListOutputVerticalProcessing(gp, multioutput, _isIPAmjMintyo)
 
     End Sub
 
-    Public Sub PostcardOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean) Implements IOutputDataRepogitory.PostcardOutput
+    Public Sub PostcardOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.PostcardOutput
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
         Dim pc As IVerticalOutputListBehavior = New Postcard(MyAddressee)
-        ListOutputVerticalProcessing(pc, multioutput)
+        ListOutputVerticalProcessing(pc, multioutput, _isIPAmjMintyo)
     End Sub
 
-    Public Sub GravePanelOutput(outputPosition As Integer) Implements IOutputDataRepogitory.GravePanelOutput
+    Public Sub GravePanelOutput(outputPosition As Integer, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.GravePanelOutput
         Dim gp As IGravePanelListBehavior = New GravePanel()
-        GravePanelListOutputProcessing(gp, outputPosition)
+        GravePanelListOutputProcessing(gp, outputPosition, _isIPAmjMintyo)
     End Sub
 
-    Public Sub Cho3EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
+    Public Sub Cho3EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
         Dim ce As IVerticalOutputListBehavior = New Cho3Envelope(list)
-        ListOutputVerticalProcessing(ce, True)
+        ListOutputVerticalProcessing(ce, True, _isIPAmjMintyo)
     End Sub
 
-    Public Sub WesternEnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.WesternEnvelopeOutput
+    Public Sub WesternEnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.WesternEnvelopeOutput
         Dim we As IVerticalOutputListBehavior = New WesternEnvelope(list)
-        ListOutputVerticalProcessing(we, True)
+        ListOutputVerticalProcessing(we, True, _isIPAmjMintyo)
     End Sub
 
-    Public Sub Kaku2EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.Kaku2EnvelopeOutput
+    Public Sub Kaku2EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.Kaku2EnvelopeOutput
         Dim ke As IVerticalOutputListBehavior = New Kaku2Envelope(list)
-        ListOutputVerticalProcessing(ke, True)
+        ListOutputVerticalProcessing(ke, True, _isIPAmjMintyo)
     End Sub
 
-    Public Sub GravePamphletOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.GravePamphletOutput
+    Public Sub GravePamphletOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.GravePamphletOutput
         Dim gp As IVerticalOutputListBehavior = New GravePamphletEnvelope(list)
-        ListOutputVerticalProcessing(gp, True)
+        ListOutputVerticalProcessing(gp, True, _isIPAmjMintyo)
     End Sub
 
-    Public Sub PostcardOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.PostcardOutput
+    Public Sub PostcardOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.PostcardOutput
         Dim pc As IVerticalOutputListBehavior = New Postcard(list)
-        ListOutputVerticalProcessing(pc, True)
+        ListOutputVerticalProcessing(pc, True, _isIPAmjMintyo)
     End Sub
 
     Private Sub AddProcessedCountListener(_listener As IProcessedCountObserver) Implements IOutputDataRepogitory.AddProcessedCountListener
@@ -901,9 +901,9 @@ Public Class ExcelOutputInfrastructure
         OverLengthAddressCountListener = _listener
     End Sub
 
-    Public Sub LabelOutput(list As ObservableCollection(Of DestinationDataEntity)) Implements IOutputDataRepogitory.LabelOutput
-        Dim ls As IHorizontalOutputBehavior = New LabelSheet(list)
-        OutputLabelProcessing(ls)
+    Public Sub LabelOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.LabelOutput
+        Dim ls As IHorizontalOutputBehavior = New LabelSheet(list, _isIPAmjMintyo)
+        OutputLabelProcessing(ls, _isIPAmjMintyo)
     End Sub
 
     ''' <summary>
@@ -964,8 +964,8 @@ Public Class ExcelOutputInfrastructure
             End With
         End Sub
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.HGRegularRegularScriptPRO
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.HGRegularRegularScriptPRO)
         End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IExcelOutputBehavior.CellProperty
@@ -981,7 +981,7 @@ Public Class ExcelOutputInfrastructure
                 With .Range(.Cell(startrowposition + 2, 1), .Cell(startrowposition + 3, 2)).Style
                     .Font.FontSize = 48
                     .Font.Bold = True
-                    .Alignment.ShrinkToFit=True
+                    .Alignment.ShrinkToFit = True
                     .Alignment.Vertical = XLAlignmentVerticalValues.Center
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                 End With
@@ -1091,8 +1091,8 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_HGPGyoushotai
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
         End Function
 
         Private Function ColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
@@ -1242,8 +1242,8 @@ Public Class ExcelOutputInfrastructure
 
         End Function
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_MSPMintyo
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_MSPMintyo)
         End Function
 
         Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
@@ -1484,8 +1484,8 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_HGPGyoushotai
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
         End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
@@ -1618,8 +1618,8 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_HGPGyoushotai
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
         End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
@@ -1742,7 +1742,7 @@ Public Class ExcelOutputInfrastructure
                     .Cell(startrowposition + 4, 4).Value = ad2
                 End If
 
-                If ac.GetConvertAddress2.Length > GetAddressMaxLength Then
+                If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
                     .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
                 Else
                     .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
@@ -1756,8 +1756,8 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_HGPGyoushotai
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
         End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
@@ -1894,8 +1894,8 @@ Public Class ExcelOutputInfrastructure
 
         End Sub
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_HGPGyoushotai
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
         End Function
 
         Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
@@ -1942,9 +1942,11 @@ Public Class ExcelOutputInfrastructure
         Implements IHorizontalOutputBehavior
 
         Private ReadOnly MyList As ObservableCollection(Of DestinationDataEntity)
+        Private ReadOnly IsIPAmjMintyo As Boolean
 
-        Public Sub New(list As ObservableCollection(Of DestinationDataEntity))
+        Public Sub New(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
             MyList = list
+            IsIPAmjMintyo = _isIPAmjMintyo
         End Sub
 
         ''' <summary>
@@ -1980,8 +1982,8 @@ Public Class ExcelOutputInfrastructure
 
         End Function
 
-        Public Function SetCellFont() As String Implements IExcelOutputBehavior.SetCellFont
-            Return My.Resources.FontName_MSPGothic
+        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_MSPGothic)
         End Function
 
         Public Sub CellProperty(startrowposition As Integer) Implements IHorizontalOutputBehavior.CellProperty

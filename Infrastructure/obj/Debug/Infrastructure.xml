@@ -102,6 +102,11 @@ Infrastructure
   HG正楷書体-PRO に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:Infrastructure.My.Resources.Resources.IPAmjMintyoString">
+<summary>
+  IPAmj明朝 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:Infrastructure.My.Resources.Resources.KanagawaString">
 <summary>
   神奈川県 に類似しているローカライズされた文字列を検索します。
@@ -274,7 +279,7 @@ Infrastructure
  エクセルに出力する際の共通動作
  </summary>
 </member>
-<member name="M:Infrastructure.IExcelOutputBehavior.SetCellFont">
+<member name="M:Infrastructure.IExcelOutputBehavior.SetCellFont(System.Boolean)">
  <summary>
  シート全体のフォントを設定します
  </summary>
@@ -559,13 +564,13 @@ Infrastructure
  </summary>
  <param name="eob"></param>
 </member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.OutputLabelProcessing(Infrastructure.IHorizontalOutputBehavior)">
+<member name="M:Infrastructure.ExcelOutputInfrastructure.OutputLabelProcessing(Infrastructure.IHorizontalOutputBehavior,System.Boolean)">
  <summary>
  横向けにデータを入力する処理。ラベル用紙用
  </summary>
  <param name="_hob"></param>
 </member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.ListOutputVerticalProcessing(Infrastructure.IVerticalOutputListBehavior,System.Boolean)">
+<member name="M:Infrastructure.ExcelOutputInfrastructure.ListOutputVerticalProcessing(Infrastructure.IVerticalOutputListBehavior,System.Boolean,System.Boolean)">
  <summary>
  縦向けにリストのデータを入力する処理
  </summary>
@@ -578,7 +583,7 @@ Infrastructure
  </summary>
  <param name="count">件数</param>
 </member>
-<member name="M:Infrastructure.ExcelOutputInfrastructure.GravePanelListOutputProcessing(Infrastructure.IGravePanelListBehavior,System.Int32)">
+<member name="M:Infrastructure.ExcelOutputInfrastructure.GravePanelListOutputProcessing(Infrastructure.IGravePanelListBehavior,System.Int32,System.Boolean)">
  <summary>
  墓地札データリスト出力
  </summary>

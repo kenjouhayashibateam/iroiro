@@ -863,7 +863,7 @@
  </summary>
  <returns></returns>
 </member>
-<member name="M:WPF.ViewModels.GravePanelDataViewModel.Output">
+<member name="M:WPF.ViewModels.GravePanelDataViewModel.Output(System.Boolean)">
  <summary>
  リストの墓地札データを出力します
  </summary>
@@ -1167,6 +1167,12 @@
  印刷物を出力します
  </summary>
 </member>
+<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.IsIPAmjMintyo">
+ <summary>
+ IPAｍｊ明朝で出力するか
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:WPF.ViewModels.IAddressDataViewCloseListener">
  <summary>
  住所データをリスナーに渡します
@@ -1226,6 +1232,12 @@
 <member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.ErrorMessageInfo">
  <summary>
  エラーメッセージを表示するコマンド
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.IsIPAmjMintyo">
+ <summary>
+ IPAmj明朝で出力するか
  </summary>
  <returns></returns>
 </member>

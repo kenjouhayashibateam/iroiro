@@ -28,61 +28,61 @@ Public Interface IOutputDataRepogitory
     ''' </summary>
     Sub TransferPaperPrintOutput(customerid As String, addressee As String, title As String, postalcode As String,
                                  address1 As String, address2 As String, money As String, note1 As String, note2 As String,
-                                 note3 As String, note4 As String, note5 As String, multioutput As Boolean)
+                                 note3 As String, note4 As String, note5 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 長3封筒
     ''' </summary>
     Sub Cho3EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String,
-                           address1 As String, address2 As String, multioutput As Boolean)
+                           address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 長3封筒
     ''' </summary>
-    Sub Cho3EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity))
+    Sub Cho3EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 洋封筒
     ''' </summary>
     Sub WesternEnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String,
-                              address1 As String, address2 As String, multioutput As Boolean)
+                              address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 洋封筒
     ''' </summary>
-    Sub WesternEnvelopeOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
+    Sub WesternEnvelopeOutput(ByVal list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 角2封筒
     ''' </summary>
     Sub Kaku2EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String,
-                            address1 As String, address2 As String, multioutput As Boolean)
+                            address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 角2封筒
     ''' </summary>
-    Sub Kaku2EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity))
+    Sub Kaku2EnvelopeOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 墓地パンフ封筒
     ''' </summary>
     Sub GravePamphletOutput(customerid As String, addressee As String, title As String, postalcode As String,
-                            address1 As String, address2 As String, multioutput As Boolean)
+                            address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 墓地パンフ封筒
     ''' </summary>
-    Sub GravePamphletOutput(ByVal list As ObservableCollection(Of DestinationDataEntity))
+    Sub GravePamphletOutput(ByVal list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' はがき
     ''' </summary>
     Sub PostcardOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String,
-                       address2 As String, multioutput As Boolean)
+                       address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' はがき
     ''' </summary>
-    Sub PostcardOutput(list As ObservableCollection(Of DestinationDataEntity))
+    Sub PostcardOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' ラベル用紙
     ''' </summary>
-    Sub LabelOutput(list As ObservableCollection(Of DestinationDataEntity))
+    Sub LabelOutput(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
 
     ''' <summary>
     ''' 墓地札
     ''' </summary>
-    Sub GravePanelOutput(outputPosition As Integer)
+    Sub GravePanelOutput(outputPosition As Integer, _isIPAmjMintyo As Boolean)
 
     ''' <summary>
     ''' 進捗カウントを受け取るリスナーを登録します

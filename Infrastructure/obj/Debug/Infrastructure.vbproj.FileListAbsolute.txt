@@ -107,9 +107,9 @@ C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\In
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.ResolveComReference.cache
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.Resources.resources
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.GenerateResource.cache
-C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.CopyComplete
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.dll
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.xml
 C:\Users\001\Source\Repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.pdb
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.CoreCompileInputs.cache
 C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.AssemblyReference.cache
+C:\Users\001\source\repos\kenjouhayashibateam\iroiro\Infrastructure\obj\Debug\Infrastructure.vbproj.CopyComplete
