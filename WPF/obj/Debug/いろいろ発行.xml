@@ -386,6 +386,12 @@
  </summary>
  <returns></returns>
 </member>
+<member name="P:WPF.ViewModels.BaseViewModel.IsIPAmjMintyo">
+ <summary>
+ IPAmj明朝で出力するか
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:WPF.ViewModels.CreateGravePanelDataViewModel">
  <summary>
  墓地札登録画面ViewModel 
@@ -1167,12 +1173,6 @@
  印刷物を出力します
  </summary>
 </member>
-<member name="P:WPF.ViewModels.MultiAddresseeDataViewModel.IsIPAmjMintyo">
- <summary>
- IPAｍｊ明朝で出力するか
- </summary>
- <returns></returns>
-</member>
 <member name="T:WPF.ViewModels.IAddressDataViewCloseListener">
  <summary>
  住所データをリスナーに渡します
@@ -1232,12 +1232,6 @@
 <member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.ErrorMessageInfo">
  <summary>
  エラーメッセージを表示するコマンド
- </summary>
- <returns></returns>
-</member>
-<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.IsIPAmjMintyo">
- <summary>
- IPAmj明朝で出力するか
  </summary>
  <returns></returns>
 </member>

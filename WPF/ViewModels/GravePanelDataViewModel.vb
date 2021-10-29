@@ -44,7 +44,6 @@ Namespace ViewModels
         Private _CallOutputInfo As Boolean
         Private _OutputButtonText As String = "出力"
         Private _OutputButtonIsEnabled As Boolean = True
-        Private _isIPAmjMintyo As Boolean
 
         ''' <summary>
         ''' 契約内容のリスト
@@ -510,16 +509,6 @@ Namespace ViewModels
                 _CallOutputInfo = Value
                 CallPropertyChanged(NameOf(CallOutputInfo))
                 _CallOutputInfo = False
-            End Set
-        End Property
-
-        Public Property IsIPAmjMintyo As Boolean
-            Get
-                Return _isIPAmjMintyo
-            End Get
-            Set(value As Boolean)
-                _isIPAmjMintyo = value
-                CallPropertyChanged(NameOf(IsIPAmjMintyo))
             End Set
         End Property
 

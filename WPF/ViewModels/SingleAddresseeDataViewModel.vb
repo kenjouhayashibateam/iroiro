@@ -24,19 +24,6 @@ Namespace ViewModels
         ''' <returns></returns>
         Public Property ErrorMessageInfo As DelegateCommand
         Public Property MsgResult As MessageBoxResult
-        ''' <summary>
-        ''' IPAmj明朝で出力するか
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property IsIPAmjMintyo As Boolean
-            Get
-                Return _IsIPAmjMintyo
-            End Get
-            Set
-                _IsIPAmjMintyo = Value
-                CallPropertyChanged(NameOf(IsIPAmjMintyo))
-            End Set
-        End Property
 
         ''' <summary>
         ''' 墓地札管理画面を呼び出すタイミングを管理します
@@ -804,7 +791,6 @@ Namespace ViewModels
         Private _OutputInfo As String
         Private _ButtonText As String = "出力"
         Private _OutputButtonIsEnabled As Boolean = True
-        Private _IsIPAmjMintyo As Boolean
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します

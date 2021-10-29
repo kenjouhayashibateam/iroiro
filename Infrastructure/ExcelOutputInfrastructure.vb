@@ -671,8 +671,8 @@ Public Class ExcelOutputInfrastructure
                     .Row(j + 1 + (sheetindex * UBound(RowSizes))).Height = RowSizes(j)
                 Next
 
-                Hob.CellProperty(sheetindex)
                 Hob.SetData(dde)
+                Hob.CellProperty(sheetindex)
                 ProcessedCount += 1
                 If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
@@ -715,7 +715,7 @@ Public Class ExcelOutputInfrastructure
 
                 'RowSizesの配列の中の数字をシートのローの幅に設定する
                 For I = 0 To UBound(RowSizes)
-                    .Rows(StartRowPosition + (I + 1)).Height = RowSizes(I)
+                    .Rows(StartRowPosition + I + 1).Height = RowSizes(I)
                 Next
 
                 Volb.CellsJoin(StartRowPosition)
@@ -725,7 +725,6 @@ Public Class ExcelOutputInfrastructure
                 If Volb.GetLengthVerificationString(dde).Length > Volb.GetAddressMaxLength Then overLengthCount += 1
                 If ProcessedCountListener IsNot Nothing Then ProcessedCountListener.ProcessedCountNotify(ProcessedCount)
             Next
-            .Style.Font.FontName = Volb.SetCellFont(isIPAmjMintyo)
         End With
 
         If overLengthCount > 0 Then NotificationOverLengthCount(overLengthCount)
@@ -813,7 +812,7 @@ Public Class ExcelOutputInfrastructure
                                         note5 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.TransferPaperPrintOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2, money, note1, note2, note3, note4, note5)
-        Dim tp As IVerticalOutputListBehavior = New TransferPaper(MyAddressee)
+        Dim tp As IVerticalOutputListBehavior = New TransferPaper(MyAddressee, _isIPAmjMintyo)
         ListOutputVerticalProcessing(tp, multioutput, _isIPAmjMintyo)
 
     End Sub
@@ -822,7 +821,7 @@ Public Class ExcelOutputInfrastructure
                                   multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.Cho3EnvelopeOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
-        Dim ce As IVerticalOutputListBehavior = New Cho3Envelope(MyAddressee)
+        Dim ce As IVerticalOutputListBehavior = New Cho3Envelope(MyAddressee, _isIPAmjMintyo)
         ListOutputVerticalProcessing(ce, multioutput, _isIPAmjMintyo)
 
     End Sub
@@ -830,7 +829,7 @@ Public Class ExcelOutputInfrastructure
     Public Sub WesternEnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.WesternEnvelopeOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
-        Dim we As IVerticalOutputListBehavior = New WesternEnvelope(MyAddressee)
+        Dim we As IVerticalOutputListBehavior = New WesternEnvelope(MyAddressee, _isIPAmjMintyo)
         ListOutputVerticalProcessing(we, multioutput, _isIPAmjMintyo)
 
     End Sub
@@ -838,7 +837,7 @@ Public Class ExcelOutputInfrastructure
     Public Sub Kaku2EnvelopeOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.Kaku2EnvelopeOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
-        Dim ke As IVerticalOutputListBehavior = New Kaku2Envelope(MyAddressee)
+        Dim ke As IVerticalOutputListBehavior = New Kaku2Envelope(MyAddressee, _isIPAmjMintyo)
         ListOutputVerticalProcessing(ke, multioutput, _isIPAmjMintyo)
 
     End Sub
@@ -846,14 +845,14 @@ Public Class ExcelOutputInfrastructure
     Public Sub GravePamphletOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.GravePamphletOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
-        Dim gp As IVerticalOutputListBehavior = New GravePamphletEnvelope(MyAddressee)
+        Dim gp As IVerticalOutputListBehavior = New GravePamphletEnvelope(MyAddressee, _isIPAmjMintyo)
         ListOutputVerticalProcessing(gp, multioutput, _isIPAmjMintyo)
 
     End Sub
 
     Public Sub PostcardOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.PostcardOutput
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2)
-        Dim pc As IVerticalOutputListBehavior = New Postcard(MyAddressee)
+        Dim pc As IVerticalOutputListBehavior = New Postcard(MyAddressee, _isIPAmjMintyo)
         ListOutputVerticalProcessing(pc, multioutput, _isIPAmjMintyo)
     End Sub
 
@@ -972,6 +971,7 @@ Public Class ExcelOutputInfrastructure
 
             With ExlWorkSheet
                 .PageSetup.PaperSize = XLPaperSize.A4Paper
+                .Style.Font.FontName = SetCellFont(False)
                 With .Cell(startrowposition + 1, 1).Style
                     .Font.FontSize = 65
                     .Font.Bold = True
@@ -1027,8 +1027,10 @@ Public Class ExcelOutputInfrastructure
         Implements IVerticalOutputListBehavior
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+        Private ReadOnly IsIPAmjMintyo As Boolean = False
 
-        Public Sub New(_addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+            IsIPAmjMintyo = _isIPAmjMintyo
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
@@ -1108,7 +1110,8 @@ Public Class ExcelOutputInfrastructure
             With ExlWorkSheet
                 '宛名
                 With .Cell(startrowposition + 4, 2).Style
-                    .Font.FontSize = 48
+                    .Font.FontSize = If(IsIPAmjMintyo, 45, 48)
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Right
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1118,6 +1121,7 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 10)).Style
                     .Font.FontSize = 16
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Vertical = XLAlignmentVerticalValues.Top
                         .Horizontal = XLAlignmentHorizontalValues.Center
@@ -1127,7 +1131,8 @@ Public Class ExcelOutputInfrastructure
 
                 '住所
                 With .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 4, 10)).Style
-                    .Font.FontSize = 30
+                    .Font.FontSize = If(IsIPAmjMintyo, 28, 30)
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Center
@@ -1177,8 +1182,10 @@ Public Class ExcelOutputInfrastructure
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
         Private Const YourCopyAddressMaxLengh As Integer = 11
+        Friend ReadOnly IsIPAmjMintyo As Boolean
 
-        Public Sub New(_addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+            IsIPAmjMintyo = _isIPAmjMintyo
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
@@ -1259,10 +1266,14 @@ Public Class ExcelOutputInfrastructure
             With ExlWorkSheet
                 .PageSetup.PaperSize = XLPaperSize.B5Paper
                 '宛名欄
-                .Cell(12, 2).Style.Font.FontSize = 14
+                With .Cell(12, 2).Style.Font
+                    .FontSize = If(IsIPAmjMintyo, 12, 14)
+                    .FontName = SetCellFont(IsIPAmjMintyo)
+                End With
                 '金額欄
                 With .Range(.Cell(startrowposition + 3, 4), .Cell(startrowposition + 3, 11)).Style
                     .Font.FontSize = 14
+                    .Font.FontName = My.Resources.FontName_MSPMintyo
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                     .Alignment.Vertical = XLAlignmentVerticalValues.Center
                 End With
@@ -1270,6 +1281,7 @@ Public Class ExcelOutputInfrastructure
                 'お客様控え金額欄
                 With .Range(.Cell(startrowposition + 9, 13), .Cell(startrowposition + 9, 20)).Style
                     .Font.FontSize = 14
+                    .Font.FontName = My.Resources.FontName_MSPMintyo
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                     .Alignment.Vertical = XLAlignmentVerticalValues.Center
                 End With
@@ -1277,19 +1289,22 @@ Public Class ExcelOutputInfrastructure
                 '備考欄1〜5
                 With .Range(.Cell(startrowposition + 6, 4), .Cell(startrowposition + 10, 4)).Style
                     .Font.FontSize = 9
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
                     .Alignment.TopToBottom = False
                     .Alignment.ShrinkToFit = True
                 End With
                 '住所欄
                 With .Range(.Cell(startrowposition + 7, 2), .Cell(startrowposition + 10, 2)).Style
-                    .Font.FontSize = 9
+                    .Font.FontSize = If(IsIPAmjMintyo, 7.5, 9)
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.TopToBottom = False
                 End With
 
                 'お客様控え住所欄
                 With .Range(.Cell(startrowposition + 10, 13), .Cell(startrowposition + 13, 13)).Style
-                    .Font.FontSize = 9
+                    .Font.FontSize = If(IsIPAmjMintyo, 7.5, 9)
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.TopToBottom = False
                 End With
                 .Range(.Cell(startrowposition + 10, 13), .Cell(startrowposition + 12, 13)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
@@ -1399,8 +1414,10 @@ Public Class ExcelOutputInfrastructure
         Implements IVerticalOutputListBehavior
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+        Friend ReadOnly IsIPAmjMintyo As Boolean
 
-        Public Sub New(_addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+            IsIPAmjMintyo = _isIPAmjMintyo
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
@@ -1415,12 +1432,14 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
                     .Font.FontSize = 16
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.Vertical = XLAlignmentVerticalValues.Top
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                 End With
                 '住所
                 With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 8)).Style
                     .Font.FontSize = 24
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
                     .Alignment.TopToBottom = True
                 End With
@@ -1429,6 +1448,7 @@ Public Class ExcelOutputInfrastructure
                 '宛名
                 With .Cell(startrowposition + 4, 2).Style
                     .Font.FontSize = 36
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1532,8 +1552,10 @@ Public Class ExcelOutputInfrastructure
         Implements IVerticalOutputListBehavior
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+        Friend ReadOnly IsIPAmjMintyo As Boolean
 
-        Public Sub New(_addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+            IsIPAmjMintyo = _isIPAmjMintyo
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
@@ -1547,6 +1569,7 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 With .Cell(startrowposition + 2, 3).Style
                     .Font.FontSize = 36
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Bottom
@@ -1556,7 +1579,8 @@ Public Class ExcelOutputInfrastructure
 
                 '住所
                 With .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 4, 4)).Style
-                    .Font.FontSize = 43
+                    .Font.FontSize = If(IsIPAmjMintyo, 36, 43)
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1568,6 +1592,7 @@ Public Class ExcelOutputInfrastructure
                 '宛名
                 With .Cell(startrowposition + 5, 2).Style
                     .Font.FontSize = 74
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1667,8 +1692,10 @@ Public Class ExcelOutputInfrastructure
         Implements IVerticalOutputListBehavior
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+        Private ReadOnly IsIPAmjMintyo As Boolean = False
 
-        Public Sub New(_addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+            IsIPAmjMintyo = _isIPAmjMintyo
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
@@ -1679,10 +1706,10 @@ Public Class ExcelOutputInfrastructure
         Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
 
             With ExlWorkSheet
-                .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
-                .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 2)).Merge()
-                .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 4)).Merge()
-                .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 5, 5)).Merge()
+                Dim unused = .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 2)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 4)).Merge()
+                unused = .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 5, 5)).Merge()
             End With
 
         End Sub
@@ -1693,6 +1720,7 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 With .Cell(startrowposition + 2, 3).Style
                     .Font.FontSize = 36
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Bottom
@@ -1702,7 +1730,8 @@ Public Class ExcelOutputInfrastructure
 
                 '住所
                 With .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 4, 4)).Style
-                    .Font.FontSize = 43
+                    .Font.FontSize = If(IsIPAmjMintyo, 36, 43)
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1714,6 +1743,7 @@ Public Class ExcelOutputInfrastructure
                 '宛名
                 With .Cell(startrowposition + 4, 2).Style
                     .Font.FontSize = 85
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top
@@ -1804,8 +1834,10 @@ Public Class ExcelOutputInfrastructure
         Implements IVerticalOutputListBehavior
 
         Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+        Private ReadOnly IsIPAmjMintyo As Boolean = False
 
-        Public Sub New(_addressee As DestinationDataEntity)
+        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+            IsIPAmjMintyo = _isIPAmjMintyo
             AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
         End Sub
 
@@ -1820,6 +1852,7 @@ Public Class ExcelOutputInfrastructure
                 '郵便番号
                 With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
                     .Font.FontSize = 16
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.Vertical = XLAlignmentVerticalValues.Top
                 End With
                 .Range(.Cell(startrowposition + 2, 6), .Cell(startrowposition + 2, 9)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
@@ -1828,6 +1861,7 @@ Public Class ExcelOutputInfrastructure
                 '住所
                 With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 8)).Style
                     .Font.FontSize = 18
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
                     .Alignment.TopToBottom = True
                 End With
@@ -1836,6 +1870,7 @@ Public Class ExcelOutputInfrastructure
                 '宛名
                 With .Cell(startrowposition + 4, 2).Style
                     .Font.FontSize = 36
+                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
                     With .Alignment
                         .Horizontal = XLAlignmentHorizontalValues.Center
                         .Vertical = XLAlignmentVerticalValues.Top

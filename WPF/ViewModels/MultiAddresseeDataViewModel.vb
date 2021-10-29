@@ -53,7 +53,6 @@ Namespace ViewModels
         Private _ReferenceLesseeCommand As DelegateCommand
         Private _CallAddressLengthOverInfo As Boolean
         Public Event CollectionChanged As NotifyCollectionChangedEventHandler Implements INotifyCollectionChanged.CollectionChanged
-        Private _isIPAmjMintyo As Boolean
 
         ''' <summary>
         ''' 宛名
@@ -892,19 +891,6 @@ Namespace ViewModels
         End Property
 
         Public Property AddressLengthOverInfoCommad As DelegateCommand
-        ''' <summary>
-        ''' IPAｍｊ明朝で出力するか
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property IsIPAmjMintyo As Boolean
-            Get
-                Return _isIPAmjMintyo
-            End Get
-            Set(value As Boolean)
-                _isIPAmjMintyo = value
-                CallPropertyChanged(NameOf(IsIPAmjMintyo))
-            End Set
-        End Property
 
         Public Sub CreateAddressLengthOverInfo()
 

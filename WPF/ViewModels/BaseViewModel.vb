@@ -9,6 +9,7 @@ Namespace ViewModels
         Implements INotifyPropertyChanged, INotifyDataErrorInfo
 
         Private _CallShowForm As Boolean
+        Private _IsIPAmjMintyo As Boolean
         Private _ShowForm As ShowFormData
         Private _InputErrorString As String
         Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
@@ -158,5 +159,18 @@ Namespace ViewModels
             End Get
         End Property
 
+        ''' <summary>
+        ''' IPAmj明朝で出力するか
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsIPAmjMintyo As Boolean
+            Get
+                Return _IsIPAmjMintyo
+            End Get
+            Set
+                _IsIPAmjMintyo = Value
+                CallPropertyChanged(NameOf(IsIPAmjMintyo))
+            End Set
+        End Property
     End Class
 End Namespace
