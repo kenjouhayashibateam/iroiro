@@ -702,21 +702,27 @@ Namespace ViewModels
         ''' </summary>
         Public Sub ReturnList()
 
-            Dim addresseearray() As String = Split(Clipboard.GetText, vbCrLf)   '改行区切りで配列を作る
-            Dim subarray() As String    'addresseearrayの要素から名文字列配列を生成する
+            Dim addresseeArray() As String = Split(Clipboard.GetText, vbCrLf)   '改行区切りで配列を作る
+            Dim subArray() As String    'addresseearrayの要素から名文字列配列を生成する
             Dim addressee As DestinationDataEntity
             Dim mylist As New ObservableCollection(Of DestinationDataEntity)
+            Dim j As Integer = 0
 
-            For i As Integer = 0 To UBound(addresseearray) - 1 'vbCrLfで区切っている影響で、最終行が空文字になるので-1を付ける
-                subarray = Split(addresseearray(i), vbTab)  '改行区切りの要素からタブ区切りの配列を生成する
-                If subarray.Length <> 4 Then
-                    CreateErrorMessageInfo()
-                    CallErrorMessageInfo = True
+            For i As Integer = 0 To UBound(addresseeArray) - 1 'vbCrLfで区切っている影響で、最終行が空文字になるので-1を付ける
+                subArray = Split(addresseeArray(i), vbTab)   '改行区切りの要素からタブ区切りの配列を生成する
+                If subArray.Length <> 4 Then
+                    j += 1
                     Continue For
                 End If
-                addressee = New DestinationDataEntity(i + 1, subarray(0), Title, subarray(1), subarray(2), subarray(3))
+                addressee = New DestinationDataEntity(i + 1, subArray(0), Title, subArray(1), subArray(2), subArray(3))
                 mylist.Add(addressee)
             Next
+
+            If j > 0 Then
+                CreateErrorMessageInfo(j)
+                CallErrorMessageInfo = True
+            End If
+
             AddresseeList = mylist
             IsOutputEnabled = True
         End Sub
@@ -724,13 +730,13 @@ Namespace ViewModels
         ''' <summary>
         ''' エラーメッセージを生成します
         ''' </summary>
-        Public Sub CreateErrorMessageInfo()
+        Public Sub CreateErrorMessageInfo(count As Integer)
 
             ErrorMessageInfo = New DelegateCommand(
             Sub()
                 MessageInfo = New MessageBoxInfo With
                 {
-                .Message = $"{My.Resources.ClipBoardDataErrorInfo}{vbNewLine}{My.Resources.PassAddresseeRecordInfo}",
+                .Message = $"コピー形式の違うデータが {count} 件ありました。{vbNewLine}これらを排除して出力しましたので、確認してください。",
                 .Title = My.Resources.FormatErrorTitle,
                 .Button = MessageBoxButton.OK,
                 .Image = MessageBoxImage.Error
@@ -850,6 +856,13 @@ Namespace ViewModels
             DataOutputConecter.AddOverLengthAddressListener(Me)
             DataOutputConecter.DataClear()
             ProgressListCount = AddresseeList.Count
+            Dim copyText As String = String.Empty
+
+            For Each dde As DestinationDataEntity In AddresseeList
+                copyText += $"{dde.AddresseeName.MyName}{vbTab}{dde.MyPostalCode.Code}{vbTab}{dde.MyAddress1.Address}{vbTab}{dde.MyAddress2.Address}{vbCrLf}"
+            Next
+            Clipboard.SetText(copyText)
+
             Await Task.Run(Sub()
                                IsOutputEnabled = False
                                ProgressVisiblity = Visibility.Visible

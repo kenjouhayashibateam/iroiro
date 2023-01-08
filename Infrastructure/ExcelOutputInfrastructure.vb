@@ -548,6 +548,7 @@ Public Class ExcelOutputInfrastructure
 
         If bolSheetCheck = False Then
             exlapp.Visible = True
+            'Dim openpath As String = "Z:\生田フォルダ\Tools\Applications\iroiro\files"
             Dim openpath As String = IO.Path.GetFullPath(My.Resources.SAVEPATH)
             Try
                 Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)

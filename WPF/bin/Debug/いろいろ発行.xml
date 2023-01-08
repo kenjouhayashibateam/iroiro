@@ -1122,7 +1122,7 @@
  クリップボードのデータを基にリスト表示するアイテムを格納したリストを返します
  </summary>
 </member>
-<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.CreateErrorMessageInfo">
+<member name="M:WPF.ViewModels.MultiAddresseeDataViewModel.CreateErrorMessageInfo(System.Int32)">
  <summary>
  エラーメッセージを生成します
  </summary>
