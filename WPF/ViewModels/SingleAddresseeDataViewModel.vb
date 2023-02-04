@@ -22,8 +22,13 @@ Namespace ViewModels
         ''' エラーメッセージを表示するコマンド
         ''' </summary>
         ''' <returns></returns>
-        Public Property ErrorMessageInfo As DelegateCommand
+        Public Property ErrorMessageInfo As ICommand
         Public Property MsgResult As MessageBoxResult
+        ''' <summary>
+        ''' 住所の長い場合の注意を促すメッセージ
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property AddressOverLengthInfoCommand As DelegateCommand
 
         ''' <summary>
         ''' 墓地札管理画面を呼び出すタイミングを管理します
@@ -51,6 +56,7 @@ Namespace ViewModels
             Set
                 If _CallAddressOverLengthMessage = Value Then Return
                 _CallAddressOverLengthMessage = Value
+                AddressOverLengthInfo()
                 CallPropertyChanged(NameOf(CallAddressOverLengthMessage))
                 _CallAddressOverLengthMessage = False
             End Set
@@ -347,6 +353,8 @@ Namespace ViewModels
         Private _CallErrorMessage As Boolean
         Private _CallAddressOverLengthMessage As Boolean
         Private _CallGravePanelDataView As Boolean
+        Private _CallNoteInfo As Boolean
+        Private _IsNoteInfoIgnored As Boolean
         Private Property MyLessee As LesseeCustomerInfoEntity
 
         ''' <summary>
@@ -624,7 +632,6 @@ Namespace ViewModels
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
             DataOutputConecter.AddOverLengthAddressListener(Me)
-
             Title = My.Resources.HonorificsText '敬称の大半は「様」なので設定する。Form.Loadイベント等ではデータバインディングされないので、こちらで設定する
 
             'Dim ver As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location)
@@ -703,21 +710,15 @@ Namespace ViewModels
             End With
         End Sub
 
-        ''' <summary>
-        ''' 郵便番号を使用して、住所を検索する
-        ''' </summary>
-        ''' <param name="postalcode">郵便番号</param>
-        Public Sub GetAddress(ByVal postalcode As String)
-            Dim address As AddressDataEntity = DataBaseConecter.GetAddress(postalcode)
-            Address1 = address.GetAddress
-        End Sub
 
         ''' <summary>
         ''' 振込用紙
         ''' </summary>
         Public Sub InputTransferData()
             Try
-                DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, Note5, MultiOutputCheck, IsIPAmjMintyo)
+                Dim outputNote5 As String = IIf(IsNoteInfoIgnored, Note5, $"担当：{Note5}")
+
+                DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, outputNote5, MultiOutputCheck, IsIPAmjMintyo)
 
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
@@ -839,10 +840,19 @@ Namespace ViewModels
         Public Sub ReferenceAddress_Postalcode()
 
             If String.IsNullOrEmpty(PostalCode) Then Exit Sub
-            Dim address As AddressDataEntity = DataBaseConecter.GetAddress(PostalCode)
-            If address Is Nothing Then Exit Sub
-            Address1 = address.GetAddress
+            AddressList = DataBaseConecter.GetPostalCodeList(PostalCode)
+            If AddressList.GetCount = 0 Then Exit Sub
+
+            If AddressList.GetCount = 1 Then
+                Address1 = AddressList.GetItem(0).MyAddress.Address
+                Exit Sub
+            End If
+
+            Advm = New AddressDataViewModel(AddressList)
+            Advm.AddListener(Me)
+
             If InStr(PostalCode, "-") = 0 Then PostalCode = $"{PostalCode.Substring(0, 3)}-{PostalCode.Substring(3, 4)}"
+            CreateShowFormCommand(New AddressDataView)
 
         End Sub
 
@@ -860,6 +870,21 @@ Namespace ViewModels
 
         End Sub
 
+        Private Sub AddressOverLengthInfo()
+            AddressOverLengthInfoCommand = New DelegateCommand(
+                Sub()
+                    MessageInfo = New MessageBoxInfo With {
+                    .Message = "住所が長いので、修正してください。",
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Information,
+                    .Title = "セルに収まりません"}
+                    CallPropertyChanged(NameOf(AddressOverLengthInfoCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function
+                )
+        End Sub
         ''' <summary>
         ''' エラーメッセージを生成します
         ''' </summary>
@@ -907,35 +932,86 @@ Namespace ViewModels
         ''' <summary>
         ''' 宛名データを出力します
         ''' </summary>
-        Public Async Sub Output()
+        Public Sub Output()
 
             If HasErrors Then Exit Sub
+
             Dim ac As New AddressConvert(Address1, Address2)
-            Await Task.Run(Sub()
-                               OutputButtonIsEnabled = False
-                               ButtonText = "出力中"
-                               Select Case SelectedOutputContentsValue
-                                   Case OutputContents.Cho3Envelope
-                                       InputCho3Envelope()
-                                   Case OutputContents.GravePamphletEnvelope
-                                       InputGravePamphletEnvelope()
-                                   Case OutputContents.Kaku2Envelope
-                                       InputKaku2Envelope()
-                                   Case OutputContents.Postcard
-                                       InputPostcard()
-                                   Case OutputContents.TransferPaper
-                                       InputTransferData()
-                                   Case OutputContents.WesternEnbelope
-                                       InputWesternEnvelope()
-                                   Case Else
-                                       Exit Select
-                               End Select
-                               OutputButtonIsEnabled = True
-                               ButtonText = "出力"
-                           End Sub
-                           )
+
+            OutputButtonIsEnabled = False
+            ButtonText = "出力中"
+            Select Case SelectedOutputContentsValue
+                Case OutputContents.Cho3Envelope
+                    InputCho3Envelope()
+                Case OutputContents.GravePamphletEnvelope
+                    InputGravePamphletEnvelope()
+                Case OutputContents.Kaku2Envelope
+                    InputKaku2Envelope()
+                Case OutputContents.Postcard
+                    InputPostcard()
+                Case OutputContents.TransferPaper
+                    If Not String.IsNullOrEmpty(Note4) And Not String.IsNullOrEmpty(Note5) Then
+                        InputTransferData()
+                    Else
+                        IsNoteInfoIgnoredOutput()
+                    End If
+                Case OutputContents.WesternEnbelope
+                    InputWesternEnvelope()
+                Case Else
+                    Exit Select
+            End Select
+            OutputButtonIsEnabled = True
+            ButtonText = "出力"
+        End Sub
+        Private Sub IsNoteInfoIgnoredOutput()
+            If IsNoteInfoIgnored Then
+                InputTransferData()
+                Exit Sub
+            End If
+            NoteInfoMessage()
+            CallNoteInfo = True
+        End Sub
+        Public Property IsNoteInfoIgnored As Boolean
+            Get
+                Return _IsNoteInfoIgnored
+            End Get
+            Set
+                _IsNoteInfoIgnored = Value
+                CallPropertyChanged(NameOf(IsNoteInfoIgnored))
+            End Set
+        End Property
+
+        Public Property NoteInfoMessageCommand As DelegateCommand
+
+        Private Sub NoteInfoMessage()
+            NoteInfoMessageCommand = New DelegateCommand(
+                Sub()
+                    CreateMessage()
+                    CallPropertyChanged(NameOf(NoteInfoMessageCommand))
+                End Sub,
+                Function()
+                    Return True
+                End Function)
         End Sub
 
+        Private Sub CreateMessage()
+            MessageInfo = New MessageBoxInfo() With {
+                    .Message = "入力必須項目に値が入っていません。",
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Warning,
+                    .Title = "名目、担当者は必須です"}
+        End Sub
+        Public Property CallNoteInfo As Boolean
+            Get
+                Return _CallNoteInfo
+            End Get
+            Set
+                _CallNoteInfo = Value
+                NoteInfoMessage()
+                CallPropertyChanged(NameOf(CallNoteInfo))
+                _CallNoteInfo = False
+            End Set
+        End Property
         Public Property OutputButtonIsEnabled As Boolean
             Get
                 Return _OutputButtonIsEnabled
@@ -1048,7 +1124,7 @@ Namespace ViewModels
         End Sub
 
         Public Sub OverLengthCountNotify(_count As Integer) Implements IOverLengthAddress2Count.OverLengthCountNotify
-            CallAddressOverLengthMessage = True
+            If _count > 0 Then CallAddressOverLengthMessage = True
         End Sub
     End Class
 

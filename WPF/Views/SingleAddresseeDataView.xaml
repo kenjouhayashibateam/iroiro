@@ -11,7 +11,7 @@
         xmlns:vm="clr-namespace:WPF.ViewModels"
         xmlns:extk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
-        Title="{Binding ViewTitle}" Height="620" Width="410" 
+        Title="{Binding ViewTitle}" Height="650" Width="410" 
         WindowStartupLocation="CenterScreen"  
         FocusManager.FocusedElement="{Binding ElementName=CustomerIDWatermarkTextBox}"
         PreviewGotKeyboardFocus="Window_PreviewGotKeyboardFocus">
@@ -35,6 +35,12 @@
         </ib:DataTrigger>
         <ib:DataTrigger Binding="{Binding CallShowForm}" Value="true">
             <ib:InvokeCommandAction Command="{Binding ShowFormCommand}"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallAddressOverLengthMessage}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding AddressOverLengthInfoCommand}"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallNoteInfo}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding NoteInfoMessageCommand}"/>
         </ib:DataTrigger>
     </ib:Interaction.Triggers>
 
@@ -141,6 +147,7 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
                             <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
                         <Label x:Name="MoneyLabel" Content="振込金額"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -158,11 +165,58 @@
                         <TextBox x:Name="Note2TextBox" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note2}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3"/>
                         <Label x:Name="Note3Label" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Content="備考3"/>
                         <TextBox x:Name="Note3TextBox" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note3}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3"/>
-                        <Label x:Name="Note4Label" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Content="備考4"/>
+                        <Label x:Name="Note4Label" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsNoteInfoIgnored}" Value="true">
+                                            <Setter Property="Content" Value="備考4"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsNoteInfoIgnored}" Value="false">
+                                            <Setter Property="Content" Value="備考4 名目（必須項目です）"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
                         <TextBox x:Name="Note4TextBox" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note4}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3"/>
-                        <Label x:Name="Note5Label" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Center" Content="備考5"/>
-                        <TextBox x:Name="Note5TextBox" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note5}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3"/>
-                        <Button x:Name="NoteClear" Content="備考をクリア" Grid.Row="12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,3,10,3">
+                        <Label x:Name="Note5Label" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsNoteInfoIgnored}" Value="true">
+                                            <Setter Property="Content" Value="備考5"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsNoteInfoIgnored}" Value="false">
+                                            <Setter Property="Content" Value="備考5 担当（必須項目です）"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Grid Grid.Row="11">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsNoteInfoIgnored}" Value="true">
+                                                <Setter Property="Text" Value=""/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsNoteInfoIgnored}" Value="false">
+                                                <Setter Property="Text" Value="担当："/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox x:Name="Note5TextBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding Note5}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Margin="0,0,3,3"/>
+                        </Grid>
+                        <CheckBox Grid.Row="12" Content="入力必須項目を無視する" IsChecked="{Binding IsNoteInfoIgnored}" VerticalAlignment="Center" Margin="5"/>
+                        <Button x:Name="NoteClear" Content="備考をクリア" Grid.Row="13" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,3,10,3">
                             <ib:Interaction.Triggers>
                                 <ib:EventTrigger EventName="Click">
                                     <ib:InvokeCommandAction Command="{Binding NoteClear}"/>
@@ -183,9 +237,6 @@
                 <CheckBox Grid.Column="1" Content="IPAmj明朝で出力する" IsChecked="{Binding IsIPAmjMintyo}" VerticalAlignment="Center"/>
                 <Button x:Name="OutputButton" Content="{Binding ButtonText}" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,2" IsEnabled="{Binding OutputButtonIsEnabled}">
                     <ib:Interaction.Triggers>
-                        <ib:DataTrigger Binding="{Binding CallAddressOverLengthMessage}" Value="True">
-                            <ib:InvokeCommandAction Command="{Binding AddressOverLengthInfo}"/>
-                        </ib:DataTrigger>
                         <ib:EventTrigger EventName="Click">
                             <ib:InvokeCommandAction Command="{Binding DataOutput}"/>
                         </ib:EventTrigger>

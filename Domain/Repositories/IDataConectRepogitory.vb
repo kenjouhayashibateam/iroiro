@@ -15,7 +15,7 @@ Public Interface IDataConectRepogitory
     ''' 郵便番号を基に住所を返します
     ''' </summary>
     ''' <param name="postalcode">検索する郵便番号</param>
-    Function GetAddress(postalcode As String) As AddressDataEntity
+    Function GetPostalCodeList(postalcode As String) As AddressDataListEntity
 
     ''' <summary>
     ''' 住所をリストで返します

@@ -738,7 +738,7 @@ Infrastructure
  <param name="customerid">検索する管理番号</param>
  <returns></returns>
 </member>
-<member name="M:Infrastructure.SQLConnectInfrastructure.GetAddress(System.String)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetPostalCodeList(System.String)">
  <summary>
  住所を検索します
  </summary>

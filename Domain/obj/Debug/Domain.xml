@@ -915,7 +915,7 @@ Domain
  </summary>
  <param name="customerid">春秋苑システムの管理番号</param>
 </member>
-<member name="M:Domain.IDataConectRepogitory.GetAddress(System.String)">
+<member name="M:Domain.IDataConectRepogitory.GetPostalCodeList(System.String)">
  <summary>
  郵便番号を基に住所を返します
  </summary>

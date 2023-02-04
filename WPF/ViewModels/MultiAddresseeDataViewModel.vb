@@ -6,6 +6,7 @@ Imports Infrastructure
 Imports System.Text.RegularExpressions
 Imports WPF.Command
 Imports WPF.Data
+Imports System.Runtime.InteropServices.ComTypes
 
 Namespace ViewModels
     ''' <summary>
@@ -213,13 +214,14 @@ Namespace ViewModels
             End Set
         End Property
 
+        Private AddressList As AddressDataListEntity
+
         ''' <summary>
         ''' 住所を検索します
         ''' </summary>
         Public Sub ReferenceAddress()
 
             Dim myAddress As AddressDataEntity
-            Dim AddressList As AddressDataListEntity
 
             AddressList = DataBaseConecter.GetAddressList(Address1)
             If AddressList.GetCount = 0 Then Exit Sub
@@ -262,10 +264,20 @@ Namespace ViewModels
         ''' </summary>
         Private Sub ReferenceAddress_Postalcode()
             If String.IsNullOrEmpty(Postalcode) Then Exit Sub
-            Dim ade As AddressDataEntity = DataBaseConecter.GetAddress(Postalcode)
-            If ade Is Nothing Then Exit Sub
-            Postalcode = ade.MyPostalcode.Code
-            Address1 = ade.MyAddress.Address
+            AddressList = DataBaseConecter.GetPostalCodeList(Postalcode)
+            If AddressList.GetCount = 0 Then Exit Sub
+
+            If InStr(Postalcode, "-") = 0 Then Postalcode = $"{Postalcode.Substring(0, 3)}-{Postalcode.Substring(3, 4)}"
+
+            If AddressList.GetCount = 1 Then
+                Address1 = AddressList.GetItem(0).MyAddress.Address
+                Exit Sub
+            End If
+
+            Dim Advm As New AddressDataViewModel(AddressList)
+            Advm.AddListener(Me)
+
+            CreateShowFormCommand(New AddressDataView)
         End Sub
 
         ''' <summary>
@@ -633,15 +645,15 @@ Namespace ViewModels
         Public Sub CreateSelectAddresseeInfo(lse As LesseeCustomerInfoEntity)
 
             SelectAddresseeInfo = New DelegateCommand(
-            Sub() 'テンプレート構文調べる
-                MessageInfo = New MessageBoxInfo With
+                Sub() 'テンプレート構文調べる
+                    MessageInfo = New MessageBoxInfo With
                 {
                .Message = $"{lse.GetLesseeName.ShowDisplay}{vbNewLine}{lse.GetAddress1.Address}{lse.GetAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{lse.GetReceiverName.ShowDisplay}{vbNewLine}{lse.GetReceiverAddress1.ShowDisplay}{lse.GetReceiverAddress2.ShowDisplay}{vbNewLine}{vbNewLine}{My.Resources.DataSelectInfo}{vbNewLine}{vbNewLine}{My.Resources.LesseeDataSelect}",
                                  .Button = MessageBoxButton.YesNo, .Image = MessageBoxImage.Question, .Title = My.Resources.DataSelectInfoTitle
                                 }
-                MsgResult = MessageInfo.Result
-                CallPropertyChanged(NameOf(SelectAddresseeInfo))
-            End Sub,
+                    MsgResult = MessageInfo.Result
+                    CallPropertyChanged(NameOf(SelectAddresseeInfo))
+                End Sub,
             Function()
                 Return True
             End Function
@@ -743,10 +755,10 @@ Namespace ViewModels
                 }
                 CallPropertyChanged(NameOf(ErrorMessageInfo))
             End Sub,
-        Function()
-            Return True
-        End Function
-        )
+            Function()
+                Return True
+            End Function
+            )
         End Sub
 
         ''' <summary>

@@ -160,7 +160,7 @@ Public Class SQLConnectInfrastructure
     ''' </summary>
     ''' <param name="postalcode">検索する郵便番号</param>
     ''' <returns></returns>
-    Public Function GetAddress(postalcode As String) As AddressDataEntity Implements IDataConectRepogitory.GetAddress
+    Public Function GetPostalCodeList(postalcode As String) As AddressDataListEntity Implements IDataConectRepogitory.GetPostalCodeList
 
         Dim ReferenceCode As String
 
@@ -180,11 +180,18 @@ Public Class SQLConnectInfrastructure
 
         ExecuteStoredProcSetRecord(Cmd)
 
-        Dim myAddress As New AddressDataEntity(RsFields("Address"), postalcode)
+        Dim myAddress As AddressDataEntity
+        Dim list As New AddressDataListEntity
+
+        Do Until Rs.EOF
+            myAddress = New AddressDataEntity(RsFields("Address"), postalcode)
+            list.AddItem(myAddress)
+            Rs.MoveNext()
+        Loop
 
         ADONothing()
 
-        Return myAddress
+        Return list
 
     End Function
 

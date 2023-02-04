@@ -1235,6 +1235,12 @@
  </summary>
  <returns></returns>
 </member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.AddressOverLengthInfoCommand">
+ <summary>
+ 住所の長い場合の注意を促すメッセージ
+ </summary>
+ <returns></returns>
+</member>
 <member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.CallGravePanelDataView">
  <summary>
  墓地札管理画面を呼び出すタイミングを管理します
@@ -1431,12 +1437,6 @@
  <summary>
  渡された管理番号で、名義人データを生成します。
  </summary>
-</member>
-<member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.GetAddress(System.String)">
- <summary>
- 郵便番号を使用して、住所を検索する
- </summary>
- <param name="postalcode">郵便番号</param>
 </member>
 <member name="M:WPF.ViewModels.SingleAddresseeDataViewModel.InputTransferData">
  <summary>
