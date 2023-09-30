@@ -3,6 +3,7 @@ Imports Infrastructure
 Imports WPF.Command
 Imports WPF.Data
 Imports System.Text.RegularExpressions
+Imports System.Collections.ObjectModel
 
 Namespace ViewModels
     ''' <summary>
@@ -17,7 +18,6 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Public Property SelectAddresseeInfo As DelegateCommand
-
         ''' <summary>
         ''' エラーメッセージを表示するコマンド
         ''' </summary>
@@ -323,6 +323,8 @@ Namespace ViewModels
                 _ReferenceLesseeCommand = Value
             End Set
         End Property
+        Private Property MyLessee As LesseeCustomerInfoEntity
+        Private Property ProvisoList As ObservableCollection(Of Proviso)
 
         Private _Addresseename As String = String.Empty
         Private _PostalCode As String = String.Empty
@@ -341,6 +343,8 @@ Namespace ViewModels
         Private _ReferenceLesseeCommand As ICommand
         Private _ReferencePostalcode As ICommand
         Private _AddressReference As ICommand
+        Private _ProvisoClearCommand As ICommand
+        Private _VoucherOutputCommand As ICommand
         Private _SelectedOutputContentsValue As OutputContents = OutputContents.TransferPaper
         Private _TransferPaperMenuEnabled As Boolean = True
         Private _NoteClear As ICommand
@@ -355,7 +359,450 @@ Namespace ViewModels
         Private _CallGravePanelDataView As Boolean
         Private _CallNoteInfo As Boolean
         Private _IsNoteInfoIgnored As Boolean
-        Private Property MyLessee As LesseeCustomerInfoEntity
+        Private _IsReducedTaxRate1 As Boolean
+        Private _IsReducedTaxRate2 As Boolean
+        Private _IsReducedTaxRate3 As Boolean
+        Private _IsReducedTaxRate4 As Boolean
+        Private _IsReducedTaxRate5 As Boolean
+        Private _IsReducedTaxRate6 As Boolean
+        Private _IsReducedTaxRate7 As Boolean
+        Private _IsReducedTaxRate8 As Boolean
+        Private _Amount1 As String = 0
+        Private _Amount2 As String = 0
+        Private _Amount3 As String = 0
+        Private _Amount4 As String = 0
+        Private _Amount5 As String = 0
+        Private _Amount6 As String = 0
+        Private _Amount7 As String = 0
+        Private _Amount8 As String = 0
+        Private _Proviso1 As String
+        Private _Proviso2 As String
+        Private _Proviso3 As String
+        Private _Proviso4 As String
+        Private _Proviso5 As String
+        Private _Proviso6 As String
+        Private _Proviso7 As String
+        Private _Proviso8 As String
+        Private _totalAmount As Integer
+
+        Public Property AccountActivityDate As Date
+            Get
+                Return _AccountActivityDate
+            End Get
+            Set
+                _AccountActivityDate = Value
+                CallPropertyChanged(NameOf(AccountActivityDate))
+            End Set
+        End Property
+
+        Public Property PrepaidDate As Date
+            Get
+                Return _PrepaidDate
+            End Get
+            Set
+                _PrepaidDate = Value
+                CallPropertyChanged(NameOf(PrepaidDate))
+            End Set
+        End Property
+
+        Public Property IsPrepaid As Boolean
+            Get
+                Return _IsPrepaid
+            End Get
+            Set
+                _IsPrepaid = Value
+                CallPropertyChanged(NameOf(IsPrepaid))
+                PrepaidDate = IIf(Value, Date.Now, "1900-01-01")
+            End Set
+        End Property
+
+        Public Property CanOutput As Boolean
+            Get
+                Return _CanOutput
+            End Get
+            Set
+                _CanOutput = Value
+                CallPropertyChanged(NameOf(CanOutput))
+            End Set
+        End Property
+        Public Property VoucherOutputCommand As ICommand
+            Get
+                _VoucherOutputCommand = New DelegateCommand(
+                    Sub()
+                        VoucherOutput()
+                        CallPropertyChanged(NameOf(VoucherOutputCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
+                Return _VoucherOutputCommand
+            End Get
+            Set(value As ICommand)
+                _VoucherOutputCommand = value
+            End Set
+        End Property
+
+        Private Sub VoucherOutput()
+            Try
+                SetProvisoList()
+                Dim iD = DataBaseConecter.VoucherRegistration(AccountActivityDate, AddresseeName, TotalAmount, Note5)
+                DataOutputConecter.VoucherOutput(iD, AddresseeName, ProvisoList, IsShunjuen, IsReissue, Note5, IsDisplayTax, PrepaidDate, AccountActivityDate)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
+
+            ProvisoClear()
+
+        End Sub
+
+
+        Private Sub SetProvisoList()
+            ProvisoList = New ObservableCollection(Of Proviso)
+
+            AddProviso(Proviso1, Amount1, IsReducedTaxRate1)
+            AddProviso(Proviso2, Amount2, IsReducedTaxRate2)
+            AddProviso(Proviso3, Amount3, IsReducedTaxRate3)
+            AddProviso(Proviso4, Amount4, IsReducedTaxRate4)
+            AddProviso(Proviso5, Amount5, IsReducedTaxRate5)
+            AddProviso(Proviso6, Amount6, IsReducedTaxRate6)
+            AddProviso(Proviso7, Amount7, IsReducedTaxRate7)
+            AddProviso(Proviso8, Amount8, IsReducedTaxRate8)
+        End Sub
+
+        Private Sub AddProviso(text As String, amount As Integer, isReducedTaxRate As Boolean)
+            If String.IsNullOrEmpty(text) Then Exit Sub
+
+            ProvisoList.Add(New Proviso(text, amount, isReducedTaxRate))
+        End Sub
+
+        Public Property ProvisoClearCommand As ICommand
+            Get
+                _ProvisoClearCommand = New DelegateCommand(
+                    Sub()
+                        ProvisoClear()
+                        CallPropertyChanged(NameOf(ProvisoClearCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function
+                    )
+                Return _ProvisoClearCommand
+            End Get
+            Set
+                _ProvisoClearCommand = Value
+            End Set
+        End Property
+
+        Private Sub ProvisoClear()
+            Proviso1 = String.Empty
+            Proviso2 = String.Empty
+            Proviso3 = String.Empty
+            Proviso4 = String.Empty
+            Proviso5 = String.Empty
+            Proviso6 = String.Empty
+            Proviso7 = String.Empty
+            Proviso8 = String.Empty
+            Amount1 = 0
+            Amount2 = 0
+            Amount3 = 0
+            Amount4 = 0
+            Amount5 = 0
+            Amount6 = 0
+            Amount7 = 0
+            Amount8 = 0
+            IsReducedTaxRate1 = False
+            IsReducedTaxRate2 = False
+            IsReducedTaxRate3 = False
+            IsReducedTaxRate4 = False
+            IsReducedTaxRate5 = False
+            IsReducedTaxRate6 = False
+            IsReducedTaxRate7 = False
+            IsReducedTaxRate8 = False
+        End Sub
+
+        Public Property IsReissue As Boolean
+            Get
+                Return _IsReissue
+            End Get
+            Set
+                _IsReissue = Value
+                CallPropertyChanged(NameOf(IsReference))
+            End Set
+        End Property
+
+        Public Property IsDisplayTax As Boolean
+            Get
+                Return _IsDisplayTax
+            End Get
+            Set
+                _IsDisplayTax = Value
+                CallPropertyChanged(NameOf(IsDisplayTax))
+            End Set
+        End Property
+
+        Public Property IsShunjuen As Boolean
+            Get
+                Return _IsShunjuen
+            End Get
+            Set
+                _IsShunjuen = Value
+                CallPropertyChanged(NameOf(IsShunjuen))
+                IsDisplayTax = Value
+            End Set
+        End Property
+
+        Public Property Proviso1 As String
+            Get
+                Return _Proviso1
+            End Get
+            Set
+                _Proviso1 = Value
+                CallPropertyChanged(NameOf(Proviso1))
+            End Set
+        End Property
+
+        Public Property Proviso2 As String
+            Get
+                Return _Proviso2
+            End Get
+            Set
+                _Proviso2 = Value
+                CallPropertyChanged(NameOf(Proviso2))
+            End Set
+        End Property
+
+        Public Property Proviso3 As String
+            Get
+                Return _Proviso3
+            End Get
+            Set
+                _Proviso3 = Value
+                CallPropertyChanged(NameOf(Proviso3))
+            End Set
+        End Property
+
+        Public Property Proviso4 As String
+            Get
+                Return _Proviso4
+            End Get
+            Set
+                _Proviso4 = Value
+                CallPropertyChanged(NameOf(Proviso4))
+            End Set
+        End Property
+
+        Public Property Proviso5 As String
+            Get
+                Return _Proviso5
+            End Get
+            Set
+                _Proviso5 = Value
+                CallPropertyChanged(NameOf(Proviso5))
+            End Set
+        End Property
+
+        Public Property Proviso6 As String
+            Get
+                Return _Proviso6
+            End Get
+            Set
+                _Proviso6 = Value
+                CallPropertyChanged(NameOf(Proviso6))
+            End Set
+        End Property
+
+        Public Property Proviso7 As String
+            Get
+                Return _Proviso7
+            End Get
+            Set
+                _Proviso7 = Value
+                CallPropertyChanged(NameOf(Proviso7))
+            End Set
+        End Property
+
+        Public Property Proviso8 As String
+            Get
+                Return _Proviso8
+            End Get
+            Set
+                _Proviso8 = Value
+                CallPropertyChanged(NameOf(Proviso8))
+            End Set
+        End Property
+
+        Private Sub SetTotalAmount()
+            TotalAmount = CInt(Amount1) + CInt(Amount2) + CInt(Amount3) + CInt(Amount4) + CInt(Amount5) + CInt(Amount6) + CInt(Amount7) + CInt(Amount8)
+        End Sub
+
+        Public Property Amount1 As String
+            Get
+                Return _Amount1
+            End Get
+            Set
+                _Amount1 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount1))
+                SetTotalAmount()
+            End Set
+        End Property
+        Public Property Amount2 As String
+            Get
+                Return _Amount2
+            End Get
+            Set
+                _Amount2 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount2))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property Amount3 As String
+            Get
+                Return _Amount3
+            End Get
+            Set
+                _Amount3 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount3))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property Amount4 As String
+            Get
+                Return _Amount4
+            End Get
+            Set
+                _Amount4 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount4))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property Amount5 As String
+            Get
+                Return _Amount5
+            End Get
+            Set
+                _Amount5 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount5))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property Amount6 As String
+            Get
+                Return _Amount6
+            End Get
+            Set
+                _Amount6 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount6))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property Amount7 As String
+            Get
+                Return _Amount7
+            End Get
+            Set
+                _Amount7 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount7))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property Amount8 As String
+            Get
+                Return _Amount8
+            End Get
+            Set
+                _Amount8 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                CallPropertyChanged(NameOf(Amount8))
+                SetTotalAmount()
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate1 As Boolean
+            Get
+                Return _IsReducedTaxRate1
+            End Get
+            Set
+                _IsReducedTaxRate1 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate1))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate2 As Boolean
+            Get
+                Return _IsReducedTaxRate2
+            End Get
+            Set
+                _IsReducedTaxRate2 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate2))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate3 As Boolean
+            Get
+                Return _IsReducedTaxRate3
+            End Get
+            Set
+                _IsReducedTaxRate3 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate3))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate4 As Boolean
+            Get
+                Return _IsReducedTaxRate4
+            End Get
+            Set
+                _IsReducedTaxRate4 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate4))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate5 As Boolean
+            Get
+                Return _IsReducedTaxRate5
+            End Get
+            Set
+                _IsReducedTaxRate5 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate5))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate6 As Boolean
+            Get
+                Return _IsReducedTaxRate6
+            End Get
+            Set
+                _IsReducedTaxRate6 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate6))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate7 As Boolean
+            Get
+                Return _IsReducedTaxRate7
+            End Get
+            Set
+                _IsReducedTaxRate7 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate7))
+            End Set
+        End Property
+
+        Public Property IsReducedTaxRate8 As Boolean
+            Get
+                Return _IsReducedTaxRate8
+            End Get
+            Set
+                _IsReducedTaxRate8 = Value
+                CallPropertyChanged(NameOf(IsReducedTaxRate8))
+            End Set
+        End Property
 
         ''' <summary>
         ''' 春秋苑データ最終更新日
@@ -457,6 +904,7 @@ Namespace ViewModels
             Set
                 If Value = PostalCode Then Return
                 _PostalCode = Value
+                If Regex.IsMatch(Value, "\d{7}") Then _PostalCode = $"{Mid(Value, 1, 3)}-{Mid(Value, 4)}"
                 CallPropertyChanged(NameOf(PostalCode))
                 ValidateProperty(NameOf(PostalCode), Value)
             End Set
@@ -710,7 +1158,6 @@ Namespace ViewModels
             End With
         End Sub
 
-
         ''' <summary>
         ''' 振込用紙
         ''' </summary>
@@ -792,6 +1239,13 @@ Namespace ViewModels
         Private _OutputInfo As String
         Private _ButtonText As String = "出力"
         Private _OutputButtonIsEnabled As Boolean = True
+        Private _IsShunjuen As Boolean
+        Private _IsDisplayTax As Boolean
+        Private _IsReissue As Boolean
+        Private _CanOutput As Boolean
+        Private _IsPrepaid As Boolean
+        Private _PrepaidDate As Date = "1900-1-1"
+        Private _AccountActivityDate As Date = Now
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します
@@ -841,7 +1295,10 @@ Namespace ViewModels
 
             If String.IsNullOrEmpty(PostalCode) Then Exit Sub
             AddressList = DataBaseConecter.GetPostalCodeList(PostalCode)
-            If AddressList.GetCount = 0 Then Exit Sub
+            If AddressList.GetCount = 0 Then
+                Address1 = String.Empty
+                Exit Sub
+            End If
 
             If AddressList.GetCount = 1 Then
                 Address1 = AddressList.GetItem(0).MyAddress.Address
@@ -1029,6 +1486,17 @@ Namespace ViewModels
             Set
                 _ButtonText = Value
                 CallPropertyChanged(NameOf(ButtonText))
+            End Set
+        End Property
+
+        Public Property TotalAmount As Integer
+            Get
+                Return _totalAmount
+            End Get
+            Set(value As Integer)
+                _totalAmount = value
+                CallPropertyChanged(NameOf(TotalAmount))
+                CanOutput = value > 0
             End Set
         End Property
 

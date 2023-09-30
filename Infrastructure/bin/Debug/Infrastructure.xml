@@ -102,6 +102,11 @@ Infrastructure
   HG正楷書体-PRO に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
+<member name="P:Infrastructure.My.Resources.Resources.InVoiceRegistrationNumber">
+<summary>
+  T9480005004378 に類似しているローカライズされた文字列を検索します。
+</summary>
+</member>
 <member name="P:Infrastructure.My.Resources.Resources.IPAmjMintyoString">
 <summary>
   IPAmj明朝 に類似しているローカライズされた文字列を検索します。
@@ -593,6 +598,11 @@ Infrastructure
 <member name="M:Infrastructure.ExcelOutputInfrastructure.SetMargin">
  <summary>
  エクセルシートの余白を0に設定する
+ </summary>
+</member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.Voucher">
+ <summary>
+ 受納証クラス
  </summary>
 </member>
 <member name="T:Infrastructure.ExcelOutputInfrastructure.GravePanel">

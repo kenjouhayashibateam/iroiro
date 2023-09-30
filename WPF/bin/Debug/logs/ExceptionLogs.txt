@@ -46,3 +46,68 @@ ERR	2023/01/26 12:14:10	インデックスおよび長さは文字列内の場�
 パラメーター名:length
 ERR	2023/01/26 12:14:12	インデックスおよび長さは文字列内の場所を参照しなければなりません。
 パラメーター名:length
+ERR	2023/09/25 13:36:35	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/25 13:36:42	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 12:25:40	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:26:51	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:27:01	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:27:15	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:29:07	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:29:55	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:30:51	ファイル 'C:\Users\houmu\source\repos\iroiro\WPF\bin\Debug\files\ReceiptStamp.png' が見つかりませんでした。
+ERR	2023/09/29 12:54:54	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 13:11:01	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 13:13:17	The worksheet is already protected
+ERR	2023/09/29 13:17:00	The worksheet is already protected
+ERR	2023/09/29 14:01:54	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 14:02:07	The worksheet is already protected
+ERR	2023/09/29 14:02:21	The worksheet is already protected
+ERR	2023/09/29 14:02:25	The worksheet is already protected
+ERR	2023/09/29 14:03:55	The worksheet is already protected
+ERR	2023/09/29 14:10:37	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 14:10:39	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 14:16:17	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 14:16:21	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 14:50:39	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 14:51:19	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:20	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:22	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:23	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:23	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:23	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:23	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:23	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:51:24	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:55:08	Workbooks need at least one worksheet.
+ERR	2023/09/29 14:56:47	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 14:59:46	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 15:00:28	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 15:05:40	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 15:08:10	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 15:09:22	A worksheet with the same name (Iroiro) has already been added.
+パラメーター名:sheetName
+ERR	2023/09/29 15:52:57	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 15:53:00	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 15:53:12	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/29 15:53:14	インデックスおよび長さは文字列内の場所を参照しなければなりません。
+パラメーター名:length
+ERR	2023/09/30 13:33:00	String "" から型 'Integer' への変換は無効です。
+ERR	2023/09/30 13:37:13	要求された名前、または序数に対応する項目がコレクションで見つかりません。

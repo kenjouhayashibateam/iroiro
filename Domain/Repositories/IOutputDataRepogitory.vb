@@ -95,5 +95,9 @@ Public Interface IOutputDataRepogitory
     ''' </summary>
     ''' <param name="_listener"></param>
     Sub AddOverLengthAddressListener(_listener As IOverLengthAddress2Count)
+    ''' <summary>
+    ''' 受納証
+    ''' </summary>
+    Sub VoucherOutput(id As Integer, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date)
 
 End Interface

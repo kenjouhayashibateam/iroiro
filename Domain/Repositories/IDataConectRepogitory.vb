@@ -80,7 +80,15 @@ Public Interface IDataConectRepogitory
     ''' </summary>
     ''' <param name="_gravepaneldata"></param>
     Function GravePanelRegistration(_gravepaneldata As GravePanelDataEntity) As Integer
-
+    ''' <summary>
+    ''' 受納証を登録します
+    ''' </summary>
+    ''' <param name="accountActivityDate">受納日</param>
+    ''' <param name="addressee">宛名</param>
+    ''' <param name="amount">総額</param>
+    ''' <param name="cleak">係</param>
+    ''' <returns></returns>
+    Function VoucherRegistration(accountActivityDate As Date, addressee As String, amount As Integer, cleak As String)
     ''' <summary>
     ''' 墓地札リストを返します
     ''' </summary>

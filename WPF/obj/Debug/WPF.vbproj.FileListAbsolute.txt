@@ -310,7 +310,6 @@ C:\Users\houmu\Source\Repos\iroiro\WPF\bin\Debug\ru\Xceed.Wpf.AvalonDock.resourc
 C:\Users\houmu\Source\Repos\iroiro\WPF\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\houmu\Source\Repos\iroiro\WPF\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\WPF.vbproj.AssemblyReference.cache
-C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\WPF.vbproj.SuggestedBindingRedirects.cache
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\Views\AddressDataView.g.vb
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\Views\CreateGravePanelDataView.g.vb
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\Views\GravePanelDataView.g.vb

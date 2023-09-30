@@ -24,6 +24,7 @@ Public Class SQLConnectInfrastructure
     ''' SQLServerに接続するための接続文字列
     ''' </summary>
     Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.115\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
+    'Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.116\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
     Private Const HAYASHIBACONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=DESKTOP-MUJVB5O\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
 
     Private ReadOnly MyConnectionString As String = SHUNJUENCONSTRING
@@ -44,6 +45,10 @@ Public Class SQLConnectInfrastructure
 
     Public Sub New(_logfile As ILoggerRepogitory)
         LogFileConecter = _logfile
+    End Sub
+
+    Protected Overrides Sub Finalize()
+        ADONothing()
     End Sub
 
     ''' <summary>
@@ -84,6 +89,7 @@ Public Class SQLConnectInfrastructure
     ''' ADODBのインスタンスを削除します
     ''' </summary>
     Private Sub ADONothing()
+        If Cn Is Nothing Then Exit Sub
         Cn.Close()
         Cmd = Nothing
         Cn = Nothing
@@ -166,10 +172,12 @@ Public Class SQLConnectInfrastructure
 
         ReferenceCode = Replace(postalcode, My.Resources.StringHalfHyphen, String.Empty)
 
+        Dim list As New AddressDataListEntity
+
         '郵便番号がNothing等のエラーの場合は空を返す
-        If Not ReferenceCode.Length = 7 Then Return Nothing
-        If ReferenceCode Is Nothing Then Return Nothing
-        If ReferenceCode = String.Empty Then Return Nothing
+        If Not ReferenceCode.Length = 7 Then Return list
+        If ReferenceCode Is Nothing Then Return list
+        If ReferenceCode = String.Empty Then Return list
 
         Cmd = New ADODB.Command
 
@@ -181,7 +189,6 @@ Public Class SQLConnectInfrastructure
         ExecuteStoredProcSetRecord(Cmd)
 
         Dim myAddress As AddressDataEntity
-        Dim list As New AddressDataListEntity
 
         Do Until Rs.EOF
             myAddress = New AddressDataEntity(RsFields("Address"), postalcode)
@@ -268,8 +275,6 @@ Public Class SQLConnectInfrastructure
         End With
 
         ExecuteStoredProcSetRecord(Cmd)
-
-        ADONothing()
 
     End Sub
 
@@ -424,8 +429,6 @@ Public Class SQLConnectInfrastructure
         Dim customerid As String = RsFields(My.Resources.ManagementNumber)
         Dim lessee As LesseeCustomerInfoEntity = GetCustomerInfo(customerid)
 
-        ADONothing()
-
         Return lessee
 
     End Function
@@ -555,5 +558,32 @@ Public Class SQLConnectInfrastructure
 
     Public Function GetDefaultDate() As Date Implements IDataConectRepogitory.GetDefaultDate
         Return DEFAULTDATE
+    End Function
+
+    Public Function VoucherRegistration(accountActivityDate As Date, addressee As String, amount As Integer, cleak As String) As Object Implements IDataConectRepogitory.VoucherRegistration
+        Cmd = New ADODB.Command
+
+        With Cmd
+            .CommandText = "registration_voucher_print_data"
+            .Parameters.Append(.CreateParameter("account_activity_date", ADODB.DataTypeEnum.adDate,,, accountActivityDate))
+            .Parameters.Append(.CreateParameter("addressee", ADODB.DataTypeEnum.adVarChar,, 50, addressee))
+            .Parameters.Append(.CreateParameter("amount", ADODB.DataTypeEnum.adInteger,,, amount))
+            .Parameters.Append(.CreateParameter("cleak", ADODB.DataTypeEnum.adVarChar,, 50, cleak))
+        End With
+
+        ExecuteStoredProcSetRecord(Cmd)
+
+        Cmd = New ADODB.Command With {.CommandText = "return_max_id"}
+
+        ExecuteStoredProcSetRecord(Cmd)
+
+        Dim i As Integer
+
+        i = RsFields("id")
+
+        ADONothing()
+
+        Return i
+
     End Function
 End Class

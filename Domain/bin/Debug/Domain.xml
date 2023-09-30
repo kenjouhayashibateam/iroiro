@@ -662,6 +662,11 @@ Domain
  </summary>
  <returns></returns>
 </member>
+<member name="T:Domain.Proviso">
+ <summary>
+ 但し書きクラス
+ </summary>
+</member>
 <member name="T:Domain.Title">
  <summary>
  敬称
@@ -904,6 +909,11 @@ Domain
  </summary>
  <param name="_listener"></param>
 </member>
+<member name="M:Domain.IOutputDataRepogitory.VoucherOutput(System.Int32,System.String,System.Collections.ObjectModel.ObservableCollection{Domain.Proviso},System.Boolean,System.Boolean,System.String,System.Boolean,System.DateTime,System.DateTime)">
+ <summary>
+ 受納証
+ </summary>
+</member>
 <member name="T:Domain.IDataConectRepogitory">
  <summary>
  データベースと接続するリポジトリ
@@ -984,6 +994,16 @@ Domain
  墓地札を登録します
  </summary>
  <param name="_gravepaneldata"></param>
+</member>
+<member name="M:Domain.IDataConectRepogitory.VoucherRegistration(System.DateTime,System.String,System.Int32,System.String)">
+ <summary>
+ 受納証を登録します
+ </summary>
+ <param name="accountActivityDate">受納日</param>
+ <param name="addressee">宛名</param>
+ <param name="amount">総額</param>
+ <param name="cleak">係</param>
+ <returns></returns>
 </member>
 <member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList(System.String,System.String,System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
  <summary>

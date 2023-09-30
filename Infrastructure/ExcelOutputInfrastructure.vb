@@ -219,6 +219,7 @@ Public Class AddressConvert
     Private Function VerifyAddressString(address As String, verifystring As String) As String
 
         If InStr(address, verifystring) = 0 Then Return address
+        If InStr(1, address, My.Resources.ShiString) = 0 Then Return address
 
         '検証する文字列の名称、京都府や広島県等と市の名称、京都市、広島市などが同じなら省略する
         Return If(address.Substring(0, InStr(1, address, verifystring) - 1) = address.Substring(InStr(1, address, verifystring), InStr(1, address, My.Resources.ShiString) - InStr(1, address, verifystring) - 1),
@@ -743,6 +744,37 @@ Public Class ExcelOutputInfrastructure
         OverLengthAddressCountListener.OverLengthCountNotify(count)
     End Sub
 
+    Private Sub VoucherOutputProcessing(_voc As Voucher)
+        SheetSetting()
+
+        ColumnSizes = _voc.SetColumnSizes
+        RowSizes = _voc.SetRowSizes
+        OutputDataGanre = _voc.GetDataName
+
+        With ExlWorkSheet
+            Dim unused = .Cells.Clear()
+            _voc.CellsJoin(1)
+            _voc.CellProperty(1)
+            SetMargin()
+            _voc.SetBorderStyle()
+            'ColumnSizesの配列の中の数字をシートのカラムの幅に設定する
+            For i As Integer = 0 To UBound(ColumnSizes)
+                .Column(i + 1).Width = ColumnSizes(i)
+            Next
+            For i As Integer = 0 To UBound(RowSizes)
+                .Row(i + 1).Height = RowSizes(i)
+            Next
+            .PageSetup.PrintAreas.Clear()
+            .PageSetup.PrintAreas.Add(_voc.SetPrintAreaString)
+            .Style.Font.FontName = _voc.SetCellFont(False)
+        End With
+        ExlWorkSheet.Style.NumberFormat.SetFormat("@")
+        _voc.SetData()
+        If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
+        ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
+        ExcelOpen()
+    End Sub
+
     ''' <summary>
     ''' 墓地札データリスト出力
     ''' </summary>
@@ -905,6 +937,453 @@ Public Class ExcelOutputInfrastructure
         Dim ls As IHorizontalOutputBehavior = New LabelSheet(list, _isIPAmjMintyo)
         OutputLabelProcessing(ls, _isIPAmjMintyo)
     End Sub
+
+    Public Sub VoucherOutput(id As Integer, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date) Implements IOutputDataRepogitory.VoucherOutput
+        Dim v As IVerticalOutputBehavior = New Voucher(id, addressee, provisoList, isShunjuen, isReissue, cleakName, isDisplayTax, prepaidDate, accountActivityDate)
+        VoucherOutputProcessing(v)
+    End Sub
+    ''' <summary>
+    ''' 受納証クラス
+    ''' </summary>
+    Private Class Voucher
+        Implements IVerticalOutputBehavior
+
+        Private ReadOnly addressee As String
+        Private ReadOnly provisoList As ObservableCollection(Of Proviso)
+        Private ReadOnly isShunjuen As Boolean
+        Private ReadOnly isReissue As Boolean
+        Private ReadOnly cleakName As String
+        Private horizontal As XLAlignmentHorizontalValues
+        Private vertical As XLAlignmentVerticalValues
+        Private fontSize As Integer
+        Private ReadOnly iD As Integer
+        Private ReadOnly isDisplayTax As Boolean
+        Private ReadOnly prepaidDate As Date
+        Private ReadOnly accountActivityDate As Date
+
+        Public Sub New(id As String, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date)
+            Me.iD = id
+            Me.addressee = addressee
+            Me.provisoList = provisoList
+            Me.isShunjuen = isShunjuen
+            Me.isReissue = isReissue
+            Me.cleakName = cleakName
+            Me.isDisplayTax = isDisplayTax
+            Me.prepaidDate = prepaidDate
+            Me.accountActivityDate = accountActivityDate
+        End Sub
+
+        Private Function CopyColumnPosition(originalColumn As Integer) As Integer
+            Dim i As Integer = originalColumn + Math.Floor(SetColumnSizes().Length / 2) + 1
+            Return i
+        End Function
+        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+            ''タイトル
+            SetMergeOriginalAndCopy(1, 1, 1, 7)
+            SetMergeOriginalAndCopy(1, 8, 1, 10)
+            SetMergeOriginalAndCopy(2, 2, 2, 5)
+            ''日付
+            SetMergeOriginalAndCopy(2, 7, 2, 10)
+            ''T番号
+            SetMergeOriginalAndCopy(3, 7, 3, 10)
+            ''宛名
+            SetMergeOriginalAndCopy(4, 1, 4, 4)
+            ''総額
+            SetMergeOriginalAndCopy(6, 3, 6, 7)
+            ''円也
+            SetMergeOriginalAndCopy(6, 8, 6, 9)
+            ''事前領収日
+            SetMergeOriginalAndCopy(7, 7, 7, 9)
+            ''但し書き　2行と1行の表記形式の対応
+            If (provisoList.Count > 4) Then
+                SetMergeOriginalAndCopy(8, 2, 8, 5)
+                SetMergeOriginalAndCopy(9, 2, 9, 5)
+                SetMergeOriginalAndCopy(10, 2, 10, 5)
+                SetMergeOriginalAndCopy(11, 2, 11, 5)
+                SetMergeOriginalAndCopy(8, 6, 8, 9)
+                SetMergeOriginalAndCopy(9, 6, 9, 9)
+                SetMergeOriginalAndCopy(10, 6, 10, 9)
+                SetMergeOriginalAndCopy(11, 6, 11, 9)
+            Else
+                SetMergeOriginalAndCopy(8, 2, 8, 9)
+                SetMergeOriginalAndCopy(9, 2, 9, 9)
+                SetMergeOriginalAndCopy(10, 2, 10, 9)
+                SetMergeOriginalAndCopy(11, 2, 11, 9)
+            End If
+            ''春秋苑の受納証と信行寺の受納証で上記有難くおうけいたしましたの文字列の位置を変える
+            If isDisplayTax Then
+                SetMergeOriginalAndCopy(12, 1, 12, 2)
+                SetMergeOriginalAndCopy(12, 3, 12, 5)
+                SetMergeOriginalAndCopy(12, 6, 12, 7)
+                SetMergeOriginalAndCopy(12, 8, 12, 10)
+                SetMergeOriginalAndCopy(13, 1, 13, 2)
+                SetMergeOriginalAndCopy(13, 3, 13, 5)
+                SetMergeOriginalAndCopy(13, 6, 13, 7)
+                SetMergeOriginalAndCopy(13, 8, 13, 10)
+                SetMergeOriginalAndCopy(14, 2, 14, 9)
+            Else
+                SetMergeOriginalAndCopy(12, 2, 13, 9)
+            End If
+            ''団体名
+            SetMergeOriginalAndCopy(15, 5, 16, 7)
+            ''団体肩書
+            SetMergeOriginalAndCopy(16, 1, 16, 4)
+            ''係
+            SetMergeOriginalAndCopy(16, 9, 16, 10)
+            ''郵便番号
+            SetMergeOriginalAndCopy(17, 1, 17, 2)
+            ''住所
+            SetMergeOriginalAndCopy(17, 3, 17, 8)
+            ''係印
+            SetMergeOriginalAndCopy(17, 9, 18, 10)
+            ''電話番号
+            SetMergeOriginalAndCopy(18, 2, 18, 7)
+        End Sub
+
+        Private Sub SetMergeOriginalAndCopy(row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
+            ''両側のセルを結合する
+            Dim unused = MySheetCellRange(row1, column1, row2, column2).Merge()
+            unused = MySheetCellRange(row1, CopyColumnPosition(column1), row2, CopyColumnPosition(column2)).Merge()
+        End Sub
+        Public Sub CellProperty(startrowposition As Integer) Implements IExcelOutputBehavior.CellProperty
+            ExlWorkSheet.PageSetup.PaperSize = XLPaperSize.B5Paper
+            ''タイトル欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Center, 26)
+            SetCellPropertyOriginalAndCopy(1, 1)
+            ''ナンバー
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Bottom, 11)
+            SetCellPropertyOriginalAndCopy(1, 8)
+            ''日付欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Center, 11)
+            SetCellPropertyOriginalAndCopy(2, 7)
+            ''Tナンバー欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Center, 11)
+            SetCellPropertyOriginalAndCopy(3, 7)
+            ''宛名欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Bottom, 18)
+            SetRangeProperyOriginalAndCopy(4, 1, 4, 4)
+            Dim unused = ExlWorkSheet.Cell(4, 1).Style.Alignment.SetShrinkToFit(True)
+            unused = ExlWorkSheet.Cell(4, CopyColumnPosition(1)).Style.Alignment.SetShrinkToFit(True)
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Bottom, 18)
+            SetCellPropertyOriginalAndCopy(4, 5)
+            ''冥加金文字列
+            SetLocalProperty(XLAlignmentHorizontalValues.Left, XLAlignmentVerticalValues.Bottom, 11)
+            SetCellPropertyOriginalAndCopy(5, 2)
+            ''総額欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Bottom, 24)
+            SetCellPropertyOriginalAndCopy(6, 3)
+            ''円也文字列
+            SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Bottom, 11)
+            SetCellPropertyOriginalAndCopy(6, 8)
+            ''但し文字列
+            SetLocalProperty(XLAlignmentHorizontalValues.Left, XLAlignmentVerticalValues.Bottom, 11)
+            SetCellPropertyOriginalAndCopy(7, 2)
+            ''但し書き欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Center, 14)
+            SetRangeProperyOriginalAndCopy(8, 2, 11, 9)
+            unused = MySheetCellRange(8, 2, 11, 9).Style.Alignment.SetShrinkToFit(True)
+            unused = MySheetCellRange(8, CopyColumnPosition(2), 11, CopyColumnPosition(9)).Style _
+            .Alignment.SetShrinkToFit(True)
+            ''税率欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Center, 11)
+            SetRangeProperyOriginalAndCopy(12, 1, 13, 10)
+            ''上記有難くお受けしました文字列
+            If isDisplayTax Then
+                SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Center, 11)
+                SetCellPropertyOriginalAndCopy(14, 2)
+            Else
+                SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Center, 11)
+                SetCellPropertyOriginalAndCopy(12, 2)
+            End If
+            ''宗派、法人名文字列
+            SetLocalProperty(XLAlignmentHorizontalValues.Left, XLAlignmentVerticalValues.Bottom, 10)
+            SetCellPropertyOriginalAndCopy(16, 1)
+            ''団体名文字列
+            SetLocalProperty(XLAlignmentHorizontalValues.Distributed, XLAlignmentVerticalValues.Bottom, 18)
+            SetCellPropertyOriginalAndCopy(15, 5)
+            ''係文字列、係印欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Center, XLAlignmentVerticalValues.Center, 11)
+            SetRangeProperyOriginalAndCopy(16, 9, 18, 10)
+            ''郵便番号欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Left, XLAlignmentVerticalValues.Center, 10)
+            SetCellPropertyOriginalAndCopy(17, 1)
+            ''住所欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Left, XLAlignmentVerticalValues.Center, 10)
+            SetCellPropertyOriginalAndCopy(17, 3)
+            ''電話番号欄
+            SetLocalProperty(XLAlignmentHorizontalValues.Right, XLAlignmentVerticalValues.Center, 10)
+            SetCellPropertyOriginalAndCopy(18, 2)
+        End Sub
+        Private Sub SetRangeAlignmentAndFontSize(horizontal As XLAlignmentHorizontalValues, vertical As XLAlignmentVerticalValues, fontSize As Integer, row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
+            ''セルレンジに書式設定を反映します
+            Dim unused = MySheetCellRange(row1, column1, row2, column2).Style.Alignment.SetHorizontal(horizontal).Alignment.SetVertical(vertical).Font.SetFontSize(fontSize)
+        End Sub
+        Private Sub SetRangeProperyOriginalAndCopy(row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
+            ''両側のセルレンジに書式設定を反映します
+            SetRangeAlignmentAndFontSize(horizontal, vertical, fontSize, row1, column1, row2, column2)
+            SetRangeAlignmentAndFontSize(horizontal, vertical, fontSize, row1, CopyColumnPosition(column1), row2,
+                                                                    CopyColumnPosition(column2))
+        End Sub
+        Private Sub SetCellPropertyOriginalAndCopy(row As Integer, column As Integer)
+            ''両側のセルに書式設定を反映します
+            SetAlignmentAndFontSize(row, column)
+            SetAlignmentAndFontSize(row, CopyColumnPosition(column))
+        End Sub
+
+        Private Sub SetAlignmentAndFontSize(row As Integer, column As Integer)
+            Dim unused = ExlWorkSheet.Cell(row, column).Style.Alignment.SetHorizontal(horizontal).Alignment.SetVertical(vertical).Font.SetFontSize(fontSize)
+        End Sub
+
+        Private Sub SetLocalProperty(horizontalValues As XLAlignmentHorizontalValues,
+                                                 verticalValues As XLAlignmentVerticalValues, ByRef size As Integer)
+            horizontal = horizontalValues
+            vertical = verticalValues
+            fontSize = size
+        End Sub
+        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+            Return 1
+        End Function
+
+        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+            Return 1
+        End Function
+
+        Public Function SetCellFont(_isIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return "ＭＳ 明朝"
+        End Function
+
+        Public Function SetColumnSizes() As Double() Implements IExcelOutputBehavior.SetColumnSizes
+            Return {3.13, 6.88, 3.13, 1.38, 6.88, 4, 7.86, 3.13, 3.13, 3.5, 14.86, 3.13, 6.88, 3.13, 1.38, 6.88, 4, 7.86, 3.13, 3.13, 3.5}
+        End Function
+
+        Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
+            Return {37.5, 18, 18, 19.5, 37.5, 37.5, 37.5, 22.5, 22.5, 22.5, 22.5, 15, 15, 21.75, 18, 18.5, 18.5, 18, 18}
+
+        End Function
+
+        Public Function GetDataName() As String Implements IExcelOutputBehavior.GetDataName
+            Return ToString()
+        End Function
+
+        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+            Return "a:u"
+        End Function
+
+        Protected Function MySheetCellRange(cell1Row As Integer, cell1Column As Integer, cell2Row As Integer, cell2Column As Integer) As IXLRange
+            Return ExlWorkSheet.Range(ExlWorkSheet.Cell(cell1Row, cell1Column), ExlWorkSheet.Cell(cell2Row, cell2Column))
+        End Function
+
+        Public Sub SetData()
+
+            Dim prevText As String = String.Empty ''前の但し書き内容
+            Dim addresseeText As String ''宛名
+            Dim provisoAmount As Integer = 0 ''但し書きの金額
+            Dim contentCount As Integer = 0 ''但し書きの件数
+
+            ''タイトル
+            SetStringOriginalAndCopy(1, 1, "受　納　証")
+            If isReissue Then SetStringOriginalAndCopy(2, 2, "※再発行")
+            ''ナンバー
+            SetStringOriginalAndCopy(1, 8, $"№{iD}")
+            ''日付
+            SetStringOriginalAndCopy(2, 7, $"{accountActivityDate.Year}年{accountActivityDate.Month}月{accountActivityDate.Day}日")
+            ''T番号
+            If isDisplayTax Then SetStringOriginalAndCopy(3, 7, My.Resources.InVoiceRegistrationNumber)
+            ''宛名　2文字ならスペースを入れる
+            addresseeText = IIf(addressee.Length = 2, $"{addressee.Substring(0, 1)}　{addressee.Substring(1, 1)}", addressee)
+            SetStringOriginalAndCopy(4, 1, addresseeText)
+            SetStringOriginalAndCopy(4, 5, "様")
+            ''総額
+            SetStringOriginalAndCopy(5, 2, "冥加金")
+            Dim i As Integer = 0
+            For Each p As Proviso In provisoList
+                i += p.Amount
+            Next
+            SetStringOriginalAndCopy(6, 3, $"{i:N0} -")
+            SetStringOriginalAndCopy(6, 8, "円也")
+            SetStringOriginalAndCopy(7, 2, "但し")
+            ''事前領収の日付
+            If Not prepaidDate = "1900-01-01" Then SetStringOriginalAndCopy(7, 7, $"※{prepaidDate:M/d}ご法事")
+            ''但し書き
+            ''受納証データが保持している出納データから同一のContentを1件とした件数を算出する
+            ''税率ごとの総額も加算していく
+            Dim containTaxRateAmount, taxRate, containReducedTaxRateAmount, reducedTaxRate As Integer
+            Dim b As Boolean
+
+            For Each p As Proviso In provisoList
+                ''但し書きが既に受納証に表記されていれば書き加えない
+                If Not prevText = p.Text Then
+                    prevText = p.Text
+                    b = contentCount > 0
+                    contentCount += 1
+                End If
+                If p.IsReducedTaxRate Then
+                    containReducedTaxRateAmount += p.Amount
+                    reducedTaxRate += Math.Floor(p.Amount / 0.8 * 0.1)
+                Else
+                    containTaxRateAmount += p.Amount
+                    taxRate += Math.Floor(p.Amount / 1.1 * 0.1)
+                End If
+            Next
+            prevText = String.Empty
+            ''件数が4件以下なら真ん中に1列で、それ以上なら2列で表記する
+            If contentCount < 5 Then
+                SingleLineOutput(contentCount, prevText, provisoAmount, b)
+            Else
+                MultipleLineOutput(prevText, provisoAmount)
+            End If
+            ''団体名、電話番号、税詳細
+            If (isDisplayTax) Then SetTaxRate(taxRate, reducedTaxRate, containTaxRateAmount, containReducedTaxRateAmount)
+            SetName()
+            ''郵便番号
+            SetStringOriginalAndCopy(17, 1, "〒214-0036")
+            ''住所
+            SetStringOriginalAndCopy(17, 3, "川崎市多摩区南生田８－１－１")
+            Dim imagePath As String = ".\files\ReceiptStamp.png"
+            Dim unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(15, 7))
+            unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(15, 18))
+            ''係
+            SetStringOriginalAndCopy(16, 9, "係")
+            SetStringOriginalAndCopy(17, 9, cleakName)
+        End Sub
+
+        Private Function ProvisoString(contentCount As Integer, p As Proviso) As String
+            Dim s As String = IIf(contentCount = 1, $"{p.Text}", $"{p.Text}：{p.Amount:N0} 円")
+            If p.IsReducedTaxRate Then s += " ※軽減税率"
+            Return s
+        End Function
+
+        Private Sub SetName()
+            If isDisplayTax Then
+                SetStringOriginalAndCopy(14, 2, "上記有難くお受けいたしました")
+            Else
+                SetStringOriginalAndCopy(12, 2, "上記有難くお受けいたしました")
+            End If
+
+            If isShunjuen Then
+                SetStringOriginalAndCopy(16, 1, "宗教法人信行寺")
+                SetStringOriginalAndCopy(15, 5, "春秋苑")
+                SetStringOriginalAndCopy(18, 2, "電話０４４－９７７－３４６６㈹")
+            Else
+                SetStringOriginalAndCopy(16, 1, "浄土真宗本願寺派")
+                SetStringOriginalAndCopy(15, 5, "信行寺")
+                SetStringOriginalAndCopy(18, 2, "電話０４４－９７６－０１１５㈹")
+            End If
+        End Sub
+        Private Sub SetBottomBorderOriginalAndCopy(row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
+            ''左右の同じ部分に下線を引きます
+            SetBottomBorderThin(row1, column1, row2, column2)
+            SetBottomBorderThin(row1, CopyColumnPosition(column1), row2, CopyColumnPosition(column2))
+
+        End Sub
+
+        Private Sub SetBottomBorderThin(row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
+            Dim unused = MySheetCellRange(row1, column1, row2, column2).Style.
+                    Border.SetBottomBorder(XLBorderStyleValues.Thin)
+        End Sub
+
+        Private Sub SetClerkMarkField(row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
+            Dim unused = MySheetCellRange(row1, column1, row2, column2).Style _
+            .Border.SetBottomBorder(XLBorderStyleValues.Thin) _
+            .Border.SetRightBorder(XLBorderStyleValues.Thin) _
+            .Border.SetLeftBorder(XLBorderStyleValues.Thin) _
+            .Border.SetDiagonalBorder(XLBorderStyleValues.Thin) _
+            .Border.SetTopBorder(XLBorderStyleValues.Thin)
+            unused = MySheetCellRange(16, CopyColumnPosition(9), 18, CopyColumnPosition(10)).Style _
+            .Border.SetBottomBorder(XLBorderStyleValues.Thin) _
+            .Border.SetRightBorder(XLBorderStyleValues.Thin) _
+            .Border.SetLeftBorder(XLBorderStyleValues.Thin) _
+            .Border.SetDiagonalBorder(XLBorderStyleValues.Thin) _
+            .Border.SetTopBorder(XLBorderStyleValues.Thin)
+
+        End Sub
+        Public Sub SetBorderStyle()
+            ''ボーダーをすべて消去
+            Dim unused = ExlWorkSheet.Style _
+            .Border.SetLeftBorder(XLBorderStyleValues.None) _
+            .Border.SetTopBorder(XLBorderStyleValues.None) _
+            .Border.SetRightBorder(XLBorderStyleValues.None) _
+            .Border.SetBottomBorder(XLBorderStyleValues.None)
+            ''宛名欄
+            SetBottomBorderOriginalAndCopy(4, 1, 4, 5)
+            ''総額欄
+            SetBottomBorderOriginalAndCopy(6, 2, 6, 9)
+            ''但し書き欄
+            SetBottomBorderOriginalAndCopy(11, 2, 11, 9)
+            ''係印欄
+            SetClerkMarkField(16, 9, 18, 10)
+            SetClerkMarkField(16, CopyColumnPosition(9), 18, CopyColumnPosition(10))
+        End Sub
+
+        Private Sub SetTaxRate(taxRate As Integer, reducedTaxRate As Integer, containTaxRateAmount As Integer, containReducedTaxRateAmount As Integer)
+            If Not taxRate = 0 Then
+                SetStringOriginalAndCopy(12, 1, "10％対象")
+                SetStringOriginalAndCopy(12, 3, $"{containTaxRateAmount:N0} 円")
+                SetStringOriginalAndCopy(12, 6, $"消費税")
+                SetStringOriginalAndCopy(12, 8, $"{taxRate:N0} 円")
+            End If
+            If Not reducedTaxRate = 0 Then
+                SetStringOriginalAndCopy(13, 1, "8％対象")
+                SetStringOriginalAndCopy(13, 3, $"{containReducedTaxRateAmount:N0} 円")
+                SetStringOriginalAndCopy(13, 6, $"消費税")
+                SetStringOriginalAndCopy(13, 8, $"{reducedTaxRate:N0} 円")
+            End If
+        End Sub
+        Private Sub MultipleLineOutput(prevText As String, provisoAmount As Integer)
+            Dim i As Integer = 8 ''但し書き左側のRowPositionを設定する変数
+            Dim j As Integer = 4 ''但し書き右側のRowPositionを設定する変数
+
+            For Each p As Proviso In provisoList
+                ''但し書きが前のデータと同じなら金額を加算する
+                If prevText = p.Text Then
+                    provisoAmount += p.Amount
+                Else
+                    ''違えば変数に代入
+                    provisoAmount = p.Amount
+                    prevText = p.Text
+                    ''変数を減算する
+                    j -= 1
+                    i -= 1
+                End If
+                ''iが7～4なら左側に、それ以外は右側に表記する
+                If i > 3 Then
+                    SetStringOriginalAndCopy(11 - j, 2, p.Text)
+                Else
+                    SetStringOriginalAndCopy(11 - i, 6, p.Text)
+                End If
+            Next
+        End Sub
+        Private Sub SingleLineOutput(contentCount As Integer, ByRef prevText As String, provisoAmount As Integer, isMulti As Boolean)
+            Dim i As Integer = contentCount - 1
+
+            For Each p As Proviso In provisoList
+                ''但し書きが前のデータと同じなら金額を加算する
+                If prevText = p.Text Then
+                    provisoAmount += p.Amount
+                    ''但し書きのforeachの前の処理で入力した文字列を消す。iも加算する
+                    i += 1
+                    SetStringOriginalAndCopy(11 - i, 2, String.Empty)
+                Else
+                    ''違えば変数に代入
+                    provisoAmount = p.Amount
+                    prevText = p.Text
+                End If
+                ''但し書きを入力する
+                SetStringOriginalAndCopy(11 - i, 2, $"{prevText}{IIf(isMulti, $"：{provisoAmount:N0} 円", String.Empty)}{IIf(p.IsReducedTaxRate, " ※軽減税率", String.Empty)}")
+                ''カウントを減算する（次を1行上に入力するようにする）
+                i -= 1
+            Next
+        End Sub
+
+        Private Sub SetString(row As Integer, column As Integer, value As String)
+            ExlWorkSheet.Cell(row, column).Value = value
+        End Sub
+
+        Private Sub SetStringOriginalAndCopy(row As Integer, column As Integer, value As String)
+            SetString(row, column, value)
+            SetString(row, CopyColumnPosition(column), value)
+        End Sub
+    End Class
 
     ''' <summary>
     ''' 墓地札クラス
@@ -1072,8 +1551,8 @@ Public Class ExcelOutputInfrastructure
 
                 '宛名
                 addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
-                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
-                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
+                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
+                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
 
@@ -1498,8 +1977,8 @@ Public Class ExcelOutputInfrastructure
 
                 '宛名
                 addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
-                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
-                    $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
+                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
+                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
                 .Cell(startrowposition + 4, 2).Value = addresseename
             End With
 
@@ -2072,12 +2551,12 @@ Public Class ExcelOutputInfrastructure
         End Sub
 
         Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:c"
-        End Function
+                Return "a:c"
+            End Function
 
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IHorizontalOutputBehavior.GetDestinationDataList
-            Return MyList
-        End Function
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IHorizontalOutputBehavior.GetDestinationDataList
+                Return MyList
+            End Function
+        End Class
+
     End Class
-
-End Class

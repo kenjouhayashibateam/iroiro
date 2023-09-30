@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -201,6 +201,15 @@ Namespace My.Resources
         Friend ReadOnly Property HGRegularRegularScriptPRO() As String
             Get
                 Return ResourceManager.GetString("HGRegularRegularScriptPRO", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  T9480005004378 に類似しているローカライズされた文字列を検索します。
+        '''</summary>
+        Friend ReadOnly Property InVoiceRegistrationNumber() As String
+            Get
+                Return ResourceManager.GetString("InVoiceRegistrationNumber", resourceCulture)
             End Get
         End Property
         
