@@ -367,14 +367,14 @@ Namespace ViewModels
         Private _IsReducedTaxRate6 As Boolean
         Private _IsReducedTaxRate7 As Boolean
         Private _IsReducedTaxRate8 As Boolean
-        Private _Amount1 As String = 0
-        Private _Amount2 As String = 0
-        Private _Amount3 As String = 0
-        Private _Amount4 As String = 0
-        Private _Amount5 As String = 0
-        Private _Amount6 As String = 0
-        Private _Amount7 As String = 0
-        Private _Amount8 As String = 0
+        Private _Amount1 As String
+        Private _Amount2 As String
+        Private _Amount3 As String
+        Private _Amount4 As String
+        Private _Amount5 As String
+        Private _Amount6 As String
+        Private _Amount7 As String
+        Private _Amount8 As String
         Private _Proviso1 As String
         Private _Proviso2 As String
         Private _Proviso3 As String
@@ -444,8 +444,14 @@ Namespace ViewModels
         End Property
 
         Private Sub VoucherOutput()
+            ButtonText = "出力中"
             Try
                 SetProvisoList()
+                If ProvisoList.Count = 0 Then
+                    CreateProvisoWarningMessage("有効なデータがありませんので、受納証発行を中止します。")
+                    ButtonText = "出力"
+                    Return
+                End If
                 Dim iD = DataBaseConecter.VoucherRegistration(AccountActivityDate, AddresseeName, TotalAmount, Note5)
                 DataOutputConecter.VoucherOutput(iD, AddresseeName, ProvisoList, IsShunjuen, IsReissue, Note5, IsDisplayTax, PrepaidDate, AccountActivityDate)
             Catch ex As Exception
@@ -455,24 +461,38 @@ Namespace ViewModels
 
             ProvisoClear()
 
-        End Sub
+            ButtonText = "出力"
 
+        End Sub
 
         Private Sub SetProvisoList()
             ProvisoList = New ObservableCollection(Of Proviso)
 
-            AddProviso(Proviso1, Amount1, IsReducedTaxRate1)
-            AddProviso(Proviso2, Amount2, IsReducedTaxRate2)
-            AddProviso(Proviso3, Amount3, IsReducedTaxRate3)
-            AddProviso(Proviso4, Amount4, IsReducedTaxRate4)
-            AddProviso(Proviso5, Amount5, IsReducedTaxRate5)
-            AddProviso(Proviso6, Amount6, IsReducedTaxRate6)
-            AddProviso(Proviso7, Amount7, IsReducedTaxRate7)
-            AddProviso(Proviso8, Amount8, IsReducedTaxRate8)
+            AddProviso(Proviso1, ReturnAmount(Amount1), IsReducedTaxRate1)
+            AddProviso(Proviso2, ReturnAmount(Amount2), IsReducedTaxRate2)
+            AddProviso(Proviso3, ReturnAmount(Amount3), IsReducedTaxRate3)
+            AddProviso(Proviso4, ReturnAmount(Amount4), IsReducedTaxRate4)
+            AddProviso(Proviso5, ReturnAmount(Amount5), IsReducedTaxRate5)
+            AddProviso(Proviso6, ReturnAmount(Amount6), IsReducedTaxRate6)
+            AddProviso(Proviso7, ReturnAmount(Amount7), IsReducedTaxRate7)
+            AddProviso(Proviso8, ReturnAmount(Amount8), IsReducedTaxRate8)
+        End Sub
+
+        Private Sub CreateProvisoWarningMessage(message As String)
+            MessageInfo = New MessageBoxInfo() With {
+                    .Message = message,
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Warning,
+                    .Title = "但し書きは必須です"}
         End Sub
 
         Private Sub AddProviso(text As String, amount As Integer, isReducedTaxRate As Boolean)
-            If String.IsNullOrEmpty(text) Then Exit Sub
+            If String.IsNullOrEmpty(text) And amount > 0 Then
+                CreateProvisoWarningMessage($"但し書きが入力されていないので、{amount:N0}円のデータを無視します。")
+                Return
+            End If
+
+            If String.IsNullOrEmpty(text) Then Return
 
             ProvisoList.Add(New Proviso(text, amount, isReducedTaxRate))
         End Sub
@@ -504,14 +524,14 @@ Namespace ViewModels
             Proviso6 = String.Empty
             Proviso7 = String.Empty
             Proviso8 = String.Empty
-            Amount1 = 0
-            Amount2 = 0
-            Amount3 = 0
-            Amount4 = 0
-            Amount5 = 0
-            Amount6 = 0
-            Amount7 = 0
-            Amount8 = 0
+            Amount1 = String.Empty
+            Amount2 = String.Empty
+            Amount3 = String.Empty
+            Amount4 = String.Empty
+            Amount5 = String.Empty
+            Amount6 = String.Empty
+            Amount7 = String.Empty
+            Amount8 = String.Empty
             IsReducedTaxRate1 = False
             IsReducedTaxRate2 = False
             IsReducedTaxRate3 = False
@@ -560,6 +580,7 @@ Namespace ViewModels
             Set
                 _Proviso1 = Value
                 CallPropertyChanged(NameOf(Proviso1))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -570,6 +591,7 @@ Namespace ViewModels
             Set
                 _Proviso2 = Value
                 CallPropertyChanged(NameOf(Proviso2))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -580,6 +602,7 @@ Namespace ViewModels
             Set
                 _Proviso3 = Value
                 CallPropertyChanged(NameOf(Proviso3))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -590,6 +613,7 @@ Namespace ViewModels
             Set
                 _Proviso4 = Value
                 CallPropertyChanged(NameOf(Proviso4))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -600,6 +624,7 @@ Namespace ViewModels
             Set
                 _Proviso5 = Value
                 CallPropertyChanged(NameOf(Proviso5))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -610,6 +635,7 @@ Namespace ViewModels
             Set
                 _Proviso6 = Value
                 CallPropertyChanged(NameOf(Proviso6))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -620,6 +646,7 @@ Namespace ViewModels
             Set
                 _Proviso7 = Value
                 CallPropertyChanged(NameOf(Proviso7))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -630,11 +657,28 @@ Namespace ViewModels
             Set
                 _Proviso8 = Value
                 CallPropertyChanged(NameOf(Proviso8))
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
         Private Sub SetTotalAmount()
-            TotalAmount = CInt(Amount1) + CInt(Amount2) + CInt(Amount3) + CInt(Amount4) + CInt(Amount5) + CInt(Amount6) + CInt(Amount7) + CInt(Amount8)
+            TotalAmount = ReturnAmount(Amount1) + ReturnAmount(Amount2) + ReturnAmount(Amount3) + ReturnAmount(Amount4) + ReturnAmount(Amount5) + ReturnAmount(Amount6) + ReturnAmount(Amount7) + ReturnAmount(Amount8)
+        End Sub
+
+        Private Function ReturnAmount(amount As String) As Integer
+            If amount Is Nothing Then amount = 0
+            Return IIf(Regex.IsMatch(amount, "^[1-9]"), amount, 0)
+        End Function
+
+        Private Sub SetCanOutputAmountProviso()
+            CanOutput = Proviso1.Length > 0 And ReturnAmount(Amount1) > 0
+            If CanOutput Then CanOutput = (Proviso2.Length > 0 And ReturnAmount(Amount2) > 0) Or (Proviso2.Length = 0 And ReturnAmount(Amount2) = 0)
+            If CanOutput Then CanOutput = Proviso3.Length > 0 And ReturnAmount(Amount3) > 0 Or (Proviso3.Length = 0 And ReturnAmount(Amount3) = 0)
+            If CanOutput Then CanOutput = Proviso4.Length > 0 And ReturnAmount(Amount4) > 0 Or (Proviso4.Length = 0 And ReturnAmount(Amount4) = 0)
+            If CanOutput Then CanOutput = Proviso5.Length > 0 And ReturnAmount(Amount5) > 0 Or (Proviso5.Length = 0 And ReturnAmount(Amount5) = 0)
+            If CanOutput Then CanOutput = Proviso6.Length > 0 And ReturnAmount(Amount6) > 0 Or (Proviso6.Length = 0 And ReturnAmount(Amount6) = 0)
+            If CanOutput Then CanOutput = Proviso7.Length > 0 And ReturnAmount(Amount7) > 0 Or (Proviso7.Length = 0 And ReturnAmount(Amount7) = 0)
+            If CanOutput Then CanOutput = Proviso8.Length > 0 And ReturnAmount(Amount8) > 0 Or (Proviso8.Length = 0 And ReturnAmount(Amount8) = 0)
         End Sub
 
         Public Property Amount1 As String
@@ -642,9 +686,10 @@ Namespace ViewModels
                 Return _Amount1
             End Get
             Set
-                _Amount1 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount1 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount1))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
         Public Property Amount2 As String
@@ -652,9 +697,10 @@ Namespace ViewModels
                 Return _Amount2
             End Get
             Set
-                _Amount2 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount2 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount2))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -663,9 +709,10 @@ Namespace ViewModels
                 Return _Amount3
             End Get
             Set
-                _Amount3 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount3 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount3))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -674,9 +721,10 @@ Namespace ViewModels
                 Return _Amount4
             End Get
             Set
-                _Amount4 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount4 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount4))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -685,9 +733,10 @@ Namespace ViewModels
                 Return _Amount5
             End Get
             Set
-                _Amount5 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount5 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount5))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -696,9 +745,10 @@ Namespace ViewModels
                 Return _Amount6
             End Get
             Set
-                _Amount6 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount6 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount6))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -707,9 +757,10 @@ Namespace ViewModels
                 Return _Amount7
             End Get
             Set
-                _Amount7 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount7 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount7))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -718,9 +769,10 @@ Namespace ViewModels
                 Return _Amount8
             End Get
             Set
-                _Amount8 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, 0)
+                _Amount8 = IIf(Regex.IsMatch(Value, "^[1-9]"), Value, String.Empty)
                 CallPropertyChanged(NameOf(Amount8))
                 SetTotalAmount()
+                SetCanOutputAmountProviso()
             End Set
         End Property
 
@@ -1094,6 +1146,8 @@ Namespace ViewModels
             End With
 
             LastSaveDate = DataBaseConecter.GetLastSaveDate.GetDate
+
+            ProvisoClear()
 
         End Sub
 

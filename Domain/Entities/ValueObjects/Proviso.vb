@@ -3,10 +3,10 @@
 ''' </summary>
 Public Class Proviso
     Public Property Text As String
-    Public Property Amount As Integer
+    Public Property Amount As String
     Public Property IsReducedTaxRate As Boolean
 
-    Public Sub New(text As String, amount As Integer, isReducedTaxRate As Boolean)
+    Public Sub New(text As String, amount As String, isReducedTaxRate As Boolean)
         Me.Text = text
         Me.Amount = amount
         Me.IsReducedTaxRate = isReducedTaxRate

@@ -137,6 +137,7 @@
     <Compile Include="ViewModels\GravePanelDataViewModel.vb" />
     <Compile Include="ViewModels\MultiAddresseeDataViewModel.vb" />
     <Compile Include="Views\Behaviors\ShowDialogBehavior.vb" />
+    <Compile Include="Views\Behaviors\TextBoxAttachment.vb" />
     <Compile Include="Views\CreateGravePanelDataView.xaml.vb">
       <DependentUpon>CreateGravePanelDataView.xaml</DependentUpon>
     </Compile>

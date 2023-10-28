@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -115,7 +115,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  住所の長いデータが  に類似しているローカライズされた文字列を検索します。
+        '''  住所が長い、または郵便番号が不正なデータが  に類似しているローカライズされた文字列を検索します。
         '''</summary>
         Friend ReadOnly Property AddressLengthOverInfo_Multi1() As String
             Get
@@ -257,7 +257,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("ErrorRegisterTitle", resourceCulture)
             End Get
         End Property
-
+        
         '''<summary>
         '''  名義人 :  に類似しているローカライズされた文字列を検索します。
         '''</summary>
@@ -266,7 +266,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("FieldPropertyMessage_Lessee", resourceCulture)
             End Get
         End Property
-
+        
         '''<summary>
         '''  送付先 :  に類似しているローカライズされた文字列を検索します。
         '''</summary>
@@ -275,7 +275,7 @@ Namespace My.Resources
                 Return ResourceManager.GetString("FieldPropertyMessage_Receiver", resourceCulture)
             End Get
         End Property
-
+        
         '''<summary>
         '''  形式エラー に類似しているローカライズされた文字列を検索します。
         '''</summary>

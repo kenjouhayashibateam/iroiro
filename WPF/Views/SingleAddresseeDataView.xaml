@@ -14,7 +14,7 @@
         Title="{Binding ViewTitle}" Height="760" Width="410" 
         WindowStartupLocation="CenterScreen"  
         FocusManager.FocusedElement="{Binding ElementName=CustomerIDWatermarkTextBox}"
-        PreviewGotKeyboardFocus="Window_PreviewGotKeyboardFocus">
+        >
 
     <Window.DataContext >
         <vm:SingleAddresseeDataViewModel/>
@@ -385,9 +385,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き1" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso1}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso1,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount1}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount1,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate1}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -403,9 +403,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き2" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso2}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso2,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount2}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount2,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate2}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -421,9 +421,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き3" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso3}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso3,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount3}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount3,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate3}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -439,9 +439,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き4" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso4}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso4,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount4}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount4,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate4}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -457,9 +457,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き5" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso5}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso5,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount5}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount5,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate5}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -475,9 +475,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き6" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso6}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso6,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount6}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount6,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate6}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -493,9 +493,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き7" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso7}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso7,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount7}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount7,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate7}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -511,9 +511,9 @@
                                     <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="但し書き8" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso8}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Proviso8,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
                                 <TextBlock Grid.Row="0" Grid.Column="1" Text="金額" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount8}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Amount8,UpdateSourceTrigger=PropertyChanged}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" InputMethod.PreferredImeState="Off" Margin="5,3"/>
                                 <TextBlock Grid.Row="1" Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <CheckBox Grid.Row="1" Grid.Column="3" Content="軽減税率" IsChecked="{Binding IsReducedTaxRate8}" VerticalContentAlignment="Center" Margin="5"/>
                             </Grid>
@@ -558,8 +558,8 @@
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Grid.Row="0" Grid.Column="0" Content="税額表示する" IsChecked="{Binding IsDisplayTax}" VerticalAlignment="Center" Margin="5"/>
-                            <CheckBox Grid.Row="1" Grid.Column="0" Content="再発行を印字する" IsChecked="{Binding IsReissue}" VerticalAlignment="Center" Margin="5"/>
-                            <CheckBox Grid.Row="0" Grid.Column="1" Content="法事事前払い" IsChecked="{Binding IsPrepaid}" VerticalContentAlignment="Center" Margin="5"/>
+                            <CheckBox Grid.Row="1" Grid.Column="0" Content="「再発行」を印字する" IsChecked="{Binding IsReissue}" VerticalAlignment="Center" Margin="5"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" Content="日付を入力する" IsChecked="{Binding IsPrepaid}" VerticalContentAlignment="Center" Margin="5"/>
                             <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding PrepaidDate}" IsEnabled="{Binding IsPrepaid}" Margin="5,2"/>
                         </Grid>
                     </Grid>
@@ -568,8 +568,8 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合はシステム担当に報告して下さい。" VerticalAlignment="Center" Foreground="Red" FontSize="10"/>
-                        <Button Grid.Column="1" Content="出力" IsEnabled="{Binding CanOutput}" Margin="5">
+                        <TextBlock Grid.Column="0" Text="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合はシステム担当に報告して下さい。" ToolTip="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合はシステム担当に報告して下さい。" VerticalAlignment="Center" Foreground="Red" FontSize="10"/>
+                        <Button Grid.Column="1" Content="{Binding ButtonText}" IsEnabled="{Binding CanOutput}" Margin="5">
                             <ib:Interaction.Triggers>
                                 <ib:EventTrigger EventName="Click">
                                     <ib:InvokeCommandAction Command="{Binding VoucherOutputCommand}"/>

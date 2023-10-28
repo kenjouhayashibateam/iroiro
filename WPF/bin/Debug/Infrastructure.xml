@@ -580,7 +580,7 @@ Infrastructure
  縦向けにリストのデータを入力する処理
  </summary>
  <param name="_vob"></param>
- <param name="ismulti">複数印刷Behaviorをするかを設定します</param>
+ <param name="isMulti">複数印刷Behaviorをするかを設定します</param>
 </member>
 <member name="M:Infrastructure.ExcelOutputInfrastructure.NotificationOverLengthCount(System.Int32)">
  <summary>

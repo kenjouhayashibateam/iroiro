@@ -86,7 +86,7 @@
 </member>
 <member name="P:WPF.My.Resources.Resources.AddressLengthOverInfo_Multi1">
 <summary>
-  住所の長いデータが  に類似しているローカライズされた文字列を検索します。
+  住所が長い、または郵便番号が不正なデータが  に類似しているローカライズされた文字列を検索します。
 </summary>
 </member>
 <member name="P:WPF.My.Resources.Resources.AddressLengthOverInfo_Multi2">
@@ -1587,6 +1587,20 @@
  <summary> 
  墓地札データが追加されたことを通知します
  </summary>
+</member>
+<member name="M:WPF.TextBoxAttachment.GetIsSelectAllOnGotFocus(System.Windows.DependencyObject)">
+ <summary>
+ GotFocus時にテキストをすべて選択にするかを返します
+ </summary>
+ <param name="obj">対象のテキストボックス</param>
+ <returns></returns>
+</member>
+<member name="M:WPF.TextBoxAttachment.SetIsSelectAllOnGotFocus(System.Windows.DependencyObject,System.Boolean)">
+ <summary>
+ GotFocus時にテキストをすべて選択した状態にします
+ </summary>
+ <param name="obj">対象のテキストボックス</param>
+ <param name="value"></param>
 </member>
 <member name="T:WPF.CreateGravePanelDataView">
 <summary>

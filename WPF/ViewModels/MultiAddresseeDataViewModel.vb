@@ -817,9 +817,7 @@ Namespace ViewModels
         ''' ハガキ印刷
         ''' </summary>
         Public Sub OutputList_Postcard()
-
             DataOutputConecter.PostcardOutput(AddresseeList, IsIPAmjMintyo)
-
         End Sub
 
         ''' <summary>
