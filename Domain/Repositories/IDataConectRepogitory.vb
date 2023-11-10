@@ -113,4 +113,9 @@ Public Interface IDataConectRepogitory
     ''' <returns></returns>
     Function GetDefaultDate() As Date
 
+    ''' <summary>
+    ''' 次に登録される受納証ナンバーを取得します
+    ''' </summary>
+    ''' <returns></returns>
+    Function CallNextVoucherNumber() As Integer
 End Interface

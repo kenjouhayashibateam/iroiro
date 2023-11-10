@@ -161,6 +161,36 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProgressVisiblity}" Value="Hidden">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ProgressVisiblity}" Value="Visible">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <TextBlock Text="{Binding ProgressText}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="{Binding ProgressText}" FontSize="9" Foreground="Red" Margin="5"/>
+            </Grid>
+            <Grid Visibility="{Binding ProgressVisiblity}" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="進捗状況" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,5"/>
+                    <TextBlock Text="{Binding ProgressText}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5"/>
+                </Grid>
+                <ProgressBar Grid.Row="1" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch" Maximum="{Binding ProgressListCount}" Value="{Binding ProcessedCount}"/>
+            </Grid>
             <GroupBox Header="出力メニュー" x:Name="OutputMenuGroupBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,5">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="OutputMenuGrid">
                     <Grid.ColumnDefinitions>
@@ -190,21 +220,6 @@
                     </Button>
                 </Grid>
             </GroupBox>
-            <Grid Visibility="{Binding ProgressVisiblity}" Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="進捗状況" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,5"/>
-                    <TextBlock Text="{Binding ProgressText}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5"/>
-                </Grid>
-                <ProgressBar Grid.Row="1" HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch" Maximum="{Binding ProgressListCount}" Value="{Binding ProcessedCount}"/>
-            </Grid>
             <Button x:Name="ExitButton" Grid.Column="2" Content="閉じる" Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
     </Grid>

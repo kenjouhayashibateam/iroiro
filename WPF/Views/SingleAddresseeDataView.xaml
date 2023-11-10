@@ -298,16 +298,43 @@
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="受納日" Margin="5,2">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <DatePicker Grid.Column="1" SelectedDate="{Binding AccountActivityDate}" Margin="5,2"/>
-                        </Grid>
-                    </GroupBox>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="0" Header="受納日" Margin="5,2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <DatePicker Grid.Column="1" SelectedDate="{Binding AccountActivityDate}" Margin="5,2"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Margin="5,2">
+                            <GroupBox.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="通し番号" Margin="0,0,2,0"/>
+                                    <Button Grid.Column="1" Content="更新" ToolTip="最新の番号を取得します。" Margin="2,0,0,0">
+                                        <ib:Interaction.Triggers>
+                                            <ib:EventTrigger EventName="Click">
+                                                <ib:InvokeCommandAction Command="{Binding CallNextVoucherNumberCommand}"/>
+                                            </ib:EventTrigger>
+                                        </ib:Interaction.Triggers>
+                                    </Button>
+                                </Grid>
+                            </GroupBox.Header>
+                            <Grid>
+                                <TextBlock Text="{Binding NextVoucherNumber}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
@@ -541,6 +568,7 @@
                                                 </Trigger>
                                                 <Trigger Property="IsChecked" Value="False">
                                                     <Setter Property="Content" Value="信行寺"/>
+                                                    <Setter Property="Background" Value="WhiteSmoke"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -568,7 +596,7 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合はシステム担当に報告して下さい。" ToolTip="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合はシステム担当に報告して下さい。" VerticalAlignment="Center" Foreground="Red" FontSize="10"/>
+                        <TextBlock Grid.Column="0" Text="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合はシステム担当に報告して下さい。" ToolTip="出力したデータはミスなどがあっても必ず印刷し、控えをファイルに残して下さい。&#xa;控えを残さずにデータを消してしまった場合は欠番登録をしますので、&#xa;現在の通し番号、受納日、宛名、受納金額を控えた上でシステム担当に報告して下さい。" VerticalAlignment="Center" Foreground="Red" FontSize="10"/>
                         <Button Grid.Column="1" Content="{Binding ButtonText}" IsEnabled="{Binding CanOutput}" Margin="5">
                             <ib:Interaction.Triggers>
                                 <ib:EventTrigger EventName="Click">

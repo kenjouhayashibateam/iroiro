@@ -498,6 +498,13 @@ Public Class ExcelOutputInfrastructure
             ExlWorkbook = New XLWorkbook
             If ExlWorkSheet Is Nothing Then ExlWorkSheet = ExlWorkbook.AddWorksheet(My.Resources.FILENAME)
             Dim unused = ExlWorkSheet.Cells.Clear()
+            Dim i As Integer = ExlWorkSheet.Pictures.Count
+            Dim j As Integer = 1
+            Do Until i < j
+                ExlWorkSheet.Pictures.Delete($"Picture {j}")
+
+                j += 1
+            Loop
             For Each p In ExlWorkSheet.Pictures
                 p.Delete()
             Next
@@ -752,7 +759,6 @@ Public Class ExcelOutputInfrastructure
 
     Private Sub VoucherOutputProcessing(_voc As Voucher)
         SheetSetting()
-
         ColumnSizes = _voc.SetColumnSizes
         RowSizes = _voc.SetRowSizes
         OutputDataGanre = _voc.GetDataName
@@ -1263,14 +1269,20 @@ Public Class ExcelOutputInfrastructure
             SetStringOriginalAndCopy(18, 3, "川崎市多摩区南生田８－１－１")
             Dim imagePath As String = ".\files\ReceiptStamp.png"
             Dim rowPosition = IIf(isDisplayTax, 16, 15)
-            Dim unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(rowPosition, 7))
-            unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(rowPosition, 18))
+            Try
+                Dim unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(rowPosition, 7))
+                unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(rowPosition, 18))
+            Catch ex As Exception
+                Dim log As New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
+            'Dim unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(rowPosition, 7))
+            'unused = ExlWorkSheet.AddPicture(imagePath).MoveTo(ExlWorkSheet.Cell(rowPosition, 18))
             ''係
             SetStringOriginalAndCopy(17, 9, "係")
             SetStringOriginalAndCopy(18, 9, cleakName)
             ''事前領収の日付
             If Not prepaidDate = "1900-01-01" Then SetStringOriginalAndCopy(datePosition, 7, $"{prepaidDate:M/d}分")
-
             With ExlWorkSheet.PageSetup.Margins
                 .Top = ToInch(1.9)
                 .Bottom = ToInch(1.3)
@@ -1289,12 +1301,11 @@ Public Class ExcelOutputInfrastructure
             If isShunjuen Then
                 SetStringOriginalAndCopy(17, 1, "宗教法人信行寺")
                 SetStringOriginalAndCopy(16, 5, "春秋苑")
-                SetStringOriginalAndCopy(19, 2, "電話０４４－９７７－３４６６㈹")
             Else
                 SetStringOriginalAndCopy(17, 1, "浄土真宗本願寺派")
                 SetStringOriginalAndCopy(16, 5, "信行寺")
-                SetStringOriginalAndCopy(19, 2, "電話０４４－９７６－０１１５㈹")
             End If
+            SetStringOriginalAndCopy(19, 2, "電話０４４－９７７－３４６６㈹")
         End Sub
         Private Sub SetBottomBorderOriginalAndCopy(row1 As Integer, column1 As Integer, row2 As Integer, column2 As Integer)
             ''左右の同じ部分に下線を引きます
@@ -1357,6 +1368,7 @@ Public Class ExcelOutputInfrastructure
         Private Sub MultipleLineOutput(prevText As String, provisoAmount As Integer)
             Dim i As Integer = 8 ''但し書き左側のRowPositionを設定する変数
             Dim j As Integer = 4 ''但し書き右側のRowPositionを設定する変数
+            Dim length As Integer = 0
 
             For Each p As Proviso In provisoList
                 ''但し書きが前のデータと同じなら金額を加算する
@@ -1377,13 +1389,26 @@ Public Class ExcelOutputInfrastructure
                     SetStringOriginalAndCopy(12 - i, 6, $"{p.Text} {provisoAmount:N0}円{IIf(p.IsReducedTaxRate, " ※", String.Empty)}")
                 End If
                 If p.IsReducedTaxRate Then SetStringOriginalAndCopy(8, 7, "※は軽減税率対象です")
-                If $"{p.Text} {provisoAmount:N0}円".Length > 10 Then
-                    ExlWorkSheet.Range("9:11").Style.Font.FontSize = 7
+                If length < $"{p.Text} {provisoAmount:N0}円{IIf(p.IsReducedTaxRate, " ※", String.Empty)}".Length Then
+                    length = $"{p.Text} {provisoAmount:N0}円{IIf(p.IsReducedTaxRate, " ※", String.Empty)}".Length
                 End If
             Next
+            If length > 9 Then
+                MySheetCellRange(9, 2, 12, 9).Style.Font.FontSize = 11
+                MySheetCellRange(9, CopyColumnPosition(2), 12, CopyColumnPosition(9)).Style.Font.FontSize = 11
+            End If
+            If length > 11 Then
+                MySheetCellRange(9, 2, 12, 9).Style.Font.FontSize = 8
+                MySheetCellRange(9, CopyColumnPosition(2), 12, CopyColumnPosition(9)).Style.Font.FontSize = 8
+            End If
+            If length > 13 Then
+                MySheetCellRange(9, 2, 12, 9).Style.Font.FontSize = 6
+                MySheetCellRange(9, CopyColumnPosition(2), 12, CopyColumnPosition(9)).Style.Font.FontSize = 6
+            End If
         End Sub
         Private Sub SingleLineOutput(contentCount As Integer, ByRef prevText As String, provisoAmount As Integer, isMulti As Boolean)
             Dim i As Integer = contentCount - 1
+            Dim length As Integer = 0
 
             For Each p As Proviso In provisoList
                 ''但し書きが前のデータと同じなら金額を加算する
@@ -1402,10 +1427,22 @@ Public Class ExcelOutputInfrastructure
                 If p.IsReducedTaxRate Then SetStringOriginalAndCopy(8, 7, "※は軽減税率対象です")
                 ''カウントを減算する（次を1行上に入力するようにする）
                 i -= 1
-                If $"{p.Text} {provisoAmount:N0}円".Length > 15 Then
-                    ExlWorkSheet.Range("9:11").Style.Font.FontSize = 10
+                If length < $"{prevText}{IIf(isMulti, $"：{provisoAmount:N0} 円", String.Empty)}{IIf(p.IsReducedTaxRate, " ※", String.Empty)}".Length Then
+                    length = $"{prevText}{IIf(isMulti, $"：{provisoAmount:N0} 円", String.Empty)}{IIf(p.IsReducedTaxRate, " ※", String.Empty)}".Length
                 End If
             Next
+            If length > 15 Then
+                MySheetCellRange(9, 2, 12, 9).Style.Font.FontSize = 12
+                MySheetCellRange(9, CopyColumnPosition(2), 12, CopyColumnPosition(9)).Style.Font.FontSize = 12
+            End If
+            If length > 17 Then
+                MySheetCellRange(9, 2, 12, 9).Style.Font.FontSize = 11
+                MySheetCellRange(9, CopyColumnPosition(2), 12, CopyColumnPosition(9)).Style.Font.FontSize = 11
+            End If
+            If length > 20 Then
+                MySheetCellRange(9, 2, 12, 9).Style.Font.FontSize = 10
+                MySheetCellRange(9, CopyColumnPosition(2), 12, CopyColumnPosition(9)).Style.Font.FontSize = 10
+            End If
         End Sub
 
 

@@ -55,9 +55,10 @@ Public Class SQLConnectInfrastructure
     ''' Rsにデータを格納します
     ''' </summary>
     ''' <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
-    Private Sub ExecuteStoredProcSetRecord(ByRef exeCmd As ADODB.Command)
+    Private Sub ExecuteStoredProcSetRecord(ByRef exeCmd As ADODB.Command,
+                                           Optional commandType As ADODB.CommandTypeEnum = ADODB.CommandTypeEnum.adCmdStoredProc)
 
-        exeCmd = GetCompleteCmd(exeCmd)
+        exeCmd = GetCompleteCmd(exeCmd, commandType)
         Try
             Rs = exeCmd.Execute
         Catch ex As Exception
@@ -71,14 +72,15 @@ Public Class SQLConnectInfrastructure
     ''' </summary>
     ''' <param name="execmd"></param>
     ''' <returns></returns>
-    Private Function GetCompleteCmd(execmd As ADODB.Command) As ADODB.Command
+    Private Function GetCompleteCmd(execmd As ADODB.Command,
+                                    Optional commandType As ADODB.CommandTypeEnum = ADODB.CommandTypeEnum.adCmdStoredProc) As ADODB.Command
 
         Cn = New ADODB.Connection With {.ConnectionString = MyConnectionString}
         Cn.Open()
 
         With execmd
             .ActiveConnection = Cn
-            .CommandType = ADODB.CommandTypeEnum.adCmdStoredProc
+            .CommandType = commandType
         End With
 
         Return execmd
@@ -579,11 +581,21 @@ Public Class SQLConnectInfrastructure
 
         Dim i As Integer
 
-        i = RsFields("id")
+        i = IIf(IsDBNull(RsFields("id")), 0, RsFields("id"))
 
         ADONothing()
 
         Return i
 
+    End Function
+
+    Public Function CallNextVoucherNumber() As Integer Implements IDataConectRepogitory.CallNextVoucherNumber
+        Cmd = New ADODB.Command With {
+            .CommandText = "return_max_id"
+        }
+        ExecuteStoredProcSetRecord(Cmd, ADODB.CommandTypeEnum.adCmdText)
+        Dim s As String = IIf(String.IsNullOrEmpty(RsFields("id")), 0, RsFields("id"))
+        Dim i As Integer = s
+        Return i + 1
     End Function
 End Class

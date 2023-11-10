@@ -460,7 +460,7 @@ Namespace ViewModels
             End Try
 
             ProvisoClear()
-
+            CallNextVoucherNumber()
             ButtonText = "出力"
 
         End Sub
@@ -1148,7 +1148,7 @@ Namespace ViewModels
             LastSaveDate = DataBaseConecter.GetLastSaveDate.GetDate
 
             ProvisoClear()
-
+            CallNextVoucherNumber()
         End Sub
 
         ''' <summary>
@@ -1300,6 +1300,8 @@ Namespace ViewModels
         Private _IsPrepaid As Boolean
         Private _PrepaidDate As Date = "1900-1-1"
         Private _AccountActivityDate As Date = Now
+        Private _NextVoucherNumber As Integer
+        Private _CallNextVoucherNumberCommand As ICommand
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します
@@ -1491,6 +1493,37 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(IsNoteInfoIgnored))
             End Set
         End Property
+
+        Public Property NextVoucherNumber As Integer
+            Get
+                Return _NextVoucherNumber
+            End Get
+            Set
+                _NextVoucherNumber = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        Public Property CallNextVoucherNumberCommand As ICommand
+            Get
+                _CallNextVoucherNumberCommand = New DelegateCommand(
+                    Sub()
+                        CallNextVoucherNumber()
+                        CallPropertyChanged(NameOf(CallNextVoucherNumberCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function)
+                Return _CallNextVoucherNumberCommand
+            End Get
+            Set
+                _CallNextVoucherNumberCommand = Value
+            End Set
+        End Property
+
+        Public Sub CallNextVoucherNumber()
+            NextVoucherNumber = DataBaseConecter.CallNextVoucherNumber
+        End Sub
 
         Public Property NoteInfoMessageCommand As DelegateCommand
 

@@ -1029,5 +1029,11 @@ Domain
  </summary>
  <returns></returns>
 </member>
+<member name="M:Domain.IDataConectRepogitory.CallNextVoucherNumber">
+ <summary>
+ 次に登録される受納証ナンバーを取得します
+ </summary>
+ <returns></returns>
+</member>
 </members>
 </doc>

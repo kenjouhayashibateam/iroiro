@@ -894,6 +894,8 @@ Namespace ViewModels
                                End Select
                                ProgressVisiblity = Visibility.Hidden
                                IsOutputEnabled = True
+                               ProgressText = $"出力データはクリップボードにコピーされています。{vbCrLf}" &
+                                                        $"誤っていろいろ発行を閉じたときは、再起動後に{vbCrLf}上部の宛先リスト入力ボタンをクリックして{vbCrLf}復元できます。"
                            End Sub
                            )
 

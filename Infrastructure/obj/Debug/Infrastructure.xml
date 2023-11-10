@@ -711,13 +711,13 @@ Infrastructure
  VB.NETとSQLServerを接続するクラス
  </summary>
 </member>
-<member name="M:Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(ADODB.Command@)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.ExecuteStoredProcSetRecord(ADODB.Command@,ADODB.CommandTypeEnum)">
  <summary>
  Rsにデータを格納します
  </summary>
  <param name="exeCmd">使用するストアドプロシージャ等のデータを格納したコマンド</param>
 </member>
-<member name="M:Infrastructure.SQLConnectInfrastructure.GetCompleteCmd(ADODB.Command)">
+<member name="M:Infrastructure.SQLConnectInfrastructure.GetCompleteCmd(ADODB.Command,ADODB.CommandTypeEnum)">
  <summary>
  Cmdのプロパティを完成させて返します
  </summary>
