@@ -1531,6 +1531,78 @@
  名義人と送付先のどちらを使用するかのメッセージを生成します
  </summary>
 </member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.IsRemainingMoney">
+ <summary>
+ 残金チェック
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.IsDeposit">
+ <summary>
+ 内金チェック
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.IsEarnest">
+ <summary>
+ 手付金チェック
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Area">
+ <summary>
+ 面積
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Depth">
+ <summary>
+ 奥行
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.Frontage">
+ <summary>
+ 間口
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GraveNote">
+ <summary>
+ 使用地備考
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GraveGou">
+ <summary>
+ 号
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GraveBan">
+ <summary>
+ 番
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GraveGawa">
+ <summary>
+ 側
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.GraveKuiki">
+ <summary>
+ 区域
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.SelectedZone">
+ <summary>
+ 選択された区域
+ </summary>
+ <returns></returns>
+</member>
 <member name="T:WPF.Behaviors.MessageBoxBehavior">
  <summary>
  メッセージボックスを呼び出します

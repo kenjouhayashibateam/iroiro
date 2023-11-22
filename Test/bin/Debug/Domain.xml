@@ -909,9 +909,14 @@ Domain
  </summary>
  <param name="_listener"></param>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.VoucherOutput(System.Int32,System.String,System.Collections.ObjectModel.ObservableCollection{Domain.Proviso},System.Boolean,System.Boolean,System.String,System.Boolean,System.DateTime,System.DateTime)">
+<member name="M:Domain.IOutputDataRepogitory.VoucherOutput(System.Int32,System.String,System.Collections.ObjectModel.ObservableCollection{Domain.Proviso},System.Boolean,System.Boolean,System.String,System.Boolean,System.DateTime,System.DateTime,System.Boolean)">
  <summary>
  受納証
+ </summary>
+</member>
+<member name="M:Domain.IOutputDataRepogitory.GraveVoucherOutput(System.String,System.Int32,System.DateTime,Domain.LesseeCustomerInfoEntity,System.String,System.Double,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String,System.String,System.Boolean)">
+ <summary>
+ 墓地使用料領収書
  </summary>
 </member>
 <member name="T:Domain.IDataConectRepogitory">

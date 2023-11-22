@@ -600,6 +600,91 @@ Infrastructure
  エクセルシートの余白を0に設定する
  </summary>
 </member>
+<member name="T:Infrastructure.ExcelOutputInfrastructure.GraveVoucher">
+ <summary>
+ 墓地管理料受納証クラス
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.Addressee">
+ <summary>
+ 宛名
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.Amount">
+ <summary>
+ 金額
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.MyLessee">
+ <summary>
+ 名義人情報
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.GraveNote">
+ <summary>
+ 使用地備考
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.Frontage">
+ <summary>
+ 間口
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.Depth">
+ <summary>
+ 奥行
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.IsEarnest">
+ <summary>
+ 手付金チェック
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.IsDeposit">
+ <summary>
+ 内金チェック
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.IsRemainingMoney">
+ <summary>
+ 残金チェック
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.IsFullAmount">
+ <summary>
+ 全額チェック
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.Note">
+ <summary>
+ 備考
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.CleakName">
+ <summary>
+ 扱者
+ </summary>
+</member>
+<member name="F:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.AccountActivityDate">
+ <summary>
+ 入金日
+ </summary>
+</member>
+<member name="M:Infrastructure.ExcelOutputInfrastructure.GraveVoucher.#ctor(System.String,System.Int32,System.DateTime,Domain.LesseeCustomerInfoEntity,System.String,System.Double,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String,System.String,System.Boolean)">
+ <param name="addressee">宛名</param>
+ <param name="amount">金額</param>
+ <param name="accountActivityDate">入金日</param>
+ <param name="myLessee">名義人情報</param>
+ <param name="graveNote">墓地備考</param>
+ <param name="frontage">間口</param>
+ <param name="depth">奥行</param>
+ <param name="isEarnest">手付金チェック</param>
+ <param name="isDeposit">内金チェック</param>
+ <param name="isRemainingMoney">残金チェック</param>
+ <param name="isFullAmount">全額チェック</param>
+ <param name="note">備考</param>
+ <param name="cleakName">扱者</param>
+</member>
 <member name="T:Infrastructure.ExcelOutputInfrastructure.Voucher">
  <summary>
  受納証クラス
@@ -695,11 +780,6 @@ Infrastructure
  ログファイルを生成します
  </summary>
  <returns></returns>
-</member>
-<member name="F:Infrastructure.SQLConnectInfrastructure.SHUNJUENCONSTRING">
- <summary>
- SQLServerに接続するための接続文字列
- </summary>
 </member>
 <member name="P:Infrastructure.SQLConnectInfrastructure.Rs">
  <summary> 

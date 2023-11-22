@@ -98,6 +98,10 @@ Public Interface IOutputDataRepogitory
     ''' <summary>
     ''' 受納証
     ''' </summary>
-    Sub VoucherOutput(id As Integer, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date)
+    Sub VoucherOutput(id As Integer, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date, IsIPAmjMintyo As Boolean)
+    ''' <summary>
+    ''' 墓地使用料領収書
+    ''' </summary>
+    Sub GraveVoucherOutput(addressee As String, amount As Integer, accountActivityDate As Date, lessee As LesseeCustomerInfoEntity, graveNote As String, frontage As Double, depth As Double, isEarnest As Boolean, isDeposit As Boolean, isRemainingMoney As Boolean, isFullAmount As Boolean, note As String, cleakName As String, IsIPAmjMintyo As Boolean)
 
 End Interface

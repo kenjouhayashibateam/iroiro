@@ -13,6 +13,8 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements IAddressDataViewCloseListener, IOverLengthAddress2Count
 
+        Public ReadOnly Property Zones As New Dictionary(Of String, String)
+        Private _selectedZone As KeyValuePair(Of String, String)
         ''' <summary>
         ''' 名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド
         ''' </summary>
@@ -324,6 +326,14 @@ Namespace ViewModels
             End Set
         End Property
         Private Property MyLessee As LesseeCustomerInfoEntity
+            Get
+                Return _MyLessee
+            End Get
+            Set
+                _MyLessee = Value
+            End Set
+        End Property
+
         Private Property ProvisoList As ObservableCollection(Of Proviso)
 
         Private _Addresseename As String = String.Empty
@@ -384,6 +394,34 @@ Namespace ViewModels
         Private _Proviso7 As String
         Private _Proviso8 As String
         Private _totalAmount As Integer
+        Private AddressList As AddressDataListEntity
+        Private _CallShowAddressDataView As Boolean
+        Private _ViewTitle As String
+        Private _OutputInfo As String
+        Private _ButtonText As String = "出力"
+        Private _OutputButtonIsEnabled As Boolean = True
+        Private _IsShunjuen As Boolean
+        Private _IsDisplayTax As Boolean
+        Private _IsReissue As Boolean
+        Private _CanOutput As Boolean
+        Private _IsPrepaid As Boolean
+        Private _PrepaidDate As Date = "1900-1-1"
+        Private _AccountActivityDate As Date = Now
+        Private _NextVoucherNumber As Integer
+        Private _CallNextVoucherNumberCommand As ICommand
+        Private _GraveKuiki As String = String.Empty
+        Private _GraveNote As String
+        Private _Frontage As Double
+        Private _Depth As Double
+        Private _Area As Double
+        Private _IsEarnest As Boolean
+        Private _IsDeposit As Boolean
+        Private _IsRemainingMoney As Boolean
+        Private _GraveVoucherOutputCommand As ICommand
+        Private _MyLessee As LesseeCustomerInfoEntity
+        Private _GraveGawa As String = String.Empty
+        Private _GraveBan As String = String.Empty
+        Private _GraveGou As String = String.Empty
 
         Public Property AccountActivityDate As Date
             Get
@@ -425,6 +463,37 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(CanOutput))
             End Set
         End Property
+
+        Public Property GraveVoucherOutputCommand As ICommand
+            Get
+                _GraveVoucherOutputCommand = New DelegateCommand(
+                    Sub()
+                        GraveVoucherOutput()
+                        CallPropertyChanged(NameOf(GraveVoucherOutputCommand))
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function)
+                Return _GraveVoucherOutputCommand
+            End Get
+            Set
+                _GraveVoucherOutputCommand = Value
+            End Set
+        End Property
+
+        Private Sub GraveVoucherOutput()
+            ButtonText = "出力中"
+            Money = IIf(String.IsNullOrEmpty(Money), 0, Money)
+            Money = IIf(Money > 0, Money, 0)
+            MyLessee = New LesseeCustomerInfoEntity(String.Empty, AddresseeName, String.Empty, String.Empty, String.Empty, SelectedZone.Key, GraveKuiki, GraveGawa, GraveBan, GraveGou, Area, String.Empty, String.Empty, String.Empty, String.Empty)
+            Try
+                DataOutputConecter.GraveVoucherOutput(AddresseeName, Money, AccountActivityDate, MyLessee, GraveNote, Frontage, Depth, IsEarnest, IsDeposit, IsRemainingMoney, IsFullAmount, Note4, Note5, IsIPAmjMintyo)
+            Catch ex As Exception
+                Dim log As ILoggerRepogitory = New LogFileInfrastructure
+                log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
+            End Try
+            ButtonText = "出力"
+        End Sub
         Public Property VoucherOutputCommand As ICommand
             Get
                 _VoucherOutputCommand = New DelegateCommand(
@@ -453,7 +522,7 @@ Namespace ViewModels
                     Return
                 End If
                 Dim iD = DataBaseConecter.VoucherRegistration(AccountActivityDate, AddresseeName, TotalAmount, Note5)
-                DataOutputConecter.VoucherOutput(iD, AddresseeName, ProvisoList, IsShunjuen, IsReissue, Note5, IsDisplayTax, PrepaidDate, AccountActivityDate)
+                DataOutputConecter.VoucherOutput(iD, AddresseeName, ProvisoList, IsShunjuen, IsReissue, Note5, IsDisplayTax, PrepaidDate, AccountActivityDate, IsIPAmjMintyo)
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -488,7 +557,7 @@ Namespace ViewModels
 
         Private Sub AddProviso(text As String, amount As Integer, isReducedTaxRate As Boolean)
             If String.IsNullOrEmpty(text) And amount > 0 Then
-                CreateProvisoWarningMessage($"但し書きが入力されていないので、{amount:N0}円のデータを無視します。")
+                CreateProvisoWarningMessage($"但し書きが入力されていないので、{amount: N0}円のデータを無視します。")
                 Return
             End If
 
@@ -1144,11 +1213,21 @@ Namespace ViewModels
                 .Add(OutputContents.WesternEnbelope, My.Resources.WesternEnvelopeText）
                 .Add(OutputContents.Postcard, My.Resources.PostcardText）
             End With
-
             LastSaveDate = DataBaseConecter.GetLastSaveDate.GetDate
-
             ProvisoClear()
             CallNextVoucherNumber()
+            With Zones
+                .Add("01", "東")
+                .Add("02", "西")
+                .Add("03", "南")
+                .Add("04", "北")
+                .Add("05", "中")
+                .Add("10", "東特")
+                .Add("11", "二特")
+                .Add("12", "北特")
+                .Add("20", "御廟")
+                .Add(String.Empty, String.Empty)
+            End With
         End Sub
 
         ''' <summary>
@@ -1160,6 +1239,16 @@ Namespace ViewModels
             CustomerID = String.Empty
 
             If MyLessee Is Nothing Then Exit Sub
+
+            If CInt(MyLessee.GetCustomerID().GetID) < 500000 Then
+                GraveKuiki = MyLessee.GetGraveNumber().GetNumber
+                GraveNote = String.Empty
+                Area = MyLessee.GetArea.AreaValue
+            Else
+                GraveKuiki = String.Empty
+                GraveNote = "屋内御廟"
+                Area = 0
+            End If
 
             If MyLessee.GetReceiverName.GetName = String.Empty Then
                 SetLesseeProperty(MyLessee)
@@ -1184,6 +1273,12 @@ Namespace ViewModels
 
             NoteInput()
 
+        End Sub
+
+        Private Sub SetGraveVoucherProperty()
+            With MyLessee
+
+            End With
         End Sub
 
         Private Sub SetReceiverProperty(mylessee As LesseeCustomerInfoEntity)
@@ -1286,22 +1381,6 @@ Namespace ViewModels
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
             End Try
         End Sub
-
-        Private AddressList As AddressDataListEntity
-        Private _CallShowAddressDataView As Boolean
-        Private _ViewTitle As String
-        Private _OutputInfo As String
-        Private _ButtonText As String = "出力"
-        Private _OutputButtonIsEnabled As Boolean = True
-        Private _IsShunjuen As Boolean
-        Private _IsDisplayTax As Boolean
-        Private _IsReissue As Boolean
-        Private _CanOutput As Boolean
-        Private _IsPrepaid As Boolean
-        Private _PrepaidDate As Date = "1900-1-1"
-        Private _AccountActivityDate As Date = Now
-        Private _NextVoucherNumber As Integer
-        Private _CallNextVoucherNumberCommand As ICommand
 
         ''' <summary>
         ''' 住所リストを表示するタイミングを管理します
@@ -1629,6 +1708,172 @@ Namespace ViewModels
             )
 
         End Sub
+        Public Property IsFullAmount As Boolean
+        ''' <summary>
+        ''' 残金チェック
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsRemainingMoney As Boolean
+            Get
+                Return _IsRemainingMoney
+            End Get
+            Set
+                _IsRemainingMoney = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 内金チェック
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsDeposit As Boolean
+            Get
+                Return _IsDeposit
+            End Get
+            Set
+                _IsDeposit = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 手付金チェック
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsEarnest As Boolean
+            Get
+                Return _IsEarnest
+            End Get
+            Set
+                _IsEarnest = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 面積
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Area As Double
+            Get
+                Return _Area
+            End Get
+            Set
+                _Area = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 奥行
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Depth As Double
+            Get
+                Return _Depth
+            End Get
+            Set
+                _Depth = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 間口
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Frontage As Double
+            Get
+                Return _Frontage
+            End Get
+            Set
+                _Frontage = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 使用地備考
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GraveNote As String
+            Get
+                Return _GraveNote
+            End Get
+            Set
+                _GraveNote = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+        ''' <summary>
+        ''' 号
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GraveGou As String
+            Get
+                Return _GraveGou
+            End Get
+            Set
+                _GraveGou = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 番
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GraveBan As String
+            Get
+                Return _GraveBan
+            End Get
+            Set
+                _GraveBan = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 側
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GraveGawa As String
+            Get
+                Return _GraveGawa
+            End Get
+            Set
+                _GraveGawa = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' 区域
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property GraveKuiki As String
+            Get
+                Return _GraveKuiki
+            End Get
+            Set
+                _GraveKuiki = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+        ''' <summary>
+        ''' 選択された区域
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SelectedZone As KeyValuePair(Of String, String)
+            Get
+                Return _selectedZone
+            End Get
+            Set
+                _selectedZone = Value
+                CallPropertyChanged()
+            End Set
+        End Property
 
         Protected Overrides Sub ValidateProperty(propertyName As String, value As Object)
 

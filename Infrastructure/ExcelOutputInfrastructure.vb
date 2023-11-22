@@ -4,6 +4,7 @@ Imports Domain
 Imports System.Text.RegularExpressions
 Imports System.Collections.ObjectModel
 Imports System.Drawing
+Imports System.Globalization
 
 ''' <summary>
 ''' 住所を宛先用に変換します
@@ -787,6 +788,34 @@ Public Class ExcelOutputInfrastructure
         ExcelOpen()
     End Sub
 
+    Private Sub GraveVoucherOutputProcessing(_gv As GraveVoucher)
+        SheetSetting()
+        ColumnSizes = _gv.SetColumnSizes
+        RowSizes = _gv.SetRowSizes
+        OutputDataGanre = _gv.GetDataName
+
+        With ExlWorkSheet
+            Dim unused = .Cells.Clear()
+            _gv.CellsJoin(1)
+            _gv.CellProperty(1)
+            SetMargin()
+            'ColumnSizesの配列の中の数字をシートのカラムの幅に設定する
+            For i As Integer = 0 To UBound(ColumnSizes)
+                .Column(i + 1).Width = ColumnSizes(i)
+            Next
+            For i As Integer = 0 To UBound(RowSizes)
+                .Row(i + 1).Height = RowSizes(i)
+            Next
+            .PageSetup.PrintAreas.Clear()
+            .PageSetup.PrintAreas.Add(_gv.SetPrintAreaString)
+            .Style.Font.FontName = _gv.SetCellFont(False)
+        End With
+        ExlWorkSheet.Style.NumberFormat.SetFormat("@")
+        _gv.SetData()
+        If ExlWorkbook.Worksheets.Count = 0 Then ExlWorkbook.AddWorksheet(ExlWorkSheet)
+        ExlWorkbook.SaveAs(My.Resources.SAVEPATH)
+        ExcelOpen()
+    End Sub
     ''' <summary>
     ''' 墓地札データリスト出力
     ''' </summary>
@@ -950,10 +979,248 @@ Public Class ExcelOutputInfrastructure
         OutputLabelProcessing(ls, _isIPAmjMintyo)
     End Sub
 
-    Public Sub VoucherOutput(id As Integer, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date) Implements IOutputDataRepogitory.VoucherOutput
-        Dim v As IVerticalOutputBehavior = New Voucher(id, addressee, provisoList, isShunjuen, isReissue, cleakName, isDisplayTax, prepaidDate, accountActivityDate)
+    Public Sub VoucherOutput(id As Integer, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date, IsIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.VoucherOutput
+        Dim v As IVerticalOutputBehavior = New Voucher(id, addressee, provisoList, isShunjuen, isReissue, cleakName, isDisplayTax, prepaidDate, accountActivityDate, IsIPAmjMintyo)
         VoucherOutputProcessing(v)
     End Sub
+
+    Public Sub GraveVoucherOutput(addressee As String, amount As Integer, accountActivityDate As Date, lessee As LesseeCustomerInfoEntity, graveNote As String, frontage As Double, depth As Double, isEarnest As Boolean, isDeposit As Boolean, isRemainingMoney As Boolean, isFullAmount As Boolean, note As String, cleakName As String, isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.GraveVoucherOutput
+        Dim v As IVerticalOutputBehavior = New GraveVoucher(addressee, amount, accountActivityDate, lessee, graveNote, frontage, depth, isEarnest, isDeposit, isRemainingMoney, isFullAmount, note, cleakName, isIPAmjMintyo)
+        GraveVoucherOutputProcessing(v)
+    End Sub
+    ''' <summary>
+    ''' 墓地管理料受納証クラス
+    ''' </summary>
+    Private Class GraveVoucher
+        Implements IVerticalOutputBehavior
+        ''' <summary>
+        ''' 宛名
+        ''' </summary>
+        Private ReadOnly Addressee As String
+        ''' <summary>
+        ''' 金額
+        ''' </summary>
+        Private ReadOnly Amount As Integer
+        ''' <summary>
+        ''' 名義人情報
+        ''' </summary>
+        Private ReadOnly MyLessee As LesseeCustomerInfoEntity
+        ''' <summary>
+        ''' 使用地備考
+        ''' </summary>
+        Private ReadOnly GraveNote As String
+        ''' <summary>
+        ''' 間口
+        ''' </summary>
+        Private ReadOnly Frontage As Double
+        ''' <summary>
+        ''' 奥行
+        ''' </summary>
+        Private ReadOnly Depth As Double
+        ''' <summary>
+        ''' 手付金チェック
+        ''' </summary>
+        Private ReadOnly IsEarnest As Boolean
+        ''' <summary>
+        ''' 内金チェック
+        ''' </summary>
+        Private ReadOnly IsDeposit As Boolean
+        ''' <summary>
+        ''' 残金チェック
+        ''' </summary>
+        Private ReadOnly IsRemainingMoney As Boolean
+        ''' <summary>
+        ''' 全額チェック
+        ''' </summary>
+        Private ReadOnly IsFullAmount As Boolean
+        ''' <summary>
+        ''' 備考
+        ''' </summary>
+        Private ReadOnly Note As String
+        ''' <summary>
+        ''' 扱者
+        ''' </summary>
+        Private ReadOnly CleakName As String
+        ''' <summary>
+        ''' 入金日
+        ''' </summary>
+        Private ReadOnly AccountActivityDate As Date
+
+        Private ReadOnly IsIPAmjMintyo As Boolean
+
+        ''' <param name="addressee">宛名</param>
+        ''' <param name="amount">金額</param>
+        ''' <param name="accountActivityDate">入金日</param>
+        ''' <param name="myLessee">名義人情報</param>
+        ''' <param name="graveNote">墓地備考</param>
+        ''' <param name="frontage">間口</param>
+        ''' <param name="depth">奥行</param>
+        ''' <param name="isEarnest">手付金チェック</param>
+        ''' <param name="isDeposit">内金チェック</param>
+        ''' <param name="isRemainingMoney">残金チェック</param>
+        ''' <param name="isFullAmount">全額チェック</param>
+        ''' <param name="note">備考</param>
+        ''' <param name="cleakName">扱者</param>
+        Public Sub New(addressee As String, amount As Integer, accountActivityDate As Date, myLessee As LesseeCustomerInfoEntity, graveNote As String, frontage As Double, depth As Double, isEarnest As Boolean, isDeposit As Boolean, isRemainingMoney As Boolean, isFullAmount As Boolean, note As String, cleakName As String, isIPAmjMintyo As Boolean)
+            Me.Addressee = addressee
+            Me.Amount = amount
+            Me.AccountActivityDate = accountActivityDate
+            Me.MyLessee = myLessee
+            Me.GraveNote = graveNote
+            Me.Frontage = frontage
+            Me.Depth = depth
+            Me.IsEarnest = isEarnest
+            Me.IsDeposit = isDeposit
+            Me.IsRemainingMoney = isRemainingMoney
+            Me.IsFullAmount = isFullAmount
+            Me.Note = note
+            Me.CleakName = cleakName
+            Me.IsIPAmjMintyo = isIPAmjMintyo
+        End Sub
+
+        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+            With ExlWorkSheet
+                Dim unused = .Range(.Cell(2, 3), .Cell(2, 11)).Merge
+                unused = .Range(.Cell(4, 3), .Cell(4, 11)).Merge
+                unused = .Range(.Cell(6, 3), .Cell(6, 4)).Merge
+                unused = .Range(.Cell(6, 6), .Cell(6, 7)).Merge
+                unused = .Range(.Cell(6, 9), .Cell(6, 10)).Merge
+                unused = .Range(.Cell(6, 12), .Cell(6, 13)).Merge
+                unused = .Range(.Cell(7, 4), .Cell(7, 14)).Merge
+                unused = .Range(.Cell(9, 5), .Cell(9, 6)).Merge
+                unused = .Range(.Cell(9, 12), .Cell(9, 13)).Merge
+                unused = .Range(.Cell(10, 5), .Cell(10, 6)).Merge
+                unused = .Range(.Cell(14, 2), .Cell(14, 14)).Merge
+                unused = .Range(.Cell(15, 5), .Cell(15, 6)).Merge
+                unused = .Range(.Cell(15, 7), .Cell(15, 8)).Merge
+                unused = .Range(.Cell(15, 9), .Cell(15, 10)).Merge
+                unused = .Range(.Cell(17, 14), .Cell(17, 15)).Merge
+            End With
+        End Sub
+
+        Public Sub CellProperty(startrowposition As Integer) Implements IExcelOutputBehavior.CellProperty
+            With ExlWorkSheet
+                With .PageSetup
+                    .SetPaperSize(ClosedXML.Excel.XLPaperSize.B5Paper)
+                    .PageOrientation = XLPageOrientation.Portrait
+                End With
+                With .Cell(2, 3).Style
+                    With .Alignment
+                        .SetVertical(XLAlignmentVerticalValues.Center)
+                        .SetHorizontal(XLAlignmentHorizontalValues.Center)
+                    End With
+                    With .Font
+                        .SetBold(True)
+                        .SetFontSize(24)
+                    End With
+                End With
+                With .Cell(4, 3).Style
+                    With .Alignment
+                        .SetVertical(XLAlignmentVerticalValues.Center)
+                        .SetHorizontal(XLAlignmentHorizontalValues.Center)
+                    End With
+                    With .Font
+                        .SetBold(True)
+                        .SetFontSize(24)
+                    End With
+                End With
+                With .Range(.Cell(6, 3), .Cell(6, 12)).Style.Alignment
+                    .SetHorizontal(XLAlignmentHorizontalValues.Center)
+                    .SetVertical(XLAlignmentVerticalValues.Center)
+                End With
+                With .Cell(7, 4).Style.Alignment
+                    .SetVertical(XLAlignmentVerticalValues.Center)
+                    .SetHorizontal(XLAlignmentHorizontalValues.Left)
+                    .SetShrinkToFit(True)
+                End With
+                With .Range(.Cell(9, 5), .Cell(10, 5)).Style.Alignment
+                    .SetVertical(XLAlignmentVerticalValues.Center)
+                    .SetHorizontal(XLAlignmentHorizontalValues.Right)
+                End With
+                With .Range("12:12").Style
+                    .Alignment.SetVertical(XLAlignmentVerticalValues.Center)
+                    .Font.SetFontSize(16)
+                End With
+                With .Cell(14, 2).Style
+                    .Alignment.SetShrinkToFit(True)
+                    .Alignment.SetVertical(XLAlignmentVerticalValues.Center)
+                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
+                End With
+                With .Range(.Cell(15, 5), .Cell(15, 9)).Style.Alignment
+                    .SetVertical(XLAlignmentVerticalValues.Center)
+                    .SetHorizontal(XLAlignmentHorizontalValues.Center)
+                End With
+                With .Cell(17, 14).Style
+                    .Alignment.SetShrinkToFit(True)
+                    .Alignment.SetVertical(XLAlignmentVerticalValues.Center)
+                    .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right)
+                End With
+            End With
+        End Sub
+
+        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+            Return 2
+        End Function
+
+        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+            Return 3
+        End Function
+
+        Public Function SetCellFont(_isIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+            Return "ＭＳ 明朝"
+        End Function
+
+        Public Function SetColumnSizes() As Double() Implements IExcelOutputBehavior.SetColumnSizes
+            Return {13.57, 8.57, 3.43, 3.43, 3.43, 2.86, 3.43, 2.86, 3.43, 2.86, 3.43, 3.29, 3.29, 3.29, 3.29, 3.71}
+        End Function
+
+        Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
+            Return {217.5, 28.5, 31.5, 28.5, 33.75, 18.75, 18.75, 3, 18.75, 18.75, 12, 25.5, 54, 27, 18.75, 111, 24}
+        End Function
+
+        Public Function GetDataName() As String Implements IExcelOutputBehavior.GetDataName
+            Return ToString()
+        End Function
+
+        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+            Return "a:p"
+        End Function
+
+        Public Sub SetData()
+            With ExlWorkSheet
+                .Cell(2, 3).Value = Addressee
+                If IsIPAmjMintyo Then .Cell(2, 3).Style.Font.FontName = My.Resources.IPAmjMintyoString
+                .Cell(4, 3).Value = $"{Amount:N0}"
+                .Cell(6, 3).Value = $"{MyLessee.GetGraveNumber().ConvertKuString}{MyLessee.GetGraveNumber().ConvertKuikiString}"
+                .Cell(6, 6).Value = MyLessee.GetGraveNumber().GawaField.DisplayForField
+                .Cell(6, 9).Value = MyLessee.GetGraveNumber().BanField.DisplayForField
+                .Cell(6, 12).Value = MyLessee.GetGraveNumber().EdabanField.DisplayForField
+                .Cell(7, 4).Value = GraveNote
+                .Cell(9, 5).Value = IIf(Frontage = 0, String.Empty, Frontage)
+                .Cell(9, 12).Value = IIf(Depth = 0, String.Empty, Depth)
+                .Cell(10, 5).Value = MyLessee.GetArea.AreaValue
+                .Cell(12, 5).Value = IIf(IsEarnest, "〇", String.Empty)
+                .Cell(12, 7).Value = IIf(IsDeposit, "〇", String.Empty)
+                .Cell(12, 9).Value = IIf(IsRemainingMoney, "〇", String.Empty)
+                .Cell(12, 11).Value = IIf(IsFullAmount, "〇", String.Empty)
+                .Cell(14, 2).Value = Note
+                Dim I As Integer = AccountActivityDate.ToString("yy", JapanCulture)
+                .Cell(15, 5).Value = I
+                .Cell(15, 7).Value = AccountActivityDate.Month
+                .Cell(15, 9).Value = AccountActivityDate.Day
+                .Cell(17, 14).Value = CleakName
+            End With
+        End Sub
+        Private ReadOnly Property JapanCulture As CultureInfo
+            Get
+                Dim value As New CultureInfo("ja-JP", True)
+                value.DateTimeFormat.Calendar = New JapaneseCalendar
+                Return value
+            End Get
+        End Property
+
+
+    End Class
     ''' <summary>
     ''' 受納証クラス
     ''' </summary>
@@ -972,8 +1239,9 @@ Public Class ExcelOutputInfrastructure
         Private ReadOnly isDisplayTax As Boolean
         Private ReadOnly prepaidDate As Date
         Private ReadOnly accountActivityDate As Date
+        Private ReadOnly isIPAmjMintyo As Boolean
 
-        Public Sub New(id As String, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date)
+        Public Sub New(id As String, addressee As String, provisoList As ObservableCollection(Of Proviso), isShunjuen As Boolean, isReissue As Boolean, cleakName As String, isDisplayTax As Boolean, prepaidDate As Date, accountActivityDate As Date, isIPAmjMintyo As Boolean)
             Me.iD = id
             Me.addressee = addressee
             Me.provisoList = provisoList
@@ -983,6 +1251,7 @@ Public Class ExcelOutputInfrastructure
             Me.isDisplayTax = isDisplayTax
             Me.prepaidDate = prepaidDate
             Me.accountActivityDate = accountActivityDate
+            Me.isIPAmjMintyo = isIPAmjMintyo
         End Sub
 
         Private Function CopyColumnPosition(originalColumn As Integer) As Integer
@@ -1185,7 +1454,7 @@ Public Class ExcelOutputInfrastructure
         End Function
 
         Public Function SetRowSizes() As Double() Implements IExcelOutputBehavior.SetRowSizes
-            Return {37.5, 18, 18, 19.5, 37.5, 37.5, 18.75, 18.75, 22.5, 22.5, 22.5, 22.5, 15, 15, 21.75, 18, 18.5, 18.5, 18, 18}
+            Return {37.5, 18, 18, 25.5, 37.5, 37.5, 18.75, 18.75, 22.5, 22.5, 22.5, 22.5, 15, 15, 21.75, 18, 18.5, 18.5, 18, 18}
 
         End Function
 
@@ -1218,8 +1487,18 @@ Public Class ExcelOutputInfrastructure
             ''T番号
             If isDisplayTax Then SetStringOriginalAndCopy(3, 7, My.Resources.InVoiceRegistrationNumber)
             ''宛名　2文字ならスペースを入れる
-            addresseeText = IIf(addressee.Length = 2, $"{addressee.Substring(0, 1)}　{addressee.Substring(1, 1)}", addressee)
+            If addressee.Length <> 0 Then
+                addresseeText = IIf(addressee.Length = 2, $"{addressee.Substring(0, 1)}　{addressee.Substring(1, 1)}", addressee)
+            Else
+                addresseeText = String.Empty
+            End If
             SetStringOriginalAndCopy(4, 1, addresseeText)
+            If isIPAmjMintyo Then
+                With ExlWorkSheet
+                    .Cell(4, 1).Style.Font.FontName = My.Resources.IPAmjMintyoString
+                    .Cell(4, CopyColumnPosition(1))
+                End With
+            End If
             SetStringOriginalAndCopy(4, 5, "様")
             ''総額
             SetStringOriginalAndCopy(5, 2, "冥加金")
@@ -1251,8 +1530,12 @@ Public Class ExcelOutputInfrastructure
                     containTaxRateAmount += p.Amount
                 End If
             Next
-            reducedTaxRate = Math.Floor(containReducedTaxRateAmount / 1.08 * 0.08)
-            taxRate = Math.Floor(containTaxRateAmount / 1.1 * 0.1)
+            'reducedTaxRate = Math.Floor(containReducedTaxRateAmount / 1.08 * 0.08)
+            'taxRate = Math.Floor(containTaxRateAmount / 1.1 * 0.1)
+            Dim s As Single = containTaxRateAmount / 1.1
+            taxRate = Math.Floor(s * 0.1)
+            s = containReducedTaxRateAmount / 1.08
+            reducedTaxRate = Math.Floor(s * 0.08)
             prevText = String.Empty
             ''件数が4件以下なら真ん中に1列で、それ以上なら2列で表記する
             If contentCount < 5 Then
@@ -1575,1062 +1858,1062 @@ Public Class ExcelOutputInfrastructure
     ''' 長3封筒クラス
     ''' </summary>
     Private Class Cho3Envelope
-        Implements IVerticalOutputListBehavior
+            Implements IVerticalOutputListBehavior
 
-        Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
-        Private ReadOnly IsIPAmjMintyo As Boolean = False
+            Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+            Private ReadOnly IsIPAmjMintyo As Boolean = False
 
-        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
-            IsIPAmjMintyo = _isIPAmjMintyo
-            AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
-        End Sub
+            Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+                IsIPAmjMintyo = _isIPAmjMintyo
+                AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
+            End Sub
 
-        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
-            AddresseeList = _addresseelist
-        End Sub
+            Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
+                AddresseeList = _addresseelist
+            End Sub
 
-        Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
+            Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
 
-            Dim addresseename As String
+                Dim addresseename As String
 
-            With ExlWorkSheet
-                '郵便番号
-                For I As Integer = 1 To 8
-                    If I = 4 Then Continue For
-                    .Cell(startrowposition + 2, I + 2).Value = destinationdata.MyPostalCode.GetCode.Substring(I - 1, 1)
-                Next
-
-                '住所
-                Dim addresstext1 As String = String.Empty
-                Dim addresstext2 As String = String.Empty
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                addresstext1 = ac.GetConvertAddress1
-                addresstext2 = ac.GetConvertAddress2
-                If addresstext1.Length + addresstext2.Length < 15 Then
-                    .Cell(startrowposition + 4, 9).Value = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
-                    .Cell(startrowposition + 4, 7).Value = String.Empty
-                Else
-                    .Cell(startrowposition + 4, 9).Value = ac.GetConvertAddress1
-                    .Cell(startrowposition + 4, 7).Value = ac.GetConvertAddress2
-                End If
-
-                If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
-                    .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.Yellow
-                Else
-                    .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.NoColor
-                End If
-
-                '宛名
-                addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
-                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
-                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
-                .Cell(startrowposition + 4, 2).Value = addresseename
-            End With
-
-        End Sub
-
-        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            With ExlWorkSheet
-                '住所欄1行目
-                Dim unused = .Range(.Cell(startrowposition + 4, 9), .Cell(startrowposition + 5, 10)).Merge()
-                '住所欄2行目
-                unused = .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 5, 8)).Merge()
-                '宛名肩書
-                unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 5)).Merge()
-                '宛名欄
-                unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 3)).Merge()
-            End With
-
-        End Sub
-
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
-        End Function
-
-        Private Function ColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {21.43, 7.43, 2.71, 2.71, 2.71, 0.33, 2.71, 2.71, 2.71, 2.71}
-        End Function
-
-        Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {101.25, 38.25, 14.25, 409.5, 133.5, 36}
-        End Function
-
-        Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
-
-            With ExlWorkSheet
-                '宛名
-                With .Cell(startrowposition + 4, 2).Style
-                    .Font.FontSize = If(IsIPAmjMintyo, 45, 48)
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Right
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
-                    End With
-                End With
-                '郵便番号
-                With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 10)).Style
-                    .Font.FontSize = 16
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .TopToBottom = True
-                    End With
-                End With
-
-                '住所
-                With .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 4, 10)).Style
-                    .Font.FontSize = If(IsIPAmjMintyo, 28, 30)
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Center
-                        .TopToBottom = True
-                    End With
-                End With
-                .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
-                .Cell(startrowposition + 4, 9).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
-                .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
-            End With
-        End Sub
-
-        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
-            Return 4
-        End Function
-
-        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
-            Return 2
-        End Function
-
-        Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
-
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:j"
-        End Function
-
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
-            Return AddresseeList
-        End Function
-
-        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 15
-        End Function
-
-        Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 振込用紙発行クラス
-    ''' </summary>
-    Private Class TransferPaper
-        Implements IVerticalOutputListBehavior
-
-        Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
-        Private Const YourCopyAddressMaxLengh As Integer = 11
-        Friend ReadOnly IsIPAmjMintyo As Boolean
-
-        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
-            IsIPAmjMintyo = _isIPAmjMintyo
-            AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
-        End Sub
-
-        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
-            AddresseeList = _addresseelist
-        End Sub
-
-        ''' <summary>
-        ''' お客様控えの住所を分けて表示させるための文字列の配列を返します
-        ''' </summary>
-        ''' <param name="address1">住所1</param>
-        ''' <param name="address2">住所2</param>
-        ''' <returns></returns>
-        Private Function SplitYourCopyAddress(address1 As String, address2 As String) As String()
-
-            Dim line1, line2, line3, joinaddress As String
-
-            '住所をつなげる
-            joinaddress = $"{address1}{address2}"
-
-            'つなげた住所の文字列が長ければ関数を呼び出し値を返す
-            If joinaddress.Length > YourCopyAddressMaxLengh * 2 Then Return ReturnLongAddressArray(joinaddress)
-
-            '住所1が長ければ2行に分ける
-            If address1.Length < YourCopyAddressMaxLengh Then
-                line1 = address1
-                line2 = String.Empty
-            Else
-                line1 = address1.Substring(0, YourCopyAddressMaxLengh)
-                line2 = address1.Substring(YourCopyAddressMaxLengh)
-            End If
-
-            '住所１の２行目と住所2を合わせたものが長ければ2行に分ける
-            joinaddress = line2 & address2
-            If joinaddress.Length < YourCopyAddressMaxLengh Then
-                line2 &= address2
-                line3 = String.Empty
-            Else
-                line2 = joinaddress.Substring(0, YourCopyAddressMaxLengh)
-                line3 = joinaddress.Substring(YourCopyAddressMaxLengh)
-            End If
-
-            Return {line1, line2, line3}
-
-        End Function
-
-        ''' <summary>
-        ''' 長い住所を区切ります。1行目を住所2の文字も使用して3行で表示させます。
-        ''' </summary>
-        ''' <param name="absolutenessaddress"></param>
-        ''' <returns></returns>
-        Private Function ReturnLongAddressArray(absolutenessaddress As String) As String()
-
-            Dim line1, line2, line3 As String
-
-            line1 = absolutenessaddress.Substring(0, YourCopyAddressMaxLengh)
-            line2 = absolutenessaddress.Substring(YourCopyAddressMaxLengh, YourCopyAddressMaxLengh)
-            line3 = absolutenessaddress.Substring(YourCopyAddressMaxLengh * 2)
-
-            Return {line1, line2, line3}
-
-        End Function
-
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_MSPMintyo)
-        End Function
-
-        Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {3.71, 25.14, 7.57, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 7.29, 1.71, 1.71, 1.71, 1.71, 2.14, 1.71, 1.71, 1.71, 0.31}
-        End Function
-
-        Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {283.5, 165, 19.5, 15, 18.75, 15, 15, 15, 15, 15, 15, 15, 15, 105.75}
-        End Function
-
-        Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
-
-            With ExlWorkSheet
-                .PageSetup.PaperSize = XLPaperSize.B5Paper
-                '宛名欄
-                With .Cell(12, 2).Style.Font
-                    .FontSize = If(IsIPAmjMintyo, 12, 14)
-                    .FontName = SetCellFont(IsIPAmjMintyo)
-                End With
-                '金額欄
-                With .Range(.Cell(startrowposition + 3, 4), .Cell(startrowposition + 3, 11)).Style
-                    .Font.FontSize = 14
-                    .Font.FontName = My.Resources.FontName_MSPMintyo
-                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
-                    .Alignment.Vertical = XLAlignmentVerticalValues.Center
-                End With
-
-                'お客様控え金額欄
-                With .Range(.Cell(startrowposition + 9, 13), .Cell(startrowposition + 9, 20)).Style
-                    .Font.FontSize = 14
-                    .Font.FontName = My.Resources.FontName_MSPMintyo
-                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
-                    .Alignment.Vertical = XLAlignmentVerticalValues.Center
-                End With
-
-                '備考欄1〜5
-                With .Range(.Cell(startrowposition + 6, 4), .Cell(startrowposition + 10, 4)).Style
-                    .Font.FontSize = 9
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
-                    .Alignment.TopToBottom = False
-                    .Alignment.ShrinkToFit = True
-                End With
-                '住所欄
-                With .Range(.Cell(startrowposition + 7, 2), .Cell(startrowposition + 10, 2)).Style
-                    .Font.FontSize = If(IsIPAmjMintyo, 7.5, 9)
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.TopToBottom = False
-                End With
-
-                'お客様控え住所欄
-                With .Range(.Cell(startrowposition + 10, 13), .Cell(startrowposition + 13, 13)).Style
-                    .Font.FontSize = If(IsIPAmjMintyo, 7.5, 9)
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.TopToBottom = False
-                End With
-                .Range(.Cell(startrowposition + 10, 13), .Cell(startrowposition + 12, 13)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
-                .Cell(startrowposition + 13, 13).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right
-            End With
-
-        End Sub
-
-        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            Dim row As Integer
-
-            '宛名備考欄5行を結合
-            row = 6
-            Do Until row = 11
                 With ExlWorkSheet
-                    Dim unused = .Range(.Cell(startrowposition + row, 4), .Cell(startrowposition + row, 11)).Merge()
-                End With
-                row += 1
-            Loop
+                    '郵便番号
+                    For I As Integer = 1 To 8
+                        If I = 4 Then Continue For
+                        .Cell(startrowposition + 2, I + 2).Value = destinationdata.MyPostalCode.GetCode.Substring(I - 1, 1)
+                    Next
 
-            'お客様控え欄4行を結合
-            row = 10
-            Do Until row = 14
-                With ExlWorkSheet
-                    Dim unused = .Range(.Cell(startrowposition + row, 13), .Cell(startrowposition + row, 20)).Merge()
-                End With
-                row += 1
-            Loop
-
-        End Sub
-
-        Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
-
-            With ExlWorkSheet
-                '振込金額入力
-                Dim ColumnIndex As Integer
-                Dim moneystring As String = $"\{destinationdata.MoneyData.GetMoney}"
-                Dim moneyField As String
-
-                For ColumnIndex = 0 To 8
-                    moneyField = If(moneystring.Length - 1 < ColumnIndex, String.Empty, moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1))
-                    .Cell(startrowposition + 3, 11 - ColumnIndex).Value = moneyField
-                    .Cell(startrowposition + 9, 20 - ColumnIndex).Value = moneyField    'お客様控え
-                Next
-
-                .Cell(startrowposition + 6, 4).Value = destinationdata.Note1Data.GetNote   '備考1
-                .Cell(startrowposition + 7, 4).Value = destinationdata.Note2Data.GetNote   '備考2
-                .Cell(startrowposition + 8, 4).Value = destinationdata.Note3Data.GetNote   '備考3
-                .Cell(startrowposition + 9, 4).Value = destinationdata.Note4Data.GetNote  '備考4
-                .Cell(startrowposition + 10, 4).Value = destinationdata.Note5Data.GetNote  '備考5
-                .Cell(startrowposition + 7, 2).Value = $"〒{destinationdata.MyPostalCode.GetCode}"      '宛先郵便番号
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                .Cell(startrowposition + 8, 2).Value = ac.GetConvertAddress1         '宛先住所1
-
-                Dim sad2 As String = StrConv(destinationdata.MyAddress2.Address, vbWide)
-                Dim stringlength = If(sad2.Length < 20, sad2.Length, 18)
-                '宛先住所2　長い場合は2行で入力
-                .Cell(startrowposition + 9, 2).Value = sad2.Substring(0, stringlength)
-                If sad2.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = sad2.Substring(stringlength)
-
-                .Cell(startrowposition + 12, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"  '宛先の宛名
-                .Cell(startrowposition + 13, 13).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}" 'お客様控えの名前
-
-                'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
-                Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, sad2)
-                .Cell(startrowposition + 10, 13).Value = $"{Space(1)}{strings(0)}"
-                .Cell(startrowposition + 11, 13).Value = $"{Space(1)}{ strings(1)}"
-                .Cell(startrowposition + 12, 13).Value = $"{Space(1)}{ strings(2)}"
-            End With
-
-        End Sub
-
-        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
-            Return 2
-        End Function
-
-        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
-            Return 4
-        End Function
-
-        Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
-
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:u"
-        End Function
-
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
-            Return AddresseeList
-        End Function
-
-        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 36
-        End Function
-
-        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return $"{destinationData.MyAddress1.Address}{destinationData.MyAddress2.Address}"
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 洋封筒クラス 
-    ''' </summary>
-    Private Class WesternEnvelope
-        Implements IVerticalOutputListBehavior
-
-        Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
-        Friend ReadOnly IsIPAmjMintyo As Boolean
-
-        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
-            IsIPAmjMintyo = _isIPAmjMintyo
-            AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
-        End Sub
-
-        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
-            AddresseeList = _addresseelist
-        End Sub
-
-        Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputListBehavior.CellProperty
-
-            With ExlWorkSheet
-                .PageSetup.PaperSize = XLPaperSize.C6Envelope
-                '郵便番号
-                With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
-                    .Font.FontSize = 16
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.Vertical = XLAlignmentVerticalValues.Top
-                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
-                End With
-                '住所
-                With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 8)).Style
-                    .Font.FontSize = 24
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
-                    .Alignment.TopToBottom = True
-                End With
-                .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
-                .Cell(startrowposition + 4, 6).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
-                '宛名
-                With .Cell(startrowposition + 4, 2).Style
-                    .Font.FontSize = 36
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
-                    End With
-                End With
-            End With
-
-        End Sub
-
-        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            With ExlWorkSheet
-                Dim unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 4)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
-            End With
-
-        End Sub
-
-        Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
-
-            Dim addresstext1 As String = String.Empty
-            Dim addresstext2 As String = String.Empty
-            Dim addresseename As String
-
-            With ExlWorkSheet
-                '郵便番号
-                For I As Integer = 1 To 7
-                    .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty).Substring(I - 1, 1)
-                Next
-
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                '住所
-                If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
-                    addresstext1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
-                Else
+                    '住所
+                    Dim addresstext1 As String = String.Empty
+                    Dim addresstext2 As String = String.Empty
+                    Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
                     addresstext1 = ac.GetConvertAddress1
                     addresstext2 = ac.GetConvertAddress2
-                End If
+                    If addresstext1.Length + addresstext2.Length < 15 Then
+                        .Cell(startrowposition + 4, 9).Value = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
+                        .Cell(startrowposition + 4, 7).Value = String.Empty
+                    Else
+                        .Cell(startrowposition + 4, 9).Value = ac.GetConvertAddress1
+                        .Cell(startrowposition + 4, 7).Value = ac.GetConvertAddress2
+                    End If
 
-                .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = If(ac.GetConvertAddress2.Length > 16, XLColor.Yellow, XLColor.NoColor)
+                    If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
+                        .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.Yellow
+                    Else
+                        .Cell(startrowposition + 4, 7).Style.Fill.BackgroundColor = XLColor.NoColor
+                    End If
 
-                .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
-                .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress2
-
-                '宛名
-                addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
+                    '宛名
+                    addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
                         $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
                         $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
-                .Cell(startrowposition + 4, 2).Value = addresseename
-            End With
+                    .Cell(startrowposition + 4, 2).Value = addresseename
+                End With
 
-        End Sub
+            End Sub
 
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
-        End Function
+            Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
 
-        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
-            Return 4
-        End Function
+                With ExlWorkSheet
+                    '住所欄1行目
+                    Dim unused = .Range(.Cell(startrowposition + 4, 9), .Cell(startrowposition + 5, 10)).Merge()
+                    '住所欄2行目
+                    unused = .Range(.Cell(startrowposition + 4, 7), .Cell(startrowposition + 5, 8)).Merge()
+                    '宛名肩書
+                    unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 5)).Merge()
+                    '宛名欄
+                    unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 3)).Merge()
+                End With
 
-        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
-            Return 2
-        End Function
+            End Sub
 
-        Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
+            End Function
 
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:j"
-        End Function
+            Private Function ColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+                Return {21.43, 7.43, 2.71, 2.71, 2.71, 0.33, 2.71, 2.71, 2.71, 2.71}
+            End Function
 
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
-            Return AddresseeList
-        End Function
+            Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+                Return {101.25, 38.25, 14.25, 409.5, 133.5, 36}
+            End Function
 
-        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 36
-        End Function
+            Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
 
-        Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {17.88, 6, 2.75, 2.75, 2.75, 2.38, 2.38, 2.38, 2.38, 0.85}
-        End Function
-
-        Private Function IExcelOutputBehavior_SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {22.5, 18.75, 27.75, 372}
-        End Function
-
-        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' 角2封筒クラス
-    ''' </summary>
-    Private Class Kaku2Envelope
-        Implements IVerticalOutputListBehavior
-
-        Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
-        Friend ReadOnly IsIPAmjMintyo As Boolean
-
-        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
-            IsIPAmjMintyo = _isIPAmjMintyo
-            AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
-        End Sub
-
-        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
-            AddresseeList = _addresseelist
-        End Sub
-
-        Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
-
-            With ExlWorkSheet
-                '郵便番号
-                With .Cell(startrowposition + 2, 3).Style
-                    .Font.FontSize = 36
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Bottom
-                        .TopToBottom = False
+                With ExlWorkSheet
+                    '宛名
+                    With .Cell(startrowposition + 4, 2).Style
+                        .Font.FontSize = If(IsIPAmjMintyo, 45, 48)
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Right
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
                     End With
-                End With
-
-                '住所
-                With .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 4, 4)).Style
-                    .Font.FontSize = If(IsIPAmjMintyo, 36, 43)
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
+                    '郵便番号
+                    With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 10)).Style
+                        .Font.FontSize = 16
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .TopToBottom = True
+                        End With
                     End With
-                End With
-                .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
 
-                '宛名
-                With .Cell(startrowposition + 5, 2).Style
-                    .Font.FontSize = 74
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
+                    '住所
+                    With .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 4, 10)).Style
+                        .Font.FontSize = If(IsIPAmjMintyo, 28, 30)
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Center
+                            .TopToBottom = True
+                        End With
                     End With
+                    .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    .Cell(startrowposition + 4, 9).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
+                    .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
                 End With
-            End With
-
-        End Sub
-
-        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            With ExlWorkSheet
-                Dim unused = .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
-                unused = .Range(.Cell(startrowposition + 5, 2), .Cell(startrowposition + 6, 2)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 6, 4)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 6, 5)).Merge()
-            End With
-
-        End Sub
-
-        Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
-
-            With ExlWorkSheet
-                '郵便番号
-                .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
-                '住所
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                If $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}".Length < 16 Then
-                    .Cell(startrowposition + 4, 5).Value = $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}"
-                    .Cell(startrowposition + 4, 4).Value = String.Empty
-                Else
-                    .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
-                    .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
-                End If
-
-                If ac.GetConvertAddress2.Length > 16 Then
-                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
-                Else
-                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
-                End If
-
-                '宛名
-                Dim name As String = destinationdata.AddresseeName.GetName
-                If name.Length <= 5 Then name &= Space(1)
-                .Cell(startrowposition + 5, 2).Value = $"{name}{destinationdata.MyTitle.GetTitle}"
-            End With
-
-        End Sub
-
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
-        End Function
-
-        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
-            Return 4
-        End Function
-
-        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
-            Return 2
-        End Function
-
-        Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {45.29, 23.43, 15.43, 9.57, 9.57, 8.57}
-        End Function
-
-        Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {120, 50.25, 61.5, 61.5, 409.5, 279, 67.5}
-        End Function
-
-        Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
-
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:f"
-        End Function
-
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
-            Return AddresseeList
-        End Function
-
-        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 15
-        End Function
-
-        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
-        End Function
-
-    End Class
-
-    ''' <summary>
-    ''' 墓地パンフクラス
-    ''' </summary>
-    Private Class GravePamphletEnvelope
-        Implements IVerticalOutputListBehavior
-
-        Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
-        Private ReadOnly IsIPAmjMintyo As Boolean = False
-
-        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
-            IsIPAmjMintyo = _isIPAmjMintyo
-            AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
-        End Sub
-
-        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
-            AddresseeList = _addresseelist
-        End Sub
-
-        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            With ExlWorkSheet
-                Dim unused = .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 2)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 4)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 5, 5)).Merge()
-            End With
-
-        End Sub
-
-        Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
-
-            With ExlWorkSheet
-                '郵便番号
-                With .Cell(startrowposition + 2, 3).Style
-                    .Font.FontSize = 36
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Bottom
-                        .TopToBottom = False
-                    End With
-                End With
-
-                '住所
-                With .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 4, 4)).Style
-                    .Font.FontSize = If(IsIPAmjMintyo, 36, 43)
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
-                    End With
-                End With
-                .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
-
-                '宛名
-                With .Cell(startrowposition + 4, 2).Style
-                    .Font.FontSize = 85
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
-                    End With
-                End With
-            End With
-
-        End Sub
-
-        Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
-
-            With ExlWorkSheet
-                '郵便番号
-                .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
-                '住所
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                Dim ad1 As String = ac.GetConvertAddress1
-                Dim ad2 As String = ac.GetConvertAddress2
-
-                If ad1.Length + ad2.Length < 16 Then
-                    .Cell(startrowposition + 4, 5).Value = $"{ad1}{ad2}"
-                    .Cell(startrowposition + 4, 4).Value = String.Empty
-                Else
-                    .Cell(startrowposition + 4, 5).Value = ad1
-                    .Cell(startrowposition + 4, 4).Value = ad2
-                End If
-
-                If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
-                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
-                Else
-                    .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
-                End If
-
-                '宛名
-                Dim name As String = destinationdata.AddresseeName.GetName
-                If name.Length <= 5 Then name &= Space(1)
-                .Cell(startrowposition + 4, 2).Value = $"{name}{destinationdata.MyTitle.GetTitle}"
-            End With
-
-        End Sub
-
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
-        End Function
-
-        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
-            Return 4
-        End Function
-
-        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
-            Return 2
-        End Function
-
-        Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {49.43, 23.43, 28.86, 9.43, 9.43}
-        End Function
-
-        Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {45.75, 132.75, 51.75, 409.5, 375, 34.5}
-        End Function
-
-        Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
-
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:e"
-        End Function
-
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
-            Return AddresseeList
-        End Function
-
-        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 15
-        End Function
-
-        Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' はがきクラス
-    ''' </summary>
-    Private Class Postcard
-        Implements IVerticalOutputListBehavior
-
-        Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
-        Private ReadOnly IsIPAmjMintyo As Boolean = False
-
-        Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
-            IsIPAmjMintyo = _isIPAmjMintyo
-            AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
-        End Sub
-
-        Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
-            AddresseeList = _addresseelist
-        End Sub
-
-        Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
-
-            With ExlWorkSheet
-                .PageSetup.PaperSize = XLPaperSize.EPaper
-                '郵便番号
-                With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
-                    .Font.FontSize = 16
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.Vertical = XLAlignmentVerticalValues.Top
-                End With
-                .Range(.Cell(startrowposition + 2, 6), .Cell(startrowposition + 2, 9)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
-                .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
-
-                '住所
-                With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 8)).Style
-                    .Font.FontSize = 18
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
-                    .Alignment.TopToBottom = True
-                End With
-                .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
-                .Cell(startrowposition + 4, 6).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
-                '宛名
-                With .Cell(startrowposition + 4, 2).Style
-                    .Font.FontSize = 36
-                    .Font.FontName = SetCellFont(IsIPAmjMintyo)
-                    With .Alignment
-                        .Horizontal = XLAlignmentHorizontalValues.Center
-                        .Vertical = XLAlignmentVerticalValues.Top
-                        .TopToBottom = True
-                    End With
-                End With
-            End With
-
-        End Sub
-
-        Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
-
-            With ExlWorkSheet
-                Dim unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 5)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
-                unused = .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
-            End With
-
-        End Sub
-
-        Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
-
-            Dim addressText1 As String = String.Empty
-            Dim addressText2 As String = String.Empty
-            Dim addresseeName, postalcode As String
-
-            With ExlWorkSheet
-                '郵便番号
-                postalcode = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty)
-                If postalcode.Length = 7 Then
-                    For I As Integer = 1 To 7
-                        .Cell(startrowposition + 2, I + 2).Value = postalcode.Substring(I - 1, 1)
-                    Next
-                Else
-                    .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style.Fill.BackgroundColor = XLColor.Yellow
-                End If
-
-                '住所
-                Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
-                If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
-                    addressText1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
-                    addressText2 = String.Empty
-                Else
-                    addressText1 = ac.GetConvertAddress1
-                    addressText2 = ac.GetConvertAddress2
-                End If
-                .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = If(ac.GetConvertAddress2.Length > GetAddressMaxLength(), XLColor.Yellow, XLColor.NoColor)
-                .Cell(startrowposition + 4, 8).Value = addressText1
-                .Cell(startrowposition + 4, 6).Value = addressText2
-
-                '宛名
-                If destinationdata.AddresseeName.GetName.Length > 5 Then
-                    addresseeName = $"{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
-                Else
-                    addresseeName = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
-                End If
-                .Cell(startrowposition + 4, 2).Value = addresseeName
-            End With
-
-        End Sub
-
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
-        End Function
-
-        Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
-            Return 4
-        End Function
-
-        Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
-            Return 2
-        End Function
-
-        Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
-
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:i"
-        End Function
-
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
-            Return AddresseeList
-        End Function
-
-        Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
-            Return 15
-        End Function
-
-        Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
-            Return {15.57, 3.57, 2.71, 2.71, 2.71, 2.71, 2.71, 2.71, 2.71}
-        End Function
-
-        Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
-            Return {30, 22.5, 22.5, 326.25}
-        End Function
-
-        Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
-            Return destinationData.MyAddress2.Address
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' ラベルシートクラス
-    ''' </summary>
-    Private Class LabelSheet
-        Implements IHorizontalOutputBehavior
-
-        Private ReadOnly MyList As ObservableCollection(Of DestinationDataEntity)
-        Private ReadOnly IsIPAmjMintyo As Boolean
-
-        Public Sub New(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
-            MyList = list
-            IsIPAmjMintyo = _isIPAmjMintyo
-        End Sub
+            End Sub
+
+            Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+                Return 4
+            End Function
+
+            Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+                Return 2
+            End Function
+
+            Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:j"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
+                Return AddresseeList
+            End Function
+
+            Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+                Return 15
+            End Function
+
+            Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+                Return destinationData.MyAddress2.Address
+            End Function
+        End Class
 
         ''' <summary>
-        ''' ラベルに入力する文字列を返します
+        ''' 振込用紙発行クラス
         ''' </summary>
-        ''' <param name="lineindex">行番号</param>
-        ''' <param name="addressee">ラベル化する宛先</param>
-        ''' <returns></returns>
-        Private Function ReturnLabelString(lineindex As Integer, addressee As DestinationDataEntity) As String
+        Private Class TransferPaper
+            Implements IVerticalOutputListBehavior
 
-            'セルに入力する宛先を格納する文字列　初期値に郵便番号
-            Dim ReturnString As String = $"{Space(10)}〒 {addressee.MyPostalCode.GetCode}{vbNewLine}{vbNewLine}"
-            Dim ac As New AddressConvert(addressee.MyAddress1.Address, addressee.MyAddress2.Address)
-            ReturnString &= $"{Space(10)}{ac.GetConvertAddress1}{vbCrLf}"  '住所1
+            Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+            Private Const YourCopyAddressMaxLengh As Integer = 11
+            Friend ReadOnly IsIPAmjMintyo As Boolean
 
-            Try
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(0, 15)}{vbNewLine}"   '住所2
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(15)}{vbNewLine}{vbNewLine}" '住所2（2行目）
-            Catch ex As ArgumentOutOfRangeException
-                '住所2の文字列が短い場合のエラー対応（16文字以下ならエラー）
-                ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address}{vbNewLine}{vbNewLine}{vbNewLine}"
-            End Try
+            Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+                IsIPAmjMintyo = _isIPAmjMintyo
+                AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
+            End Sub
 
-            '宛名
-            ReturnString &= $"{Space(10)}{addressee.AddresseeName.GetName}{Space(1)}{addressee.MyTitle.GetTitle}{vbNewLine}"
+            Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
+                AddresseeList = _addresseelist
+            End Sub
 
-            'ラベルの行数によって、行を挿入する
-            If lineindex > 4 Then
-                ReturnString = $"{vbNewLine}{vbNewLine}{ReturnString}"
-            End If
+            ''' <summary>
+            ''' お客様控えの住所を分けて表示させるための文字列の配列を返します
+            ''' </summary>
+            ''' <param name="address1">住所1</param>
+            ''' <param name="address2">住所2</param>
+            ''' <returns></returns>
+            Private Function SplitYourCopyAddress(address1 As String, address2 As String) As String()
 
-            Return ReturnString
+                Dim line1, line2, line3, joinaddress As String
 
-        End Function
+                '住所をつなげる
+                joinaddress = $"{address1}{address2}"
 
-        Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
-            Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_MSPGothic)
-        End Function
+                'つなげた住所の文字列が長ければ関数を呼び出し値を返す
+                If joinaddress.Length > YourCopyAddressMaxLengh * 2 Then Return ReturnLongAddressArray(joinaddress)
 
-        Public Sub CellProperty(startrowposition As Integer) Implements IHorizontalOutputBehavior.CellProperty
+                '住所1が長ければ2行に分ける
+                If address1.Length < YourCopyAddressMaxLengh Then
+                    line1 = address1
+                    line2 = String.Empty
+                Else
+                    line1 = address1.Substring(0, YourCopyAddressMaxLengh)
+                    line2 = address1.Substring(YourCopyAddressMaxLengh)
+                End If
 
-            With ExlWorkSheet
-                .PageSetup.PaperSize = XLPaperSize.A4Paper
-                With .Style
-                    .Font.FontSize = 10
-                    .Alignment.Vertical = XLAlignmentVerticalValues.Center
-                    .Alignment.TextRotation = False
+                '住所１の２行目と住所2を合わせたものが長ければ2行に分ける
+                joinaddress = line2 & address2
+                If joinaddress.Length < YourCopyAddressMaxLengh Then
+                    line2 &= address2
+                    line3 = String.Empty
+                Else
+                    line2 = joinaddress.Substring(0, YourCopyAddressMaxLengh)
+                    line3 = joinaddress.Substring(YourCopyAddressMaxLengh)
+                End If
+
+                Return {line1, line2, line3}
+
+            End Function
+
+            ''' <summary>
+            ''' 長い住所を区切ります。1行目を住所2の文字も使用して3行で表示させます。
+            ''' </summary>
+            ''' <param name="absolutenessaddress"></param>
+            ''' <returns></returns>
+            Private Function ReturnLongAddressArray(absolutenessaddress As String) As String()
+
+                Dim line1, line2, line3 As String
+
+                line1 = absolutenessaddress.Substring(0, YourCopyAddressMaxLengh)
+                line2 = absolutenessaddress.Substring(YourCopyAddressMaxLengh, YourCopyAddressMaxLengh)
+                line3 = absolutenessaddress.Substring(YourCopyAddressMaxLengh * 2)
+
+                Return {line1, line2, line3}
+
+            End Function
+
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_MSPMintyo)
+            End Function
+
+            Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+                Return {3.71, 25.14, 7.57, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 1.71, 7.29, 1.71, 1.71, 1.71, 1.71, 2.14, 1.71, 1.71, 1.71, 0.31}
+            End Function
+
+            Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+                Return {283.5, 165, 19.5, 15, 18.75, 15, 15, 15, 15, 15, 15, 15, 15, 105.75}
+            End Function
+
+            Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
+
+                With ExlWorkSheet
+                    .PageSetup.PaperSize = XLPaperSize.B5Paper
+                    '宛名欄
+                    With .Cell(12, 2).Style.Font
+                        .FontSize = If(IsIPAmjMintyo, 12, 14)
+                        .FontName = SetCellFont(IsIPAmjMintyo)
+                    End With
+                    '金額欄
+                    With .Range(.Cell(startrowposition + 3, 4), .Cell(startrowposition + 3, 11)).Style
+                        .Font.FontSize = 14
+                        .Font.FontName = My.Resources.FontName_MSPMintyo
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                        .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    End With
+
+                    'お客様控え金額欄
+                    With .Range(.Cell(startrowposition + 9, 13), .Cell(startrowposition + 9, 20)).Style
+                        .Font.FontSize = 14
+                        .Font.FontName = My.Resources.FontName_MSPMintyo
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                        .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    End With
+
+                    '備考欄1〜5
+                    With .Range(.Cell(startrowposition + 6, 4), .Cell(startrowposition + 10, 4)).Style
+                        .Font.FontSize = 9
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
+                        .Alignment.TopToBottom = False
+                        .Alignment.ShrinkToFit = True
+                    End With
+                    '住所欄
+                    With .Range(.Cell(startrowposition + 7, 2), .Cell(startrowposition + 10, 2)).Style
+                        .Font.FontSize = If(IsIPAmjMintyo, 7.5, 9)
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.TopToBottom = False
+                    End With
+
+                    'お客様控え住所欄
+                    With .Range(.Cell(startrowposition + 10, 13), .Cell(startrowposition + 13, 13)).Style
+                        .Font.FontSize = If(IsIPAmjMintyo, 7.5, 9)
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.TopToBottom = False
+                    End With
+                    .Range(.Cell(startrowposition + 10, 13), .Cell(startrowposition + 12, 13)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
+                    .Cell(startrowposition + 13, 13).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right
                 End With
-            End With
 
-        End Sub
+            End Sub
 
-        Private Function SetColumnSizes() As Double() Implements IHorizontalOutputBehavior.SetColumnSizes
-            Return {34, 34, 30.86}
-        End Function
+            Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
 
-        Private Function SetRowSizes() As Double() Implements IHorizontalOutputBehavior.SetRowSizes
-            Return {120, 120, 120, 120, 120, 120, 120}
-        End Function
+                Dim row As Integer
 
-        Public Function GetDataName() As String Implements IHorizontalOutputBehavior.GetDataName
-            Return ToString()
-        End Function
-
-        Private Sub SetData(destinationdata As DestinationDataEntity) Implements IHorizontalOutputBehavior.SetData
-
-            Dim column As Integer = 1
-            Dim row As Integer = 1
-            Dim rowCount As Integer = 1
-
-            With ExlWorkSheet
-                Do Until .Cell(row, column).Value.Trim.Length = 0
-                    column += 1
-                    If column > 3 Then
-                        column = 1
-                        row += 1
-                        rowCount += 1
-                    End If
-                    If rowCount > 7 Then
-                        rowCount = 1
-                    End If
+                '宛名備考欄5行を結合
+                row = 6
+                Do Until row = 11
+                    With ExlWorkSheet
+                        Dim unused = .Range(.Cell(startrowposition + row, 4), .Cell(startrowposition + row, 11)).Merge()
+                    End With
+                    row += 1
                 Loop
 
-                .Cell(row, column).Value = ReturnLabelString(rowCount, destinationdata)
-            End With
+                'お客様控え欄4行を結合
+                row = 10
+                Do Until row = 14
+                    With ExlWorkSheet
+                        Dim unused = .Range(.Cell(startrowposition + row, 13), .Cell(startrowposition + row, 20)).Merge()
+                    End With
+                    row += 1
+                Loop
 
-        End Sub
+            End Sub
 
-        Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
-            Return "a:c"
-        End Function
+            Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
 
-        Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IHorizontalOutputBehavior.GetDestinationDataList
-            Return MyList
-        End Function
+                With ExlWorkSheet
+                    '振込金額入力
+                    Dim ColumnIndex As Integer
+                    Dim moneystring As String = $"\{destinationdata.MoneyData.GetMoney}"
+                    Dim moneyField As String
+
+                    For ColumnIndex = 0 To 8
+                        moneyField = If(moneystring.Length - 1 < ColumnIndex, String.Empty, moneystring.Substring((moneystring.Length - 1) - ColumnIndex, 1))
+                        .Cell(startrowposition + 3, 11 - ColumnIndex).Value = moneyField
+                        .Cell(startrowposition + 9, 20 - ColumnIndex).Value = moneyField    'お客様控え
+                    Next
+
+                    .Cell(startrowposition + 6, 4).Value = destinationdata.Note1Data.GetNote   '備考1
+                    .Cell(startrowposition + 7, 4).Value = destinationdata.Note2Data.GetNote   '備考2
+                    .Cell(startrowposition + 8, 4).Value = destinationdata.Note3Data.GetNote   '備考3
+                    .Cell(startrowposition + 9, 4).Value = destinationdata.Note4Data.GetNote  '備考4
+                    .Cell(startrowposition + 10, 4).Value = destinationdata.Note5Data.GetNote  '備考5
+                    .Cell(startrowposition + 7, 2).Value = $"〒{destinationdata.MyPostalCode.GetCode}"      '宛先郵便番号
+                    Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
+                    .Cell(startrowposition + 8, 2).Value = ac.GetConvertAddress1         '宛先住所1
+
+                    Dim sad2 As String = StrConv(destinationdata.MyAddress2.Address, vbWide)
+                    Dim stringlength = If(sad2.Length < 20, sad2.Length, 18)
+                    '宛先住所2　長い場合は2行で入力
+                    .Cell(startrowposition + 9, 2).Value = sad2.Substring(0, stringlength)
+                    If sad2.Length > stringlength Then .Cell(startrowposition + 10, 2).Value = sad2.Substring(stringlength)
+
+                    .Cell(startrowposition + 12, 2).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"  '宛先の宛名
+                    .Cell(startrowposition + 13, 13).Value = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}" 'お客様控えの名前
+
+                    'お客様控え住所　長い場合は3行、それでも収まらない場合は注意を促す
+                    Dim strings() As String = SplitYourCopyAddress(ac.GetConvertAddress1, sad2)
+                    .Cell(startrowposition + 10, 13).Value = $"{Space(1)}{strings(0)}"
+                    .Cell(startrowposition + 11, 13).Value = $"{Space(1)}{ strings(1)}"
+                    .Cell(startrowposition + 12, 13).Value = $"{Space(1)}{ strings(2)}"
+                End With
+
+            End Sub
+
+            Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+                Return 2
+            End Function
+
+            Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+                Return 4
+            End Function
+
+            Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:u"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
+                Return AddresseeList
+            End Function
+
+            Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+                Return 36
+            End Function
+
+            Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+                Return $"{destinationData.MyAddress1.Address}{destinationData.MyAddress2.Address}"
+            End Function
+        End Class
+
+        ''' <summary>
+        ''' 洋封筒クラス 
+        ''' </summary>
+        Private Class WesternEnvelope
+            Implements IVerticalOutputListBehavior
+
+            Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+            Friend ReadOnly IsIPAmjMintyo As Boolean
+
+            Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+                IsIPAmjMintyo = _isIPAmjMintyo
+                AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
+            End Sub
+
+            Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
+                AddresseeList = _addresseelist
+            End Sub
+
+            Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputListBehavior.CellProperty
+
+                With ExlWorkSheet
+                    .PageSetup.PaperSize = XLPaperSize.C6Envelope
+                    '郵便番号
+                    With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
+                        .Font.FontSize = 16
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.Vertical = XLAlignmentVerticalValues.Top
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                    End With
+                    '住所
+                    With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 8)).Style
+                        .Font.FontSize = 24
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                        .Alignment.TopToBottom = True
+                    End With
+                    .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
+                    .Cell(startrowposition + 4, 6).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    '宛名
+                    With .Cell(startrowposition + 4, 2).Style
+                        .Font.FontSize = 36
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
+                    End With
+                End With
+
+            End Sub
+
+            Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+
+                With ExlWorkSheet
+                    Dim unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 4)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
+                End With
+
+            End Sub
+
+            Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
+
+                Dim addresstext1 As String = String.Empty
+                Dim addresstext2 As String = String.Empty
+                Dim addresseename As String
+
+                With ExlWorkSheet
+                    '郵便番号
+                    For I As Integer = 1 To 7
+                        .Cell(startrowposition + 2, I + 2).Value = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty).Substring(I - 1, 1)
+                    Next
+
+                    Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
+                    '住所
+                    If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
+                        addresstext1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
+                    Else
+                        addresstext1 = ac.GetConvertAddress1
+                        addresstext2 = ac.GetConvertAddress2
+                    End If
+
+                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = If(ac.GetConvertAddress2.Length > 16, XLColor.Yellow, XLColor.NoColor)
+
+                    .Cell(startrowposition + 4, 8).Value = ac.GetConvertAddress1
+                    .Cell(startrowposition + 4, 6).Value = ac.GetConvertAddress2
+
+                    '宛名
+                    addresseename = If(destinationdata.AddresseeName.GetName.Length > 5,
+                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}",
+                        $"{Space(1)}{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}")
+                    .Cell(startrowposition + 4, 2).Value = addresseename
+                End With
+
+            End Sub
+
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
+            End Function
+
+            Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+                Return 4
+            End Function
+
+            Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+                Return 2
+            End Function
+
+            Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:j"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
+                Return AddresseeList
+            End Function
+
+            Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+                Return 36
+            End Function
+
+            Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+                Return {17.88, 6, 2.75, 2.75, 2.75, 2.38, 2.38, 2.38, 2.38, 0.85}
+            End Function
+
+            Private Function IExcelOutputBehavior_SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+                Return {22.5, 18.75, 27.75, 372}
+            End Function
+
+            Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+                Return destinationData.MyAddress2.Address
+            End Function
+        End Class
+
+        ''' <summary>
+        ''' 角2封筒クラス
+        ''' </summary>
+        Private Class Kaku2Envelope
+            Implements IVerticalOutputListBehavior
+
+            Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+            Friend ReadOnly IsIPAmjMintyo As Boolean
+
+            Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+                IsIPAmjMintyo = _isIPAmjMintyo
+                AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
+            End Sub
+
+            Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
+                AddresseeList = _addresseelist
+            End Sub
+
+            Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
+
+                With ExlWorkSheet
+                    '郵便番号
+                    With .Cell(startrowposition + 2, 3).Style
+                        .Font.FontSize = 36
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Bottom
+                            .TopToBottom = False
+                        End With
+                    End With
+
+                    '住所
+                    With .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 4, 4)).Style
+                        .Font.FontSize = If(IsIPAmjMintyo, 36, 43)
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
+                    End With
+                    .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
+
+                    '宛名
+                    With .Cell(startrowposition + 5, 2).Style
+                        .Font.FontSize = 74
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
+                    End With
+                End With
+
+            End Sub
+
+            Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+
+                With ExlWorkSheet
+                    Dim unused = .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
+                    unused = .Range(.Cell(startrowposition + 5, 2), .Cell(startrowposition + 6, 2)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 6, 4)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 6, 5)).Merge()
+                End With
+
+            End Sub
+
+            Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
+
+                With ExlWorkSheet
+                    '郵便番号
+                    .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
+                    '住所
+                    Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
+                    If $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}".Length < 16 Then
+                        .Cell(startrowposition + 4, 5).Value = $"{ac.GetConvertAddress1}{ac.GetConvertAddress2}"
+                        .Cell(startrowposition + 4, 4).Value = String.Empty
+                    Else
+                        .Cell(startrowposition + 4, 5).Value = ac.GetConvertAddress1
+                        .Cell(startrowposition + 4, 4).Value = ac.GetConvertAddress2
+                    End If
+
+                    If ac.GetConvertAddress2.Length > 16 Then
+                        .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
+                    Else
+                        .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
+                    End If
+
+                    '宛名
+                    Dim name As String = destinationdata.AddresseeName.GetName
+                    If name.Length <= 5 Then name &= Space(1)
+                    .Cell(startrowposition + 5, 2).Value = $"{name}{destinationdata.MyTitle.GetTitle}"
+                End With
+
+            End Sub
+
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
+            End Function
+
+            Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+                Return 4
+            End Function
+
+            Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+                Return 2
+            End Function
+
+            Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+                Return {45.29, 23.43, 15.43, 9.57, 9.57, 8.57}
+            End Function
+
+            Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+                Return {120, 50.25, 61.5, 61.5, 409.5, 279, 67.5}
+            End Function
+
+            Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:f"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
+                Return AddresseeList
+            End Function
+
+            Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+                Return 15
+            End Function
+
+            Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+                Return destinationData.MyAddress2.Address
+            End Function
+
+        End Class
+
+        ''' <summary>
+        ''' 墓地パンフクラス
+        ''' </summary>
+        Private Class GravePamphletEnvelope
+            Implements IVerticalOutputListBehavior
+
+            Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+            Private ReadOnly IsIPAmjMintyo As Boolean = False
+
+            Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+                IsIPAmjMintyo = _isIPAmjMintyo
+                AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
+            End Sub
+
+            Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
+                AddresseeList = _addresseelist
+            End Sub
+
+            Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+
+                With ExlWorkSheet
+                    Dim unused = .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 5, 2)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 4), .Cell(startrowposition + 5, 4)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 5, 5)).Merge()
+                End With
+
+            End Sub
+
+            Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
+
+                With ExlWorkSheet
+                    '郵便番号
+                    With .Cell(startrowposition + 2, 3).Style
+                        .Font.FontSize = 36
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Bottom
+                            .TopToBottom = False
+                        End With
+                    End With
+
+                    '住所
+                    With .Range(.Cell(startrowposition + 4, 5), .Cell(startrowposition + 4, 4)).Style
+                        .Font.FontSize = If(IsIPAmjMintyo, 36, 43)
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
+                    End With
+                    .Cell(startrowposition + 4, 4).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
+
+                    '宛名
+                    With .Cell(startrowposition + 4, 2).Style
+                        .Font.FontSize = 85
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
+                    End With
+                End With
+
+            End Sub
+
+            Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
+
+                With ExlWorkSheet
+                    '郵便番号
+                    .Cell(startrowposition + 2, 3).Value = $"〒{destinationdata.MyPostalCode.GetCode}"
+                    '住所
+                    Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
+                    Dim ad1 As String = ac.GetConvertAddress1
+                    Dim ad2 As String = ac.GetConvertAddress2
+
+                    If ad1.Length + ad2.Length < 16 Then
+                        .Cell(startrowposition + 4, 5).Value = $"{ad1}{ad2}"
+                        .Cell(startrowposition + 4, 4).Value = String.Empty
+                    Else
+                        .Cell(startrowposition + 4, 5).Value = ad1
+                        .Cell(startrowposition + 4, 4).Value = ad2
+                    End If
+
+                    If ac.GetConvertAddress2.Length > GetAddressMaxLength() Then
+                        .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.Yellow
+                    Else
+                        .Cell(startrowposition + 4, 4).Style.Fill.BackgroundColor = XLColor.NoColor
+                    End If
+
+                    '宛名
+                    Dim name As String = destinationdata.AddresseeName.GetName
+                    If name.Length <= 5 Then name &= Space(1)
+                    .Cell(startrowposition + 4, 2).Value = $"{name}{destinationdata.MyTitle.GetTitle}"
+                End With
+
+            End Sub
+
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
+            End Function
+
+            Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+                Return 4
+            End Function
+
+            Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+                Return 2
+            End Function
+
+            Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+                Return {49.43, 23.43, 28.86, 9.43, 9.43}
+            End Function
+
+            Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+                Return {45.75, 132.75, 51.75, 409.5, 375, 34.5}
+            End Function
+
+            Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:e"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
+                Return AddresseeList
+            End Function
+
+            Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+                Return 15
+            End Function
+
+            Public Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+                Return destinationData.MyAddress2.Address
+            End Function
+        End Class
+
+        ''' <summary>
+        ''' はがきクラス
+        ''' </summary>
+        Private Class Postcard
+            Implements IVerticalOutputListBehavior
+
+            Private ReadOnly AddresseeList As ObservableCollection(Of DestinationDataEntity)
+            Private ReadOnly IsIPAmjMintyo As Boolean = False
+
+            Public Sub New(_addressee As DestinationDataEntity, _isIPAmjMintyo As Boolean)
+                IsIPAmjMintyo = _isIPAmjMintyo
+                AddresseeList = New ObservableCollection(Of DestinationDataEntity) From {_addressee}
+            End Sub
+
+            Public Sub New(_addresseelist As ObservableCollection(Of DestinationDataEntity))
+                AddresseeList = _addresseelist
+            End Sub
+
+            Public Sub CellProperty(startrowposition As Integer) Implements IVerticalOutputBehavior.CellProperty
+
+                With ExlWorkSheet
+                    .PageSetup.PaperSize = XLPaperSize.EPaper
+                    '郵便番号
+                    With .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style
+                        .Font.FontSize = 16
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.Vertical = XLAlignmentVerticalValues.Top
+                    End With
+                    .Range(.Cell(startrowposition + 2, 6), .Cell(startrowposition + 2, 9)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                    .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 5)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
+
+                    '住所
+                    With .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 8)).Style
+                        .Font.FontSize = 18
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        .Alignment.Horizontal = XLAlignmentHorizontalValues.Right
+                        .Alignment.TopToBottom = True
+                    End With
+                    .Cell(startrowposition + 4, 8).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top
+                    .Cell(startrowposition + 4, 6).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center
+                    '宛名
+                    With .Cell(startrowposition + 4, 2).Style
+                        .Font.FontSize = 36
+                        .Font.FontName = SetCellFont(IsIPAmjMintyo)
+                        With .Alignment
+                            .Horizontal = XLAlignmentHorizontalValues.Center
+                            .Vertical = XLAlignmentVerticalValues.Top
+                            .TopToBottom = True
+                        End With
+                    End With
+                End With
+
+            End Sub
+
+            Public Sub CellsJoin(startrowposition As Integer) Implements IVerticalOutputBehavior.CellsJoin
+
+                With ExlWorkSheet
+                    Dim unused = .Range(.Cell(startrowposition + 4, 2), .Cell(startrowposition + 4, 5)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 8), .Cell(startrowposition + 4, 9)).Merge()
+                    unused = .Range(.Cell(startrowposition + 4, 6), .Cell(startrowposition + 4, 7)).Merge()
+                End With
+
+            End Sub
+
+            Public Sub SetData(startrowposition As Integer, destinationdata As DestinationDataEntity) Implements IVerticalOutputListBehavior.SetData
+
+                Dim addressText1 As String = String.Empty
+                Dim addressText2 As String = String.Empty
+                Dim addresseeName, postalcode As String
+
+                With ExlWorkSheet
+                    '郵便番号
+                    postalcode = Replace(destinationdata.MyPostalCode.GetCode, "-", String.Empty)
+                    If postalcode.Length = 7 Then
+                        For I As Integer = 1 To 7
+                            .Cell(startrowposition + 2, I + 2).Value = postalcode.Substring(I - 1, 1)
+                        Next
+                    Else
+                        .Range(.Cell(startrowposition + 2, 3), .Cell(startrowposition + 2, 9)).Style.Fill.BackgroundColor = XLColor.Yellow
+                    End If
+
+                    '住所
+                    Dim ac As New AddressConvert(destinationdata.MyAddress1.Address, destinationdata.MyAddress2.Address)
+                    If ac.GetConvertAddress1.Length + ac.GetConvertAddress2.Length < 14 Then
+                        addressText1 = $"{ac.GetConvertAddress1}{Space(1)}{ac.GetConvertAddress2}"
+                        addressText2 = String.Empty
+                    Else
+                        addressText1 = ac.GetConvertAddress1
+                        addressText2 = ac.GetConvertAddress2
+                    End If
+                    .Cell(startrowposition + 4, 6).Style.Fill.BackgroundColor = If(ac.GetConvertAddress2.Length > GetAddressMaxLength(), XLColor.Yellow, XLColor.NoColor)
+                    .Cell(startrowposition + 4, 8).Value = addressText1
+                    .Cell(startrowposition + 4, 6).Value = addressText2
+
+                    '宛名
+                    If destinationdata.AddresseeName.GetName.Length > 5 Then
+                        addresseeName = $"{destinationdata.AddresseeName.GetName}{destinationdata.MyTitle.GetTitle}"
+                    Else
+                        addresseeName = $"{destinationdata.AddresseeName.GetName}{Space(1)}{destinationdata.MyTitle.GetTitle}"
+                    End If
+                    .Cell(startrowposition + 4, 2).Value = addresseeName
+                End With
+
+            End Sub
+
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_HGPGyoushotai)
+            End Function
+
+            Public Function CriteriaCellRowIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellRowIndex
+                Return 4
+            End Function
+
+            Public Function CriteriaCellColumnIndex() As Integer Implements IVerticalOutputBehavior.CriteriaCellColumnIndex
+                Return 2
+            End Function
+
+            Public Function GetDataName() As String Implements IVerticalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:i"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IVerticalOutputListBehavior.GetDestinationDataList
+                Return AddresseeList
+            End Function
+
+            Public Function GetAddressMaxLength() As Integer Implements IVerticalOutputListBehavior.GetAddressMaxLength
+                Return 15
+            End Function
+
+            Private Function SetColumnSizes() As Double() Implements IVerticalOutputBehavior.SetColumnSizes
+                Return {15.57, 3.57, 2.71, 2.71, 2.71, 2.71, 2.71, 2.71, 2.71}
+            End Function
+
+            Private Function SetRowSizes() As Double() Implements IVerticalOutputBehavior.SetRowSizes
+                Return {30, 22.5, 22.5, 326.25}
+            End Function
+
+            Private Function GetLengthVerificationString(destinationData As DestinationDataEntity) As String Implements IVerticalOutputListBehavior.GetLengthVerificationString
+                Return destinationData.MyAddress2.Address
+            End Function
+        End Class
+
+        ''' <summary>
+        ''' ラベルシートクラス
+        ''' </summary>
+        Private Class LabelSheet
+            Implements IHorizontalOutputBehavior
+
+            Private ReadOnly MyList As ObservableCollection(Of DestinationDataEntity)
+            Private ReadOnly IsIPAmjMintyo As Boolean
+
+            Public Sub New(list As ObservableCollection(Of DestinationDataEntity), _isIPAmjMintyo As Boolean)
+                MyList = list
+                IsIPAmjMintyo = _isIPAmjMintyo
+            End Sub
+
+            ''' <summary>
+            ''' ラベルに入力する文字列を返します
+            ''' </summary>
+            ''' <param name="lineindex">行番号</param>
+            ''' <param name="addressee">ラベル化する宛先</param>
+            ''' <returns></returns>
+            Private Function ReturnLabelString(lineindex As Integer, addressee As DestinationDataEntity) As String
+
+                'セルに入力する宛先を格納する文字列　初期値に郵便番号
+                Dim ReturnString As String = $"{Space(10)}〒 {addressee.MyPostalCode.GetCode}{vbNewLine}{vbNewLine}"
+                Dim ac As New AddressConvert(addressee.MyAddress1.Address, addressee.MyAddress2.Address)
+                ReturnString &= $"{Space(10)}{ac.GetConvertAddress1}{vbCrLf}"  '住所1
+
+                Try
+                    ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(0, 15)}{vbNewLine}"   '住所2
+                    ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address.Substring(15)}{vbNewLine}{vbNewLine}" '住所2（2行目）
+                Catch ex As ArgumentOutOfRangeException
+                    '住所2の文字列が短い場合のエラー対応（16文字以下ならエラー）
+                    ReturnString &= $"{Space(10)}{addressee.MyAddress2.Address}{vbNewLine}{vbNewLine}{vbNewLine}"
+                End Try
+
+                '宛名
+                ReturnString &= $"{Space(10)}{addressee.AddresseeName.GetName}{Space(1)}{addressee.MyTitle.GetTitle}{vbNewLine}"
+
+                'ラベルの行数によって、行を挿入する
+                If lineindex > 4 Then
+                    ReturnString = $"{vbNewLine}{vbNewLine}{ReturnString}"
+                End If
+
+                Return ReturnString
+
+            End Function
+
+            Public Function SetCellFont(_IsIPAmjMintyo As Boolean) As String Implements IExcelOutputBehavior.SetCellFont
+                Return If(_IsIPAmjMintyo, My.Resources.IPAmjMintyoString, My.Resources.FontName_MSPGothic)
+            End Function
+
+            Public Sub CellProperty(startrowposition As Integer) Implements IHorizontalOutputBehavior.CellProperty
+
+                With ExlWorkSheet
+                    .PageSetup.PaperSize = XLPaperSize.A4Paper
+                    With .Style
+                        .Font.FontSize = 10
+                        .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                        .Alignment.TextRotation = False
+                    End With
+                End With
+
+            End Sub
+
+            Private Function SetColumnSizes() As Double() Implements IHorizontalOutputBehavior.SetColumnSizes
+                Return {34, 34, 30.86}
+            End Function
+
+            Private Function SetRowSizes() As Double() Implements IHorizontalOutputBehavior.SetRowSizes
+                Return {120, 120, 120, 120, 120, 120, 120}
+            End Function
+
+            Public Function GetDataName() As String Implements IHorizontalOutputBehavior.GetDataName
+                Return ToString()
+            End Function
+
+            Private Sub SetData(destinationdata As DestinationDataEntity) Implements IHorizontalOutputBehavior.SetData
+
+                Dim column As Integer = 1
+                Dim row As Integer = 1
+                Dim rowCount As Integer = 1
+
+                With ExlWorkSheet
+                    Do Until .Cell(row, column).Value.Trim.Length = 0
+                        column += 1
+                        If column > 3 Then
+                            column = 1
+                            row += 1
+                            rowCount += 1
+                        End If
+                        If rowCount > 7 Then
+                            rowCount = 1
+                        End If
+                    Loop
+
+                    .Cell(row, column).Value = ReturnLabelString(rowCount, destinationdata)
+                End With
+
+            End Sub
+
+            Public Function SetPrintAreaString() As String Implements IExcelOutputBehavior.SetPrintAreaString
+                Return "a:c"
+            End Function
+
+            Public Function GetDestinationDataList() As ObservableCollection(Of DestinationDataEntity) Implements IHorizontalOutputBehavior.GetDestinationDataList
+                Return MyList
+            End Function
+        End Class
+
     End Class
-
-End Class
