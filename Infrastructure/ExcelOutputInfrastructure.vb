@@ -562,7 +562,7 @@ Public Class ExcelOutputInfrastructure
 
         If bolSheetCheck = False Then
             exlapp.Visible = True
-            'Dim openpath As String = "Z:\生田フォルダ\Tools\Applications\iroiro\files"
+            'Dim openpath As String = "Z:\生田フォルダ\Tools\Applications\testIroIro\files\IroiroFile.xlsx"
             Dim openpath As String = IO.Path.GetFullPath(My.Resources.SAVEPATH)
             Try
                 Dim executebook As Excel.Workbook = exlworkbooks.Open(openpath, , True)
@@ -882,7 +882,7 @@ Public Class ExcelOutputInfrastructure
     End Sub
 
     Public Sub TransferPaperPrintOutput(customerid As String, addressee As String, title As String, postalcode As String, address1 As String, address2 As String,
-                                        money As String, note1 As String, note2 As String, note3 As String, note4 As String,
+                                        money As Integer, note1 As String, note2 As String, note3 As String, note4 As String,
                                         note5 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean) Implements IOutputDataRepogitory.TransferPaperPrintOutput
 
         MyAddressee = New DestinationDataEntity(customerid, addressee, title, postalcode, address1, address2, money, note1, note2, note3, note4, note5)
@@ -988,6 +988,11 @@ Public Class ExcelOutputInfrastructure
         Dim v As IVerticalOutputBehavior = New GraveVoucher(addressee, amount, accountActivityDate, lessee, graveNote, frontage, depth, isEarnest, isDeposit, isRemainingMoney, isFullAmount, note, cleakName, isIPAmjMintyo)
         GraveVoucherOutputProcessing(v)
     End Sub
+
+    Public Function ReturnXlsxFilePath() As String Implements IOutputDataRepogitory.ReturnXlsxFilePath
+        Return My.Resources.SAVEPATH
+    End Function
+
     ''' <summary>
     ''' 墓地管理料受納証クラス
     ''' </summary>
@@ -1086,7 +1091,7 @@ Public Class ExcelOutputInfrastructure
                 unused = .Range(.Cell(6, 6), .Cell(6, 7)).Merge
                 unused = .Range(.Cell(6, 9), .Cell(6, 10)).Merge
                 unused = .Range(.Cell(6, 12), .Cell(6, 13)).Merge
-                unused = .Range(.Cell(7, 4), .Cell(7, 14)).Merge
+                unused = .Range(.Cell(7, 4), .Cell(7, 13)).Merge
                 unused = .Range(.Cell(9, 5), .Cell(9, 6)).Merge
                 unused = .Range(.Cell(9, 12), .Cell(9, 13)).Merge
                 unused = .Range(.Cell(10, 5), .Cell(10, 6)).Merge
@@ -1192,13 +1197,13 @@ Public Class ExcelOutputInfrastructure
                 If IsIPAmjMintyo Then .Cell(2, 3).Style.Font.FontName = My.Resources.IPAmjMintyoString
                 .Cell(4, 3).Value = $"{Amount:N0}"
                 .Cell(6, 3).Value = $"{MyLessee.GetGraveNumber().ConvertKuString}{MyLessee.GetGraveNumber().ConvertKuikiString}"
-                .Cell(6, 6).Value = MyLessee.GetGraveNumber().GawaField.DisplayForField
+                .Cell(6, 6).Value = IIf(MyLessee.GetGraveNumber().GawaField.DisplayForField = 0, String.Empty, MyLessee.GetGraveNumber().GawaField.DisplayForField)
                 .Cell(6, 9).Value = MyLessee.GetGraveNumber().BanField.DisplayForField
                 .Cell(6, 12).Value = MyLessee.GetGraveNumber().EdabanField.DisplayForField
                 .Cell(7, 4).Value = GraveNote
-                .Cell(9, 5).Value = IIf(Frontage = 0, String.Empty, Frontage)
-                .Cell(9, 12).Value = IIf(Depth = 0, String.Empty, Depth)
-                .Cell(10, 5).Value = MyLessee.GetArea.AreaValue
+                .Cell(9, 5).Value = IIf(Frontage = 0, String.Empty, $"{Frontage:0.0}")
+                .Cell(9, 12).Value = IIf(Depth = 0, String.Empty, $"{Depth:0.0}")
+                .Cell(10, 5).Value = IIf(MyLessee.GetArea.AreaValue = 0, String.Empty, $"{ MyLessee.GetArea.AreaValue:0.0}")
                 .Cell(12, 5).Value = IIf(IsEarnest, "〇", String.Empty)
                 .Cell(12, 7).Value = IIf(IsDeposit, "〇", String.Empty)
                 .Cell(12, 9).Value = IIf(IsRemainingMoney, "〇", String.Empty)

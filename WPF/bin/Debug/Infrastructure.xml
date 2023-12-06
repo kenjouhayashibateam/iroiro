@@ -781,6 +781,11 @@ Infrastructure
  </summary>
  <returns></returns>
 </member>
+<member name="F:Infrastructure.SQLConnectInfrastructure.SHUNJUENCONSTRING">
+ <summary>
+ SQLServerに接続するための接続文字列
+ </summary>
+</member>
 <member name="P:Infrastructure.SQLConnectInfrastructure.Rs">
  <summary> 
  コマンドから取得したデータを格納するクラス

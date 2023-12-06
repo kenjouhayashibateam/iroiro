@@ -337,3 +337,4 @@ C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\WPF.vbproj.CopyComplete
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\いろいろ発行.exe
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\いろいろ発行.xml
 C:\Users\houmu\Source\Repos\iroiro\WPF\obj\Debug\いろいろ発行.pdb
+C:\Users\houmu\source\repos\iroiro\WPF\obj\Debug\Application.baml

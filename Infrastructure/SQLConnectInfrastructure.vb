@@ -562,7 +562,7 @@ Public Class SQLConnectInfrastructure
         Return DEFAULTDATE
     End Function
 
-    Public Function VoucherRegistration(accountActivityDate As Date, addressee As String, amount As Integer, cleak As String) As Object Implements IDataConectRepogitory.VoucherRegistration
+    Public Function VoucherRegistration(accountActivityDate As Date, addressee As String, amount As Integer, cleak As String) As Integer Implements IDataConectRepogitory.VoucherRegistration
         Cmd = New ADODB.Command
 
         With Cmd

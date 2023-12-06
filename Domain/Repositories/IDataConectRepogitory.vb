@@ -87,8 +87,8 @@ Public Interface IDataConectRepogitory
     ''' <param name="addressee">宛名</param>
     ''' <param name="amount">総額</param>
     ''' <param name="cleak">係</param>
-    ''' <returns></returns>
-    Function VoucherRegistration(accountActivityDate As Date, addressee As String, amount As Integer, cleak As String)
+    ''' <returns>登録したデータのIDを返します</returns>
+    Function VoucherRegistration(accountActivityDate As Date, addressee As String, amount As Integer, cleak As String) As Integer
     ''' <summary>
     ''' 墓地札リストを返します
     ''' </summary>

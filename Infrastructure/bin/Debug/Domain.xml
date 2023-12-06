@@ -832,7 +832,7 @@ Domain
  OutputしたデータをClearします
  </summary>
 </member>
-<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
+<member name="M:Domain.IOutputDataRepogitory.TransferPaperPrintOutput(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
  <summary>
  振込用紙
  </summary>
@@ -1008,7 +1008,7 @@ Domain
  <param name="addressee">宛名</param>
  <param name="amount">総額</param>
  <param name="cleak">係</param>
- <returns></returns>
+ <returns>登録したデータのIDを返します</returns>
 </member>
 <member name="M:Domain.IDataConectRepogitory.GetGravePanelDataList(System.String,System.String,System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
  <summary>

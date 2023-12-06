@@ -4,6 +4,7 @@ Imports WPF.Command
 Imports WPF.Data
 Imports System.Text.RegularExpressions
 Imports System.Collections.ObjectModel
+Imports System.IO
 
 Namespace ViewModels
     ''' <summary>
@@ -411,9 +412,12 @@ Namespace ViewModels
         Private _CallNextVoucherNumberCommand As ICommand
         Private _GraveKuiki As String = String.Empty
         Private _GraveNote As String
-        Private _Frontage As Double
-        Private _Depth As Double
-        Private _Area As Double
+        'Private _Frontage As Double
+        'Private _Depth As Double
+        'Private _Area As Double
+        Private _Frontage As String = String.Empty
+        Private _Depth As String = String.Empty
+        Private _Area As String = String.Empty
         Private _IsEarnest As Boolean
         Private _IsDeposit As Boolean
         Private _IsRemainingMoney As Boolean
@@ -485,9 +489,9 @@ Namespace ViewModels
             ButtonText = "出力中"
             Money = IIf(String.IsNullOrEmpty(Money), 0, Money)
             Money = IIf(Money > 0, Money, 0)
-            MyLessee = New LesseeCustomerInfoEntity(String.Empty, AddresseeName, String.Empty, String.Empty, String.Empty, SelectedZone.Key, GraveKuiki, GraveGawa, GraveBan, GraveGou, Area, String.Empty, String.Empty, String.Empty, String.Empty)
+            MyLessee = New LesseeCustomerInfoEntity(String.Empty, AddresseeName, String.Empty, String.Empty, String.Empty, SelectedZone.Key, GraveKuiki, GraveGawa, GraveBan, GraveGou, IIf(String.IsNullOrEmpty(Area), 0, Area), String.Empty, String.Empty, String.Empty, String.Empty)
             Try
-                DataOutputConecter.GraveVoucherOutput(AddresseeName, Money, AccountActivityDate, MyLessee, GraveNote, Frontage, Depth, IsEarnest, IsDeposit, IsRemainingMoney, IsFullAmount, Note4, Note5, IsIPAmjMintyo)
+                DataOutputConecter.GraveVoucherOutput(AddresseeName, Money, AccountActivityDate, MyLessee, GraveNote, IIf(String.IsNullOrEmpty(Frontage), 0, Frontage), IIf(String.IsNullOrEmpty(Depth), 0, Depth), IsEarnest, IsDeposit, IsRemainingMoney, IsFullAmount, Note4, Note5, IsIPAmjMintyo)
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -511,6 +515,18 @@ Namespace ViewModels
                 _VoucherOutputCommand = value
             End Set
         End Property
+        Public Property IsRedoOutput As Boolean
+            Get
+                Return _IsRedoOutput
+            End Get
+            Set
+                _IsRedoOutput = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        Private voucherID As Integer
+        Private _IsRedoOutput As Boolean = False
 
         Private Sub VoucherOutput()
             ButtonText = "出力中"
@@ -521,7 +537,14 @@ Namespace ViewModels
                     ButtonText = "出力"
                     Return
                 End If
-                Dim iD = DataBaseConecter.VoucherRegistration(AccountActivityDate, AddresseeName, TotalAmount, Note5)
+                Dim iD As Integer
+                If IsRedoOutput Then
+                    iD = voucherID
+                Else
+                    iD = DataBaseConecter.VoucherRegistration(AccountActivityDate, AddresseeName, TotalAmount, Note5)
+                    voucherID = iD
+                End If
+
                 DataOutputConecter.VoucherOutput(iD, AddresseeName, ProvisoList, IsShunjuen, IsReissue, Note5, IsDisplayTax, PrepaidDate, AccountActivityDate, IsIPAmjMintyo)
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
@@ -530,6 +553,7 @@ Namespace ViewModels
 
             ProvisoClear()
             CallNextVoucherNumber()
+            IsRedoOutput = False
             ButtonText = "出力"
 
         End Sub
@@ -1141,7 +1165,7 @@ Namespace ViewModels
             Set
                 If Value = Money Then Return
                 Dim i As Integer
-                _Money = If(Integer.TryParse(Value, i), i.ToString, String.Empty)
+                _Money = If(Integer.TryParse(Value.Replace(",", String.Empty), i), $"{i:N0}", String.Empty)
                 CallPropertyChanged(NameOf(Money))
             End Set
         End Property
@@ -1197,6 +1221,18 @@ Namespace ViewModels
         ''' <param name="lesseerepository">名義人データ</param>
         ''' <param name="excelrepository">エクセルデータ</param>
         Public Sub New(lesseerepository As IDataConectRepogitory, excelrepository As IOutputDataRepogitory)
+
+            If (File.GetLastWriteTime(My.Settings.OriginalExeFileFullPath).CompareTo(File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName)) = 1) Then
+                MessageInfo = New MessageBoxInfo() With {
+                    .Message = $"※重要：{File.GetLastWriteTime(My.Settings.OriginalExeFileFullPath)}更新分{vbCrLf}" +
+                            "システムの更新があります。" +
+                            $"生田フォルダ\\Toolsのアプリケーションインストーラでいろいろ発行を更新してください。{vbCrLf}" +
+                            $"現在のアプリ発行日時：{File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName)}",
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Information,
+                    .Title = "更新案内"}
+            End If
+
             'PlaySound()
             DataBaseConecter = lesseerepository
             DataOutputConecter = excelrepository
@@ -1316,10 +1352,20 @@ Namespace ViewModels
 
                 DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, outputNote5, MultiOutputCheck, IsIPAmjMintyo)
 
+            Catch ex As System.IO.IOException
+                CreateIOExceprionMessage()
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
             End Try
+        End Sub
+
+        Private Sub CreateIOExceprionMessage(Optional message As String = "")
+            MessageInfo = New MessageBoxInfo() With {
+                    .Message = IIf(String.IsNullOrEmpty(message), $"出力出来ません。{DataOutputConecter.ReturnXlsxFilePath}を開いてロックをかけてしまっているPCを特定し、そのPCのいろいろ発行エクセルを閉じてください。", message),
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Warning,
+                    .Title = "解決に繋がる情報をくれた方にはお礼します（笑）"}
         End Sub
 
         ''' <summary>
@@ -1328,6 +1374,8 @@ Namespace ViewModels
         Public Sub InputCho3Envelope()
             Try
                 DataOutputConecter.Cho3EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As System.IO.IOException
+                CreateIOExceprionMessage()
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -1340,6 +1388,8 @@ Namespace ViewModels
         Public Sub InputWesternEnvelope()
             Try
                 DataOutputConecter.WesternEnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As System.IO.IOException
+                CreateIOExceprionMessage()
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -1352,6 +1402,8 @@ Namespace ViewModels
         Public Sub InputGravePamphletEnvelope()
             Try
                 DataOutputConecter.GravePamphletOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As System.IO.IOException
+                CreateIOExceprionMessage()
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -1364,6 +1416,8 @@ Namespace ViewModels
         Public Sub InputKaku2Envelope()
             Try
                 DataOutputConecter.Kaku2EnvelopeOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As System.IO.IOException
+                CreateIOExceprionMessage()
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -1376,6 +1430,8 @@ Namespace ViewModels
         Public Sub InputPostcard()
             Try
                 DataOutputConecter.PostcardOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, MultiOutputCheck, IsIPAmjMintyo)
+            Catch ex As System.IO.IOException
+                CreateIOExceprionMessage()
             Catch ex As Exception
                 Dim log As ILoggerRepogitory = New LogFileInfrastructure
                 log.Log(ILoggerRepogitory.LogInfo.ERR, ex.Message)
@@ -1755,12 +1811,13 @@ Namespace ViewModels
         ''' 面積
         ''' </summary>
         ''' <returns></returns>
-        Public Property Area As Double
+        Public Property Area As String
             Get
                 Return _Area
             End Get
             Set
-                _Area = Value
+                Dim d As Double
+                _Area = IIf(Double.TryParse(Value, d), Value, String.Empty)
                 CallPropertyChanged()
             End Set
         End Property
@@ -1769,12 +1826,13 @@ Namespace ViewModels
         ''' 奥行
         ''' </summary>
         ''' <returns></returns>
-        Public Property Depth As Double
+        Public Property Depth As String
             Get
                 Return _Depth
             End Get
             Set
-                _Depth = Value
+                Dim d As Double
+                _Depth = IIf(Double.TryParse(Value, d), Value, String.Empty)
                 CallPropertyChanged()
             End Set
         End Property
@@ -1783,12 +1841,13 @@ Namespace ViewModels
         ''' 間口
         ''' </summary>
         ''' <returns></returns>
-        Public Property Frontage As Double
+        Public Property Frontage As String
             Get
                 Return _Frontage
             End Get
             Set
-                _Frontage = Value
+                Dim d As Double
+                _Frontage = IIf(Double.TryParse(Value, d), Value, String.Empty)
                 CallPropertyChanged()
             End Set
         End Property

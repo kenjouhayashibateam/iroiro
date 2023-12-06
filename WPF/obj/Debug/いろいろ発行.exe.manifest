@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>I0MOizbPBdhQW18NqdXvdN613igqTm+bUZhF5uuN2gs=</dsig:DigestValue>
+        <dsig:DigestValue>UKVCn/pxeYMeNb9nKQkfSGKnIFhM49gyo9KjLOdVYrY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -110,7 +110,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>y0aDmXDnXdY1r0oH5tX41KBqmDZRb7NzR5qT/vQ2P2k=</dsig:DigestValue>
+        <dsig:DigestValue>MUv0I28hi0/vQFqTb+M9/XjUdseriEC0hTROMPasZ6Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -343,24 +343,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="いろいろ発行.exe" size="340480">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="いろいろ発行.exe" size="345088">
       <assemblyIdentity name="いろいろ発行" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>vpiYMRDN4LiAvy2saYaKVDJoQ8yWoIZTEdyqik25b0M=</dsig:DigestValue>
+        <dsig:DigestValue>A4mUqZFcSHN3IuL54rYfrgjEiua9E8SGO++X8BhVI7k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="いろいろ発行.exe.config" size="189">
+  <file name="いろいろ発行.exe.config" size="959">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>R+Wg8QGvQVHX8T0ta/qbhH1bXkqY0fRnS3wBV3J0bN8=</dsig:DigestValue>
+      <dsig:DigestValue>Wa3/0draLj7IPzymWNP6QJa4OX4C6YGYVhwRVEfWwOo=</dsig:DigestValue>
     </hash>
   </file>
   <file name="ゴマ.ico" size="67646">

@@ -177,3 +177,22 @@ ERR	2023/11/17 16:10:19	インデックスおよび長さは文字列内の場�
 ERR	2023/11/19 10:20:10	String "" から型 'Integer' への変換は無効です。
 ERR	2023/11/19 10:20:23	String "" から型 'Integer' への変換は無効です。
 ERR	2023/11/19 10:20:55	String "" から型 'Integer' への変換は無効です。
+ERR	2023/11/22 17:00:53	String "" から型 'Double' への変換は無効です。
+ERR	2023/11/22 17:01:26	String "" から型 'Double' への変換は無効です。
+ERR	2023/12/01 8:23:09	Empty extension is not supported.
+ERR	2023/12/01 8:23:25	Empty extension is not supported.
+ERR	2023/12/01 8:23:39	Empty extension is not supported.
+ERR	2023/12/01 8:23:48	Empty extension is not supported.
+ERR	2023/12/01 8:24:02	Empty extension is not supported.
+ERR	2023/12/01 8:24:03	Empty extension is not supported.
+ERR	2023/12/01 8:24:04	Empty extension is not supported.
+ERR	2023/12/01 8:24:04	Empty extension is not supported.
+ERR	2023/12/01 8:24:05	Empty extension is not supported.
+ERR	2023/12/01 8:24:05	Empty extension is not supported.
+ERR	2023/12/01 8:24:05	Empty extension is not supported.
+ERR	2023/12/01 8:24:05	Empty extension is not supported.
+ERR	2023/12/01 8:57:07	別のプロセスで使用されているため、プロセスはファイル 'Z:\生田フォルダ\Tools\Applications\testIroIro\files\IroiroFile.xlsx' にアクセスできません。
+ERR	2023/12/01 8:57:21	別のプロセスで使用されているため、プロセスはファイル 'Z:\生田フォルダ\Tools\Applications\testIroIro\files\IroiroFile.xlsx' にアクセスできません。
+ERR	2023/12/01 8:57:33	別のプロセスで使用されているため、プロセスはファイル 'Z:\生田フォルダ\Tools\Applications\testIroIro\files\IroiroFile.xlsx' にアクセスできません。
+ERR	2023/12/01 8:57:39	別のプロセスで使用されているため、プロセスはファイル 'Z:\生田フォルダ\Tools\Applications\testIroIro\files\IroiroFile.xlsx' にアクセスできません。
+ERR	2023/12/01 8:57:46	別のプロセスで使用されているため、プロセスはファイル 'Z:\生田フォルダ\Tools\Applications\testIroIro\files\IroiroFile.xlsx' にアクセスできません。

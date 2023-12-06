@@ -27,7 +27,7 @@ Public Interface IOutputDataRepogitory
     ''' 振込用紙
     ''' </summary>
     Sub TransferPaperPrintOutput(customerid As String, addressee As String, title As String, postalcode As String,
-                                 address1 As String, address2 As String, money As String, note1 As String, note2 As String,
+                                 address1 As String, address2 As String, money As Integer, note1 As String, note2 As String,
                                  note3 As String, note4 As String, note5 As String, multioutput As Boolean, _isIPAmjMintyo As Boolean)
     ''' <summary>
     ''' 長3封筒
@@ -104,4 +104,5 @@ Public Interface IOutputDataRepogitory
     ''' </summary>
     Sub GraveVoucherOutput(addressee As String, amount As Integer, accountActivityDate As Date, lessee As LesseeCustomerInfoEntity, graveNote As String, frontage As Double, depth As Double, isEarnest As Boolean, isDeposit As Boolean, isRemainingMoney As Boolean, isFullAmount As Boolean, note As String, cleakName As String, IsIPAmjMintyo As Boolean)
 
+    Function ReturnXlsxFilePath() As String
 End Interface

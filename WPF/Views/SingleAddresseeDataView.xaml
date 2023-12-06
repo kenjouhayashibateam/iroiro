@@ -302,7 +302,7 @@
                             <ColumnDefinition Width="5*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <GroupBox Grid.Column="0" Header="受納日" Margin="5,2">
+                        <GroupBox Grid.Column="0" Header="受納日" IsEnabled="{Binding IsRedoOutput,Converter={StaticResource BoolNeg}}" Margin="5,2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
@@ -339,7 +339,7 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <GroupBox Grid.Column="0" Header="宛名" Margin="5,2">
+                        <GroupBox Grid.Column="0" Header="宛名" IsEnabled="{Binding IsRedoOutput,Converter={StaticResource BoolNeg}}" Margin="5,2">
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="4*"/>
@@ -351,7 +351,7 @@
                                 <CheckBox Grid.Column="2" Content="IPAmj明朝で出力する" IsChecked="{Binding IsIPAmjMintyo}" VerticalAlignment="Center" Margin="5"/>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Column="1" Header="係" Margin="5,2">
+                        <GroupBox Grid.Column="1" Header="係" IsEnabled="{Binding IsRedoOutput,Converter={StaticResource BoolNeg}}" Margin="5,2">
                             <TextBox Text="{Binding Note5}" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Margin="5,2"/>
                         </GroupBox>                   
                     </Grid>
@@ -360,7 +360,7 @@
                             <TextBlock Grid.Row="1" Text="{Binding TotalAmount,StringFormat={}{0:N0} - 円也}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="30" Margin="5,0"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Grid.Row="3" Margin="5,2">
+                    <GroupBox Grid.Row="3" IsEnabled="{Binding IsRedoOutput,Converter={StaticResource BoolNeg}}" Margin="5,2">
                         <GroupBox.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -547,7 +547,7 @@
                             </Grid>
                         </Grid>
                     </GroupBox>
-                    <Grid Grid.Row="4">
+                    <Grid Grid.Row="4" IsEnabled="{Binding IsRedoOutput,Converter={StaticResource BoolNeg}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="3*"/>
@@ -577,7 +577,7 @@
                                 </ToggleButton>
                             </Grid>
                         </Grid>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.Column="1" IsEnabled="{Binding IsRedoOutput,Converter={StaticResource BoolNeg}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
@@ -642,7 +642,7 @@
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <extk:WatermarkTextBox Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Watermark="数字のみ入力" Text="{Binding Money,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off" Margin="0,0,0,1"/>
+                            <extk:WatermarkTextBox Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Watermark="数字のみ入力" Text="{Binding Money,StringFormat={}{0:N},UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off" Margin="0,0,0,1"/>
                             <TextBlock Grid.Column="2" Text="円" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5"/>
                         </Grid>
                     </GroupBox>

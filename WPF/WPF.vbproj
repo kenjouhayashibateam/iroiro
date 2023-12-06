@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>debug\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -131,6 +131,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\ShowFormData.vb" />
     <Compile Include="ViewModels\BaseViewModel.vb" />
+    <Compile Include="Views\Behaviors\BoolNegConverter.vb" />
     <Compile Include="Views\Behaviors\MessageBoxBehavior.vb" />
     <Compile Include="ViewModels\Commands\DelegateCommand.vb" />
     <Compile Include="ViewModels\CreateGravePanelDataViewModel.vb" />
