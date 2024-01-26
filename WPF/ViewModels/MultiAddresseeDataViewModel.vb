@@ -6,7 +6,6 @@ Imports Infrastructure
 Imports System.Text.RegularExpressions
 Imports WPF.Command
 Imports WPF.Data
-Imports System.Runtime.InteropServices.ComTypes
 
 Namespace ViewModels
     ''' <summary>

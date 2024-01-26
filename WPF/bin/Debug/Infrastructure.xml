@@ -760,6 +760,11 @@ Infrastructure
  <param name="addressee">ラベル化する宛先</param>
  <returns></returns>
 </member>
+<member name="T:Infrastructure.InfrastructureProperties">
+ <summary>
+ インフラストラクチャのプロパティ設定クラス
+ </summary>
+</member>
 <member name="T:Infrastructure.LogFileInfrastructure">
  <summary>
  メモ帳にログを書き込みます
@@ -780,11 +785,6 @@ Infrastructure
  ログファイルを生成します
  </summary>
  <returns></returns>
-</member>
-<member name="F:Infrastructure.SQLConnectInfrastructure.SHUNJUENCONSTRING">
- <summary>
- SQLServerに接続するための接続文字列
- </summary>
 </member>
 <member name="P:Infrastructure.SQLConnectInfrastructure.Rs">
  <summary> 

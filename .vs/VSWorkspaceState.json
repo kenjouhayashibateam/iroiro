@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Domain",
+    "\\Domain\\Repositories",
+    "\\Infrastructure",
+    "\\WPF",
+    "\\WPF\\ViewModels",
+    "\\WPF\\Views"
   ],
-  "SelectedNode": "\\Iroiro.sln",
+  "SelectedNode": "\\WPF\\ViewModels\\SingleAddresseeDataViewModel.vb",
   "PreviewInSolutionExplorer": false
 }

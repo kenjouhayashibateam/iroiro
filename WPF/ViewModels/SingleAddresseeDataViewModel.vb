@@ -14,8 +14,108 @@ Namespace ViewModels
         Inherits BaseViewModel
         Implements IAddressDataViewCloseListener, IOverLengthAddress2Count
 
+        Private Property ProvisoList As ObservableCollection(Of Proviso)
+        Private _Addresseename As String = String.Empty
+        Private _PostalCode As String = String.Empty
+        Private _Address1 As String = String.Empty
+        Private _Address2 As String = String.Empty
+        Private _Note1 As String = String.Empty
+        Private _Note2 As String = String.Empty
+        Private _Note3 As String = String.Empty
+        Private _Note4 As String = String.Empty
+        Private _Note5 As String = String.Empty
+        Private _Money As String = String.Empty
+        Private _Title As String = String.Empty
+        Private _MultiOutputCheck As Boolean
+        Private _CustomerID As String = String.Empty
+        Private _PermitReference As Boolean
+        Private _ReferenceLesseeCommand As ICommand
+        Private _ReferencePostalcode As ICommand
+        Private _AddressReference As ICommand
+        Private _ProvisoClearCommand As ICommand
+        Private _VoucherOutputCommand As ICommand
+        Private _SelectedOutputContentsValue As OutputContents = OutputContents.TransferPaper
+        Private _TransferPaperMenuEnabled As Boolean = True
+        Private _NoteClear As ICommand
+        Private _DataOutput As ICommand
+        Private _GotoMultiAddresseeDataView As ICommand
+        Private _GotoGravePanelDataView As ICommand
+        Private _LastSaveDate As Date
+        Private _MessageInfo As MessageBoxInfo
+        Private _CallSelectAddresseeInfo As Boolean
+        Private _CallErrorMessage As Boolean
+        Private _CallAddressOverLengthMessage As Boolean
+        Private _CallGravePanelDataView As Boolean
+        Private _CallNoteInfo As Boolean
+        Private _IsNoteInfoIgnored As Boolean
+        Private _IsReducedTaxRate1 As Boolean
+        Private _IsReducedTaxRate2 As Boolean
+        Private _IsReducedTaxRate3 As Boolean
+        Private _IsReducedTaxRate4 As Boolean
+        Private _IsReducedTaxRate5 As Boolean
+        Private _IsReducedTaxRate6 As Boolean
+        Private _IsReducedTaxRate7 As Boolean
+        Private _IsReducedTaxRate8 As Boolean
+        Private _Amount1 As String
+        Private _Amount2 As String
+        Private _Amount3 As String
+        Private _Amount4 As String
+        Private _Amount5 As String
+        Private _Amount6 As String
+        Private _Amount7 As String
+        Private _Amount8 As String
+        Private _Proviso1 As String
+        Private _Proviso2 As String
+        Private _Proviso3 As String
+        Private _Proviso4 As String
+        Private _Proviso5 As String
+        Private _Proviso6 As String
+        Private _Proviso7 As String
+        Private _Proviso8 As String
+        Private _totalAmount As Integer
+        Private AddressList As AddressDataListEntity
+        Private _CallShowAddressDataView As Boolean
+        Private _ViewTitle As String
+        Private _OutputInfo As String
+        Private _ButtonText As String = "出力"
+        Private _OutputButtonIsEnabled As Boolean = True
+        Private _IsShunjuen As Boolean
+        Private _IsDisplayTax As Boolean
+        Private _IsReissue As Boolean
+        Private _CanOutput As Boolean
+        Private _IsPrepaid As Boolean
+        Private _PrepaidDate As Date = "1900-1-1"
+        Private _AccountActivityDate As Date = Now
+        Private _NextVoucherNumber As Integer
+        Private _CallNextVoucherNumberCommand As ICommand
+        Private _GraveKuiki As String = String.Empty
+        Private _GraveNote As String
+        Private _Frontage As String = String.Empty
+        Private _Depth As String = String.Empty
+        Private _Area As String = String.Empty
+        Private _IsEarnest As Boolean
+        Private _IsDeposit As Boolean
+        Private _IsRemainingMoney As Boolean
+        Private _GraveVoucherOutputCommand As ICommand
+        Private _MyLessee As LesseeCustomerInfoEntity
+        Private _GraveGawa As String = String.Empty
+        Private _GraveBan As String = String.Empty
+        Private _GraveGou As String = String.Empty
+        Private voucherID As Integer
+        Private _IsRedoOutput As Boolean = False
+        Private _IsNotLatestApp As Boolean = True
+        Private _ServerName As String = InfrastructureProperties.ReturnServerName
+        Private _UpdateServerNameCommand As DelegateCommand
+        Private _DefaultDataBaseName As String = InfrastructureProperties.ReturnDefaultDataBaseName
+        Private _UpdateDefaultDataBaseNameCommand As DelegateCommand
+        Private _IsShunjuenPC As Boolean = My.Settings.IsShunjuenPC
+        Private _UpdateIsShunjuenPCCommand As DelegateCommand
+        Private _canUpdateServerName As Boolean = False
+        Private _canUpdateDefaultDataBaseName As Boolean = False
+
         Public ReadOnly Property Zones As New Dictionary(Of String, String)
         Private _selectedZone As KeyValuePair(Of String, String)
+        Private _OutputContentsDictionary As Dictionary(Of OutputContents, String)
         ''' <summary>
         ''' 名義人と送付先のどちらのデータを使用するかを選択させるメッセージコマンド
         ''' </summary>
@@ -32,6 +132,20 @@ Namespace ViewModels
         ''' </summary>
         ''' <returns></returns>
         Public Property AddressOverLengthInfoCommand As DelegateCommand
+        ''' <summary>
+        ''' 既定のデータベース名
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DefaultDataBaseName As String
+            Get
+                Return _DefaultDataBaseName
+            End Get
+            Set
+                _DefaultDataBaseName = Value
+                CallPropertyChanged()
+                CanUpdateDefaultDataBaseName = Not InfrastructureProperties.ReturnDefaultDataBaseName = Value
+            End Set
+        End Property
 
         ''' <summary>
         ''' 墓地札管理画面を呼び出すタイミングを管理します
@@ -156,7 +270,15 @@ Namespace ViewModels
         ''' 印刷する種類を保持しているディクショナリ
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property OutputContentsDictionary As Dictionary(Of OutputContents, String) = New Dictionary(Of OutputContents, String)
+        Public Property OutputContentsDictionary As Dictionary(Of OutputContents, String)
+            Get
+                Return _OutputContentsDictionary
+            End Get
+            Set
+                _OutputContentsDictionary = Value
+                CallPropertyChanged()
+            End Set
+        End Property
 
         '画面遷移の際にViewModel に値を渡すため、プロパティで保持する
         Private Property Advm As AddressDataViewModel
@@ -335,98 +457,6 @@ Namespace ViewModels
             End Set
         End Property
 
-        Private Property ProvisoList As ObservableCollection(Of Proviso)
-
-        Private _Addresseename As String = String.Empty
-        Private _PostalCode As String = String.Empty
-        Private _Address1 As String = String.Empty
-        Private _Address2 As String = String.Empty
-        Private _Note1 As String = String.Empty
-        Private _Note2 As String = String.Empty
-        Private _Note3 As String = String.Empty
-        Private _Note4 As String = String.Empty
-        Private _Note5 As String = String.Empty
-        Private _Money As String = String.Empty
-        Private _Title As String = String.Empty
-        Private _MultiOutputCheck As Boolean
-        Private _CustomerID As String = String.Empty
-        Private _PermitReference As Boolean
-        Private _ReferenceLesseeCommand As ICommand
-        Private _ReferencePostalcode As ICommand
-        Private _AddressReference As ICommand
-        Private _ProvisoClearCommand As ICommand
-        Private _VoucherOutputCommand As ICommand
-        Private _SelectedOutputContentsValue As OutputContents = OutputContents.TransferPaper
-        Private _TransferPaperMenuEnabled As Boolean = True
-        Private _NoteClear As ICommand
-        Private _DataOutput As ICommand
-        Private _GotoMultiAddresseeDataView As ICommand
-        Private _GotoGravePanelDataView As ICommand
-        Private _LastSaveDate As Date
-        Private _MessageInfo As MessageBoxInfo
-        Private _CallSelectAddresseeInfo As Boolean
-        Private _CallErrorMessage As Boolean
-        Private _CallAddressOverLengthMessage As Boolean
-        Private _CallGravePanelDataView As Boolean
-        Private _CallNoteInfo As Boolean
-        Private _IsNoteInfoIgnored As Boolean
-        Private _IsReducedTaxRate1 As Boolean
-        Private _IsReducedTaxRate2 As Boolean
-        Private _IsReducedTaxRate3 As Boolean
-        Private _IsReducedTaxRate4 As Boolean
-        Private _IsReducedTaxRate5 As Boolean
-        Private _IsReducedTaxRate6 As Boolean
-        Private _IsReducedTaxRate7 As Boolean
-        Private _IsReducedTaxRate8 As Boolean
-        Private _Amount1 As String
-        Private _Amount2 As String
-        Private _Amount3 As String
-        Private _Amount4 As String
-        Private _Amount5 As String
-        Private _Amount6 As String
-        Private _Amount7 As String
-        Private _Amount8 As String
-        Private _Proviso1 As String
-        Private _Proviso2 As String
-        Private _Proviso3 As String
-        Private _Proviso4 As String
-        Private _Proviso5 As String
-        Private _Proviso6 As String
-        Private _Proviso7 As String
-        Private _Proviso8 As String
-        Private _totalAmount As Integer
-        Private AddressList As AddressDataListEntity
-        Private _CallShowAddressDataView As Boolean
-        Private _ViewTitle As String
-        Private _OutputInfo As String
-        Private _ButtonText As String = "出力"
-        Private _OutputButtonIsEnabled As Boolean = True
-        Private _IsShunjuen As Boolean
-        Private _IsDisplayTax As Boolean
-        Private _IsReissue As Boolean
-        Private _CanOutput As Boolean
-        Private _IsPrepaid As Boolean
-        Private _PrepaidDate As Date = "1900-1-1"
-        Private _AccountActivityDate As Date = Now
-        Private _NextVoucherNumber As Integer
-        Private _CallNextVoucherNumberCommand As ICommand
-        Private _GraveKuiki As String = String.Empty
-        Private _GraveNote As String
-        'Private _Frontage As Double
-        'Private _Depth As Double
-        'Private _Area As Double
-        Private _Frontage As String = String.Empty
-        Private _Depth As String = String.Empty
-        Private _Area As String = String.Empty
-        Private _IsEarnest As Boolean
-        Private _IsDeposit As Boolean
-        Private _IsRemainingMoney As Boolean
-        Private _GraveVoucherOutputCommand As ICommand
-        Private _MyLessee As LesseeCustomerInfoEntity
-        Private _GraveGawa As String = String.Empty
-        Private _GraveBan As String = String.Empty
-        Private _GraveGou As String = String.Empty
-
         Public Property AccountActivityDate As Date
             Get
                 Return _AccountActivityDate
@@ -524,9 +554,45 @@ Namespace ViewModels
                 CallPropertyChanged()
             End Set
         End Property
+        Public Property IsShunjuenPC As Boolean
+            Get
+                Return _IsShunjuenPC
+            End Get
+            Set
+                MessageInfo = New MessageBoxInfo() With {
+                    .Message = "変更しますか？特に寺カフェのPCに於いて春秋苑に変更するとエラーになることがあります",
+                    .Button = MessageBoxButton.YesNo,
+                    .Image = MessageBoxImage.Question,
+                    .Title = "変更確認"}
 
-        Private voucherID As Integer
-        Private _IsRedoOutput As Boolean = False
+                If MessageInfo.Result = MessageBoxResult.No Then Return
+                _IsShunjuenPC = Value
+                CallPropertyChanged()
+                SetOutputContentsDictionary()
+                IsShunjuen = Value
+            End Set
+        End Property
+
+        Public Property UpdateIsShunjuenPCCommand As DelegateCommand
+            Get
+                _UpdateIsShunjuenPCCommand = New DelegateCommand(
+                    Sub()
+                        UpdateIsShunjuenPC()
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function)
+                Return _UpdateIsShunjuenPCCommand
+            End Get
+            Set
+                _UpdateIsShunjuenPCCommand = Value
+            End Set
+        End Property
+
+        Private Sub UpdateIsShunjuenPC()
+            My.Settings.IsShunjuenPC = IsShunjuenPC
+            My.Settings.Save()
+        End Sub
 
         Private Sub VoucherOutput()
             ButtonText = "出力中"
@@ -555,6 +621,12 @@ Namespace ViewModels
             CallNextVoucherNumber()
             IsRedoOutput = False
             ButtonText = "出力"
+
+            MessageInfo = New MessageBoxInfo() With {
+                    .Message = "出力しました。",
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Information,
+                    .Title = "受納証出力完了"}
 
         End Sub
 
@@ -1217,20 +1289,53 @@ Namespace ViewModels
                 CallPropertyChanged(NameOf(ViewTitle))
             End Set
         End Property
+        Private Sub CallUpdateInfomation()
+
+            If (LatestUpdateDate.CompareTo(CurrentDistributionDate) = 1) Then
+                IsNotLatestApp = True
+                MessageInfo = New MessageBoxInfo() With {
+                    .Message = $"※重要：{LatestUpdateDate}更新分{vbCrLf}" +
+                            "システムの更新があります。" +
+                            $"生田フォルダ\\Toolsのアプリケーションインストーラでいろいろ発行を更新してください。{vbCrLf}" +
+                            $"現在のアプリ発行日時：{CurrentDistributionDate}",
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Information,
+                    .Title = "更新案内"}
+            Else
+                IsNotLatestApp = False
+            End If
+        End Sub
+
+        Public ReadOnly Property LatestUpdateDate As Date
+        Public ReadOnly Property CurrentDistributionDate As Date
+        Public Property IsNotLatestApp As Boolean
+            Get
+                Return _IsNotLatestApp
+            End Get
+            Set
+                _IsNotLatestApp = IIf(IsShunjuenPC, Value, False)
+                CallPropertyChanged()
+            End Set
+        End Property
 
         ''' <param name="lesseerepository">名義人データ</param>
         ''' <param name="excelrepository">エクセルデータ</param>
         Public Sub New(lesseerepository As IDataConectRepogitory, excelrepository As IOutputDataRepogitory)
 
-            If (File.GetLastWriteTime(My.Settings.OriginalExeFileFullPath).CompareTo(File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName)) = 1) Then
-                MessageInfo = New MessageBoxInfo() With {
-                    .Message = $"※重要：{File.GetLastWriteTime(My.Settings.OriginalExeFileFullPath)}更新分{vbCrLf}" +
-                            "システムの更新があります。" +
-                            $"生田フォルダ\\Toolsのアプリケーションインストーラでいろいろ発行を更新してください。{vbCrLf}" +
-                            $"現在のアプリ発行日時：{File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName)}",
-                    .Button = MessageBoxButton.OK,
-                    .Image = MessageBoxImage.Information,
-                    .Title = "更新案内"}
+            Dim exeFileFullPath As String = $"{ My.Settings.DefaultDriveInitial}{My.Settings.OriginalExeFileFullPath}"
+
+            If Not File.Exists(exeFileFullPath) Then
+                exeFileFullPath = exeFileFullPath.Replace("Z:", "Y:")
+            ElseIf Not File.Exists(exeFileFullPath) Then
+                exeFileFullPath = exeFileFullPath.Replace("Z:", "X:")
+            End If
+
+            If File.Exists(exeFileFullPath) Then
+                LatestUpdateDate = File.GetLastWriteTime(exeFileFullPath)
+                CurrentDistributionDate = File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName)
+                CallUpdateInfomation()
+            Else
+                IsNotLatestApp = False
             End If
 
             'PlaySound()
@@ -1241,16 +1346,8 @@ Namespace ViewModels
 
             'Dim ver As System.Diagnostics.FileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location)
             ViewTitle = "いろいろ発行" '& ver.FileVersion
-            With OutputContentsDictionary
-                .Add(OutputContents.TransferPaper, My.Resources.TransferPaperText)
-                .Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)
-                .Add(OutputContents.GravePamphletEnvelope, My.Resources.GravePamphletEnvelopeText)
-                .Add(OutputContents.Kaku2Envelope, My.Resources.Kaku2EnvelopeText)
-                .Add(OutputContents.WesternEnbelope, My.Resources.WesternEnvelopeText）
-                .Add(OutputContents.Postcard, My.Resources.PostcardText）
-            End With
-            LastSaveDate = DataBaseConecter.GetLastSaveDate.GetDate
             ProvisoClear()
+            SetOutputContentsDictionary()
             CallNextVoucherNumber()
             With Zones
                 .Add("01", "東")
@@ -1264,8 +1361,41 @@ Namespace ViewModels
                 .Add("20", "御廟")
                 .Add(String.Empty, String.Empty)
             End With
+            If Not DataBaseConecter.ReturnIsSucceededConnection() Then
+                MessageInfo = New MessageBoxInfo With
+                {
+                    .Message = $"データベースに接続できません。各設定を確認してください。{vbCrLf}郵便番号等のデータ検索をするとエラーになります。",
+                    .Button = MessageBoxButton.OK,
+                    .Image = MessageBoxImage.Error,
+                    .Title = "接続失敗"
+                }
+                Return
+            End If
+            If Not IsShunjuenPC Then Return
+            LastSaveDate = DataBaseConecter.GetLastSaveDate.GetDate
         End Sub
 
+        Private Sub SetOutputContentsDictionary()
+            Dim ocd As New Dictionary(Of OutputContents, String)
+            If IsShunjuenPC Then
+                With ocd
+                    .Add(OutputContents.TransferPaper, My.Resources.TransferPaperText)
+                    .Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)
+                    .Add(OutputContents.GravePamphletEnvelope, My.Resources.GravePamphletEnvelopeText)
+                    .Add(OutputContents.Kaku2Envelope, My.Resources.Kaku2EnvelopeText)
+                    .Add(OutputContents.WesternEnbelope, My.Resources.WesternEnvelopeText）
+                    .Add(OutputContents.Postcard, My.Resources.PostcardText）
+                End With
+            Else
+                With ocd
+                    .Add(OutputContents.TransferPaper, My.Resources.TransferPaperText)
+                    .Add(OutputContents.Cho3Envelope, My.Resources.Cho3EnvelopeText)
+                    .Add(OutputContents.Postcard, My.Resources.PostcardText）
+                End With
+            End If
+            OutputContentsDictionary = ocd
+            SelectedOutputContentsValue = OutputContentsDictionary.FirstOrDefault().Key
+        End Sub
         ''' <summary>
         ''' 渡された管理番号で、名義人データを生成します。
         ''' </summary>
@@ -1350,7 +1480,7 @@ Namespace ViewModels
             Try
                 Dim outputNote5 As String = IIf(IsNoteInfoIgnored, Note5, $"担当：{Note5}")
 
-                DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, Money, Note1, Note2, Note3, Note4, outputNote5, MultiOutputCheck, IsIPAmjMintyo)
+                DataOutputConecter.TransferPaperPrintOutput(CustomerID, AddresseeName, Title, PostalCode, Address1, Address2, IIf(String.IsNullOrEmpty(Money), 0, Money), Note1, Note2, Note3, Note4, outputNote5, MultiOutputCheck, IsIPAmjMintyo)
 
             Catch ex As System.IO.IOException
                 CreateIOExceprionMessage()
@@ -1533,6 +1663,73 @@ Namespace ViewModels
                 End Function
                 )
         End Sub
+        Public Property UpdateDefaultDataBaseNameCommand As DelegateCommand
+            Get
+                _UpdateDefaultDataBaseNameCommand = New DelegateCommand(
+                    Sub()
+                        UpdateDefaultDataBaseName()
+                        CallUpdateComplete()
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function)
+                Return _UpdateDefaultDataBaseNameCommand
+            End Get
+            Set
+                _UpdateDefaultDataBaseNameCommand = Value
+            End Set
+        End Property
+
+        Private Sub CallUpdateComplete()
+            ErrorMessageInfo = New DelegateCommand(
+                Sub()
+                    MessageInfo = New MessageBoxInfo With {
+                    .Message = "更新しました",
+                    .Image = MessageBoxImage.Information,
+                    .Button = MessageBoxButton.OK,
+                    .Title = "更新完了"}
+                    CallNextVoucherNumber()
+                End Sub,
+                Function()
+                    Return True
+                End Function)
+            CallErrorMessage = True
+        End Sub
+        Private Sub UpdateDefaultDataBaseName()
+            InfrastructureProperties.UpdateDefaultDataBaseName(DefaultDataBaseName)
+        End Sub
+        Public Property UpdateServerNameCommand As DelegateCommand
+            Get
+                _UpdateServerNameCommand = New DelegateCommand(
+                    Sub()
+                        UpdateServerName()
+                        CallUpdateComplete()
+                    End Sub,
+                    Function()
+                        Return True
+                    End Function)
+                Return _UpdateServerNameCommand
+            End Get
+            Set
+                _UpdateServerNameCommand = Value
+            End Set
+        End Property
+
+        Public Sub UpdateServerName()
+            InfrastructureProperties.UpdateSQLServerConectionStringServerName(ServerName)
+        End Sub
+
+        Public Property ServerName As String
+            Get
+                Return _ServerName
+            End Get
+            Set
+                _ServerName = Value
+                CallPropertyChanged()
+                CanUpdateServerName = Not InfrastructureProperties.ReturnServerName = Value
+            End Set
+        End Property
+
         ''' <summary>
         ''' エラーメッセージを生成します
         ''' </summary>
@@ -1551,9 +1748,7 @@ Namespace ViewModels
                        Return True
                    End Function
                    )
-
             CallErrorMessage = True
-
         End Sub
 
         ''' <summary>
@@ -1598,7 +1793,7 @@ Namespace ViewModels
                 Case OutputContents.Postcard
                     InputPostcard()
                 Case OutputContents.TransferPaper
-                    If Not String.IsNullOrEmpty(Note4) And Not String.IsNullOrEmpty(Note5) Then
+                    If Not String.IsNullOrEmpty(Note4) And Not String.IsNullOrEmpty(Note5) And Not String.IsNullOrEmpty(Money) Then
                         InputTransferData()
                     Else
                         IsNoteInfoIgnoredOutput()
@@ -1678,7 +1873,7 @@ Namespace ViewModels
                     .Message = "入力必須項目に値が入っていません。",
                     .Button = MessageBoxButton.OK,
                     .Image = MessageBoxImage.Warning,
-                    .Title = "名目、担当者は必須です"}
+                    .Title = "金額、名目、担当者は必須です"}
         End Sub
         Public Property CallNoteInfo As Boolean
             Get
@@ -1930,6 +2125,26 @@ Namespace ViewModels
             End Get
             Set
                 _selectedZone = Value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        Public Property CanUpdateServerName As Boolean
+            Get
+                Return _canUpdateServerName
+            End Get
+            Set(value As Boolean)
+                _canUpdateServerName = value
+                CallPropertyChanged()
+            End Set
+        End Property
+
+        Public Property CanUpdateDefaultDataBaseName As Boolean
+            Get
+                Return _canUpdateDefaultDataBaseName
+            End Get
+            Set(value As Boolean)
+                _canUpdateDefaultDataBaseName = value
                 CallPropertyChanged()
             End Set
         End Property

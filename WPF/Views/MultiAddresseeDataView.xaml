@@ -62,31 +62,31 @@
                         <ColumnDefinition Width="9*"/>
                         <ColumnDefinition Width="12*"/>
                         <ColumnDefinition Width="9*"/>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="23*"/>
+                        <ColumnDefinition Width="23*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="管理番号" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                    <Label Content="宛名" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                    <Label Content="郵便番号" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                    <Label Content="住所1" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                    <Label Content="住所2" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="管理番号" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0"/>
+                    <TextBlock Text="宛名" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0"/>
+                    <TextBlock Text="郵便番号" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0"/>
+                    <TextBlock Text="住所1" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0"/>
+                    <TextBlock Text="住所2" Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="3,0"/>
                 </Grid>   
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="9*"/>
                         <ColumnDefinition Width="12*"/>
                         <ColumnDefinition Width="9*"/>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="23*"/>
+                        <ColumnDefinition Width="23*"/>
                     </Grid.ColumnDefinitions>
-                    <extk:WatermarkTextBox x:Name="CustomerIDTextBox" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="3,5" Text="{Binding CustomerID}"  Watermark="管理番号" InputMethod.PreferredImeState="Off">
+                    <extk:WatermarkTextBox x:Name="CustomerIDTextBox" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="3,5" Text="{Binding CustomerID}"  Watermark="管理番号" InputMethod.PreferredImeState="Off" >
                         <ib:Interaction.Triggers>
                             <ib:EventTrigger EventName="LostFocus">
                                 <ib:InvokeCommandAction Command="{Binding ReferenceLesseeCommand}"/>
                             </ib:EventTrigger>
                         </ib:Interaction.Triggers>
                     </extk:WatermarkTextBox>
-                    <extk:WatermarkTextBox x:Name="AddresseeTextBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Watermark="敬称は下の欄" Margin="3,5"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Text="{Binding Addressee}"/>
+                    <extk:WatermarkTextBox x:Name="AddresseeTextBox" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Watermark="敬称は下の欄で一括" Margin="3,5"  InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,native" Text="{Binding Addressee}"/>
                     <extk:WatermarkTextBox x:Name="PostalcodeTextBox" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Watermark="〒" Margin="3,5" Text="{Binding Postalcode}" InputMethod.PreferredImeState="Off">
                         <ib:Interaction.Triggers>
                             <ib:EventTrigger EventName="LostFocus">

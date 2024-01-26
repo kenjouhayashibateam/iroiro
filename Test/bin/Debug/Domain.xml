@@ -1040,5 +1040,16 @@ Domain
  </summary>
  <returns></returns>
 </member>
+<member name="M:Domain.IDataConectRepogitory.ReturnIsSucceededConnection">
+ <summary>
+ データベース接続が成功したかを返します
+ </summary>
+ <returns></returns>
+</member>
+<member name="P:Domain.IDataConectRepogitory.IsSucceededConnection">
+ <summary>
+ データベース接続が成功したか
+ </summary>
+</member>
 </members>
 </doc>

@@ -56,13 +56,37 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Z:\生田フォルダ\Tools\Applications\Iroiro\いろいろ発行.exe")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("生田フォルダ\Tools\Applications\Iroiro\いろいろ発行.exe")>  _
         Public Property OriginalExeFileFullPath() As String
             Get
                 Return CType(Me("OriginalExeFileFullPath"),String)
             End Get
             Set
                 Me("OriginalExeFileFullPath") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Z:\")>  _
+        Public Property DefaultDriveInitial() As String
+            Get
+                Return CType(Me("DefaultDriveInitial"),String)
+            End Get
+            Set
+                Me("DefaultDriveInitial") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property IsShunjuenPC() As Boolean
+            Get
+                Return CType(Me("IsShunjuenPC"),Boolean)
+            End Get
+            Set
+                Me("IsShunjuenPC") = value
             End Set
         End Property
     End Class

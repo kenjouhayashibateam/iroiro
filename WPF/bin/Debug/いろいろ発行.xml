@@ -1241,6 +1241,12 @@
  </summary>
  <returns></returns>
 </member>
+<member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.DefaultDataBaseName">
+ <summary>
+ 既定のデータベース名
+ </summary>
+ <returns></returns>
+</member>
 <member name="P:WPF.ViewModels.SingleAddresseeDataViewModel.CallGravePanelDataView">
  <summary>
  墓地札管理画面を呼び出すタイミングを管理します
@@ -1752,36 +1758,6 @@ AddressDataView
 <member name="M:WPF.AddressDataView.InitializeComponent">
 <summary>
 InitializeComponent
-</summary>
-</member>
-<member name="T:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-<summary>
-GeneratedInternalTypeHelper
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-<summary>
-CreateInstance
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-<summary>
-GetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-<summary>
-SetPropertyValue
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-<summary>
-CreateDelegate
-</summary>
-</member>
-<member name="M:WPF.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-<summary>
-AddEventHandler
 </summary>
 </member>
 </members>

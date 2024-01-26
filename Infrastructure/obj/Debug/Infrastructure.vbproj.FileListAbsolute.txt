@@ -142,3 +142,4 @@ C:\Users\houmu\Source\Repos\iroiro\Infrastructure\obj\Debug\Infrastructure.vbpro
 C:\Users\houmu\Source\Repos\iroiro\Infrastructure\obj\Debug\Infrastructure.dll
 C:\Users\houmu\Source\Repos\iroiro\Infrastructure\obj\Debug\Infrastructure.xml
 C:\Users\houmu\Source\Repos\iroiro\Infrastructure\obj\Debug\Infrastructure.pdb
+C:\Users\houmu\source\repos\iroiro\Infrastructure\bin\Debug\Infrastructure.dll.config

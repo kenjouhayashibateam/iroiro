@@ -3,7 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="OriginalExeFileFullPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Z:\生田フォルダ\Tools\Applications\Iroiro\いろいろ発行.exe</Value>
+      <Value Profile="(Default)">生田フォルダ\Tools\Applications\Iroiro\いろいろ発行.exe</Value>
+    </Setting>
+    <Setting Name="DefaultDriveInitial" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Z:\</Value>
+    </Setting>
+    <Setting Name="IsShunjuenPC" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="いろいろ発行.exe.manifest" size="22682">
+    <dependentAssembly dependencyType="install" codebase="いろいろ発行.exe.manifest" size="22683">
       <assemblyIdentity name="いろいろ発行.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>setCh1pXbHqZUJ+xVeX67gxuOr3SqfHssQYfzKStKmw=</dsig:DigestValue>
+        <dsig:DigestValue>jdbryIbdwPhqVL0Rqsm5yUnhlV57lbHOVL+zS5sPb9U=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

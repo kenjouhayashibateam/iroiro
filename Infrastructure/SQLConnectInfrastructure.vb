@@ -20,15 +20,6 @@ Public Class SQLConnectInfrastructure
 
     Private Const DEFAULTDATE As Date = #1900/01/01#
 
-    ''' <summary>
-    ''' SQLServerに接続するための接続文字列
-    ''' </summary>
-    Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.115\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
-    'Private Const SHUNJUENCONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=192.168.44.116\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
-    Private Const HAYASHIBACONSTRING As String = "PROVIDER=SQLOLEDB;SERVER=DESKTOP-MUJVB5O\SQLEXPRESS;DATABASE=COMMON;user id=sa;password=sqlserver"
-
-    Private ReadOnly MyConnectionString As String = SHUNJUENCONSTRING
-
     ''' <summary> 
     ''' コマンドから取得したデータを格納するクラス
     ''' </summary>
@@ -38,6 +29,16 @@ Public Class SQLConnectInfrastructure
     ''' VB.NETとSQLServerを接続するクラス
     ''' </summary>
     Private Property Cn As ADODB.Connection
+
+    Private _isSucceededConnection As Boolean
+    Public Property IsSucceededConnection As Boolean Implements IDataConectRepogitory.IsSucceededConnection
+        Get
+            Return _isSucceededConnection
+        End Get
+        Set(value As Boolean)
+            _isSucceededConnection = value
+        End Set
+    End Property
 
     Public Sub New()
         Me.New(New LogFileInfrastructure)
@@ -60,6 +61,7 @@ Public Class SQLConnectInfrastructure
 
         exeCmd = GetCompleteCmd(exeCmd, commandType)
         Try
+            If exeCmd Is Nothing Then Return
             Rs = exeCmd.Execute
         Catch ex As Exception
             LogFileConecter.Log(ILoggerRepogitory.LogInfo.ERR, ex.StackTrace)
@@ -75,8 +77,7 @@ Public Class SQLConnectInfrastructure
     Private Function GetCompleteCmd(execmd As ADODB.Command,
                                     Optional commandType As ADODB.CommandTypeEnum = ADODB.CommandTypeEnum.adCmdStoredProc) As ADODB.Command
 
-        Cn = New ADODB.Connection With {.ConnectionString = MyConnectionString}
-        Cn.Open()
+        If Not ReturnIsSucceededConnection() Then Return Nothing
 
         With execmd
             .ActiveConnection = Cn
@@ -121,6 +122,7 @@ Public Class SQLConnectInfrastructure
     ''' </summary>
     ''' <param name="FieldName">データベース（ストアドプロシージャ）から取得するフィールドの名前</param>
     Private Function RsFields(FieldName As String) As String
+        If Rs Is Nothing Then Return String.Empty
         If Rs.EOF Then Return String.Empty
         Return IIf(IsDBNull(Rs.Fields(FieldName).Value), String.Empty, Rs.Fields(FieldName).Value)
     End Function
@@ -597,5 +599,15 @@ Public Class SQLConnectInfrastructure
         Dim s As String = IIf(String.IsNullOrEmpty(RsFields("id")), 0, RsFields("id"))
         Dim i As Integer = s
         Return i + 1
+    End Function
+
+    Public Function ReturnIsSucceededConnection() As Boolean Implements IDataConectRepogitory.ReturnIsSucceededConnection
+        Try
+            Cn = New ADODB.Connection With {.ConnectionString = $"PROVIDER=SQLOLEDB;SERVER={My.Settings.ServerName};DATABASE={My.Settings.DefaultDataBaseName};user id=sa;password=sqlserver"}
+            Cn.Open()
+        Catch ex As Exception
+            Return False
+        End Try
+        Return True
     End Function
 End Class

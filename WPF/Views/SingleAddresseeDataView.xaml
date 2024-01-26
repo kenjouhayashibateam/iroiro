@@ -19,6 +19,10 @@
         <vm:SingleAddresseeDataViewModel/>
     </Window.DataContext>
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+    </Window.Resources>
+    
     <i:Interaction.Triggers>
         <interactions:PropertyChangedTrigger Binding="{Binding MessageInfo}">
             <b:MessageBoxBehavior/>
@@ -31,6 +35,9 @@
     <ib:Interaction.Triggers>
         <ib:DataTrigger Binding="{Binding CallSelectAddresseeInfo}" Value="true ">
             <ib:InvokeCommandAction Command="{Binding SelectAddresseeInfo }"/>
+        </ib:DataTrigger>
+        <ib:DataTrigger Binding="{Binding CallErrorMessage}" Value="true">
+            <ib:InvokeCommandAction Command="{Binding ErrorMessageInfo}"/>
         </ib:DataTrigger>
         <ib:DataTrigger Binding="{Binding CallShowForm}" Value="true">
             <ib:InvokeCommandAction Command="{Binding ShowFormCommand}"/>
@@ -65,8 +72,7 @@
                           SelectedValue="{Binding SelectedOutputContentsValue}" SelectedValuePath="Key" FontSize="14"/>
                         </GroupBox>
                     </Grid>
-
-                    <GroupBox Header="名義人データ検索" Grid.Row="1" Grid.Column="0" Margin="5,0,5,0" Grid.ColumnSpan="2">
+                    <GroupBox Header="名義人データ検索" Grid.Row="1" Grid.Column="0" IsEnabled="{Binding IsShunjuenPC}" Margin="5,0,5,0" Grid.ColumnSpan="2">
                         <Grid x:Name="ReferenceGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="3*"/>
@@ -156,7 +162,7 @@
                                         <RowDefinition Height="1*" />
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <Label x:Name="MoneyLabel" Content="振込金額"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                    <Label x:Name="MoneyLabel" Content="振込金額（必須項目です）"  Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
@@ -258,14 +264,38 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsShunjuenPC}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsShunjuenPC}" Value="false">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <Label Content="春秋苑データ最終更新日" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Label Content="春秋苑データ最終更新日" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
                             <TextBlock x:Name="LastSaveDateTextBox" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding LastSaveDate,StringFormat=yyyy/MM/dd}" Margin="10,0,0,0"/>
                         </Grid>
                         <Button x:Name="GotoGravePanelDataViewButton" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="auto">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsShunjuenPC}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsShunjuenPC}" Value="false">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
                             墓地札発行
                             <ib:Interaction.Triggers>
                                 <ib:EventTrigger EventName="Click">
@@ -284,7 +314,7 @@
                     </Grid>
                </Grid>
             </TabItem>
-            <TabItem Header="受納証">                
+            <TabItem Header="受納証">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         
@@ -559,7 +589,7 @@
                                     <RowDefinition Height="3*"/>
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" Text="受納証の種類" VerticalAlignment="Bottom" Margin="5,0"/>
-                                <ToggleButton Grid.Row="1" IsChecked="{Binding IsShunjuen}" Margin="5,3">
+                                <ToggleButton Grid.Row="1" IsChecked="{Binding IsShunjuen}" IsEnabled="{Binding IsShunjuenPC}" Margin="5,3">
                                     <ToggleButton.Style>
                                         <Style TargetType="ToggleButton"> 
                                             <Style.Triggers>
@@ -609,6 +639,18 @@
                 </Grid>
             </TabItem>
             <TabItem Header="墓地使用料領収書">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsShunjuenPC}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsShunjuenPC}" Value="false">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
@@ -637,7 +679,7 @@
                     <GroupBox Grid.Row="1" Header="金額" Margin="5,2">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="1*"/>
@@ -668,25 +710,25 @@
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="6*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="5*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
                                     </Grid.ColumnDefinitions>
-                                    <ComboBox Grid.Column="0" ItemsSource="{Binding Zones}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedItem="{Binding SelectedZone}" VerticalContentAlignment="Center" Margin="5,3"/>
-                                    <TextBox Grid.Column="1" Text="{Binding GraveKuiki}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                    <ComboBox Grid.Column="0" ItemsSource="{Binding Zones}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedItem="{Binding SelectedZone}" VerticalContentAlignment="Center" Margin="3"/>
+                                    <TextBox Grid.Column="1" Text="{Binding GraveKuiki}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="3"/>
                                     <TextBlock Grid.Column="2" Text="区" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBox Grid.Column="3" Text="{Binding GraveGawa}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                    <TextBox Grid.Column="3" Text="{Binding GraveGawa}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="On" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="3"/>
                                     <TextBlock Grid.Column="4" Text="側" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBox Grid.Column="5" Text="{Binding GraveBan}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="Off" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
+                                    <TextBox Grid.Column="5" Text="{Binding GraveBan}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="Off" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="3"/>
                                     <TextBlock Grid.Column="6" Text="番" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <TextBox Grid.Column="7" Text="{Binding GraveGou}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="Off" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="5,3"/>
-                                    <TextBlock Grid.Column="8" Text="号" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,5,0"/>
+                                    <TextBox Grid.Column="7" Text="{Binding GraveGou}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" InputMethod.PreferredImeState="Off" InputMethod.PreferredImeConversionMode="FullShape,Native" Margin="3"/>
+                                    <TextBlock Grid.Column="8" Text="号" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Grid>
                                 <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
@@ -782,7 +824,76 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="設定">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0" Header="春秋苑or寺カフェ" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding IsShunjuenPC}" Command="{Binding UpdateIsShunjuenPCCommand}" Margin="5">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsShunjuenPC}" Value="true">
+                                                <Setter Property="Content" Value="寺カフェに変更"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsShunjuenPC}" Value="false">
+                                                <Setter Property="Content" Value="春秋苑に変更"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="サーバー名" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding ServerName,UpdateSourceTrigger=PropertyChanged}" InputMethod.PreferredImeState="Off" VerticalContentAlignment="Center" Margin="5"/>
+                            <Button Grid.Column="1" Content="変更" Command="{Binding UpdateServerNameCommand}" IsEnabled="{Binding CanUpdateServerName}" Margin="5"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="2" Header="既定のデータベース名" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding DefaultDataBaseName,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" InputMethod.PreferredImeState="Off" Margin="5"/>
+                            <Button Grid.Column="1" Content="変更" Command="{Binding UpdateDefaultDataBaseNameCommand}" IsEnabled="{Binding CanUpdateDefaultDataBaseName}" Margin="5"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
         </TabControl>
-        <Button x:Name="ExitButton" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="auto" Content="閉じる"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Visibility="{Binding IsNotLatestApp,Converter={StaticResource VisibilityConverter}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="アプリを更新してください" Foreground="Red" Margin="5,5,5,0"/>
+                <TextBlock Grid.Row="1" Text="{Binding LatestUpdateDate,StringFormat=最新アプリ：{0:yyyy.MM.dd HH:mm}更新}" Foreground="Red" Margin="5,5,5,0"/>
+                <TextBlock Grid.Row="2" Text="{Binding CurrentDistributionDate,StringFormat=このアプリ発行日：{0:yyyy.MM.dd HH:mm}}" Foreground="Red" Margin="5,0,5,5"/>
+            </Grid>
+            <Button Grid.Column="1" x:Name="ExitButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="auto" Content="閉じる"/>
+        </Grid>
     </Grid>
 </Window>
